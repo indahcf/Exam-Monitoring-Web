@@ -18,14 +18,14 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
+                    <button class="dropdown-item">
                         <i class="ti-settings text-primary"></i>
-                        Settings
-                    </a>
-                    <a class="dropdown-item" href="<?= base_url('logout'); ?>">
+                        Ubah Password
+                    </button>
+                    <button class="dropdown-item" href="<?= base_url('logout'); ?>" id="logout">
                         <i class="ti-power-off text-primary"></i>
                         Logout
-                    </a>
+                    </button>
                 </div>
             </li>
         </ul>
@@ -34,4 +34,6 @@
         </button>
     </div>
 </nav>
+
+<script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 <!-- partial -->

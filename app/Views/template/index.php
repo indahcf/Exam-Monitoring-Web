@@ -18,8 +18,10 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/vertical-layout-light/style_baru.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?= base_url(); ?>/assets/images/logo_unsoed.png" />
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4@5.0.15/bootstrap-4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,6 +47,7 @@
     </div>
     <!-- container-scroller -->
 
+    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
     <!-- plugins:js -->
     <script src="<?= base_url(); ?>/assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
@@ -62,6 +65,53 @@
     <script src="<?= base_url(); ?>/assets/js/settings.js"></script>
     <script src="<?= base_url(); ?>/assets/js/todolist.js"></script>
     <!-- endinject -->
+    <script src="<?= base_url(); ?>/assets/js/sweetalert2.all.min.js"></script>
+
+    <?php if (session()->getFlashdata('success')) : ?>
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Sukses',
+                text: "<?= session()->getFlashdata('success'); ?>",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    <?php elseif (session()->getFlashdata('error')) : ?>
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Oopss...',
+                text: "<?= session()->getFlashdata('error'); ?>",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    <?php endif; ?>
+
+    <script>
+        $(document).ready(function() {
+            $('body').on("click", '#logout', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin untuk keluar aplikasi?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        location.replace(location.origin + "/logout")
+                    }
+                })
+            });
+        })
+    </script>
 </body>
 
 </html>

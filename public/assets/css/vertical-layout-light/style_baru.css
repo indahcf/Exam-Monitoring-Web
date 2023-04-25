@@ -1,0 +1,19 @@
+.btn.btn-icon {
+    padding: 0 !important;
+}
+  
+.btn.btn-icon>i {
+    font-size: 1rem !important;
+    margin-right: 0 !important;
+}
+
+a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.template-demo > .btn{
+    margin-bottom: 1.5rem !important;
+    padding: 12px 20px;
+}

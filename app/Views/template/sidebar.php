@@ -1,7 +1,7 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <?php if (user()->role == 'admin') : ?>
+        <?php if (user()->role == 'Admin') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url(''); ?>">
                     <i class="icon-grid menu-icon"></i>
@@ -41,7 +41,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (user()->role == 'dosen') : ?>
+        <?php if (user()->role == 'Dosen') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#tables">
                     <i class="icon-grid-2 menu-icon"></i>
@@ -56,7 +56,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (user()->role == 'gkm') : ?>
+        <?php if (user()->role == 'Gugus Kendali Mutu') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#icons">
                     <i class="icon-contract menu-icon"></i>
@@ -71,7 +71,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (user()->role == 'panitia') : ?>
+        <?php if (user()->role == 'Panitia') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
                     <i class="icon-ban menu-icon"></i>
@@ -84,9 +84,22 @@
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Kehadiran</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('panitia/kehadiran_peserta'); ?>">Kehadiran Peserta</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('panitia/kehadiran_pengawas'); ?>">Kehadiran Pengawas</a></li>
+                    </ul>
+                </div>
+            </li>
         <?php endif; ?>
 
-        <?php if (user()->role == 'pengawas') : ?>
+        <?php if (user()->role == 'Pengawas') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
                     <i class="icon-ban menu-icon"></i>
@@ -101,7 +114,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (user()->role == 'koordinator') : ?>
+        <?php if (user()->role == 'Koordinator') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
                     <i class="icon-ban menu-icon"></i>

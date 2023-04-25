@@ -2,9 +2,15 @@
 
 <?= $this->section('content'); ?>
 
+<h4 class="card-title font-weight-bold">Data User</h4>
+<div class="template-demo">
+    <a href="/admin/user/create" class="btn btn-primary btn-icon-text">
+        <i class="ti-file btn-icon-prepend"></i>
+        Tambah
+    </a>
+</div>
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Data User</h4>
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
@@ -14,39 +20,28 @@
                                 <th>No</th>
                                 <th>Nama User</th>
                                 <th>Email</th>
-                                <th>Nama Level</th>
+                                <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Subekti Afrianto</td>
-                                <td>bapendik@unsoed.ac.id</td>
-                                <td>admin</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Yogiek Indra Kurniawan</td>
-                                <td>yogiek@unsoed.ac.id</td>
-                                <td>dosen</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($users as $u) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $u['fullname']; ?></td>
+                                    <td><?= $u['email']; ?></td>
+                                    <td><?= $u['role']; ?></td>
+                                    <td>
+                                        <a href="/admin/user/edit/<?= $u['id']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <a href="" class="btn btn-danger btn-rounded btn-icon">
+                                            <i class="ti-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

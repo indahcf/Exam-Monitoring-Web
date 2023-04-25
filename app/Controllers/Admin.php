@@ -4,14 +4,6 @@ namespace App\Controllers;
 
 class Admin extends BaseController
 {
-    public function user()
-    {
-        $data = [
-            'title' => 'Data User'
-        ];
-        return view('admin/user/index', $data);
-    }
-
     public function tahun_akademik()
     {
         $data = [
