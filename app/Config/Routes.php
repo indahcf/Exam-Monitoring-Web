@@ -30,18 +30,29 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+
 $routes->get('/admin/user', 'Users::index');
 $routes->get('/admin/user/create', 'Users::create');
 $routes->post('/admin/user/save', 'Users::save');
 $routes->get('/admin/user/edit/(:segment)', 'Users::edit/$1');
+$routes->delete('/admin/user/(:num)', 'Users::delete/$1');
+
 $routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');
+
 $routes->get('/admin/matkul', 'Admin::matkul');
+
 $routes->get('/admin/prodi', 'Admin::prodi');
+
 $routes->get('/admin/dosen', 'Admin::dosen');
+
 $routes->get('/admin/kelas', 'Admin::kelas');
+
 $routes->get('/admin/ruang_ujian', 'Admin::ruang_ujian');
+
 $routes->get('/admin/pengawas', 'Admin::pengawas');
+
 $routes->get('/admin/jadwal_ujian', 'Admin::jadwal_ujian');
+
 $routes->get('/admin/soal_ujian', 'Admin::soal_ujian');
 
 /*

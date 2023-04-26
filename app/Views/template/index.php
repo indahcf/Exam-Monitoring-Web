@@ -97,7 +97,8 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Apakah Anda yakin untuk keluar aplikasi?',
+                    title: 'LOGOUT',
+                    text: 'Apakah Anda yakin untuk keluar aplikasi?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -105,8 +106,42 @@
                     confirmButtonText: 'Ya'
                 }).then((result) => {
                     if (result.isConfirmed) {
-
                         location.replace(location.origin + "/logout")
+                    }
+                })
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('body').on("click", '#delete', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'DELETE',
+                    text: "Apakah Anda yakin akan menghapus?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: "DELETE",
+                            success: function() {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                )
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert error
+                            }
+                        });
                     }
                 })
             });

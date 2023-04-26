@@ -94,6 +94,18 @@ class Users extends BaseController
         return redirect()->to('/admin/user');
     }
 
+    public function delete($id)
+    {
+        try {
+            $this->usersModel->delete($id);
+            session()->setFlashdata('pesan', 'Data Berhasil Dihapus');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Dihapus');
+        }
+
+        return redirect()->to('/admin/user');
+    }
+
     public function edit($id)
     {
         $data = [

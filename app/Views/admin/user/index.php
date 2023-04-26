@@ -5,7 +5,7 @@
 <h4 class="card-title font-weight-bold">Data User</h4>
 <div class="template-demo">
     <a href="/admin/user/create" class="btn btn-primary btn-icon-text">
-        <i class="ti-file btn-icon-prepend"></i>
+        <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
 </div>
@@ -36,9 +36,13 @@
                                         <a href="/admin/user/edit/<?= $u['id']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <a href="" class="btn btn-danger btn-rounded btn-icon">
-                                            <i class="ti-trash"></i>
-                                        </a>
+                                        <form action="/admin/user/<?= $u['id']; ?>" method="post" class="d-inline">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-danger btn-rounded btn-icon" id="delete">
+                                                <i class="ti-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
