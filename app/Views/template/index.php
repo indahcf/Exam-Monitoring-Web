@@ -94,8 +94,6 @@
     <script>
         $(document).ready(function() {
             $('body').on("click", '#logout', function(e) {
-                e.preventDefault();
-
                 Swal.fire({
                     title: 'LOGOUT',
                     text: 'Apakah Anda yakin untuk keluar aplikasi?',
@@ -115,9 +113,7 @@
 
     <script>
         $(document).ready(function() {
-            $('body').on("click", '#delete', function(e) {
-                e.preventDefault();
-
+            $('body').on("click", '.delete', function(e) {
                 Swal.fire({
                     title: 'DELETE',
                     text: "Apakah Anda yakin akan menghapus?",
@@ -128,18 +124,27 @@
                     confirmButtonText: 'Ya'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        let id = $(this).data('id')
                         $.ajax({
-                            url: url,
+                            url: "/admin/user/" + id,
                             type: "DELETE",
                             success: function() {
                                 Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
+                                    'Success!',
+                                    'Data Berhasil Dihapus',
                                     'success'
-                                )
+                                ).then(function() {
+                                    location.reload()
+                                })
                             },
                             error: function(xhr, ajaxOptions, thrownError) {
-                                alert error
+                                Swal.fire(
+                                    'Oops!',
+                                    'Data Gagal Dihapus',
+                                    'error'
+                                ).then(function() {
+                                    location.reload()
+                                })
                             }
                         });
                     }

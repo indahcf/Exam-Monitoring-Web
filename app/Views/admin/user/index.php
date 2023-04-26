@@ -36,13 +36,9 @@
                                         <a href="/admin/user/edit/<?= $u['id']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <form action="/admin/user/<?= $u['id']; ?>" method="post" class="d-inline">
-                                            <?= csrf_field(); ?>
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-danger btn-rounded btn-icon" id="delete">
-                                                <i class="ti-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button data-id="<?= $u['id']; ?>" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

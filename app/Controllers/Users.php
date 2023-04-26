@@ -98,12 +98,18 @@ class Users extends BaseController
     {
         try {
             $this->usersModel->delete($id);
-            session()->setFlashdata('pesan', 'Data Berhasil Dihapus');
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Data Berhasil Dihapus',
+            ]);
         } catch (\Exception $e) {
-            session()->setFlashdata('error', 'Data Gagal Dihapus');
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Data Gagal Dihapus',
+            ]);
         }
 
-        return redirect()->to('/admin/user');
+        // return redirect()->to('/admin/user');
     }
 
     public function edit($id)
