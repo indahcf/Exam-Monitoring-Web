@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data User</h4>
-                <form action="<?= base_url('/admin/user/update/' . $users['id']); ?>" method="post" class="forms-sample">
+                <form action="<?= base_url('/admin/user/update/' . $users['id']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id" value="<?= $users['id']; ?>">
                     <div class="form-group">

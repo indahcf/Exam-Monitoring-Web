@@ -156,6 +156,7 @@
     <script>
         $(document).ready(function() {
             $('body').on("click", '.edit', function(e) {
+                e.preventDefault();
                 Swal.fire({
                     title: 'EDIT',
                     text: "Apakah Anda yakin ingin mengubah data?",
@@ -166,29 +167,7 @@
                     confirmButtonText: 'Ya'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let id = $(this).data('id')
-                        $.ajax({
-                            url: "/admin/user/update/" + id,
-                            type: "EDIT",
-                            success: function() {
-                                Swal.fire(
-                                    'Success!',
-                                    'Data Berhasil Diubah',
-                                    'success'
-                                ).then(function() {
-                                    location.reload()
-                                })
-                            },
-                            error: function(xhr, ajaxOptions, thrownError) {
-                                Swal.fire(
-                                    'Oops!',
-                                    'Data Gagal Diubah',
-                                    'error'
-                                ).then(function() {
-                                    location.reload()
-                                })
-                            }
-                        });
+                        $('#form-edit').trigger('submit')
                     }
                 })
             });
