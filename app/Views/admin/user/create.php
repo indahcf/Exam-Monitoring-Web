@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tambah Data User</h4>
-                <form action="<?= base_url('admin/user/save') ?>" method="post" class="forms-sample">
+                <form action="<?= base_url('/admin/user/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <label for="fullname">Nama User</label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role" value="<?= old('role'); ?>">
+                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role">
                             <option value="">Pilih Role</option>
                             <option value="Admin" <?= old('role') == 'Admin' ? 'selected' : '';  ?>>Admin</option>
                             <option value="Dosen" <?= old('role') == 'Dosen' ? 'selected' : '';  ?>>Dosen</option>

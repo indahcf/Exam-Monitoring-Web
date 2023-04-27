@@ -108,8 +108,6 @@ class Users extends BaseController
                 'message' => 'Data Gagal Dihapus',
             ]);
         }
-
-        // return redirect()->to('/admin/user');
     }
 
     public function edit($id)
@@ -120,5 +118,42 @@ class Users extends BaseController
         ];
 
         return view('admin/user/edit', $data);
+    }
+
+    public function update($id)
+    {
+        //validasi input
+        if (!$this->validate([
+            'fullname' => [
+                'rules' => 'required',
+                'label' => 'Nama User',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'role' => [
+                'rules' => 'required',
+                'label' => 'Role',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->usersModel->save([
+                'id' => $id,
+                'fullname' => $this->request->getVar('fullname'),
+                'email' => $this->request->getVar('email'),
+                'role' => $this->request->getVar('role')
+            ]);
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diubah');
+        }
+
+        return redirect()->to('/admin/user');
     }
 }

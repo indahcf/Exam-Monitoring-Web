@@ -35,6 +35,7 @@ $routes->get('/admin/user', 'Users::index');
 $routes->get('/admin/user/create', 'Users::create');
 $routes->post('/admin/user/save', 'Users::save');
 $routes->get('/admin/user/edit/(:segment)', 'Users::edit/$1');
+$routes->post('/admin/user/update/(:segment)', 'Users::update/$1');
 $routes->delete('/admin/user/(:num)', 'Users::delete/$1');
 
 $routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');

@@ -7,33 +7,36 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data User</h4>
-                <form class="forms-sample">
+                <form action="<?= base_url('/admin/user/update/' . $users['id']); ?>" method="post" class="forms-sample">
+                    <?= csrf_field(); ?>
+                    <input type="hidden" name="id" value="<?= $users['id']; ?>">
                     <div class="form-group">
-                        <label for="exampleInputName1">Nama User</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Nama User">
+                        <label for="fullname">Nama User</label>
+                        <input type="text" class="form-control <?= (validation_show_error('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" value="<?= (old('fullname')) ? old('fullname') : $users['fullname'] ?>" placeholder="Nama User">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('fullname'); ?>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail3">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= (old('email')) ? old('email') : $users['email'] ?>" placeholder="Email" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword4">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleSelectGender">Role</label>
-                        <select class="form-control" id="exampleSelectGender">
-                            <option>Pilih Role</option>
-                            <option>Admin</option>
-                            <option>Dosen</option>
-                            <option>Gugus Kendali Mutu</option>
-                            <option>Panitia</option>
-                            <option>Pengawas</option>
-                            <option>Koordinator</option>
+                        <label for="role">Role</label>
+                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role">
+                            <option value="">Pilih Role</option>
+                            <option value="Admin" <?= (old('role', $users['role']) == 'Admin') ? 'selected' : '' ?>>Admin</option>
+                            <option value="Dosen" <?= (old('role', $users['role']) == 'Dosen') ? 'selected' : '' ?>>Dosen</option>
+                            <option value="Gugus Kendali Mutu" <?= (old('role', $users['role']) == 'Gugus Kendali Mutu') ? 'selected' : '' ?>>Gugus Kendali Mutu</option>
+                            <option value="Panitia" <?= (old('role', $users['role']) == 'Panitia') ? 'selected' : '' ?>>Panitia</option>
+                            <option value="Pengawas" <?= (old('role', $users['role']) == 'Pengawas') ? 'selected' : '' ?>>Pengawas</option>
+                            <option value="Koordinator" <?= (old('role', $users['role']) == 'Koordinator') ? 'selected' : '' ?>>Koordinator</option>
                         </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('role'); ?>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
             </div>
         </div>
