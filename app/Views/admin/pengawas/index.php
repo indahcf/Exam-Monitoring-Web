@@ -2,9 +2,15 @@
 
 <?= $this->section('content'); ?>
 
+<h4 class="card-title">Data Pengawas</h4>
+<div class="template-demo">
+    <a href="" class="btn btn-primary btn-icon-text">
+        <i class="ti-plus btn-icon-prepend"></i>
+        Tambah
+    </a>
+</div>
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Data Pengawas</h4>
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
@@ -22,19 +28,6 @@
                                 <td>1</td>
                                 <td>123456988798799</td>
                                 <td>Drajat</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>112353435345465</td>
-                                <td>Sarwono</td>
                                 <td>
                                     <button type="button" class="btn btn-warning btn-rounded btn-icon">
                                         <i class="ti-pencil"></i>

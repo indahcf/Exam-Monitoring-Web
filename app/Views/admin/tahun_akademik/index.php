@@ -2,9 +2,15 @@
 
 <?= $this->section('content'); ?>
 
+<h4 class="card-title">Data Tahun Akademik</h4>
+<div class="template-demo">
+    <a href="" class="btn btn-primary btn-icon-text">
+        <i class="ti-plus btn-icon-prepend"></i>
+        Tambah
+    </a>
+</div>
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Data Tahun Akademik</h4>
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">

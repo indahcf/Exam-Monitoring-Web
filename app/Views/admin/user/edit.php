@@ -12,14 +12,14 @@
                     <input type="hidden" name="id" value="<?= $users['id']; ?>">
                     <div class="form-group">
                         <label for="fullname">Nama User</label>
-                        <input type="text" class="form-control <?= (validation_show_error('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" value="<?= (old('fullname')) ? old('fullname') : $users['fullname'] ?>" placeholder="Nama User">
+                        <input type="text" class="form-control <?= (validation_show_error('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" value="<?= old('fullname', $users['fullname']); ?>" placeholder="Nama User">
                         <div class="invalid-feedback">
                             <?= validation_show_error('fullname'); ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?= (old('email')) ? old('email') : $users['email'] ?>" placeholder="Email" readonly>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= old('email', $users['email']); ?>" placeholder="Email" readonly>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>

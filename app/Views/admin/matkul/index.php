@@ -2,9 +2,15 @@
 
 <?= $this->section('content'); ?>
 
+<h4 class="card-title">Data Mata Kuliah</h4>
+<div class="template-demo">
+    <a href="/admin/matkul/create" class="btn btn-primary btn-icon-text">
+        <i class="ti-plus btn-icon-prepend"></i>
+        Tambah
+    </a>
+</div>
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Data Mata Kuliah</h4>
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
@@ -21,38 +27,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>12345</td>
-                                <td>Jaringan Komputer</td>
-                                <td>3</td>
-                                <td>Ganjil</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>11235</td>
-                                <td>Algoritma Pemrograman</td>
-                                <td>1</td>
-                                <td>Ganjil</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($matkul as $m) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $m['kode_matkul']; ?></td>
+                                    <td><?= $m['matkul']; ?></td>
+                                    <td><?= $m['jumlah_sks']; ?></td>
+                                    <td><?= $m['semester']; ?></td>
+                                    <td><?= $m['prodi']; ?></td>
+                                    <td>
+                                        <a href="/admin/matkul/edit/<?= $m['id_matkul']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $m['id_matkul']; ?>" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

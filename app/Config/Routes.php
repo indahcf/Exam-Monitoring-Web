@@ -40,9 +40,14 @@ $routes->delete('/admin/user/(:num)', 'Users::delete/$1');
 
 $routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');
 
-$routes->get('/admin/matkul', 'Admin::matkul');
+$routes->get('/admin/matkul', 'Matkul::index');
 
-$routes->get('/admin/prodi', 'Admin::prodi');
+$routes->get('/admin/prodi', 'Prodi::index');
+$routes->get('/admin/prodi/create', 'Prodi::create');
+$routes->post('/admin/prodi/save', 'Prodi::save');
+$routes->get('/admin/prodi/edit/(:segment)', 'Prodi::edit/$1');
+$routes->post('/admin/prodi/update/(:segment)', 'Prodi::update/$1');
+$routes->delete('/admin/prodi/(:num)', 'Prodi::delete/$1');
 
 $routes->get('/admin/dosen', 'Admin::dosen');
 
