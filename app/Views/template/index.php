@@ -125,8 +125,9 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         let id = $(this).data('id')
+                        let model = $(this).data('model')
                         $.ajax({
-                            url: "/admin/user/" + id,
+                            url: "/admin/" + model + "/" + id,
                             type: "DELETE",
                             success: function() {
                                 Swal.fire(
