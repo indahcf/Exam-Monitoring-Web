@@ -40,7 +40,7 @@
                                         <a href="/admin/matkul/edit/<?= $m['id_matkul']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <button data-id="<?= $m['id_matkul']; ?>" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                        <button data-id="<?= $m['id_matkul']; ?>" data-model="matkul" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
                                     </td>

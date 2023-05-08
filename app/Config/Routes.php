@@ -41,6 +41,9 @@ $routes->delete('/admin/user/(:num)', 'Users::delete/$1');
 $routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');
 
 $routes->get('/admin/matkul', 'Matkul::index');
+$routes->get('/admin/matkul/create', 'Matkul::create');
+$routes->post('/admin/matkul/save', 'Matkul::save');
+$routes->delete('/admin/matkul/(:num)', 'Matkul::delete/$1');
 
 $routes->get('/admin/prodi', 'Prodi::index');
 $routes->get('/admin/prodi/create', 'Prodi::create');
