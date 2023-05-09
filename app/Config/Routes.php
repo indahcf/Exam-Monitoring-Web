@@ -38,11 +38,11 @@ $routes->get('/admin/user/edit/(:segment)', 'Users::edit/$1');
 $routes->post('/admin/user/update/(:segment)', 'Users::update/$1');
 $routes->delete('/admin/user/(:num)', 'Users::delete/$1');
 
-$routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');
-
 $routes->get('/admin/matkul', 'Matkul::index');
 $routes->get('/admin/matkul/create', 'Matkul::create');
 $routes->post('/admin/matkul/save', 'Matkul::save');
+$routes->get('/admin/matkul/edit/(:segment)', 'Matkul::edit/$1');
+$routes->post('/admin/matkul/update/(:segment)', 'Matkul::update/$1');
 $routes->delete('/admin/matkul/(:num)', 'Matkul::delete/$1');
 
 $routes->get('/admin/prodi', 'Prodi::index');
@@ -53,12 +53,19 @@ $routes->post('/admin/prodi/update/(:segment)', 'Prodi::update/$1');
 $routes->delete('/admin/prodi/(:num)', 'Prodi::delete/$1');
 
 $routes->get('/admin/dosen', 'Admin::dosen');
+$routes->get('/admin/dosen/create', 'Dosen::create');
+$routes->post('/admin/dosen/save', 'Dosen::save');
+$routes->get('/admin/dosen/edit/(:segment)', 'Dosen::edit/$1');
+$routes->post('/admin/dosen/update/(:segment)', 'Dosen::update/$1');
+$routes->delete('/admin/dosen/(:num)', 'Dosen::delete/$1');
 
 $routes->get('/admin/kelas', 'Admin::kelas');
 
 $routes->get('/admin/ruang_ujian', 'Admin::ruang_ujian');
 
 $routes->get('/admin/pengawas', 'Admin::pengawas');
+
+$routes->get('/admin/tahun_akademik', 'Admin::tahun_akademik');
 
 $routes->get('/admin/jadwal_ujian', 'Admin::jadwal_ujian');
 

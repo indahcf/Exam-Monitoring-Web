@@ -29,14 +29,14 @@
                             <?php foreach ($users as $u) : ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
-                                    <td><?= $u->fullname; ?></td>
-                                    <td><?= $u->email; ?></td>
-                                    <td><?= $u->role; ?></td>
+                                    <td><?= $u['fullname']; ?></td>
+                                    <td><?= $u['email']; ?></td>
+                                    <td><?= $u['role']; ?></td>
                                     <td>
-                                        <a href="/admin/user/edit/<?= $u->id; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="/admin/user/edit/<?= $u['id']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <button data-id="<?= $u->id; ?>" data-model="user" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                        <button data-id="<?= $u['id']; ?>" data-model="user" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
                                     </td>

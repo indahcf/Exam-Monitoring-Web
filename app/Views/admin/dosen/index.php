@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="matkul" class="table table-striped">
+                    <table id="dosen" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -25,34 +25,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>001234</td>
-                                <td>Dadang Iskandar</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>002346</td>
-                                <td>Lasmedi Afuan</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($dosen as $d) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $d['nidn']; ?></td>
+                                    <td><?= $d['dosen']; ?></td>
+                                    <td><?= $d['prodi']; ?></td>
+                                    <td>
+                                        <a href="/admin/dosen/edit/<?= $d['id_dosen']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $d['id_dosen']; ?>" data-model="dosen" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

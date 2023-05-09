@@ -114,7 +114,8 @@ class Matkul extends BaseController
     {
         $data = [
             'title' => 'Edit Program Studi',
-            'matkul' => $this->matkulModel->getMatkul($id_matkul)
+            'matkul' => $this->matkulModel->getMatkul($id_matkul),
+            'prodi' => $this->prodiModel->findAll()
         ];
 
         return view('admin/matkul/edit', $data);
@@ -124,13 +125,41 @@ class Matkul extends BaseController
     {
         //validasi input
         if (!$this->validate([
+            'kode_matkul' => [
+                'rules' => 'required',
+                'label' => 'Kode Mata Kuliah',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'matkul' => [
+                'rules' => 'required',
+                'label' => 'Nama Mata Kuliah',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jumlah_sks' => [
+                'rules' => 'required',
+                'label' => 'Jumlah SKS',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'semester' => [
+                'rules' => 'required',
+                'label' => 'Semester',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Nama Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ]
+            ],
         ])) {
             return redirect()->back()->withInput();
         }
@@ -138,7 +167,11 @@ class Matkul extends BaseController
         try {
             $this->matkulModel->save([
                 'id_matkul' => $id_matkul,
-                'matkul' => $this->request->getVar('matkul')
+                'id_prodi' => $this->request->getVar('prodi'),
+                'kode_matkul' => $this->request->getVar('kode_matkul'),
+                'matkul' => $this->request->getVar('matkul'),
+                'jumlah_sks' => $this->request->getVar('jumlah_sks'),
+                'semester' => $this->request->getVar('semester')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {

@@ -18,4 +18,13 @@ class MatkulModel extends Model
 
         return $this->where(['matkul.id_matkul' => $id_matkul])->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->first();
     }
+
+    public function editMatkul($id_matkul = false)
+    {
+        if ($id_matkul == false) {
+            return $this->findAll();
+        }
+
+        return $this->where(['matkul.id_matkul' => $id_matkul])->first();
+    }
 }

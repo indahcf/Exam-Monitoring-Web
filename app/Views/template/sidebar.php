@@ -16,7 +16,6 @@
                 </a>
                 <div class="collapse" id="ui-basic">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/tahun_akademik'); ?>">Tahun Akademik</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/user'); ?>">Data User</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/matkul'); ?>">Data Mata Kuliah</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/prodi'); ?>">Data Program Studi</a></li>
@@ -24,6 +23,7 @@
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/kelas'); ?>">Data Kelas</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/ruang_ujian'); ?>">Data Ruang Ujian</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/pengawas'); ?>">Data Pengawas</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/tahun_akademik'); ?>">Tahun Akademik</a></li>
                     </ul>
                 </div>
             </li>

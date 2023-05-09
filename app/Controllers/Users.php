@@ -3,21 +3,21 @@
 namespace App\Controllers;
 
 use Myth\Auth\Password;
-use Myth\Auth\Models\UserModel;
+use App\Models\UsersModel;
 
 class Users extends BaseController
 {
-    protected $userModel;
+    protected $usersModel;
     public function __construct()
     {
-        $this->userModel = new UserModel();
+        $this->usersModel = new UsersModel();
     }
 
     public function index()
     {
         $data = [
             'title' => 'Data User',
-            'users' => $this->userModel->getUsers()
+            'users' => $this->usersModel->getUsers()
         ];
 
         return view('admin/user/index', $data);
@@ -80,7 +80,7 @@ class Users extends BaseController
 
         try {
             $password = $this->request->getVar('password');
-            $this->userModel->save([
+            $this->usersModel->save([
                 'fullname' => $this->request->getVar('fullname'),
                 'email' => $this->request->getVar('email'),
                 'role' => $this->request->getVar('role'),
@@ -97,7 +97,7 @@ class Users extends BaseController
     public function delete($id)
     {
         try {
-            $this->userModel->delete($id);
+            $this->usersModel->delete($id);
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
@@ -114,7 +114,7 @@ class Users extends BaseController
     {
         $data = [
             'title' => 'Edit User',
-            'users' => $this->userModel->getUsers($id)
+            'users' => $this->usersModel->getUsers($id)
         ];
 
         return view('admin/user/edit', $data);
@@ -143,7 +143,7 @@ class Users extends BaseController
         }
 
         try {
-            $this->userModel->save([
+            $this->usersModel->save([
                 'id' => $id,
                 'fullname' => $this->request->getVar('fullname'),
                 'email' => $this->request->getVar('email'),

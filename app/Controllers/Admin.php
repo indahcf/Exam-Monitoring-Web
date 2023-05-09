@@ -12,30 +12,6 @@ class Admin extends BaseController
         return view('admin/tahun_akademik/index', $data);
     }
 
-    public function matkul()
-    {
-        $data = [
-            'title' => 'Data Mata Kuliah'
-        ];
-        return view('admin/matkul/index', $data);
-    }
-
-    public function prodi()
-    {
-        $data = [
-            'title' => 'Data Program Studi'
-        ];
-        return view('admin/prodi/index', $data);
-    }
-
-    public function dosen()
-    {
-        $data = [
-            'title' => 'Data Dosen'
-        ];
-        return view('admin/dosen/index', $data);
-    }
-
     public function kelas()
     {
         $data = [
