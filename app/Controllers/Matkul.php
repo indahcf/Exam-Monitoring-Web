@@ -109,4 +109,42 @@ class Matkul extends BaseController
             ]);
         }
     }
+
+    public function edit($id_matkul)
+    {
+        $data = [
+            'title' => 'Edit Program Studi',
+            'matkul' => $this->matkulModel->getMatkul($id_matkul)
+        ];
+
+        return view('admin/matkul/edit', $data);
+    }
+
+    public function update($id_matkul)
+    {
+        //validasi input
+        if (!$this->validate([
+            'prodi' => [
+                'rules' => 'required',
+                'label' => 'Nama Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->matkulModel->save([
+                'id_matkul' => $id_matkul,
+                'matkul' => $this->request->getVar('matkul')
+            ]);
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diubah');
+        }
+
+        return redirect()->to('/admin/matkul');
+    }
 }
