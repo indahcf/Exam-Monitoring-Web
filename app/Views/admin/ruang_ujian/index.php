@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Ruang Ujian</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/ruang_ujian/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -18,38 +18,28 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Ruang</th>
+                                <th>Nama Ruang Ujian</th>
                                 <th>Kapasitas</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>C111</td>
-                                <td>30</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>E121</td>
-                                <td>50</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($ruang_ujian as $r) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $r['ruang_ujian']; ?></td>
+                                    <td><?= $r['kapasitas']; ?></td>
+                                    <td>
+                                        <a href="/admin/ruang_ujian/edit/<?= $r['id_ruang_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $r['id_ruang_ujian']; ?>" data-model="ruang_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

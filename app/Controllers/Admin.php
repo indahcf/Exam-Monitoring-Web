@@ -20,14 +20,6 @@ class Admin extends BaseController
         return view('admin/kelas/index', $data);
     }
 
-    public function ruang_ujian()
-    {
-        $data = [
-            'title' => 'Data Ruang Ujian'
-        ];
-        return view('admin/ruang_ujian/index', $data);
-    }
-
     public function pengawas()
     {
         $data = [

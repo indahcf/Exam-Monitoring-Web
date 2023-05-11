@@ -40,10 +40,11 @@ class Dosen extends BaseController
         //validasi input
         if (!$this->validate([
             'nidn' => [
-                'rules' => 'required',
+                'rules' => 'required|is_unique[dosen.nidn]',
                 'label' => 'NIDN',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.'
                 ]
             ],
             'dosen' => [
@@ -110,10 +111,11 @@ class Dosen extends BaseController
         //validasi input
         if (!$this->validate([
             'nidn' => [
-                'rules' => 'required',
+                'rules' => 'required|is_unique[dosen.nidn]',
                 'label' => 'NIDN',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.'
                 ]
             ],
             'dosen' => [

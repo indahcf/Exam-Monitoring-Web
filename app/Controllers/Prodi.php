@@ -90,10 +90,11 @@ class Prodi extends BaseController
         //validasi input
         if (!$this->validate([
             'prodi' => [
-                'rules' => 'required',
+                'rules' => 'required|is_unique[prodi.prodi]',
                 'label' => 'Nama Program Studi',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.'
                 ]
             ]
         ])) {
