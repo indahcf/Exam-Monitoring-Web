@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Dosen</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/dosen/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>

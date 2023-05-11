@@ -52,7 +52,7 @@ $routes->get('/admin/prodi/edit/(:segment)', 'Prodi::edit/$1');
 $routes->post('/admin/prodi/update/(:segment)', 'Prodi::update/$1');
 $routes->delete('/admin/prodi/(:num)', 'Prodi::delete/$1');
 
-$routes->get('/admin/dosen', 'Admin::dosen');
+$routes->get('/admin/dosen', 'Dosen::index');
 $routes->get('/admin/dosen/create', 'Dosen::create');
 $routes->post('/admin/dosen/save', 'Dosen::save');
 $routes->get('/admin/dosen/edit/(:segment)', 'Dosen::edit/$1');
