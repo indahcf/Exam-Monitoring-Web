@@ -86,7 +86,7 @@ class RuangUjian extends BaseController
     public function edit($id_ruang_ujian)
     {
         $data = [
-            'title' => 'Edit Program Studi',
+            'title' => 'Edit Ruang Ujian',
             'ruang_ujian' => $this->ruang_ujianModel->getRuangUjian($id_ruang_ujian)
         ];
 
@@ -98,7 +98,7 @@ class RuangUjian extends BaseController
         //validasi input
         if (!$this->validate([
             'ruang_ujian' => [
-                'rules' => "required|is_unique[ruang_ujian.ruang_ujian,id_ruang_ujian,$id_ruang_ujian]",
+                'rules' => 'required|is_unique[ruang_ujian.ruang_ujian,id_ruang_ujian,{id_ruang_ujian}]',
                 'label' => 'Nama Ruang Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.',

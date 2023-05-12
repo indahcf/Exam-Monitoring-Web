@@ -18,7 +18,7 @@ class Dosen extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Data Mata Kuliah',
+            'title' => 'Data Dosen',
             'dosen' => $this->dosenModel->getDosen()
         ];
 
@@ -28,7 +28,7 @@ class Dosen extends BaseController
     public function create()
     {
         $data = [
-            'title' => 'Tambah Mata Kuliah',
+            'title' => 'Tambah Data Dosen',
             'prodi' => $this->prodiModel->getProdi()
         ];
 
@@ -98,7 +98,7 @@ class Dosen extends BaseController
     public function edit($id_dosen)
     {
         $data = [
-            'title' => 'Edit Program Studi',
+            'title' => 'Edit Data Dosen',
             'dosen' => $this->dosenModel->getDosen($id_dosen),
             'prodi' => $this->prodiModel->findAll()
         ];
@@ -111,7 +111,7 @@ class Dosen extends BaseController
         //validasi input
         if (!$this->validate([
             'nidn' => [
-                'rules' => 'required|is_unique[dosen.nidn]',
+                'rules' => 'required|is_unique[dosen.nidn,id_dosen,{id_dosen}]',
                 'label' => 'NIDN',
                 'errors' => [
                     'required' => '{field} harus diisi.',
