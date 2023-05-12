@@ -6,24 +6,25 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Data Pengawas</h4>
-                <form action="<?= base_url('/admin/pengawas/save') ?>" method="post" class="forms-sample">
+                <h4 class="card-title">Edit Data Pengawas</h4>
+                <form action="<?= base_url('/admin/pengawas/update/' . $pengawas['id_pengawas']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
+                    <input type="hidden" name="id_pengawas" value="<?= $pengawas['id_pengawas']; ?>">
                     <div class="form-group">
                         <label for="nip">NIP</label>
-                        <input type="text" class="form-control <?= (validation_show_error('nip')) ? 'is-invalid' : ''; ?>" id="nip" name="nip" value="<?= old('nip'); ?>" placeholder="NIP">
+                        <input type="text" class="form-control <?= (validation_show_error('nip')) ? 'is-invalid' : ''; ?>" id="nip" name="nip" value="<?= old('nip', $pengawas['nip']); ?>" placeholder="NIP">
                         <div class="invalid-feedback">
                             <?= validation_show_error('nip'); ?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="pengawas">Nama Pengawas</label>
-                        <input type="text" class="form-control <?= (validation_show_error('pengawas')) ? 'is-invalid' : ''; ?>" id="pengawas" name="pengawas" value="<?= old('pengawas'); ?>" placeholder="Nama Pengawas">
+                        <input type="text" class="form-control <?= (validation_show_error('pengawas')) ? 'is-invalid' : ''; ?>" id="pengawas" name="pengawas" value="<?= old('pengawas', $pengawas['pengawas']); ?>" placeholder="Nama Pengawas">
                         <div class="invalid-feedback">
                             <?= validation_show_error('pengawas'); ?>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                    <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
             </div>
         </div>

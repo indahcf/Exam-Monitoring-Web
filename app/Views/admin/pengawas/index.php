@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Pengawas</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/pengawas/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -24,19 +24,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>123456988798799</td>
-                                <td>Drajat</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($pengawas as $p) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $p['nip']; ?></td>
+                                    <td><?= $p['pengawas']; ?></td>
+                                    <td>
+                                        <a href="/admin/pengawas/edit/<?= $p['id_pengawas']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $p['id_pengawas']; ?>" data-model="pengawas" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

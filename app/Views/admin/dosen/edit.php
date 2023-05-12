@@ -6,7 +6,7 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Edit Data Mata Kuliah</h4>
+                <h4 class="card-title">Edit Data Dosen</h4>
                 <form action="<?= base_url('/admin/dosen/update/' . $dosen['id_dosen']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id_dosen" value="<?= $dosen['id_dosen']; ?>">
