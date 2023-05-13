@@ -75,12 +75,12 @@ $routes->get('/admin/pengawas/edit/(:segment)', 'Pengawas::edit/$1');
 $routes->post('/admin/pengawas/update/(:segment)', 'Pengawas::update/$1');
 $routes->delete('/admin/pengawas/(:num)', 'Pengawas::delete/$1');
 
-$routes->get('/admin/tahun_akademik', 'Tahun_Akademik::index');
-$routes->get('/admin/tahun_akademik/create', 'Tahun_Akademik::create');
-$routes->post('/admin/tahun_akademik/save', 'Tahun_Akademik::save');
-$routes->get('/admin/tahun_akademik/edit/(:segment)', 'Tahun_Akademik::edit/$1');
-$routes->post('/admin/tahun_akademik/update/(:segment)', 'Tahun_Akademik::update/$1');
-$routes->delete('/admin/tahun_akademik/(:num)', 'Tahun_Akademik::delete/$1');
+$routes->get('/admin/tahun_akademik', 'TahunAkademik::index');
+$routes->get('/admin/tahun_akademik/create', 'TahunAkademik::create');
+$routes->post('/admin/tahun_akademik/save', 'TahunAkademik::save');
+$routes->get('/admin/tahun_akademik/edit/(:segment)', 'TahunAkademik::edit/$1');
+$routes->post('/admin/tahun_akademik/update/(:segment)', 'TahunAkademik::update/$1');
+$routes->delete('/admin/tahun_akademik/(:num)', 'TahunAkademik::delete/$1');
 
 $routes->get('/admin/jadwal_ujian', 'Admin::jadwal_ujian');
 

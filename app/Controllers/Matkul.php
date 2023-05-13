@@ -113,7 +113,7 @@ class Matkul extends BaseController
     public function edit($id_matkul)
     {
         $data = [
-            'title' => 'Edit Program Studi',
+            'title' => 'Edit Mata Kuliah',
             'matkul' => $this->matkulModel->getMatkul($id_matkul),
             'prodi' => $this->prodiModel->findAll()
         ];

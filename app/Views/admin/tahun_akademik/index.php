@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Tahun Akademik</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/tahun_akademik/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -25,34 +25,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2022/2023</td>
-                                <td>2</td>
-                                <td>true</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>2023/2024</td>
-                                <td>1</td>
-                                <td>false</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($tahun_akademik as $t) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $t['tahun']; ?></td>
+                                    <td><?= $t['semester']; ?></td>
+                                    <td><?= $t['aktif']; ?></td>
+                                    <td>
+                                        <a href="/admin/tahun_akademik/edit/<?= $t['id_tahun_akademik']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $t['id_tahun_akademik']; ?>" data-model="tahun_akademik" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

@@ -28,7 +28,7 @@ class Dosen extends BaseController
     public function create()
     {
         $data = [
-            'title' => 'Tambah Data Dosen',
+            'title' => 'Tambah Dosen',
             'prodi' => $this->prodiModel->getProdi()
         ];
 
@@ -98,7 +98,7 @@ class Dosen extends BaseController
     public function edit($id_dosen)
     {
         $data = [
-            'title' => 'Edit Data Dosen',
+            'title' => 'Edit Dosen',
             'dosen' => $this->dosenModel->getDosen($id_dosen),
             'prodi' => $this->prodiModel->findAll()
         ];
