@@ -12,7 +12,7 @@
                     <input type="hidden" name="id_tahun_akademik" value="<?= $tahun_akademik['id_tahun_akademik']; ?>">
                     <div class="form-group">
                         <label for="tahun">Tahun</label>
-                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun', $matkul['tahun']); ?>" placeholder="Tahun">
+                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun', $tahun_akademik['tahun']); ?>" placeholder="Tahun">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tahun'); ?>
                         </div>
