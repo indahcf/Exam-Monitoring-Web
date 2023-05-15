@@ -12,8 +12,8 @@ class Dosen extends Seeder
         $dosen_data = [
             [
                 'id_prodi'      => 1,
-                'nidn'          => '0010058503',
-                'dosen'         => 'Irham Jensof'
+                'nidn'          => '0016047606',
+                'dosen'         => 'Widhiatmoko Herry Purnomo'
             ]
         ];
 

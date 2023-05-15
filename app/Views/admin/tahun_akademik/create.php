@@ -10,8 +10,8 @@
                 <form action="<?= base_url('/admin/tahun_akademik/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <label for="tahun">Tahun</label>
-                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun'); ?>" placeholder="Tahun">
+                        <label for="tahun">Tahun Akademik</label>
+                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun'); ?>" placeholder="Tahun Akademik">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tahun'); ?>
                         </div>
@@ -31,8 +31,8 @@
                         <label for="aktif">Aktif</label>
                         <select class="form-control <?= (validation_show_error('aktif')) ? 'is-invalid' : ''; ?>" id="aktif" name="aktif">
                             <option value="">Pilih Aktif</option>
-                            <option value="0" <?= old('aktif') == '0' ? 'selected' : '';  ?>>0</option>
-                            <option value="1" <?= old('aktif') == '1' ? 'selected' : '';  ?>>1</option>
+                            <option value="True" <?= old('aktif') == 'True' ? 'selected' : '';  ?>>True</option>
+                            <option value="False" <?= old('aktif') == 'False' ? 'selected' : '';  ?>>False</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('aktif'); ?>

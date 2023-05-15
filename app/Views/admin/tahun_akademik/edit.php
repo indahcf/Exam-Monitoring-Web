@@ -11,8 +11,8 @@
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id_tahun_akademik" value="<?= $tahun_akademik['id_tahun_akademik']; ?>">
                     <div class="form-group">
-                        <label for="tahun">Tahun</label>
-                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun', $tahun_akademik['tahun']); ?>" placeholder="Tahun">
+                        <label for="tahun">Tahun Akademik</label>
+                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun', $tahun_akademik['tahun']); ?>" placeholder="Tahun Akademik">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tahun'); ?>
                         </div>
@@ -32,8 +32,8 @@
                         <label for="aktif">Aktif</label>
                         <select class="form-control <?= (validation_show_error('aktif')) ? 'is-invalid' : ''; ?>" id="aktif" name="aktif">
                             <option value="">Pilih Aktif</option>
-                            <option value="0" <?= (old('aktif', $tahun_akademik['aktif']) == '0') ? 'selected' : '' ?>>0</option>
-                            <option value="1" <?= (old('aktif', $tahun_akademik['aktif']) == '1') ? 'selected' : '' ?>>1</option>
+                            <option value="True" <?= (old('aktif', $tahun_akademik['aktif']) == 'True') ? 'selected' : '' ?>>True</option>
+                            <option value="False" <?= (old('aktif', $tahun_akademik['aktif']) == 'False') ? 'selected' : '' ?>>False</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('aktif'); ?>

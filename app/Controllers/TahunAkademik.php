@@ -33,11 +33,6 @@ class TahunAkademik extends BaseController
 
     public function save()
     {
-        //cek tahun dan semester
-        if ($this->tahun_akademikModel->where(['tahun', $this->request->getVar('tahun'), 'semester', $this->request->getVar('semester')])->countAll()) {
-            return redirect()->back()->with('error', 'Data sudah terdaftar.');
-        }
-
         //validasi input
         if (!$this->validate([
             'tahun' => [
@@ -63,6 +58,11 @@ class TahunAkademik extends BaseController
             ]
         ])) {
             return redirect()->back()->withInput();
+        }
+
+        //cek tahun dan semester
+        if ($this->tahun_akademikModel->where(['tahun' => $this->request->getVar('tahun'), 'semester' => $this->request->getVar('semester')])->first()) {
+            return redirect()->back()->with('error', 'Data sudah terdaftar.');
         }
 
         try {
@@ -108,7 +108,7 @@ class TahunAkademik extends BaseController
     public function update($id_tahun_akademik)
     {
         //cek tahun dan semester
-        if ($this->tahun_akademikModel->where('id_tahun_akademik !=', $id_tahun_akademik)) {
+        if ($this->tahun_akademikModel->where('id_tahun_akademik ==', $id_tahun_akademik)) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.');
         }
 
