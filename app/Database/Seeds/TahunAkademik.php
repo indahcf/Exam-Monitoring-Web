@@ -13,7 +13,7 @@ class TahunAkademik extends Seeder
             [
                 'tahun'     => '2022/2023',
                 'semester'  => 'Gasal',
-                'aktif'     => 'True'
+                'status'     => 0
             ]
         ];
 

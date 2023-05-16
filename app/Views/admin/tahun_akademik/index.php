@@ -20,7 +20,7 @@
                                 <th>No</th>
                                 <th>Tahun</th>
                                 <th>Semester</th>
-                                <th>Aktif</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $t['tahun']; ?></td>
                                     <td><?= $t['semester']; ?></td>
-                                    <td><?= $t['aktif']; ?></td>
+                                    <td><?= $t['status'] == '1' ? 'Aktif' : 'Tidak Aktif'; ?></td>
                                     <td>
                                         <a href="/admin/tahun_akademik/edit/<?= $t['id_tahun_akademik']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>

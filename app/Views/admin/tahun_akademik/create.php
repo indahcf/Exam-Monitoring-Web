@@ -28,14 +28,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="aktif">Aktif</label>
-                        <select class="form-control <?= (validation_show_error('aktif')) ? 'is-invalid' : ''; ?>" id="aktif" name="aktif">
-                            <option value="">Pilih Aktif</option>
-                            <option value="True" <?= old('aktif') == 'True' ? 'selected' : '';  ?>>True</option>
-                            <option value="False" <?= old('aktif') == 'False' ? 'selected' : '';  ?>>False</option>
+                        <label for="status">Status</label>
+                        <select class="form-control <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" id="status" name="status">
+                            <option value="">Pilih Status</option>
+                            <option value="1" <?= old('status') == '1' ? 'selected' : '';  ?>>Aktif</option>
+                            <option value="0" <?= old('status') == '0' ? 'selected' : '';  ?>>Tidak Aktif</option>
                         </select>
                         <div class="invalid-feedback">
-                            <?= validation_show_error('aktif'); ?>
+                            <?= validation_show_error('status'); ?>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>

@@ -14,7 +14,7 @@ class CreateTahunAkademikTable extends Migration
             'id_tahun_akademik'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'tahun'                 => ['type' => 'varchar', 'constraint' => 255],
             'semester'              => ['type' => 'enum', 'constraint' => ['Gasal', 'Genap']],
-            'aktif'                 => ['type' => 'boolean'],
+            'status'                => ['type' => 'boolean'],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
