@@ -40,10 +40,11 @@ class Matkul extends BaseController
         //validasi input
         if (!$this->validate([
             'kode_matkul' => [
-                'rules' => 'required',
+                'rules' => 'required|is_unique[matkul.kode_matkul]',
                 'label' => 'Kode Mata Kuliah',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.'
                 ]
             ],
             'matkul' => [
@@ -76,6 +77,12 @@ class Matkul extends BaseController
             ]
         ])) {
             return redirect()->back()->withInput();
+        }
+
+        //cek matkul dan prodi
+        $where = "(kode_matkul = {$this->request->getVar('kode_matkul')} AND matkul = {$this->request->getVar('matkul')} AND id_prodi = {$this->request->getVar('prodi')}) OR (matkul = {$this->request->getVar('matkul')} AND id_prodi = {$this->request->getVar('prodi')})";
+        if ($this->matkulModel->where($where)->first()) {
+            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
         }
 
         try {
@@ -126,10 +133,11 @@ class Matkul extends BaseController
         //validasi input
         if (!$this->validate([
             'kode_matkul' => [
-                'rules' => 'required',
+                'rules' => 'required|is_unique[matkul.kode_matkul,id_matkul,{id_matkul}]',
                 'label' => 'Kode Mata Kuliah',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.'
                 ]
             ],
             'matkul' => [
@@ -162,6 +170,19 @@ class Matkul extends BaseController
             ],
         ])) {
             return redirect()->back()->withInput();
+        }
+
+        //cek matkul dan prodi
+        if ($this->matkulModel->where([
+            'kode_matkul' => $this->request->getVar('kode_matkul'),
+            'matkul' => $this->request->getVar('matkul'),
+            'id_prodi' => $this->request->getVar('prodi')
+        ])->orWhere([
+            'matkul' => $this->request->getVar('matkul'),
+            'id_prodi' => $this->request->getVar('prodi'),
+            'id_matkul !=', $id_matkul
+        ])->first()) {
+            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
         }
 
         try {

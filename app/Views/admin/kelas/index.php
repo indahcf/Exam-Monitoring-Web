@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Kelas</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/kelas/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -18,44 +18,36 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode Mata Kuliah</th>
                                 <th>Nama Mata Kuliah</th>
                                 <th>Nama Dosen</th>
-                                <th>Nama Kelas</th>
+                                <th>Kelas</th>
+                                <th>Program Studi</th>
                                 <th>Jumlah Mahasiswa</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Jaringan Komputer</td>
-                                <td>Dadang Iskandar</td>
-                                <td>A</td>
-                                <td>35</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Algoritma Pemrograman</td>
-                                <td>Bangung Wijayanto</td>
-                                <td>B</td>
-                                <td>25</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($kelas as $k) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $k['kode_matkul']; ?></td>
+                                    <td><?= $k['matkul']; ?></td>
+                                    <td><?= $k['dosen']; ?></td>
+                                    <td><?= $k['kelas']; ?></td>
+                                    <td><?= $k['prodi']; ?></td>
+                                    <td><?= $k['jumlah_mahasiswa']; ?></td>
+                                    <td>
+                                        <a href="/admin/kelas/edit/<?= $k['id_kelas']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $k['id_kelas']; ?>" data-model="kelas" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 

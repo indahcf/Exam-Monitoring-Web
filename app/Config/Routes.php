@@ -59,7 +59,12 @@ $routes->get('/admin/dosen/edit/(:segment)', 'Dosen::edit/$1');
 $routes->post('/admin/dosen/update/(:segment)', 'Dosen::update/$1');
 $routes->delete('/admin/dosen/(:num)', 'Dosen::delete/$1');
 
-$routes->get('/admin/kelas', 'Admin::kelas');
+$routes->get('/admin/kelas', 'Kelas::index');
+$routes->get('/admin/kelas/create', 'Kelas::create');
+$routes->post('/admin/kelas/save', 'Kelas::save');
+$routes->get('/admin/kelas/edit/(:segment)', 'Kelas::edit/$1');
+$routes->post('/admin/kelas/update/(:segment)', 'Kelas::update/$1');
+$routes->delete('/admin/kelas/(:num)', 'Kelas::delete/$1');
 
 $routes->get('/admin/ruang_ujian', 'RuangUjian::index');
 $routes->get('/admin/ruang_ujian/create', 'RuangUjian::create');
