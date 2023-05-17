@@ -25,21 +25,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="jumlah_sks">Jumlah SKS</label>
-                        <input type="text" class="form-control <?= (validation_show_error('jumlah_sks')) ? 'is-invalid' : ''; ?>" id="jumlah_sks" name="jumlah_sks" value="<?= old('jumlah_sks', $matkul['jumlah_sks']); ?>" placeholder="Jumlah SKS">
+                        <label for="dosen">Nama Dosen</label>
+                        <input type="text" class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" value="<?= old('dosen', $dosen['dosen']); ?>" placeholder="Nama Dosen">
                         <div class="invalid-feedback">
-                            <?= validation_show_error('jumlah_sks'); ?>
+                            <?= validation_show_error('dosen'); ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="semester">Semester</label>
-                        <select class="form-control <?= (validation_show_error('semester')) ? 'is-invalid' : ''; ?>" id="semester" name="semester">
-                            <option value="">Pilih Semester</option>
-                            <option value="Gasal" <?= (old('semester', $matkul['semester']) == 'Gasal') ? 'selected' : '' ?>>Gasal</option>
-                            <option value="Genap" <?= (old('semester', $matkul['semester']) == 'Genap') ? 'selected' : '' ?>>Genap</option>
-                        </select>
+                        <label for="kelas">Kelas</label>
+                        <input type="text" class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" value="<?= old('kelas', $kelas['kelas']); ?>" placeholder="Kelas">
                         <div class="invalid-feedback">
-                            <?= validation_show_error('semester'); ?>
+                            <?= validation_show_error('kelas'); ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,6 +50,13 @@
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('prodi'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_mahasiswa">Jumlah Mahasiswa</label>
+                        <input type="text" class="form-control <?= (validation_show_error('jumlah_mahasiswa')) ? 'is-invalid' : ''; ?>" id="jumlah_mahasiswa" name="jumlah_mahasiswa" value="<?= old('jumlah_mahasiswa', $kelas['jumlah_mahasiswa']); ?>" placeholder="Jumlah Mahasiswa">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('jumlah_mahasiswa'); ?>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
