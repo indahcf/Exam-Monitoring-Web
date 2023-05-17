@@ -6,37 +6,25 @@ use CodeIgniter\Model;
 
 class KelasModel extends Model
 {
-    protected $DBGroup          = 'default';
     protected $table            = 'kelas';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $insertID         = 0;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $primaryKey       = 'id_kelas';
+    protected $allowedFields    = ['id_prodi', 'id_dosen', 'id_matkul', 'kelas', 'jumlah_mahasiswa'];
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    public function getKelas($id_kelas = false)
+    {
+        if ($id_kelas == false) {
+            return $this->join('prodi', 'kelas.id_prodi=prodi.id_prodi')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->findAll();
+        }
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+        return $this->where(['kelas.id_kelas' => $id_kelas])->join('prodi', 'kelas.id_prodi=prodi.id_prodi')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->first();
+    }
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function editKelas($id_kelas = false)
+    {
+        if ($id_kelas == false) {
+            return $this->findAll();
+        }
+
+        return $this->where(['kelas.id_kelas' => $id_kelas])->first();
+    }
 }

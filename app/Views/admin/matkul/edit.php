@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jumlah_sks">Jumlah SKS</label>
-                        <input type="text" class="form-control <?= (validation_show_error('jumlah_sks')) ? 'is-invalid' : ''; ?>" id="jumlah_sks" name="jumlah_sks" value="<?= old('jumlah_sks', $matkul['jumlah_sks']); ?>" placeholder="Jumlah SKS">
+                        <input type="number" class="form-control <?= (validation_show_error('jumlah_sks')) ? 'is-invalid' : ''; ?>" id="jumlah_sks" name="jumlah_sks" value="<?= old('jumlah_sks', $matkul['jumlah_sks']); ?>" placeholder="Jumlah SKS">
                         <div class="invalid-feedback">
                             <?= validation_show_error('jumlah_sks'); ?>
                         </div>

@@ -40,11 +40,10 @@ class Matkul extends BaseController
         //validasi input
         if (!$this->validate([
             'kode_matkul' => [
-                'rules' => 'required|is_unique[matkul.kode_matkul]',
+                'rules' => 'required',
                 'label' => 'Kode Mata Kuliah',
                 'errors' => [
-                    'required' => '{field} harus diisi.',
-                    'is_unique' => '{field} sudah terdaftar.'
+                    'required' => '{field} harus diisi.'
                 ]
             ],
             'matkul' => [
@@ -80,9 +79,16 @@ class Matkul extends BaseController
         }
 
         //cek matkul dan prodi
-        $where = "(kode_matkul = {$this->request->getVar('kode_matkul')} AND matkul = {$this->request->getVar('matkul')} AND id_prodi = {$this->request->getVar('prodi')}) OR (matkul = {$this->request->getVar('matkul')} AND id_prodi = {$this->request->getVar('prodi')})";
-        if ($this->matkulModel->where($where)->first()) {
+        if ($this->matkulModel->where([
+            'matkul' => $this->request->getVar('matkul'),
+            'id_prodi' => $this->request->getVar('prodi')
+        ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
+        } elseif ($this->matkulModel->where([
+            'matkul' => $this->request->getVar('matkul'),
+            'kode_matkul !=', $this->request->getVar('kode_matkul')
+        ])->first()) {
+            return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
         }
 
         try {
@@ -133,11 +139,10 @@ class Matkul extends BaseController
         //validasi input
         if (!$this->validate([
             'kode_matkul' => [
-                'rules' => 'required|is_unique[matkul.kode_matkul,id_matkul,{id_matkul}]',
+                'rules' => 'required',
                 'label' => 'Kode Mata Kuliah',
                 'errors' => [
-                    'required' => '{field} harus diisi.',
-                    'is_unique' => '{field} sudah terdaftar.'
+                    'required' => '{field} harus diisi.'
                 ]
             ],
             'matkul' => [
@@ -174,10 +179,6 @@ class Matkul extends BaseController
 
         //cek matkul dan prodi
         if ($this->matkulModel->where([
-            'kode_matkul' => $this->request->getVar('kode_matkul'),
-            'matkul' => $this->request->getVar('matkul'),
-            'id_prodi' => $this->request->getVar('prodi')
-        ])->orWhere([
             'matkul' => $this->request->getVar('matkul'),
             'id_prodi' => $this->request->getVar('prodi'),
             'id_matkul !=', $id_matkul
