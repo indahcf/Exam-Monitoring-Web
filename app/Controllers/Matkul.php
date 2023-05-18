@@ -84,11 +84,6 @@ class Matkul extends BaseController
             'id_prodi' => $this->request->getVar('prodi')
         ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        } elseif ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'kode_matkul !=' => $this->request->getVar('kode_matkul')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
         }
 
         try {
@@ -180,24 +175,11 @@ class Matkul extends BaseController
         //cek matkul dan prodi
         if ($this->matkulModel->where([
             'matkul' => $this->request->getVar('matkul'),
-            'id_prodi' => $this->request->getVar('prodi')
+            'id_prodi' => $this->request->getVar('prodi'),
+            'id_matkul !=' => $id_matkul
         ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        } elseif ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'kode_matkul !=' => $this->request->getVar('kode_matkul')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
         }
-
-        // //cek matkul dan prodi
-        // if ($this->matkulModel->where([
-        //     'matkul' => $this->request->getVar('matkul'),
-        //     'id_prodi' => $this->request->getVar('prodi'),
-        //     'id_matkul !=' => $id_matkul
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        // }
 
         try {
             $this->matkulModel->save([
