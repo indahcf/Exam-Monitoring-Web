@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jumlah_mahasiswa">Jumlah Mahasiswa</label>
-                        <input type="text" class="form-control <?= (validation_show_error('jumlah_mahasiswa')) ? 'is-invalid' : ''; ?>" id="jumlah_mahasiswa" name="jumlah_mahasiswa" value="<?= old('jumlah_mahasiswa', $kelas['jumlah_mahasiswa']); ?>" placeholder="Jumlah Mahasiswa">
+                        <input type="number" class="form-control <?= (validation_show_error('jumlah_mahasiswa')) ? 'is-invalid' : ''; ?>" id="jumlah_mahasiswa" name="jumlah_mahasiswa" value="<?= old('jumlah_mahasiswa', $kelas['jumlah_mahasiswa']); ?>" placeholder="Jumlah Mahasiswa">
                         <div class="invalid-feedback">
                             <?= validation_show_error('jumlah_mahasiswa'); ?>
                         </div>

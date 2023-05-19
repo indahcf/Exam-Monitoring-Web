@@ -167,7 +167,7 @@ class Matkul extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ],
+            ]
         ])) {
             return redirect()->back()->withInput();
         }

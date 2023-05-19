@@ -61,16 +61,16 @@ class Kelas extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'jumlah_sks' => [
+            'dosen' => [
                 'rules' => 'required',
-                'label' => 'Jumlah SKS',
+                'label' => 'Nama Dosen',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'semester' => [
+            'kelas' => [
                 'rules' => 'required',
-                'label' => 'Semester',
+                'label' => 'Kelas',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -81,44 +81,52 @@ class Kelas extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'jumlah_mahasiswa' => [
+                'rules' => 'required',
+                'label' => 'Jumlah Mahasiswa',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
-        //cek matkul dan prodi
-        if ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'id_prodi' => $this->request->getVar('prodi')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        } elseif ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'kode_matkul !=' => $this->request->getVar('kode_matkul')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
-        }
+        //cek validasi apa dan apa
+        // if ($this->kelasModel->where([
+        //     'matkul' => $this->request->getVar('matkul'),
+        //     'id_prodi' => $this->request->getVar('prodi')
+        // ])->first()) {
+        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
+        // } elseif ($this->matkulModel->where([
+        //     'matkul' => $this->request->getVar('matkul'),
+        //     'kode_matkul !=' => $this->request->getVar('kode_matkul')
+        // ])->first()) {
+        //     return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
+        // }
 
         try {
-            $this->matkulModel->save([
-                'kode_matkul' => $this->request->getVar('kode_matkul'),
-                'matkul' => $this->request->getVar('matkul'),
-                'jumlah_sks' => $this->request->getVar('jumlah_sks'),
-                'semester' => $this->request->getVar('semester'),
-                'id_prodi' => $this->request->getVar('prodi')
+            $this->kelasModel->save([
+                'id_matkul' => $this->request->getVar('kode_matkul'),
+                'id_matkul' => $this->request->getVar('matkul'),
+                'id_dosen' => $this->request->getVar('dosen'),
+                'id_kelas' => $this->request->getVar('kelas'),
+                'id_prodi' => $this->request->getVar('prodi'),
+                'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Ditambahkan');
         }
 
-        return redirect()->to('/admin/matkul');
+        return redirect()->to('/admin/kelas');
     }
 
-    public function delete($id_matkul)
+    public function delete($id_kelas)
     {
         try {
-            $this->matkulModel->delete($id_matkul);
+            $this->kelasModel->delete($id_kelas);
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
@@ -131,18 +139,20 @@ class Kelas extends BaseController
         }
     }
 
-    public function edit($id_matkul)
+    public function edit($id_kelas)
     {
         $data = [
             'title' => 'Edit Mata Kuliah',
-            'matkul' => $this->matkulModel->getMatkul($id_matkul),
+            'kelas' => $this->kelasModel->getKelas($id_kelas),
+            'matkul' => $this->matkulModel->findAll(),
+            'dosen' => $this->dosenModel->findAll(),
             'prodi' => $this->prodiModel->findAll()
         ];
 
-        return view('admin/matkul/edit', $data);
+        return view('admin/kelas/edit', $data);
     }
 
-    public function update($id_matkul)
+    public function update($id_kelas)
     {
         //validasi input
         if (!$this->validate([
@@ -160,16 +170,16 @@ class Kelas extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'jumlah_sks' => [
+            'dosen' => [
                 'rules' => 'required',
-                'label' => 'Jumlah SKS',
+                'label' => 'Nama Dosen',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'semester' => [
+            'kelas' => [
                 'rules' => 'required',
-                'label' => 'Semester',
+                'label' => 'Kelas',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -181,22 +191,19 @@ class Kelas extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
+            'jumlah_mahasiswa' => [
+                'rules' => 'required',
+                'label' => 'Jumlah Mahasiswa',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
         ])) {
             return redirect()->back()->withInput();
         }
 
-        //cek matkul dan prodi
-        if ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'id_prodi' => $this->request->getVar('prodi')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        } elseif ($this->matkulModel->where([
-            'matkul' => $this->request->getVar('matkul'),
-            'kode_matkul !=' => $this->request->getVar('kode_matkul')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
-        }
+        //cek validasi apa dan apa
+
 
         // //cek matkul dan prodi
         // if ($this->matkulModel->where([
@@ -208,19 +215,20 @@ class Kelas extends BaseController
         // }
 
         try {
-            $this->matkulModel->save([
-                'id_matkul' => $id_matkul,
+            $this->kelasModel->save([
+                'id_kelas' => $id_kelas,
+                'id_matkul' => $this->request->getVar('kode_matkul'),
+                'id_matkul' => $this->request->getVar('matkul'),
+                'id_dosen' => $this->request->getVar('dosen'),
+                'kelas' => $this->request->getVar('kelas'),
                 'id_prodi' => $this->request->getVar('prodi'),
-                'kode_matkul' => $this->request->getVar('kode_matkul'),
-                'matkul' => $this->request->getVar('matkul'),
-                'jumlah_sks' => $this->request->getVar('jumlah_sks'),
-                'semester' => $this->request->getVar('semester')
+                'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diubah');
         }
 
-        return redirect()->to('/admin/matkul');
+        return redirect()->to('/admin/kelas');
     }
 }
