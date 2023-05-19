@@ -12,8 +12,8 @@ class Matkul extends Seeder
         $matkul_data = [
             [
                 'id_prodi'      => 1,
-                'kode_matkul'   => 'TKE19',
-                'matkul'        => 'Kalkulus',
+                'kode_matkul'   => 'TKE191111',
+                'matkul'        => 'Matematika',
                 'jumlah_sks'    => 3,
                 'semester'      => 'Gasal'
             ]
