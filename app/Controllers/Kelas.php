@@ -35,9 +35,9 @@ class Kelas extends BaseController
     {
         $data = [
             'title'     => 'Tambah Kelas',
+            'prodi'     => $this->prodiModel->getProdi(),
             'matkul'    => $this->matkulModel->getMatkul(),
-            'dosen'     => $this->dosenModel->getDosen(),
-            'prodi'     => $this->prodiModel->getProdi()
+            'dosen'     => $this->dosenModel->getDosen()
         ];
 
         return view('admin/kelas/create', $data);
@@ -47,6 +47,13 @@ class Kelas extends BaseController
     {
         //validasi input
         if (!$this->validate([
+            'prodi' => [
+                'rules' => 'required',
+                'label' => 'Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'kode_matkul' => [
                 'rules' => 'required',
                 'label' => 'Kode Mata Kuliah',
@@ -71,13 +78,6 @@ class Kelas extends BaseController
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'prodi' => [
-                'rules' => 'required',
-                'label' => 'Nama Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -142,8 +142,8 @@ class Kelas extends BaseController
     public function edit($id_kelas)
     {
         $data = [
-            'title' => 'Edit Mata Kuliah',
-            'kelas' => $this->kelasModel->getKelas($id_kelas),
+            'title' => 'Edit Kelas',
+            'kelas' => $this->kelasModel->find($id_kelas),
             'matkul' => $this->matkulModel->findAll(),
             'dosen' => $this->dosenModel->findAll(),
             'prodi' => $this->prodiModel->findAll()
@@ -230,5 +230,12 @@ class Kelas extends BaseController
         }
 
         return redirect()->to('/admin/kelas');
+    }
+
+    public function matkul()
+    {
+        $id_prodi = $this->request->getVar('id_prodi');
+        $matkul = $this->kelasModel->allMatkul($id_prodi);
+        echo json_encode($matkul);
     }
 }

@@ -10,24 +10,66 @@
                 <form action="<?= base_url('/admin/kelas/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <label for="kode_matkul">Kode Mata Kuliah</label>
-                        <input type="text" class="form-control <?= (validation_show_error('kode_matkul')) ? 'is-invalid' : ''; ?>" id="kode_matkul" name="kode_matkul" value="<?= old('kode_matkul'); ?>" placeholder="Kode Mata Kuliah">
+                        <label for="id_prodi">Program Studi</label>
+                        <select class="form-control <?= (validation_show_error('id_prodi')) ? 'is-invalid' : ''; ?>" id="id_prodi" name="id_prodi">
+                            <option value="">Pilih Program Studi</option>
+                            <?php foreach ($prodi as $p) : ?>
+                                <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                    <?php echo $p['prodi']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                         <div class="invalid-feedback">
-                            <?= validation_show_error('kode_matkul'); ?>
+                            <?= validation_show_error('id_prodi'); ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="matkul">Nama Mata Kuliah</label>
-                        <input type="text" class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" value="<?= old('matkul'); ?>" placeholder="Nama Mata Kuliah">
+                        <label for="id_matkul">Mata Kuliah</label>
+                        <select class="form-control <?= (validation_show_error('id_matkul')) ? 'is-invalid' : ''; ?>" id="id_matkul" name="id_matkul">
+                            <option value="">Pilih Mata Kuliah</option>
+                            <?php foreach ($matkul as $m) : ?>
+                                <option value="<?php echo $m['id_matkul']; ?>" <?= old('matkul') == $m['id_matkul'] ? 'selected' : null ?>>
+                                    <?php echo $m['kode_matkul'] . " " . $m['matkul']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                         <div class="invalid-feedback">
-                            <?= validation_show_error('matkul'); ?>
+                            <?= validation_show_error('id_matkul'); ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="dosen">Nama Dosen</label>
-                        <input type="text" class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" value="<?= old('dosen'); ?>" placeholder="Nama Dosen">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('dosen'); ?>
+                        <label for="id_prodi">Dosen</label>
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select class="form-control <?= (validation_show_error('id_prodi')) ? 'is-invalid' : ''; ?>" id="id_prodi" name="id_prodi">
+                                        <option value="">Pilih Asal Dosen</option>
+                                        <?php foreach ($prodi as $p) : ?>
+                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                                <?php echo $p['prodi']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <?= validation_show_error('id_prodi'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select class="form-control <?= (validation_show_error('id_dosen')) ? 'is-invalid' : ''; ?>" id="id_dosen" name="id_dosen">
+                                        <option value="">Pilih Dosen Pengampu</option>
+                                        <?php foreach ($dosen as $d) : ?>
+                                            <option value="<?php echo $d['id_dosen']; ?>" <?= old('dosen') == $d['id_dosen'] ? 'selected' : null ?>>
+                                                <?php echo $d['dosen']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <?= validation_show_error('id_dosen'); ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -37,20 +79,7 @@
                             <?= validation_show_error('kelas'); ?>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="prodi">Program Studi</label>
-                        <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
-                            <option value="">Pilih Program Studi</option>
-                            <?php foreach ($prodi as $p) : ?>
-                                <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
-                                    <?php echo $p['prodi']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('prodi'); ?>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label for="jumlah_mahasiswa">Jumlah Mahasiswa</label>
                         <input type="number" class="form-control <?= (validation_show_error('jumlah_mahasiswa')) ? 'is-invalid' : ''; ?>" id="jumlah_mahasiswa" name="jumlah_mahasiswa" value="<?= old('jumlah_mahasiswa'); ?>" placeholder="Jumlah Mahasiswa">

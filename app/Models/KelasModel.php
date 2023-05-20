@@ -19,12 +19,18 @@ class KelasModel extends Model
         return $this->where(['kelas.id_kelas' => $id_kelas])->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('prodi', 'kelas.id_prodi=prodi.id_prodi')->first();
     }
 
-    public function editKelas($id_kelas = false)
+    public function allProdi()
     {
-        if ($id_kelas == false) {
-            return $this->findAll();
-        }
+        return $this->db->table('prodi')->Get()->getResultArray();
+    }
 
-        return $this->where(['kelas.id_kelas' => $id_kelas])->first();
+    public function allMatkul($id_prodi)
+    {
+        return $this->db->table('matkul')->where('id_prodi', $id_prodi)->Get()->getResultArray();
+    }
+
+    public function allDosen($id_matkul)
+    {
+        return $this->db->table('dosen')->where('id_matkul', $id_matkul)->Get()->getResultArray();
     }
 }
