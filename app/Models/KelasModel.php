@@ -29,8 +29,8 @@ class KelasModel extends Model
         return $this->db->table('matkul')->where('id_prodi', $id_prodi)->Get()->getResultArray();
     }
 
-    public function allDosen($id_matkul)
+    public function allDosen($id_prodi)
     {
-        return $this->db->table('dosen')->where('id_matkul', $id_matkul)->Get()->getResultArray();
+        return $this->db->table('dosen')->where('id_prodi', $id_prodi)->Get()->getResultArray();
     }
 }

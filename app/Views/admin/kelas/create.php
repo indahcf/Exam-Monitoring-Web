@@ -26,12 +26,6 @@
                     <div class="form-group">
                         <label for="id_matkul">Mata Kuliah</label>
                         <select class="form-control <?= (validation_show_error('id_matkul')) ? 'is-invalid' : ''; ?>" id="id_matkul" name="id_matkul">
-                            <option value="">Pilih Mata Kuliah</option>
-                            <?php foreach ($matkul as $m) : ?>
-                                <option value="<?php echo $m['id_matkul']; ?>" <?= old('matkul') == $m['id_matkul'] ? 'selected' : null ?>>
-                                    <?php echo $m['kode_matkul'] . " " . $m['matkul']; ?>
-                                </option>
-                            <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('id_matkul'); ?>
@@ -58,12 +52,6 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <select class="form-control <?= (validation_show_error('id_dosen')) ? 'is-invalid' : ''; ?>" id="id_dosen" name="id_dosen">
-                                        <option value="">Pilih Dosen Pengampu</option>
-                                        <?php foreach ($dosen as $d) : ?>
-                                            <option value="<?php echo $d['id_dosen']; ?>" <?= old('dosen') == $d['id_dosen'] ? 'selected' : null ?>>
-                                                <?php echo $d['dosen']; ?>
-                                            </option>
-                                        <?php endforeach; ?>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('id_dosen'); ?>
@@ -89,6 +77,40 @@
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>
                 </form>
+
+                <script>
+                    $('select[name=id_prodi]').on('change', function() {
+                        let id = this.value
+                        $.ajax({
+                            url: window.location.origin + '/api/matkul/' + id,
+                            type: 'GET',
+                            success: function(response) {
+                                let options = `<option value="">Pilih Mata Kuliah</option>`
+                                for (const data of response) {
+                                    options += `<option value="${data.id_matkul}">${data.kode_matkul} - ${data.matkul}</option>`
+                                }
+                                $('select[name=id_matkul]').html(options)
+                            },
+                        })
+                    })
+                </script>
+
+                <script>
+                    $('select[name=id_prodi]').on('change', function() {
+                        let id = this.value
+                        $.ajax({
+                            url: window.location.origin + '/api/dosen/' + id,
+                            type: 'GET',
+                            success: function(response) {
+                                let options = `<option value="">Pilih Dosen Pengampu</option>`
+                                for (const data of response) {
+                                    options += `<option value="${data.id_dosen}">${data.dosen}</option>`
+                                }
+                                $('select[name=id_dosen]').html(options)
+                            },
+                        })
+                    })
+                </script>
             </div>
         </div>
     </div>

@@ -65,6 +65,8 @@ $routes->post('/admin/kelas/save', 'Kelas::save');
 $routes->get('/admin/kelas/edit/(:segment)', 'Kelas::edit/$1');
 $routes->post('/admin/kelas/update/(:segment)', 'Kelas::update/$1');
 $routes->delete('/admin/kelas/(:num)', 'Kelas::delete/$1');
+$routes->get('api/matkul/(:num)', 'Kelas::matkul/$1');
+$routes->get('api/dosen/(:num)', 'Kelas::dosen/$1');
 
 $routes->get('/admin/ruang_ujian', 'RuangUjian::index');
 $routes->get('/admin/ruang_ujian/create', 'RuangUjian::create');

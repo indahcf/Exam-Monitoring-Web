@@ -232,10 +232,15 @@ class Kelas extends BaseController
         return redirect()->to('/admin/kelas');
     }
 
-    public function matkul()
+    public function matkul($id_prodi)
     {
-        $id_prodi = $this->request->getVar('id_prodi');
         $matkul = $this->kelasModel->allMatkul($id_prodi);
-        echo json_encode($matkul);
+        return $this->response->setJSON($matkul);
+    }
+
+    public function dosen($id_prodi)
+    {
+        $dosen = $this->kelasModel->allDosen($id_prodi);
+        return $this->response->setJSON($dosen);
     }
 }
