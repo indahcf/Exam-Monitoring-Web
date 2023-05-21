@@ -15,8 +15,8 @@
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
-                                        <?php echo $p['prodi']; ?>
+                                    <option value="<?= $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : '' ?>>
+                                        <?= $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="matkul">Mata Kuliah</label>
-                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul">
+                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= old('matkul') ?>">
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('matkul'); ?>
@@ -41,8 +41,8 @@
                                     <select class="form-control <?= (validation_show_error('asal_dosen')) ? 'is-invalid' : ''; ?>" id="asal_dosen" name="asal_dosen">
                                         <option value="">Pilih Asal Dosen</option>
                                         <?php foreach ($prodi as $p) : ?>
-                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('asal_dosen') == $p['id_prodi'] ? 'selected' : null ?>>
-                                                <?php echo $p['prodi']; ?>
+                                            <option value="<?= $p['id_prodi']; ?>" <?= old('asal_dosen') == $p['id_prodi'] ? 'selected' : '' ?>>
+                                                <?= $p['prodi']; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen">
+                                    <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('dosen'); ?>
@@ -81,36 +81,62 @@
                 </form>
 
                 <script>
-                    $('select[name=prodi]').on('change', function() {
-                        let id = this.value
-                        $.ajax({
-                            url: window.location.origin + '/api/matkul/' + id,
-                            type: 'GET',
-                            success: function(response) {
-                                let options = `<option value="">Pilih Mata Kuliah</option>`
-                                for (const data of response) {
-                                    options += `<option value="${data.id_matkul}">${data.kode_matkul} - ${data.matkul}</option>`
-                                }
-                                $('select[name=matkul]').html(options)
-                            },
-                        })
-                    })
-                </script>
+                    $(document).ready(function() {
+                        let id_prodi = $('select[name=prodi]').val();
+                        let id_asal_dosen = $('select[name=asal_dosen]').val();
+                        console.log('prodi', id_prodi)
+                        console.log('asal_dosen', id_prodi)
+                        if (id_prodi !== '') {
+                            getMatkul(id_prodi)
+                        }
+                        if (id_asal_dosen !== '') {
+                            getDosen(id_asal_dosen)
+                        }
 
-                <script>
+                    })
+
+                    function getMatkul(id_prodi) {
+                        if (id_prodi !== '') {
+                            let id_matkul = $('select[name=matkul]').data('value');
+                            $.ajax({
+                                url: window.location.origin + '/api/matkul/' + id_prodi,
+                                type: 'GET',
+                                success: function(response) {
+                                    let options = `<option value="">Pilih Mata Kuliah</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_matkul}" ${id_matkul == data.id_matkul ? 'selected' : ''}>${data.kode_matkul} - ${data.matkul}</option>`
+                                    }
+                                    $('select[name=matkul]').html(options)
+                                },
+                            })
+                        }
+
+                    }
+
+                    function getDosen(id_asal_dosen) {
+                        if (id_asal_dosen !== '') {
+                            let id_dosen = $('select[name=dosen]').data('value');
+                            $.ajax({
+                                url: window.location.origin + '/api/dosen/' + id_asal_dosen,
+                                type: 'GET',
+                                success: function(response) {
+                                    let options = `<option value="">Pilih Dosen Pengampu</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_dosen}" ${id_dosen == data.id_dosen ? 'selected' : ''}>${data.dosen}</option>`
+                                    }
+                                    $('select[name=dosen]').html(options)
+                                },
+                            })
+                        }
+
+                    }
+
+                    $('select[name=prodi]').on('change', function() {
+                        getMatkul(this.value)
+                    })
+
                     $('select[name=asal_dosen]').on('change', function() {
-                        let id = this.value
-                        $.ajax({
-                            url: window.location.origin + '/api/dosen/' + id,
-                            type: 'GET',
-                            success: function(response) {
-                                let options = `<option value="">Pilih Dosen Pengampu</option>`
-                                for (const data of response) {
-                                    options += `<option value="${data.id_dosen}">${data.dosen}</option>`
-                                }
-                                $('select[name=dosen]').html(options)
-                            },
-                        })
+                        getDosen(this.value)
                     })
                 </script>
             </div>

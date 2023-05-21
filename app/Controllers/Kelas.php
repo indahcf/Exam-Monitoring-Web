@@ -110,9 +110,8 @@ class Kelas extends BaseController
             $this->kelasModel->save([
                 'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
-                'id_dosen' => $this->request->getVar('asal_dosen'),
                 'id_dosen' => $this->request->getVar('dosen'),
-                'id_kelas' => $this->request->getVar('kelas'),
+                'kelas' => $this->request->getVar('kelas'),
                 'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
@@ -141,12 +140,14 @@ class Kelas extends BaseController
 
     public function edit($id_kelas)
     {
+        $id_dosen = $this->kelasModel->find($id_kelas)['id_dosen'];
         $data = [
             'title' => 'Edit Kelas',
             'kelas' => $this->kelasModel->find($id_kelas),
             'matkul' => $this->matkulModel->findAll(),
             'dosen' => $this->dosenModel->findAll(),
-            'prodi' => $this->prodiModel->findAll()
+            'prodi' => $this->prodiModel->findAll(),
+            'asal_dosen' => $this->dosenModel->find($id_dosen)['id_prodi']
         ];
 
         return view('admin/kelas/edit', $data);
@@ -213,15 +214,14 @@ class Kelas extends BaseController
         // ])->first()) {
         //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
         // }
+        // dd($this->request->getVar('kelas'));
 
         try {
-            $this->kelasModel->save([
-                'id_kelas' => $id_kelas,
+            $this->kelasModel->update($id_kelas, [
                 'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
-                'id_dosen' => $this->request->getVar('asal_dosen'),
                 'id_dosen' => $this->request->getVar('dosen'),
-                'id_kelas' => $this->request->getVar('kelas'),
+                'kelas' => $this->request->getVar('kelas'),
                 'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
