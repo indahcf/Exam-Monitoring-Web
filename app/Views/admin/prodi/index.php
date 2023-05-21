@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="matkul" class="table table-striped">
+                    <table id="prodi" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -45,7 +45,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#matkul').DataTable();
+                            $('#prodi').DataTable();
                         });
                     </script>
 

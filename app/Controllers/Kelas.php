@@ -47,14 +47,14 @@ class Kelas extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'id_prodi' => [
+            'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'id_matkul' => [
+            'matkul' => [
                 'rules' => 'required',
                 'label' => 'Mata Kuliah',
                 'errors' => [
@@ -68,7 +68,7 @@ class Kelas extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'id_dosen' => [
+            'dosen' => [
                 'rules' => 'required',
                 'label' => 'Dosen Pengampu',
                 'errors' => [
@@ -156,23 +156,30 @@ class Kelas extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'kode_matkul' => [
+            'prodi' => [
                 'rules' => 'required',
-                'label' => 'Kode Mata Kuliah',
+                'label' => 'Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'matkul' => [
                 'rules' => 'required',
-                'label' => 'Nama Mata Kuliah',
+                'label' => 'Mata Kuliah',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'asal_dosen' => [
+                'rules' => 'required',
+                'label' => 'Asal Dosen',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'dosen' => [
                 'rules' => 'required',
-                'label' => 'Nama Dosen',
+                'label' => 'Dosen Pengampu',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -180,13 +187,6 @@ class Kelas extends BaseController
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'prodi' => [
-                'rules' => 'required',
-                'label' => 'Nama Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -217,11 +217,11 @@ class Kelas extends BaseController
         try {
             $this->kelasModel->save([
                 'id_kelas' => $id_kelas,
-                'id_matkul' => $this->request->getVar('kode_matkul'),
-                'id_matkul' => $this->request->getVar('matkul'),
-                'id_dosen' => $this->request->getVar('dosen'),
-                'kelas' => $this->request->getVar('kelas'),
                 'id_prodi' => $this->request->getVar('prodi'),
+                'id_matkul' => $this->request->getVar('matkul'),
+                'id_dosen' => $this->request->getVar('asal_dosen'),
+                'id_dosen' => $this->request->getVar('dosen'),
+                'id_kelas' => $this->request->getVar('kelas'),
                 'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');

@@ -49,7 +49,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#matkul').DataTable();
+                            $('#dosen').DataTable();
                         });
                     </script>
 

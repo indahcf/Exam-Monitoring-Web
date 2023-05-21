@@ -18,13 +18,4 @@ class DosenModel extends Model
 
         return $this->where(['dosen.id_dosen' => $id_dosen])->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->first();
     }
-
-    public function editDosen($id_dosen = false)
-    {
-        if ($id_dosen == false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['dosen.id_dosen' => $id_dosen])->first();
-    }
 }

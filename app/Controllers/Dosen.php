@@ -99,7 +99,7 @@ class Dosen extends BaseController
     {
         $data = [
             'title' => 'Edit Dosen',
-            'dosen' => $this->dosenModel->getDosen($id_dosen),
+            'dosen' => $this->dosenModel->find($id_dosen),
             'prodi' => $this->prodiModel->findAll()
         ];
 

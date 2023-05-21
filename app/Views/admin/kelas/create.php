@@ -15,7 +15,7 @@
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?php echo $p['id_prodi']; ?>" <?= old('id_prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                    <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
                                         <?php echo $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>
@@ -41,7 +41,7 @@
                                     <select class="form-control <?= (validation_show_error('asal_dosen')) ? 'is-invalid' : ''; ?>" id="asal_dosen" name="asal_dosen">
                                         <option value="">Pilih Asal Dosen</option>
                                         <?php foreach ($prodi as $p) : ?>
-                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('id_prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('asal_dosen') == $p['id_prodi'] ? 'selected' : null ?>>
                                                 <?php echo $p['prodi']; ?>
                                             </option>
                                         <?php endforeach; ?>
