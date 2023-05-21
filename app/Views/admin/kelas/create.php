@@ -10,25 +10,27 @@
                 <form action="<?= base_url('/admin/kelas/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <label for="id_prodi">Program Studi</label>
-                        <select class="form-control <?= (validation_show_error('id_prodi')) ? 'is-invalid' : ''; ?>" id="id_prodi" name="id_prodi">
+                        <label for="prodi">Program Studi</label>
+                        <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
-                                <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
-                                    <?php echo $p['prodi']; ?>
-                                </option>
+                                <?php if ($p['prodi'] != 'Non Teknik') : ?>
+                                    <option value="<?php echo $p['id_prodi']; ?>" <?= old('id_prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                        <?php echo $p['prodi']; ?>
+                                    </option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
-                            <?= validation_show_error('id_prodi'); ?>
+                            <?= validation_show_error('prodi'); ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="id_matkul">Mata Kuliah</label>
-                        <select class="form-control <?= (validation_show_error('id_matkul')) ? 'is-invalid' : ''; ?>" id="id_matkul" name="id_matkul">
+                        <label for="matkul">Mata Kuliah</label>
+                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul">
                         </select>
                         <div class="invalid-feedback">
-                            <?= validation_show_error('id_matkul'); ?>
+                            <?= validation_show_error('matkul'); ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,25 +38,25 @@
                         <div class="row g-2">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <select class="form-control <?= (validation_show_error('id_prodi')) ? 'is-invalid' : ''; ?>" id="id_prodi" name="id_prodi">
+                                    <select class="form-control <?= (validation_show_error('asal_dosen')) ? 'is-invalid' : ''; ?>" id="asal_dosen" name="asal_dosen">
                                         <option value="">Pilih Asal Dosen</option>
                                         <?php foreach ($prodi as $p) : ?>
-                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                            <option value="<?php echo $p['id_prodi']; ?>" <?= old('id_prodi') == $p['id_prodi'] ? 'selected' : null ?>>
                                                 <?php echo $p['prodi']; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <?= validation_show_error('id_prodi'); ?>
+                                        <?= validation_show_error('asal_dosen'); ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <select class="form-control <?= (validation_show_error('id_dosen')) ? 'is-invalid' : ''; ?>" id="id_dosen" name="id_dosen">
+                                    <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen">
                                     </select>
                                     <div class="invalid-feedback">
-                                        <?= validation_show_error('id_dosen'); ?>
+                                        <?= validation_show_error('dosen'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +81,7 @@
                 </form>
 
                 <script>
-                    $('select[name=id_prodi]').on('change', function() {
+                    $('select[name=prodi]').on('change', function() {
                         let id = this.value
                         $.ajax({
                             url: window.location.origin + '/api/matkul/' + id,
@@ -89,14 +91,14 @@
                                 for (const data of response) {
                                     options += `<option value="${data.id_matkul}">${data.kode_matkul} - ${data.matkul}</option>`
                                 }
-                                $('select[name=id_matkul]').html(options)
+                                $('select[name=matkul]').html(options)
                             },
                         })
                     })
                 </script>
 
                 <script>
-                    $('select[name=id_prodi]').on('change', function() {
+                    $('select[name=asal_dosen]').on('change', function() {
                         let id = this.value
                         $.ajax({
                             url: window.location.origin + '/api/dosen/' + id,
@@ -106,7 +108,7 @@
                                 for (const data of response) {
                                     options += `<option value="${data.id_dosen}">${data.dosen}</option>`
                                 }
-                                $('select[name=id_dosen]').html(options)
+                                $('select[name=dosen]').html(options)
                             },
                         })
                     })

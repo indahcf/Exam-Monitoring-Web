@@ -47,30 +47,30 @@ class Kelas extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'prodi' => [
+            'id_prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'kode_matkul' => [
+            'id_matkul' => [
                 'rules' => 'required',
-                'label' => 'Kode Mata Kuliah',
+                'label' => 'Mata Kuliah',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'matkul' => [
+            'asal_dosen' => [
                 'rules' => 'required',
-                'label' => 'Nama Mata Kuliah',
+                'label' => 'Asal Dosen',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'dosen' => [
+            'id_dosen' => [
                 'rules' => 'required',
-                'label' => 'Nama Dosen',
+                'label' => 'Dosen Pengampu',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -108,11 +108,11 @@ class Kelas extends BaseController
 
         try {
             $this->kelasModel->save([
-                'id_matkul' => $this->request->getVar('kode_matkul'),
+                'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
+                'id_dosen' => $this->request->getVar('asal_dosen'),
                 'id_dosen' => $this->request->getVar('dosen'),
                 'id_kelas' => $this->request->getVar('kelas'),
-                'id_prodi' => $this->request->getVar('prodi'),
                 'jumlah_mahasiswa' => $this->request->getVar('jumlah_mahasiswa')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');

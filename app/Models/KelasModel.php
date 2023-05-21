@@ -19,11 +19,6 @@ class KelasModel extends Model
         return $this->where(['kelas.id_kelas' => $id_kelas])->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('prodi', 'kelas.id_prodi=prodi.id_prodi')->first();
     }
 
-    public function allProdi()
-    {
-        return $this->db->table('prodi')->Get()->getResultArray();
-    }
-
     public function allMatkul($id_prodi)
     {
         return $this->db->table('matkul')->where('id_prodi', $id_prodi)->Get()->getResultArray();
