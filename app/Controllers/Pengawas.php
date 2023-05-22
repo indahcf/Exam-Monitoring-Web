@@ -87,7 +87,7 @@ class Pengawas extends BaseController
     {
         $data = [
             'title' => 'Edit Pengawas',
-            'pengawas' => $this->pengawasModel->getPengawas($id_pengawas)
+            'pengawas' => $this->pengawasModel->find($id_pengawas)
         ];
 
         return view('admin/pengawas/edit', $data);

@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kapasitas">Kapasitas</label>
-                        <input type="text" class="form-control <?= (validation_show_error('kapasitas')) ? 'is-invalid' : ''; ?>" id="kapasitas" name="kapasitas" value="<?= old('kapasitas', $ruang_ujian['kapasitas']); ?>" placeholder="Kapasitas">
+                        <input type="number" class="form-control <?= (validation_show_error('kapasitas')) ? 'is-invalid' : ''; ?>" id="kapasitas" name="kapasitas" value="<?= old('kapasitas', $ruang_ujian['kapasitas']); ?>" placeholder="Kapasitas">
                         <div class="invalid-feedback">
                             <?= validation_show_error('kapasitas'); ?>
                         </div>

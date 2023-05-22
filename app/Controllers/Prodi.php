@@ -79,7 +79,7 @@ class Prodi extends BaseController
     {
         $data = [
             'title' => 'Edit Program Studi',
-            'prodi' => $this->prodiModel->getProdi($id_prodi)
+            'prodi' => $this->prodiModel->find($id_prodi)
         ];
 
         return view('admin/prodi/edit', $data);

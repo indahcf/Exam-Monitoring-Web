@@ -87,7 +87,7 @@ class RuangUjian extends BaseController
     {
         $data = [
             'title' => 'Edit Ruang Ujian',
-            'ruang_ujian' => $this->ruang_ujianModel->getRuangUjian($id_ruang_ujian)
+            'ruang_ujian' => $this->ruang_ujianModel->find($id_ruang_ujian)
         ];
 
         return view('admin/ruang_ujian/edit', $data);

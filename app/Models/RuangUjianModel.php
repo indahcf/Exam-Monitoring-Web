@@ -9,6 +9,7 @@ class RuangUjianModel extends Model
     protected $table            = 'ruang_ujian';
     protected $primaryKey       = 'id_ruang_ujian';
     protected $allowedFields    = ['ruang_ujian', 'kapasitas'];
+    protected $useTimestamps    = true;
 
     public function getRuangUjian($id_ruang_ujian = false)
     {

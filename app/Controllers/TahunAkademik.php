@@ -102,7 +102,7 @@ class TahunAkademik extends BaseController
     {
         $data = [
             'title' => 'Edit Program Studi',
-            'tahun_akademik' => $this->tahun_akademikModel->getTahunAkademik($id_tahun_akademik)
+            'tahun_akademik' => $this->tahun_akademikModel->find($id_tahun_akademik)
         ];
 
         return view('admin/tahun_akademik/edit', $data);

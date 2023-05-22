@@ -9,6 +9,7 @@ class KelasModel extends Model
     protected $table            = 'kelas';
     protected $primaryKey       = 'id_kelas';
     protected $allowedFields    = ['id_matkul', 'id_dosen', 'id_prodi', 'kelas', 'jumlah_mahasiswa'];
+    protected $useTimestamps    = true;
 
     public function getKelas($id_kelas = false)
     {

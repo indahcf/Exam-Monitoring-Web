@@ -9,6 +9,7 @@ class PengawasModel extends Model
     protected $table            = 'pengawas';
     protected $primaryKey       = 'id_pengawas';
     protected $allowedFields    = ['nip', 'pengawas'];
+    protected $useTimestamps    = true;
 
     public function getPengawas($id_pengawas = false)
     {

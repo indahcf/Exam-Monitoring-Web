@@ -114,7 +114,7 @@ class Users extends BaseController
     {
         $data = [
             'title' => 'Edit User',
-            'users' => $this->usersModel->getUsers($id)
+            'users' => $this->usersModel->find($id)
         ];
 
         return view('admin/user/edit', $data);
