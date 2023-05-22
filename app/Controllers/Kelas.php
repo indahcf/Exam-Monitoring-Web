@@ -93,18 +93,19 @@ class Kelas extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //cek validasi apa dan apa
-        // if ($this->kelasModel->where([
-        //     'matkul' => $this->request->getVar('matkul'),
-        //     'id_prodi' => $this->request->getVar('prodi')
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        // } elseif ($this->matkulModel->where([
-        //     'matkul' => $this->request->getVar('matkul'),
-        //     'kode_matkul !=' => $this->request->getVar('kode_matkul')
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Kode mata kuliah berbeda dengan kode mata kuliah yang sudah ditambahkan.')->withInput();
-        // }
+        //cek validasi
+        if ($this->kelasModel->where([
+            'id_matkul' => $this->request->getVar('matkul'),
+            'id_dosen' => $this->request->getVar('dosen'),
+            'id_prodi' => $this->request->getVar('prodi')
+        ])->first()) {
+            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
+        } elseif ($this->kelasModel->where([
+            'id_matkul' => $this->request->getVar('matkul'),
+            'kelas !=' => $this->request->getVar('kelas')
+        ])->first()) {
+            return redirect()->back()->withInput();
+        }
 
         try {
             $this->kelasModel->save([
