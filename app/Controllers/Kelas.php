@@ -95,16 +95,12 @@ class Kelas extends BaseController
 
         //cek validasi
         if ($this->kelasModel->where([
+            'id_prodi' => $this->request->getVar('prodi'),
             'id_matkul' => $this->request->getVar('matkul'),
             'id_dosen' => $this->request->getVar('dosen'),
-            'id_prodi' => $this->request->getVar('prodi')
+            'kelas' => $this->request->getVar('kelas')
         ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        } elseif ($this->kelasModel->where([
-            'id_matkul' => $this->request->getVar('matkul'),
-            'kelas !=' => $this->request->getVar('kelas')
-        ])->first()) {
-            return redirect()->back()->withInput();
         }
 
         try {
@@ -204,18 +200,16 @@ class Kelas extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //cek validasi apa dan apa
-
-
-        // //cek matkul dan prodi
-        // if ($this->matkulModel->where([
-        //     'matkul' => $this->request->getVar('matkul'),
-        //     'id_prodi' => $this->request->getVar('prodi'),
-        //     'id_matkul !=' => $id_matkul
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        // }
-        // dd($this->request->getVar('kelas'));
+        //cek validasi
+        if ($this->kelasModel->where([
+            'id_prodi' => $this->request->getVar('prodi'),
+            'id_matkul' => $this->request->getVar('matkul'),
+            'id_dosen' => $this->request->getVar('dosen'),
+            'kelas' => $this->request->getVar('kelas'),
+            'id_kelas !=' => $id_kelas
+        ])->first()) {
+            return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
+        }
 
         try {
             $this->kelasModel->update($id_kelas, [
