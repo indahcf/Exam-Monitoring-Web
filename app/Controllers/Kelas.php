@@ -35,9 +35,7 @@ class Kelas extends BaseController
     {
         $data = [
             'title'     => 'Tambah Kelas',
-            'prodi'     => $this->prodiModel->getProdi(),
-            'matkul'    => $this->matkulModel->getMatkul(),
-            'dosen'     => $this->dosenModel->getDosen()
+            'prodi'     => $this->prodiModel->getProdi()
         ];
 
         return view('admin/kelas/create', $data);
@@ -141,8 +139,6 @@ class Kelas extends BaseController
         $data = [
             'title' => 'Edit Kelas',
             'kelas' => $this->kelasModel->find($id_kelas),
-            'matkul' => $this->matkulModel->findAll(),
-            'dosen' => $this->dosenModel->findAll(),
             'prodi' => $this->prodiModel->findAll(),
             'asal_dosen' => $this->dosenModel->find($id_dosen)['id_prodi']
         ];
@@ -212,7 +208,8 @@ class Kelas extends BaseController
         }
 
         try {
-            $this->kelasModel->update($id_kelas, [
+            $this->kelasModel->save([
+                'id_kelas' => $id_kelas,
                 'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
                 'id_dosen' => $this->request->getVar('dosen'),

@@ -35,10 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" value="<?= old('dosen'); ?>" placeholder="Dosen" readonly>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('dosen'); ?>
-                        </div>
+                        <input type="text" class="form-control" id="dosen" name="dosen" value="" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
                         <label for="ruang_ujian">Ruang Ujian</label>
@@ -62,17 +59,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tanggal">Tanggal</label>
-                        <input type="text" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal'); ?>" placeholder="Tanggal">
+                        <label for="waktu_ujian">Waktu Ujian</label>
+                        <input type="datetime-local" class="form-control <?= (validation_show_error('waktu_ujian')) ? 'is-invalid' : ''; ?>" id="waktu_ujian" name="waktu_ujian" value="<?= old('waktu_ujian'); ?>" placeholder="Waktu Ujian">
                         <div class="invalid-feedback">
-                            <?= validation_show_error('tanggal'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="jam">Jam</label>
-                        <input type="date" class="form-control <?= (validation_show_error('jam')) ? 'is-invalid' : ''; ?>" id="jam" name="jam" value="<?= old('jam'); ?>" placeholder="Jam">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('jam'); ?>
+                            <?= validation_show_error('waktu_ujian'); ?>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>
@@ -118,8 +108,7 @@
                                 url: window.location.origin + '/api/dosen/' + id_kelas,
                                 type: 'GET',
                                 success: function(response) {
-                                    options += `<input value="${data.id_dosen}">${data.dosen}</input>`
-                                    $('select[name=dosen]').html(options)
+                                    $('input[name=dosen]').val(response.data)
                                 },
                             })
                         }
