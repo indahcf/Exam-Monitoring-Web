@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Jadwal Ujian</h4>
 <div class="template-demo">
-    <a href="" class="btn btn-primary btn-icon-text">
+    <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="matkul" class="table table-striped">
+                    <table id="jadwal_ujian" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -32,48 +32,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Senin</td>
-                                <td>10 April 2023</td>
-                                <td>08.00 - 09.30</td>
-                                <td>TKG20212</td>
-                                <td>Geofisika Umum</td>
-                                <td>Teknik Geologi</td>
-                                <td>Eko Bayu Purwasatriya</td>
-                                <td>A</td>
-                                <td>E.101</td>
-                                <td>15</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Senin</td>
-                                <td>10 April 2023</td>
-                                <td>08.00 - 09.30</td>
-                                <td>TKG20212</td>
-                                <td>Geofisika Umum</td>
-                                <td>Teknik Geologi</td>
-                                <td>Eko Bayu Purwasatriya</td>
-                                <td>B</td>
-                                <td>E.102</td>
-                                <td>20</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($jadwal_ujian as $j) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $j['hari']; ?></td>
+                                    <td><?= $j['tanggal']; ?></td>
+                                    <td><?= $j['jam']; ?></td>
+                                    <td><?= $j['kode_matkul']; ?></td>
+                                    <td><?= $j['matkul']; ?></td>
+                                    <td><?= $j['prodi']; ?></td>
+                                    <td><?= $j['dosen']; ?></td>
+                                    <td><?= $j['kelas']; ?></td>
+                                    <td><?= $j['ruang_ujian']; ?></td>
+                                    <td><?= $j['jumlah_peserta']; ?></td>
+                                    <td>
+                                        <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 
@@ -81,7 +63,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#matkul').DataTable();
+                            $('#jadwal_ujian').DataTable();
                         });
                     </script>
 
