@@ -43,7 +43,7 @@
                             <option value="">Pilih Ruang Ujian</option>
                             <?php foreach ($ruang_ujian as $r) : ?>
                                 <option value="<?= $r['id_ruang_ujian']; ?>" <?= old('ruang_ujian') == $r['id_ruang_ujian'] ? 'selected' : '' ?>>
-                                    <?= $p['ruang_ujian']; ?>
+                                    <?= $r['ruang_ujian']; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
