@@ -61,23 +61,31 @@
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
-                        <input type="datetime-local" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal', $jadwal_ujian['tanggal']); ?>" placeholder="Tanggal">
+                        <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal', $jadwal_ujian['tanggal']); ?>" placeholder="Tanggal">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tanggal'); ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="jam_mulai">Jam Mulai</label>
-                        <input type="datetime-local" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="<?= old('jam_mulai', $jadwal_ujian['jam_mulai']); ?>" placeholder="Jam Mulai">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('jam_mulai'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="jam_selesai">Jam Selesai</label>
-                        <input type="datetime-local" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="<?= old('jam_selesai', $jadwal_ujian['jam_selesai']); ?>" placeholder="Jam Selesai">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('jam_selesai'); ?>
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <label for="jam_mulai">Jam Mulai</label>
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="<?= old('jam_mulai', $jadwal_ujian['jam_mulai']); ?>" placeholder="Jam Mulai">
+                                    <div class="invalid-feedback">
+                                        <?= validation_show_error('jam_mulai'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <label for="jam_selesai">Jam Selesai</label>
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="<?= old('jam_selesai', $jadwal_ujian['jam_selesai']); ?>" placeholder="Jam Selesai">
+                                    <div class="invalid-feedback">
+                                        <?= validation_show_error('jam_selesai'); ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
