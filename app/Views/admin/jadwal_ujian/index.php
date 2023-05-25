@@ -36,7 +36,7 @@
                             <?php foreach ($jadwal_ujian as $j) : ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
-                                    <td><?= date("w", strtotime($j['waktu_ujian'])); ?></td>
+                                    <td><?= hari($j['waktu_ujian']); ?></td>
                                     <td><?= date('d-m-Y', strtotime($j['waktu_ujian'])); ?></td>
                                     <td><?= date('H:i:s', strtotime($j['waktu_ujian'])); ?></td>
                                     <td><?= $j['kode_matkul']; ?></td>
