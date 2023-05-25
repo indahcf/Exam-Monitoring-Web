@@ -59,10 +59,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="waktu_ujian">Waktu Ujian</label>
-                        <input type="datetime-local" class="form-control <?= (validation_show_error('waktu_ujian')) ? 'is-invalid' : ''; ?>" id="waktu_ujian" name="waktu_ujian" value="<?= old('waktu_ujian'); ?>" placeholder="Waktu Ujian">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="datetime-local" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal'); ?>" placeholder="Tanggal">
                         <div class="invalid-feedback">
-                            <?= validation_show_error('waktu_ujian'); ?>
+                            <?= validation_show_error('tanggal'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jam_mulai">Jam Mulai</label>
+                        <input type="datetime-local" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="<?= old('jam_mulai'); ?>" placeholder="Jam Mulai">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('jam_mulai'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jam_selesai">Jam Selesai</label>
+                        <input type="datetime-local" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="<?= old('jam_selesai'); ?>" placeholder="Jam Selesai">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('jam_selesai'); ?>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>

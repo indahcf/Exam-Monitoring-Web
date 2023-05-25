@@ -38,7 +38,7 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= hari($j['waktu_ujian']); ?></td>
                                     <td><?= date('d-m-Y', strtotime($j['waktu_ujian'])); ?></td>
-                                    <td><?= date('H:i:s', strtotime($j['waktu_ujian'])); ?></td>
+                                    <td><?= date('H:i:s', strtotime($j['jam_mulai'])); ?>-<?= date('H:i:s', strtotime($j['jam_selesai'])); ?></td>
                                     <td><?= $j['kode_matkul']; ?></td>
                                     <td><?= $j['matkul']; ?></td>
                                     <td><?= $j['prodi']; ?></td>

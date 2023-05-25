@@ -17,7 +17,9 @@ class JadwalUjian extends Seeder
                 'id_ruang_ujian'     => 1,
                 'id_tahun_akademik'  => 1,
                 'jumlah_peserta'     => 18,
-                'waktu_ujian'        => '2023-05-25 07:30:00'
+                'tanggal'            => '2023-05-25',
+                'jam_mulai'          => '07:30:00',
+                'jam_selesai'        => '10:00:00'
             ]
         ];
 

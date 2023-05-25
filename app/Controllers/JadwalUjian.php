@@ -76,9 +76,23 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'waktu_ujian' => [
+            'tanggal' => [
                 'rules' => 'required',
-                'label' => 'Waktu Ujian',
+                'label' => 'Tanggal',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jam_mulai' => [
+                'rules' => 'required',
+                'label' => 'Jam Mulai',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jam_selesai' => [
+                'rules' => 'required',
+                'label' => 'Jam Selesai',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]

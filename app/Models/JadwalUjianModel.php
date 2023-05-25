@@ -8,7 +8,7 @@ class JadwalUjianModel extends Model
 {
     protected $table            = 'jadwal_ujian';
     protected $primaryKey       = 'id_jadwal_ujian';
-    protected $allowedFields    = ['id_prodi', 'id_kelas', 'id_dosen', 'id_ruang_ujian', 'id_tahun_akademik', 'jumlah_peserta', 'waktu_ujian', 'total_hadir', 'jumlah_lju'];
+    protected $allowedFields    = ['id_prodi', 'id_kelas', 'id_dosen', 'id_ruang_ujian', 'id_tahun_akademik', 'jumlah_peserta', 'tanggal', 'jam_mulai', 'jam_selesai', 'total_hadir', 'jumlah_lju'];
     protected $useTimestamps    = true;
 
     public function getJadwalUjian($id_jadwal_ujian = false)
