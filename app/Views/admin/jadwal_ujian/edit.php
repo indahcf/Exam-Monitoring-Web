@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">
+                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas', $jadwal_ujian['id_kelas']) ?>">
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" placeholder="Dosen" readonly>
+                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $jadwal_ujian['id_dosen']) ?>" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
                         <label for="ruang_ujian">Ruang Ujian</label>

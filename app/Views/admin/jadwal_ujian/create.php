@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" placeholder="Dosen" readonly>
+                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen') ?>" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
                         <label for="ruang_ujian">Ruang Ujian</label>
