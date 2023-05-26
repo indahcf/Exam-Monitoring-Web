@@ -132,7 +132,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     console.log(response)
-                                    $('input[name=dosen]').val(response.dosen)
+                                    $('input[name=dosen]').val(response[0].dosen)
                                 },
                             })
                         }

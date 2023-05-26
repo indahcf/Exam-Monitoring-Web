@@ -113,6 +113,7 @@
                                 url: window.location.origin + '/api/kelas/' + id_prodi,
                                 type: 'GET',
                                 success: function(response) {
+                                    console.log(response)
                                     let options = `<option value="">Pilih Kelas</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.matkul} - ${data.kelas}</option>`
@@ -131,7 +132,8 @@
                                 url: window.location.origin + '/api/dosen/' + id_kelas,
                                 type: 'GET',
                                 success: function(response) {
-                                    $('input[name=dosen]').val(response.data)
+                                    console.log(response)
+                                    $('input[name=dosen]').val(response[0].dosen)
                                 },
                             })
                         }
