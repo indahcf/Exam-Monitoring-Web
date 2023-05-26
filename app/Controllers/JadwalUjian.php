@@ -231,7 +231,7 @@ class JadwalUjian extends BaseController
 
     public function kelas($id_prodi)
     {
-        $kelas = $this->jadwal_ujianModel->allKelas($id_prodi);
+        $kelas = $this->kelasModel->allKelas($id_prodi);
         return $this->response->setJSON($kelas);
     }
 
