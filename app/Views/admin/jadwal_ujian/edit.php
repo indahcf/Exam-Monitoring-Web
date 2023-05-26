@@ -127,7 +127,7 @@
 
                     function getDosen(id_kelas) {
                         if (id_kelas !== '') {
-                            let id_dosen = $('select[name=dosen]').data('value');
+                            let id_dosen = $('input[name=dosen]').data('value');
                             $.ajax({
                                 url: window.location.origin + '/api/dosen/' + id_kelas,
                                 type: 'GET',
