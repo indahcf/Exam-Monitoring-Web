@@ -42,21 +42,6 @@
                         </div>
                     </div> -->
 
-
-                    <div class="form-group">
-                        <label for="tahun_akademik">Tahun Akademik</label>
-                        <select class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik">
-                            <option value="">Pilih Tahun Akademik</option>
-                            <?php foreach ($tahun_akademik as $t) : ?>
-                                <option value="<?= $t['id_tahun_akademik']; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
-                                    <?= $t['tahun']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('tahun_akademik'); ?>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
@@ -73,7 +58,6 @@
                             <?= validation_show_error('prodi'); ?>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
                         <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">

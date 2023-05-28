@@ -31,7 +31,12 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $t['tahun']; ?></td>
                                     <td><?= $t['semester']; ?></td>
-                                    <td><?= $t['status'] == '1' ? 'Aktif' : 'Tidak Aktif'; ?></td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input status" checked>
+                                            <label class="custom-control-label" for="status"><?= $t['status'] == '1' ? 'Aktif' : 'Tidak Aktif'; ?></label>
+                                        </div>
+                                    </td>
                                     <td>
                                         <a href="/admin/tahun_akademik/edit/<?= $t['id_tahun_akademik']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
@@ -53,6 +58,42 @@
                         });
                     </script>
 
+                    <script>
+                        $(document).ready(function() {
+                            $('#status').boostrapToggle({
+                                on: 'Aktif',
+                                off: 'Tidak Aktif',
+                                onstyle: 'primary',
+                                offstyle: 'info'
+                            });
+
+                            $('#status').change(function() {
+                                if ($(this).prop('checked')) {
+                                    $('.status').val('Aktif');
+                                } else {
+                                    $('.status').val('Tidak Aktif');
+                                }
+                            });
+
+                            $('#insert_data').on('submit', function(event)) {
+                                event.preventDefault();
+
+                                $.ajax({
+
+                                    url: "insert.php"
+                                    method: "POST"
+                                    data: $(this).serialize(),
+                                    success: function(data) {
+
+                                        if (data == 'done') {
+                                            $('#insert_data')[0].reset();
+                                            $('#status').bootstrapToggle('on');
+                                        }
+                                    }
+                                });
+                            };
+                        });
+                    </script>
                 </div>
             </div>
         </div>

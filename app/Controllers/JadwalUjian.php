@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\DosenModel;
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\RuangUjianModel;
@@ -14,7 +13,7 @@ class JadwalUjian extends BaseController
     protected $jadwal_ujianModel;
     protected $prodiModel;
     protected $kelasModel;
-    protected $tahunAkademikModel;
+    protected $tahun_akademikModel;
     protected $ruang_ujianModel;
 
     public function __construct()
@@ -22,7 +21,6 @@ class JadwalUjian extends BaseController
         $this->jadwal_ujianModel = new JadwalUjianModel();
         $this->prodiModel = new ProdiModel();
         $this->kelasModel = new KelasModel();
-        $this->tahunAkademikModel = new TahunAkademikModel();
         $this->ruang_ujianModel = new RuangUjianModel();
         $this->tahun_akademikModel = new TahunAkademikModel();
     }
@@ -39,12 +37,12 @@ class JadwalUjian extends BaseController
 
     public function create()
     {
-        // dd($this->tahunAkademikModel->where('status', true)->first()['id_tahun_akademik']);
+        // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
         $data = [
             'title'         => 'Tambah Jadwal Ujian',
             'prodi'         => $this->prodiModel->getProdi(),
             'ruang_ujian'   => $this->ruang_ujianModel->getRuangUjian(),
-            'tahun_akademik' => $this->tahunAkademikModel->findAll(),
+            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
 
         ];
 
@@ -64,13 +62,6 @@ class JadwalUjian extends BaseController
             'ruang_ujian' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tahun_akademik' => [
-                'rules' => 'required',
-                'label' => 'Tahun Akademik',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -111,9 +102,8 @@ class JadwalUjian extends BaseController
             $this->jadwal_ujianModel->save([
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
-                'id_tahun_akademik' => $this->request->getVar('tahun_akademik'),
                 'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
-                'id_tahun_akademik' => $this->tahunAkademikModel->getAktif()['id_tahun_akademik'],
+                'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
                 'jam_selesai' => $this->request->getVar('jam_selesai')
@@ -152,7 +142,7 @@ class JadwalUjian extends BaseController
             'prodi' => $this->prodiModel->findAll(),
             'kelas' => $this->kelasModel->find($jadwalUjian['id_kelas']),
             'ruang_ujian' => $this->ruang_ujianModel->findAll(),
-            'tahun_akademik_aktif' => $this->tahunAkademikModel->find($jadwalUjian['id_tahun_akademik']),
+            'tahun_akademik_aktif' => $this->tahun_akademikModel->find($jadwalUjian['id_tahun_akademik']),
         ];
         return view('admin/jadwal_ujian/edit', $data);
     }
@@ -212,7 +202,6 @@ class JadwalUjian extends BaseController
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
                 'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
-                'id_tahun_akademik' => $this->request->getVar('tahun_akademik'),
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
                 'jam_selesai' => $this->request->getVar('jam_selesai')

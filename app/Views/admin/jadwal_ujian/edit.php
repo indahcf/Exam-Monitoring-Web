@@ -11,16 +11,6 @@
                     <?= csrf_field(); ?>
                     <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" value="<?= $jadwal_ujian['id_tahun_akademik'] ?>" hidden>
                     <div class="form-group">
-                        <label for="semester">Semester</label>
-                        <select class="form-control <?= (validation_show_error('semester')) ? 'is-invalid' : ''; ?>" id="semester" name="semester">
-                            <option value="">Pilih Semester</option>
-                            <option value="genap">Ganjil</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('semester'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
