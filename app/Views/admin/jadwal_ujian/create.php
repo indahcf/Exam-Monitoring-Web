@@ -125,6 +125,7 @@
                     }
 
                     function getDosen(id_kelas) {
+                        console.log(id_kelas)
                         if (id_kelas !== '') {
                             let id_dosen = $('input[name=dosen]').data('value');
                             $.ajax({
