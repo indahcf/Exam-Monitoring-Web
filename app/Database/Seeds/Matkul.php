@@ -16,6 +16,13 @@ class Matkul extends Seeder
                 'matkul'        => 'Matematika',
                 'jumlah_sks'    => 3,
                 'semester'      => 'Gasal'
+            ],
+            [
+                'id_prodi'      => 2,
+                'kode_matkul'   => 'TKS191012',
+                'matkul'        => 'Kalkulus',
+                'jumlah_sks'    => 3,
+                'semester'      => 'Gasal'
             ]
         ];
 

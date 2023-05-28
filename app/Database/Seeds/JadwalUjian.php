@@ -11,15 +11,13 @@ class JadwalUjian extends Seeder
         // membuat data
         $jadwal_ujian_data = [
             [
-                'id_prodi'           => 1,
                 'id_kelas'           => 1,
-                'id_dosen'           => 1,
                 'id_ruang_ujian'     => 1,
                 'id_tahun_akademik'  => 1,
                 'jumlah_peserta'     => 18,
                 'tanggal'            => '2023-05-25',
-                'jam_mulai'          => '07:30:00',
-                'jam_selesai'        => '10:00:00'
+                'jam_mulai'          => '07:30',
+                'jam_selesai'        => '10:00'
             ]
         ];
 
