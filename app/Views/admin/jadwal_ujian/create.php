@@ -9,6 +9,40 @@
                 <h4 class="card-title">Tambah Data Jadwal Ujian</h4>
                 <form action="<?= base_url('/admin/jadwal_ujian/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
+                    <!-- <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tahun_akademik">Tahun Akademik</label>
+                                <select class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik">
+                                    <option value="">Pilih Tahun Akademik</option>
+                                    <?php foreach ($tahun_akademik as $t) : ?>
+                                        <option value="<?= $t['id_tahun_akademik']; ?>" <?= $t['status'] == true ? 'selected' : '' ?>>
+                                            <?= $t['tahun']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('prodi'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="semester">Semester</label>
+                                <select class="form-control <?= (validation_show_error('semester')) ? 'is-invalid' : ''; ?>" id="semester" name="semester">
+                                    <option value="">Pilih Semester</option>
+                                    <option value="ganjil">Ganjil</option>
+                                    <option value="genap">Genap</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('semester'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
                     <div class="form-group">
                         <label for="tahun_akademik">Tahun Akademik</label>
                         <select class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik">
@@ -39,9 +73,11 @@
                             <?= validation_show_error('prodi'); ?>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
                         <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">
+                            <option value="">Pilih Kelas</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
@@ -107,26 +143,23 @@
                 <script>
                     $(document).ready(function() {
                         let id_prodi = $('select[name=prodi]').val();
-                        let id_kelas = $('select[name=kelas]').val();
                         console.log('prodi', id_prodi)
-                        console.log('kelas', id_prodi)
-                        if (id_prodi !== '') {
-                            getKelas(id_prodi)
-                        }
-                        if (id_kelas !== '') {
+                        getKelas(id_prodi)
+                        setTimeout(() => {
+                            let id_kelas = $('select[name=kelas]').val();
+                            console.log('kelas', id_kelas)
                             getDosen(id_kelas)
-                        }
-
+                        }, 1000);
                     })
 
                     function getKelas(id_prodi) {
                         if (id_prodi !== '') {
                             let id_kelas = $('select[name=kelas]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/kelas/' + id_prodi,
+                                url: window.location.origin + '/api/kelas?id_prodi=' + id_prodi,
                                 type: 'GET',
                                 success: function(response) {
-                                    console.log(response)
+                                    console.log('data kelas', response)
                                     let options = `<option value="">Pilih Kelas</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.matkul} - ${data.kelas}</option>`
@@ -139,19 +172,17 @@
                     }
 
                     function getDosen(id_kelas) {
-                        console.log(id_kelas)
                         if (id_kelas !== '') {
                             let id_dosen = $('input[name=dosen]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/dosen/' + id_kelas,
+                                url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
                                 type: 'GET',
                                 success: function(response) {
-                                    console.log(response)
-                                    $('input[name=dosen]').val(response[0].dosen)
+                                    console.log('data dosen', response)
+                                    $('input[name=dosen]').val(response.dosen)
                                 },
                             })
                         }
-
                     }
 
                     $('select[name=prodi]').on('change', function() {

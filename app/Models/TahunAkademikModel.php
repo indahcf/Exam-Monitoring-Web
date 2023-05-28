@@ -11,12 +11,8 @@ class TahunAkademikModel extends Model
     protected $allowedFields    = ['tahun', 'semester', 'status'];
     protected $useTimestamps    = true;
 
-    public function getTahunAkademik($id_tahun_akademik = false)
+    public function getAktif()
     {
-        if ($id_tahun_akademik == false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['tahun_akademik.id_tahun_akademik' => $id_tahun_akademik])->first();
+        return $this->where('status', true)->first();
     }
 }

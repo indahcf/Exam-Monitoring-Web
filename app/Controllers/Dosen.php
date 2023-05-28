@@ -150,4 +150,27 @@ class Dosen extends BaseController
 
         return redirect()->to('/admin/dosen');
     }
+
+    public function json($id = null)
+    {
+        if ($id) {
+            // dosen berdasarkan id_dosen
+            $dosen = $this->dosenModel->find($id);
+        } else {
+
+            $id_prodi = $this->request->getVar('id_prodi', null);
+            $id_kelas = $this->request->getVar('id_kelas', null);
+            if ($id_prodi != null) {
+                // dosen berdasarkan id_prodi
+                $dosen = $this->dosenModel->where('id_prodi', $id_prodi);
+            } else if ($id_kelas != null) {
+                // dosen berdasarkan id_kelas
+                $dosen = $this->dosenModel->getDosenByKelas($id_kelas);
+            } else {
+                // semua dosen 
+                $dosen = $this->dosenModel->findAll();
+            }
+        }
+        return $this->response->setJSON($dosen);
+    }
 }

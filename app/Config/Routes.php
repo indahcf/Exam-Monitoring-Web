@@ -65,8 +65,6 @@ $routes->post('/admin/kelas/save', 'Kelas::save');
 $routes->get('/admin/kelas/edit/(:segment)', 'Kelas::edit/$1');
 $routes->post('/admin/kelas/update/(:segment)', 'Kelas::update/$1');
 $routes->delete('/admin/kelas/(:num)', 'Kelas::delete/$1');
-$routes->get('api/matkul/(:num)', 'Kelas::matkul/$1');
-$routes->get('api/dosen/(:num)', 'Kelas::dosen/$1');
 
 $routes->get('/admin/ruang_ujian', 'RuangUjian::index');
 $routes->get('/admin/ruang_ujian/create', 'RuangUjian::create');
@@ -95,10 +93,16 @@ $routes->post('/admin/jadwal_ujian/save', 'JadwalUjian::save');
 $routes->get('/admin/jadwal_ujian/edit/(:segment)', 'JadwalUjian::edit/$1');
 $routes->post('/admin/jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1');
 $routes->delete('/admin/jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
-$routes->get('api/kelas/(:num)', 'JadwalUjian::kelas/$1');
-$routes->get('api/dosen/(:num)', 'JadwalUjian::dosen/$1');
 
 $routes->get('/admin/soal_ujian', 'Admin::soal_ujian');
+
+// API 
+$routes->get('api/dosen', 'Dosen::json');
+$routes->get('api/dosen/(:num)', 'Dosen::json/$1');
+$routes->get('api/matkul', 'Matkul::json');
+$routes->get('api/matkul/(:num)', 'Matkul::json/$1');
+$routes->get('api/kelas', 'Kelas::json');
+$routes->get('api/kelas/(:num)', 'Kelas::json/$1');
 
 /*
  * --------------------------------------------------------------------

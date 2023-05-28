@@ -29,6 +29,7 @@
                     <div class="form-group">
                         <label for="matkul">Mata Kuliah</label>
                         <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= old('matkul', $kelas['id_matkul']) ?>">
+                            <option value="">Pilih Matkul</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('matkul'); ?>
@@ -55,6 +56,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen', $kelas['id_dosen']) ?>">
+                                        <option value="">Pilih Dosen</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('dosen'); ?>
@@ -86,12 +88,8 @@
                         let id_asal_dosen = $('select[name=asal_dosen]').val();
                         console.log('prodi', id_prodi)
                         console.log('asal_dosen', id_prodi)
-                        if (id_prodi !== '') {
-                            getMatkul(id_prodi)
-                        }
-                        if (id_asal_dosen !== '') {
-                            getDosen(id_asal_dosen)
-                        }
+                        getMatkul(id_prodi)
+                        getDosen(id_asal_dosen)
 
                     })
 
@@ -99,7 +97,7 @@
                         if (id_prodi !== '') {
                             let id_matkul = $('select[name=matkul]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/matkul/' + id_prodi,
+                                url: window.location.origin + '/api/matkul?id_prodi=' + id_prodi,
                                 type: 'GET',
                                 success: function(response) {
                                     let options = `<option value="">Pilih Mata Kuliah</option>`
@@ -117,7 +115,7 @@
                         if (id_asal_dosen !== '') {
                             let id_dosen = $('select[name=dosen]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/dosen/' + id_asal_dosen,
+                                url: window.location.origin + '/api/dosen?id_prodi=' + id_asal_dosen,
                                 type: 'GET',
                                 success: function(response) {
                                     let options = `<option value="">Pilih Dosen Pengampu</option>`
