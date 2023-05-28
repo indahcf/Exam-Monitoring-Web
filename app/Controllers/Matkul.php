@@ -197,4 +197,23 @@ class Matkul extends BaseController
 
         return redirect()->to('/admin/matkul');
     }
+
+
+    public function json($id = null)
+    {
+        if ($id) {
+            // matkul berdasarkan id_matkul
+            $matkul = $this->matkulModel->find($id);
+        } else {
+            $id_prodi = $this->request->getVar('id_prodi', null);
+            if ($id_prodi !== null) {
+                // matkul berdasarkan id_prodi
+                $matkul = $this->matkulModel->where('id_prodi', $id_prodi);
+            } else {
+                // semua matkul 
+                $matkul = $this->matkulModel->findAll();
+            }
+        }
+        return $this->response->setJSON($matkul);
+    }
 }

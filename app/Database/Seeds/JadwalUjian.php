@@ -11,9 +11,7 @@ class JadwalUjian extends Seeder
         // membuat data
         $jadwal_ujian_data = [
             [
-                'id_prodi'           => 1,
                 'id_kelas'           => 1,
-                'id_dosen'           => 1,
                 'id_ruang_ujian'     => 1,
                 'id_tahun_akademik'  => 1,
                 'jumlah_peserta'     => 18,

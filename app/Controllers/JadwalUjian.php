@@ -7,20 +7,22 @@ use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\RuangUjianModel;
 use App\Models\JadwalUjianModel;
+use App\Models\TahunAkademikModel;
 
 class JadwalUjian extends BaseController
 {
     protected $jadwal_ujianModel;
     protected $prodiModel;
     protected $kelasModel;
-    protected $dosenModel;
+    protected $tahunAkademikModel;
     protected $ruang_ujianModel;
+
     public function __construct()
     {
         $this->jadwal_ujianModel = new JadwalUjianModel();
         $this->prodiModel = new ProdiModel();
         $this->kelasModel = new KelasModel();
-        $this->dosenModel = new DosenModel();
+        $this->tahunAkademikModel = new TahunAkademikModel();
         $this->ruang_ujianModel = new RuangUjianModel();
     }
 
@@ -36,10 +38,12 @@ class JadwalUjian extends BaseController
 
     public function create()
     {
+        // dd($this->tahunAkademikModel->where('status', true)->first()['id_tahun_akademik']);
         $data = [
             'title'         => 'Tambah Jadwal Ujian',
             'prodi'         => $this->prodiModel->getProdi(),
-            'ruang_ujian'   => $this->ruang_ujianModel->getRuangUjian()
+            'ruang_ujian'   => $this->ruang_ujianModel->getRuangUjian(),
+            'tahun_akademik' => $this->tahunAkademikModel->findAll(),
         ];
 
         return view('admin/jadwal_ujian/create', $data);
@@ -48,13 +52,6 @@ class JadwalUjian extends BaseController
     public function save()
     {
         if (!$this->validate([
-            'prodi' => [
-                'rules' => 'required',
-                'label' => 'Program Studi',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',
@@ -101,28 +98,20 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //cek validasi
-        // if ($this->kelasModel->where([
-        //     'id_prodi' => $this->request->getVar('prodi'),
-        //     'id_matkul' => $this->request->getVar('matkul'),
-        //     'id_dosen' => $this->request->getVar('dosen'),
-        //     'kelas' => $this->request->getVar('kelas')
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        // }
-
         try {
-            $this->kelasModel->save([
-                'id_prodi' => $this->request->getVar('prodi'),
+            $this->jadwal_ujianModel->save([
                 'id_kelas' => $this->request->getVar('kelas'),
-                'id_dosen' => $this->request->getVar('dosen'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
                 'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
-                'waktu_ujian' => $this->request->getVar('waktu_ujian')
+                'id_tahun_akademik' => $this->tahunAkademikModel->getAktif()['id_tahun_akademik'],
+                'tanggal' => $this->request->getVar('tanggal'),
+                'jam_mulai' => $this->request->getVar('jam_mulai'),
+                'jam_selesai' => $this->request->getVar('jam_selesai')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
-            session()->setFlashdata('error', 'Data Gagal Ditambahkan');
+            // dd($e);
+            session()->setFlashdata('error', $e->getMessage());
         }
 
         return redirect()->to('/admin/jadwal_ujian');
@@ -146,28 +135,21 @@ class JadwalUjian extends BaseController
 
     public function edit($id_jadwal_ujian)
     {
-        $id_dosen = $this->jadwal_ujianModel->find($id_jadwal_ujian)['id_dosen'];
+        $jadwalUjian = $this->jadwal_ujianModel->find($id_jadwal_ujian);
         $data = [
             'title' => 'Edit Jadwal Ujian',
-            'jadwal_ujian' => $this->jadwal_ujianModel->find($id_jadwal_ujian),
+            'jadwal_ujian' => $jadwalUjian,
             'prodi' => $this->prodiModel->findAll(),
+            'kelas' => $this->kelasModel->find($jadwalUjian['id_kelas']),
             'ruang_ujian' => $this->ruang_ujianModel->findAll(),
-            'kelas' => $this->dosenModel->find($id_dosen)['id_prodi']
+            'tahun_akademik_aktif' => $this->tahunAkademikModel->find($jadwalUjian['id_tahun_akademik']),
         ];
-
         return view('admin/jadwal_ujian/edit', $data);
     }
 
     public function update($id_jadwal_ujian)
     {
         if (!$this->validate([
-            'prodi' => [
-                'rules' => 'required',
-                'label' => 'Program Studi',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',
@@ -189,9 +171,23 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'waktu_ujian' => [
+            'tanggal' => [
                 'rules' => 'required',
-                'label' => 'Waktu Ujian',
+                'label' => 'Tanggal',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jam_mulai' => [
+                'rules' => 'required',
+                'label' => 'Jam Mulai',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jam_selesai' => [
+                'rules' => 'required',
+                'label' => 'Jam Selesai',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -200,44 +196,22 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //cek validasi
-        // if ($this->kelasModel->where([
-        //     'id_prodi' => $this->request->getVar('prodi'),
-        //     'id_matkul' => $this->request->getVar('matkul'),
-        //     'id_dosen' => $this->request->getVar('dosen'),
-        //     'kelas' => $this->request->getVar('kelas'),
-        //     'id_kelas !=' => $id_kelas
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
-        // }
-
         try {
             $this->jadwal_ujianModel->save([
                 'id_jadwal_ujian' => $id_jadwal_ujian,
-                'id_prodi' => $this->request->getVar('prodi'),
                 'id_kelas' => $this->request->getVar('kelas'),
-                'id_dosen' => $this->request->getVar('dosen'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
                 'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
-                'waktu_ujian' => $this->request->getVar('waktu_ujian')
+                'id_tahun_akademik' => $this->request->getVar('tahun_akademik'),
+                'tanggal' => $this->request->getVar('tanggal'),
+                'jam_mulai' => $this->request->getVar('jam_mulai'),
+                'jam_selesai' => $this->request->getVar('jam_selesai')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
-            session()->setFlashdata('error', 'Data Gagal Diubah');
+            session()->setFlashdata('error', $e->getMessage());
         }
 
         return redirect()->to('/admin/jadwal_ujian');
-    }
-
-    public function kelas($id_prodi)
-    {
-        $kelas = $this->kelasModel->allKelas($id_prodi);
-        return $this->response->setJSON($kelas);
-    }
-
-    public function dosen($id_kelas)
-    {
-        $dosen = $this->jadwal_ujianModel->allDosen($id_kelas);
-        return $this->response->setJSON($dosen);
     }
 }

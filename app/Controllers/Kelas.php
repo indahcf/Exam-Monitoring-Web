@@ -224,15 +224,22 @@ class Kelas extends BaseController
         return redirect()->to('/admin/kelas');
     }
 
-    public function matkul($id_prodi)
+    public function json($id = null)
     {
-        $matkul = $this->kelasModel->allMatkul($id_prodi);
-        return $this->response->setJSON($matkul);
-    }
+        if ($id) {
+            // kelas berdasarkan id_kelas
+            $kelas = $this->kelasModel->find($id);
+        } else {
 
-    public function dosen($id_prodi)
-    {
-        $dosen = $this->kelasModel->allDosen($id_prodi);
-        return $this->response->setJSON($dosen);
+            $id_prodi = $this->request->getVar('id_prodi', NULL);
+            if ($id_prodi !== NULL) {
+                // kelas berdasarkan id_prodi
+                $kelas = $this->kelasModel->getKelasByProdi($id_prodi);
+            } else {
+                // semua kelas 
+                $kelas = $this->kelasModel->findAll();
+            }
+        }
+        return $this->response->setJSON($kelas);
     }
 }

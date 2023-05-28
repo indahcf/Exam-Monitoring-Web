@@ -16,7 +16,7 @@ class TahunAkademik extends BaseController
     {
         $data = [
             'title' => 'Data Tahun Akademik',
-            'tahun_akademik' => $this->tahun_akademikModel->getTahunAkademik()
+            'tahun_akademik' => $this->tahun_akademikModel->findAll()
         ];
 
         return view('admin/tahun_akademik/index', $data);

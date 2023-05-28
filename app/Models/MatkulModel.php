@@ -11,12 +11,8 @@ class MatkulModel extends Model
     protected $allowedFields    = ['id_prodi', 'kode_matkul', 'matkul', 'jumlah_sks', 'semester'];
     protected $useTimestamps    = true;
 
-    public function getMatkul($id_matkul = false)
+    public function getMatkul()
     {
-        if ($id_matkul == false) {
-            return $this->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
-        }
-
-        return $this->where(['matkul.id_matkul' => $id_matkul])->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->first();
+        return $this->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
     }
 }

@@ -11,12 +11,15 @@ class DosenModel extends Model
     protected $allowedFields    = ['id_prodi', 'nidn', 'dosen'];
     protected $useTimestamps    = true;
 
-    public function getDosen($id_dosen = false)
+    public function getDosen()
     {
-        if ($id_dosen == false) {
-            return $this->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->findAll();
-        }
+        return $this->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->findAll();
+    }
 
-        return $this->where(['dosen.id_dosen' => $id_dosen])->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->first();
+    public function getDosenByKelas($id_kelas)
+    {
+        $id_dosen = $this->db->table('kelas')->where('id_kelas', $id_kelas)->Get()->getRow()->id_dosen;
+
+        return $this->find($id_dosen);
     }
 }
