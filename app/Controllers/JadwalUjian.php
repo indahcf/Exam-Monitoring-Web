@@ -123,7 +123,6 @@ class JadwalUjian extends BaseController
         // }
 
         // dd([
-        //     'id_prodi' => $this->request->getVar('prodi'),
         //     'id_kelas' => $this->request->getVar('kelas'),
         //     'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
         //     'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
@@ -133,8 +132,7 @@ class JadwalUjian extends BaseController
         // ]);
 
         try {
-            $this->kelasModel->save([
-                'id_prodi' => $this->request->getVar('prodi'),
+            $this->jadwal_ujianModel->save([
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
                 'id_tahun_akademik' => $this->request->getVar('tahun_akademik'),
@@ -237,7 +235,6 @@ class JadwalUjian extends BaseController
         try {
             $this->jadwal_ujianModel->save([
                 'id_jadwal_ujian' => $id_jadwal_ujian,
-                'id_prodi' => $this->request->getVar('prodi'),
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
                 'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
