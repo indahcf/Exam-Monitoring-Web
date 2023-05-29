@@ -28,7 +28,7 @@
                             <?= validation_show_error('semester'); ?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" id="status" name="status">
                             <option value="">Pilih Status</option>
@@ -38,7 +38,7 @@
                         <div class="invalid-feedback">
                             <?= validation_show_error('status'); ?>
                         </div>
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
             </div>

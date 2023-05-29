@@ -86,6 +86,7 @@ $routes->post('/admin/tahun_akademik/save', 'TahunAkademik::save');
 $routes->get('/admin/tahun_akademik/edit/(:segment)', 'TahunAkademik::edit/$1');
 $routes->post('/admin/tahun_akademik/update/(:segment)', 'TahunAkademik::update/$1');
 $routes->delete('/admin/tahun_akademik/(:num)', 'TahunAkademik::delete/$1');
+$routes->post('/admin/tahun_akademik/update_status/(:segment)', 'TahunAkademik::update_status/$1');
 
 $routes->get('/admin/jadwal_ujian', 'JadwalUjian::index');
 $routes->get('/admin/jadwal_ujian/create', 'JadwalUjian::create');

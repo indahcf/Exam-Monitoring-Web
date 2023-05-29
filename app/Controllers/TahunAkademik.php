@@ -48,14 +48,14 @@ class TahunAkademik extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ],
-            'status' => [
-                'rules' => 'required',
-                'label' => 'Status',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
             ]
+            // 'status' => [
+            //     'rules' => 'required',
+            //     'label' => 'Status',
+            //     'errors' => [
+            //         'required' => '{field} harus diisi.'
+            //     ]
+            // ]
         ])) {
             return redirect()->back()->withInput();
         }
@@ -71,8 +71,8 @@ class TahunAkademik extends BaseController
         try {
             $this->tahun_akademikModel->save([
                 'tahun' => $this->request->getVar('tahun'),
-                'semester' => $this->request->getVar('semester'),
-                'status' => $this->request->getVar('status')
+                'semester' => $this->request->getVar('semester')
+                // 'status' => $this->request->getVar('status')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
@@ -125,14 +125,14 @@ class TahunAkademik extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ],
-            'status' => [
-                'rules' => 'required',
-                'label' => 'Status',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
             ]
+            // 'status' => [
+            //     'rules' => 'required',
+            //     'label' => 'Status',
+            //     'errors' => [
+            //         'required' => '{field} harus diisi.'
+            //     ]
+            // ]
         ])) {
             return redirect()->back()->withInput();
         }
@@ -149,8 +149,8 @@ class TahunAkademik extends BaseController
             $this->tahun_akademikModel->save([
                 'id_tahun_akademik' => $id_tahun_akademik,
                 'tahun' => $this->request->getVar('tahun'),
-                'semester' => $this->request->getVar('semester'),
-                'status' => $this->request->getVar('status')
+                'semester' => $this->request->getVar('semester')
+                // 'status' => $this->request->getVar('status')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
@@ -158,5 +158,18 @@ class TahunAkademik extends BaseController
         }
 
         return redirect()->to('/admin/tahun_akademik');
+    }
+
+    public function update_status($id_tahun_akademik)
+    {
+        try {
+            $this->tahun_akademikModel->save([
+                'id_tahun_akademik' => $id_tahun_akademik,
+                'status' => $this->request->getVar('status')
+            ]);
+            return $this->response->setJSON(['success' => true, 'message' => 'Data Berhasil Diubah']);
+        } catch (\Exception $e) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Data Gagal Diubah']);
+        }
     }
 }
