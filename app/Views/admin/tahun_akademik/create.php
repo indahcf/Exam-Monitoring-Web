@@ -10,10 +10,10 @@
                 <form action="<?= base_url('/admin/tahun_akademik/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <label for="tahun">Tahun Akademik</label>
-                        <input type="text" class="form-control <?= (validation_show_error('tahun')) ? 'is-invalid' : ''; ?>" id="tahun" name="tahun" value="<?= old('tahun'); ?>" placeholder="Tahun Akademik">
+                        <label for="tahun_akademik">Tahun Akademik</label>
+                        <input type="text" class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik" value="<?= old('tahun_akademik'); ?>" placeholder="Tahun Akademik">
                         <div class="invalid-feedback">
-                            <?= validation_show_error('tahun'); ?>
+                            <?= validation_show_error('tahun_akademik'); ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -27,17 +27,6 @@
                             <?= validation_show_error('semester'); ?>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" id="status" name="status">
-                            <option value="">Pilih Status</option>
-                            <option value="1" <?= old('status') == '1' ? 'selected' : '';  ?>>Aktif</option>
-                            <option value="0" <?= old('status') == '0' ? 'selected' : '';  ?>>Tidak Aktif</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('status'); ?>
-                        </div>
-                    </div> -->
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>
                 </form>
             </div>

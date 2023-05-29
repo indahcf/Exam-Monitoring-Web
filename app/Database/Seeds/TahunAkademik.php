@@ -11,14 +11,12 @@ class TahunAkademik extends Seeder
         // membuat data
         $tahun_akademik_data = [
             [
-                'tahun'     => '2022/2023',
-                'semester'  => 'Gasal',
-                'status'     => 0,
+                'tahun_akademik'    => '2022/2023',
+                'semester'          => 'Gasal'
             ],
             [
-                'tahun'     => '2022/2023',
-                'semester'  => 'Genap',
-                'status'     => 1
+                'tahun_akademik'    => '2022/2023',
+                'semester'          => 'Genap'
             ]
         ];
 

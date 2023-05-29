@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tahun</th>
+                                <th>Tahun Akademik</th>
                                 <th>Semester</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -29,12 +29,12 @@
                             <?php foreach ($tahun_akademik as $t) : ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
-                                    <td><?= $t['tahun']; ?></td>
+                                    <td><?= $t['tahun_akademik']; ?></td>
                                     <td><?= $t['semester']; ?></td>
                                     <td>
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input status" id="status" data-id="<?= $t['id_tahun_akademik']; ?>" checked>
-                                            <label class="custom-control-label status" id="status" for="status"></label>
+                                            <input type="checkbox" class="custom-control-input status" name="status" id="status-<?= $t['id_tahun_akademik']; ?>" data-id="<?= $t['id_tahun_akademik']; ?>" <?= $t['status'] == '1' ? 'disabled' : ''; ?> <?= $t['status'] == '1' ? 'checked' : ''; ?>>
+                                            <label class="custom-control-label label_status" data-id="<?= $t['id_tahun_akademik']; ?>" for="status-<?= $t['id_tahun_akademik']; ?>"><?= $t['status'] == '1' ? 'Aktif' : 'Tidak Aktif'; ?></label>
                                         </div>
                                     </td>
                                     <td>
@@ -60,35 +60,55 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#status').change(function() {
-                                if ($(this).prop('checked')) {
-                                    $('.status').val(1);
-                                } else {
-                                    $('.status').val(0);
-                                }
-                            });
-
-                            $('#status').on('change', function(event) {
-                                event.preventDefault();
-                                console.log($(this).val())
-                                let id = $(this).data('id')
-                                $.ajax({
-                                    url: "/admin/tahun_akademik/update_status/" + id,
-                                    method: "POST",
-                                    // data: $(this).serialize(),
-                                    data: {
-                                        status: $(this).val()
-                                    },
-                                    success: function(data) {
-                                        // success: function(response) {
-                                        //     console.log(response);
-                                        // if (data == 'done') {
-                                        //     // $('.update_status')[0].reset();
-                                        //     $('#status').bootstrapToggle('on');
-                                        // }
+                            $('input[name=status]').on('change', function() {
+                                let id = $(this).data('id');
+                                // ubah label yg diklik jadi aktif 
+                                $(this).next().text('Aktif');
+                                // disable input yg sudah aktif 
+                                $(this).prop('disabled', true);
+                                // uncheck input, enable iput, dan ubah label jadi tidak aktif di tahun akademik yg lain 
+                                $('input[name=status]').each((i, el) => {
+                                    if ($(el).data('id') != id) {
+                                        $(el).prop('checked', false)
+                                        $(el).prop('disabled', false)
+                                        $(el).next().text('Tidak Aktif');
                                     }
                                 });
-                            });
+                                console.log('id', id)
+                                $.ajax({
+                                    url: "/admin/tahun_akademik/update_status/" + id,
+                                    type: "POST",
+                                    success: function(response) {
+                                        if (response.success) {
+                                            Swal.fire(
+                                                'Success!',
+                                                response.message,
+                                                'success'
+                                            ).then(function() {
+                                                // location.reload()
+                                            })
+                                        } else {
+                                            Swal.fire(
+                                                'Oops!',
+                                                response.message,
+                                                'error'
+                                            ).then(function() {
+                                                location.reload()
+                                            })
+                                        }
+
+                                    },
+                                    error: function(xhr, ajaxOptions, thrownError) {
+                                        Swal.fire(
+                                            'Oops!',
+                                            'Gagal diaktifkan!',
+                                            'error'
+                                        ).then(function() {
+                                            location.reload()
+                                        })
+                                    }
+                                });
+                            })
                         });
                     </script>
                 </div>

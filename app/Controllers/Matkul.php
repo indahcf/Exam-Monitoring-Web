@@ -208,7 +208,7 @@ class Matkul extends BaseController
             $id_prodi = $this->request->getVar('id_prodi', null);
             if ($id_prodi !== null) {
                 // matkul berdasarkan id_prodi
-                $matkul = $this->matkulModel->where('id_prodi', $id_prodi);
+                $matkul = $this->matkulModel->where('id_prodi', $id_prodi)->findAll();
             } else {
                 // semua matkul 
                 $matkul = $this->matkulModel->findAll();

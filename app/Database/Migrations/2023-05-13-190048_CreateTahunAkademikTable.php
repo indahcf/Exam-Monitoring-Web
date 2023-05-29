@@ -12,9 +12,9 @@ class CreateTahunAkademikTable extends Migration
         //Tahun Akademik
         $this->forge->addField([
             'id_tahun_akademik'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'tahun'                 => ['type' => 'varchar', 'constraint' => 255],
+            'tahun_akademik'        => ['type' => 'varchar', 'constraint' => 255],
             'semester'              => ['type' => 'enum', 'constraint' => ['Gasal', 'Genap']],
-            'status'                => ['type' => 'boolean'],
+            'status'                => ['type' => 'boolean', 'default' => 0],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);

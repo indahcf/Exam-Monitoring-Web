@@ -162,7 +162,7 @@ class Dosen extends BaseController
             $id_kelas = $this->request->getVar('id_kelas', null);
             if ($id_prodi != null) {
                 // dosen berdasarkan id_prodi
-                $dosen = $this->dosenModel->where('id_prodi', $id_prodi);
+                $dosen = $this->dosenModel->where('id_prodi', $id_prodi)->findAll();
             } else if ($id_kelas != null) {
                 // dosen berdasarkan id_kelas
                 $dosen = $this->dosenModel->getDosenByKelas($id_kelas);

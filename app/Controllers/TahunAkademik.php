@@ -35,7 +35,7 @@ class TahunAkademik extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'tahun' => [
+            'tahun_akademik' => [
                 'rules' => 'required',
                 'label' => 'Tahun Akademik',
                 'errors' => [
@@ -49,20 +49,13 @@ class TahunAkademik extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ]
-            // 'status' => [
-            //     'rules' => 'required',
-            //     'label' => 'Status',
-            //     'errors' => [
-            //         'required' => '{field} harus diisi.'
-            //     ]
-            // ]
         ])) {
             return redirect()->back()->withInput();
         }
 
         //cek tahun dan semester
         if ($this->tahun_akademikModel->where([
-            'tahun' => $this->request->getVar('tahun'),
+            'tahun_akademik' => $this->request->getVar('tahun_akademik'),
             'semester' => $this->request->getVar('semester')
         ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
@@ -70,9 +63,8 @@ class TahunAkademik extends BaseController
 
         try {
             $this->tahun_akademikModel->save([
-                'tahun' => $this->request->getVar('tahun'),
+                'tahun_akademik' => $this->request->getVar('tahun_akademik'),
                 'semester' => $this->request->getVar('semester')
-                // 'status' => $this->request->getVar('status')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
@@ -112,7 +104,7 @@ class TahunAkademik extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'tahun' => [
+            'tahun_akademik' => [
                 'rules' => 'required',
                 'label' => 'Tahun Akademik',
                 'errors' => [
@@ -126,20 +118,13 @@ class TahunAkademik extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ]
-            // 'status' => [
-            //     'rules' => 'required',
-            //     'label' => 'Status',
-            //     'errors' => [
-            //         'required' => '{field} harus diisi.'
-            //     ]
-            // ]
         ])) {
             return redirect()->back()->withInput();
         }
 
         //cek tahun dan semester
         if ($this->tahun_akademikModel->where([
-            'tahun' => $this->request->getVar('tahun'),
+            'tahun_akademik' => $this->request->getVar('tahun_akademik'),
             'semester' => $this->request->getVar('semester')
         ])->where('id_tahun_akademik !=', $id_tahun_akademik)->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
@@ -148,7 +133,7 @@ class TahunAkademik extends BaseController
         try {
             $this->tahun_akademikModel->save([
                 'id_tahun_akademik' => $id_tahun_akademik,
-                'tahun' => $this->request->getVar('tahun'),
+                'tahun_akademik' => $this->request->getVar('tahun_akademik'),
                 'semester' => $this->request->getVar('semester')
                 // 'status' => $this->request->getVar('status')
             ]);
@@ -160,16 +145,13 @@ class TahunAkademik extends BaseController
         return redirect()->to('/admin/tahun_akademik');
     }
 
-    public function update_status($id_tahun_akademik)
+    public function update_status($id)
     {
         try {
-            $this->tahun_akademikModel->save([
-                'id_tahun_akademik' => $id_tahun_akademik,
-                'status' => $this->request->getVar('status')
-            ]);
-            return $this->response->setJSON(['success' => true, 'message' => 'Data Berhasil Diubah']);
+            $this->tahun_akademikModel->setAktif($id);
+            return $this->response->setJson(['success' => true, 'message' => 'Berhasil Diaktifkan!']);
         } catch (\Exception $e) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Data Gagal Diubah']);
+            return $this->response->setJson(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 }
