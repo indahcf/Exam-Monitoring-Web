@@ -40,8 +40,8 @@ class JadwalUjian extends BaseController
         // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
         $data = [
             'title'         => 'Tambah Jadwal Ujian',
-            'prodi'         => $this->prodiModel->getProdi(),
-            'ruang_ujian'   => $this->ruang_ujianModel->getRuangUjian(),
+            'prodi'         => $this->prodiModel->findAll(),
+            'ruang_ujian'   => $this->ruang_ujianModel->findAll(),
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
 
         ];

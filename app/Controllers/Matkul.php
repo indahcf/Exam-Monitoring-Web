@@ -29,7 +29,7 @@ class Matkul extends BaseController
     {
         $data = [
             'title' => 'Tambah Mata Kuliah',
-            'prodi' => $this->prodiModel->getProdi()
+            'prodi' => $this->prodiModel->findAll()
         ];
 
         return view('admin/matkul/create', $data);

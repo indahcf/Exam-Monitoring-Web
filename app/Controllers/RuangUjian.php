@@ -98,7 +98,7 @@ class RuangUjian extends BaseController
         //validasi input
         if (!$this->validate([
             'ruang_ujian' => [
-                'rules' => 'required|is_unique[ruang_ujian.ruang_ujian,id_ruang_ujian,{id_ruang_ujian}]',
+                'rules' => 'required|is_unique[ruang_ujian.ruang_ujian,id_ruang_ujian,' . $id_ruang_ujian . ']',
                 'label' => 'Nama Ruang Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.',

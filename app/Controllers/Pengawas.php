@@ -98,7 +98,7 @@ class Pengawas extends BaseController
         //validasi input
         if (!$this->validate([
             'nip' => [
-                'rules' => 'required|is_unique[pengawas.nip,id_pengawas,{id_pengawas}]',
+                'rules' => 'required|is_unique[pengawas.nip,id_pengawas,' . $id_pengawas . ']',
                 'label' => 'NIP',
                 'errors' => [
                     'required' => '{field} harus diisi.',

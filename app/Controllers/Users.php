@@ -146,7 +146,6 @@ class Users extends BaseController
             $this->usersModel->save([
                 'id' => $id,
                 'fullname' => $this->request->getVar('fullname'),
-                'email' => $this->request->getVar('email'),
                 'role' => $this->request->getVar('role')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');

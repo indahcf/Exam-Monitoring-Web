@@ -35,7 +35,7 @@ class Kelas extends BaseController
     {
         $data = [
             'title'     => 'Tambah Kelas',
-            'prodi'     => $this->prodiModel->getProdi()
+            'prodi'     => $this->prodiModel->findAll()
         ];
 
         return view('admin/kelas/create', $data);

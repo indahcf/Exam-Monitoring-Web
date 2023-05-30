@@ -29,7 +29,7 @@ class Dosen extends BaseController
     {
         $data = [
             'title' => 'Tambah Dosen',
-            'prodi' => $this->prodiModel->getProdi()
+            'prodi' => $this->prodiModel->findAll()
         ];
 
         return view('admin/dosen/create', $data);
@@ -111,7 +111,7 @@ class Dosen extends BaseController
         //validasi input
         if (!$this->validate([
             'nidn' => [
-                'rules' => 'required|is_unique[dosen.nidn,id_dosen,{id_dosen}]',
+                'rules' => 'required|is_unique[dosen.nidn,id_dosen,' . $id_dosen . ']',
                 'label' => 'NIDN',
                 'errors' => [
                     'required' => '{field} harus diisi.',
