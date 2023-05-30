@@ -16,7 +16,7 @@ class Prodi extends BaseController
     {
         $data = [
             'title' => 'Data Program Studi',
-            'prodi' => $this->prodiModel->getProdi()
+            'prodi' => $this->prodiModel->findAll()
         ];
 
         return view('admin/prodi/index', $data);

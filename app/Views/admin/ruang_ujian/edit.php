@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Ruang Ujian</h4>
                 <form action="<?= base_url('/admin/ruang_ujian/update/' . $ruang_ujian['id_ruang_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <!-- <input type="hidden" name="id_ruang_ujian" value="<?= $ruang_ujian['id_ruang_ujian']; ?>"> -->
+                    <input type="hidden" name="id_ruang_ujian" value="<?= $ruang_ujian['id_ruang_ujian']; ?>">
                     <div class="form-group">
                         <label for="ruang_ujian">Nama Ruang Ujian</label>
                         <input type="text" class="form-control <?= (validation_show_error('ruang_ujian')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian" value="<?= old('ruang_ujian', $ruang_ujian['ruang_ujian']); ?>" placeholder="Nama Ruang Ujian">

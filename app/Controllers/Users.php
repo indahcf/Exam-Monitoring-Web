@@ -17,7 +17,7 @@ class Users extends BaseController
     {
         $data = [
             'title' => 'Data User',
-            'users' => $this->usersModel->getUsers()
+            'users' => $this->usersModel->findAll()
         ];
 
         return view('admin/user/index', $data);

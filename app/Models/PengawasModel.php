@@ -10,13 +10,4 @@ class PengawasModel extends Model
     protected $primaryKey       = 'id_pengawas';
     protected $allowedFields    = ['nip', 'pengawas'];
     protected $useTimestamps    = true;
-
-    public function getPengawas($id_pengawas = false)
-    {
-        if ($id_pengawas == false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['pengawas.id_pengawas' => $id_pengawas])->first();
-    }
 }

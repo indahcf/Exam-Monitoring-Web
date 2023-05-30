@@ -10,13 +10,4 @@ class ProdiModel extends Model
     protected $primaryKey       = 'id_prodi';
     protected $allowedFields    = ['prodi'];
     protected $useTimestamps    = true;
-
-    public function getProdi($id_prodi = false)
-    {
-        if ($id_prodi == false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['prodi.id_prodi' => $id_prodi])->first();
-    }
 }

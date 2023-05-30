@@ -16,7 +16,7 @@ class RuangUjian extends BaseController
     {
         $data = [
             'title' => 'Data Ruang Ujian',
-            'ruang_ujian' => $this->ruang_ujianModel->getRuangUjian()
+            'ruang_ujian' => $this->ruang_ujianModel->findAll()
         ];
 
         return view('admin/ruang_ujian/index', $data);
