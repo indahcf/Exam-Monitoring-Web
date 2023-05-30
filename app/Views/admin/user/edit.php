@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data User</h4>
                 <form action="<?= base_url('/admin/user/update/' . $users['id']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id" value="<?= $users['id']; ?>">
+                    <!-- <input type="hidden" name="id" value="<?= $users['id']; ?>"> -->
                     <div class="form-group">
                         <label for="fullname">Nama User</label>
                         <input type="text" class="form-control <?= (validation_show_error('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" value="<?= old('fullname', $users['fullname']); ?>" placeholder="Nama User">

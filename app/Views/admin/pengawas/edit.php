@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Pengawas</h4>
                 <form action="<?= base_url('/admin/pengawas/update/' . $pengawas['id_pengawas']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id_pengawas" value="<?= $pengawas['id_pengawas']; ?>">
+                    <!-- <input type="hidden" name="id_pengawas" value="<?= $pengawas['id_pengawas']; ?>"> -->
                     <div class="form-group">
                         <label for="nip">NIP</label>
                         <input type="text" class="form-control <?= (validation_show_error('nip')) ? 'is-invalid' : ''; ?>" id="nip" name="nip" value="<?= old('nip', $pengawas['nip']); ?>" placeholder="NIP">

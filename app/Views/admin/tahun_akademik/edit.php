@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Tahun Akademik</h4>
                 <form action="<?= base_url('/admin/tahun_akademik/update/' . $tahun_akademik['id_tahun_akademik']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id_tahun_akademik" value="<?= $tahun_akademik['id_tahun_akademik']; ?>">
+                    <!-- <input type="hidden" name="id_tahun_akademik" value="<?= $tahun_akademik['id_tahun_akademik']; ?>"> -->
                     <div class="form-group">
                         <label for="tahun_akademik">Tahun Akademik</label>
                         <input type="text" class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik" value="<?= old('tahun_akademik', $tahun_akademik['tahun_akademik']); ?>" placeholder="Tahun Akademik">

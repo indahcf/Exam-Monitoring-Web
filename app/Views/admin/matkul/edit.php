@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Mata Kuliah</h4>
                 <form action="<?= base_url('/admin/matkul/update/' . $matkul['id_matkul']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id_matkul" value="<?= $matkul['id_matkul']; ?>">
+                    <!-- <input type="hidden" name="id_matkul" value="<?= $matkul['id_matkul']; ?>"> -->
                     <div class="form-group">
                         <label for="kode_matkul">Kode Mata Kuliah</label>
                         <input type="text" class="form-control <?= (validation_show_error('kode_matkul')) ? 'is-invalid' : ''; ?>" id="kode_matkul" name="kode_matkul" value="<?= old('kode_matkul', $matkul['kode_matkul']); ?>" placeholder="Kode Mata Kuliah">

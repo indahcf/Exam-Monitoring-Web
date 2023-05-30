@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Dosen</h4>
                 <form action="<?= base_url('/admin/dosen/update/' . $dosen['id_dosen']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id_dosen" value="<?= $dosen['id_dosen']; ?>">
+                    <!-- <input type="hidden" name="id_dosen" value="<?= $dosen['id_dosen']; ?>"> -->
                     <div class="form-group">
                         <label for="nidn">NIDN</label>
                         <input type="text" class="form-control <?= (validation_show_error('nidn')) ? 'is-invalid' : ''; ?>" id="nidn" name="nidn" value="<?= old('nidn', $dosen['nidn']); ?>" placeholder="NIDN">

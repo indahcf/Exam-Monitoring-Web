@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Kelas</h4>
                 <form action="<?= base_url('/admin/kelas/update/' . $kelas['id_kelas']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="hidden" name="id_kelas" value="<?= $kelas['id_kelas']; ?>">
+                    <!-- <input type="hidden" name="id_kelas" value="<?= $kelas['id_kelas']; ?>"> -->
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">

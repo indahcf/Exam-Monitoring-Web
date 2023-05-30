@@ -9,7 +9,7 @@
                 <h4 class="card-title">Edit Data Jadwal Ujian</h4>
                 <form action="<?= base_url('/admin/jadwal_ujian/update/' . $jadwal_ujian['id_jadwal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" value="<?= $jadwal_ujian['id_tahun_akademik'] ?>" hidden>
+                    <!-- <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" value="<?= $jadwal_ujian['id_tahun_akademik'] ?>" hidden> -->
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">

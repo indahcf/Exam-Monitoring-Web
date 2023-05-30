@@ -17,7 +17,7 @@
                                     <option value="">Pilih Tahun Akademik</option>
                                     <?php foreach ($tahun_akademik as $t) : ?>
                                         <option value="<?= $t['id_tahun_akademik']; ?>" <?= $t['status'] == true ? 'selected' : '' ?>>
-                                            <?= $t['tahun']; ?>
+                                            <?= $t['tahun_akademik']; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
