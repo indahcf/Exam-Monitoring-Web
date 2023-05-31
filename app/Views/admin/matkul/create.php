@@ -46,9 +46,11 @@
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
-                                <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
-                                    <?php echo $p['prodi']; ?>
-                                </option>
+                                <?php if ($p['prodi'] != 'Non Teknik') : ?>
+                                    <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
+                                        <?php echo $p['prodi']; ?>
+                                    </option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
