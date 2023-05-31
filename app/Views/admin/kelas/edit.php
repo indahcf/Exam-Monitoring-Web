@@ -16,7 +16,7 @@
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('id_prodi', $kelas['id_prodi']) == $p['id_prodi']) ? 'selected' : ''; ?>>
+                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('id_prodi', $prodi_kelas) == $p['id_prodi']) ? 'selected' : ''; ?>>
                                         <?= $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>

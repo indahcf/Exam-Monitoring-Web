@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
+use App\Models\MatkulModel;
 use App\Models\RuangUjianModel;
 use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
@@ -15,6 +16,7 @@ class JadwalUjian extends BaseController
     protected $kelasModel;
     protected $tahun_akademikModel;
     protected $ruang_ujianModel;
+    protected $matkulModel;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class JadwalUjian extends BaseController
         $this->kelasModel = new KelasModel();
         $this->ruang_ujianModel = new RuangUjianModel();
         $this->tahun_akademikModel = new TahunAkademikModel();
+        $this->matkulModel = new MatkulModel();
     }
 
     public function index()
@@ -136,6 +139,8 @@ class JadwalUjian extends BaseController
     public function edit($id_jadwal_ujian)
     {
         $jadwalUjian = $this->jadwal_ujianModel->find($id_jadwal_ujian);
+        $id_kelas = $this->jadwal_ujianModel->find($id_jadwal_ujian)['id_kelas'];
+        $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
@@ -143,6 +148,7 @@ class JadwalUjian extends BaseController
             'kelas' => $this->kelasModel->find($jadwalUjian['id_kelas']),
             'ruang_ujian' => $this->ruang_ujianModel->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($jadwalUjian['id_tahun_akademik']),
+            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi']
         ];
         return view('admin/jadwal_ujian/edit', $data);
     }

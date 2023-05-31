@@ -93,7 +93,7 @@ class Kelas extends BaseController
 
         //cek validasi
         if ($this->kelasModel->where([
-            'id_prodi' => $this->request->getVar('prodi'),
+            // 'id_prodi' => $this->request->getVar('prodi'),
             'id_matkul' => $this->request->getVar('matkul'),
             'id_dosen' => $this->request->getVar('dosen'),
             'kelas' => $this->request->getVar('kelas')
@@ -103,7 +103,6 @@ class Kelas extends BaseController
 
         try {
             $this->kelasModel->save([
-                'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
                 'id_dosen' => $this->request->getVar('dosen'),
                 'kelas' => $this->request->getVar('kelas'),
@@ -136,11 +135,13 @@ class Kelas extends BaseController
     public function edit($id_kelas)
     {
         $id_dosen = $this->kelasModel->find($id_kelas)['id_dosen'];
+        $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $data = [
             'title' => 'Edit Kelas',
             'kelas' => $this->kelasModel->find($id_kelas),
             'prodi' => $this->prodiModel->findAll(),
-            'asal_dosen' => $this->dosenModel->find($id_dosen)['id_prodi']
+            'asal_dosen' => $this->dosenModel->find($id_dosen)['id_prodi'],
+            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi']
         ];
 
         return view('admin/kelas/edit', $data);
@@ -198,7 +199,7 @@ class Kelas extends BaseController
 
         //cek validasi
         if ($this->kelasModel->where([
-            'id_prodi' => $this->request->getVar('prodi'),
+            // 'id_prodi' => $this->request->getVar('prodi'),
             'id_matkul' => $this->request->getVar('matkul'),
             'id_dosen' => $this->request->getVar('dosen'),
             'kelas' => $this->request->getVar('kelas'),
@@ -210,7 +211,6 @@ class Kelas extends BaseController
         try {
             $this->kelasModel->save([
                 'id_kelas' => $id_kelas,
-                'id_prodi' => $this->request->getVar('prodi'),
                 'id_matkul' => $this->request->getVar('matkul'),
                 'id_dosen' => $this->request->getVar('dosen'),
                 'kelas' => $this->request->getVar('kelas'),
