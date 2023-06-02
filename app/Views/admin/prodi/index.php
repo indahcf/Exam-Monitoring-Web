@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Program Studi</th>
+                                <th>Program Studi</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

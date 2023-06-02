@@ -14,51 +14,40 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="matkul" class="table table-striped">
+                    <table id="soal_ujian" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Kode Mata Kuliah</th>
-                                <th>Nama Mata Kuliah</th>
-                                <th>Jumlah SKS</th>
-                                <th>Semester</th>
+                                <th>Mata Kuliah</th>
                                 <th>Program Studi</th>
+                                <th>Dosen Pembuat Soal</th>
+                                <th>Kelas</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>12345</td>
-                                <td>Jaringan Komputer</td>
-                                <td>3</td>
-                                <td>Ganjil</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>11235</td>
-                                <td>Algoritma Pemrograman</td>
-                                <td>1</td>
-                                <td>Ganjil</td>
-                                <td>Informatika</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-rounded btn-icon">
-                                        <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-rounded btn-icon">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($soal_ujian as $s) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $s['kode_matkul']; ?></td>
+                                    <td><?= $s['matkul']; ?></td>
+                                    <td><?= $s['prodi']; ?></td>
+                                    <td><?= $s['dosen']; ?></td>
+                                    <td><?= $s['kelas']; ?></td>
+                                    <td><?= $s['status']; ?></td>
+                                    <td>
+                                        <a href="/admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 
@@ -66,7 +55,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#matkul').DataTable();
+                            $('#soal_ujian').DataTable();
                         });
                     </script>
 

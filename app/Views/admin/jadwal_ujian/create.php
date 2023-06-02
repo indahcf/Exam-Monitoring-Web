@@ -9,39 +9,6 @@
                 <h4 class="card-title">Tambah Data Jadwal Ujian</h4>
                 <form action="<?= base_url('/admin/jadwal_ujian/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
-                    <!-- <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="tahun_akademik">Tahun Akademik</label>
-                                <select class="form-control <?= (validation_show_error('tahun_akademik')) ? 'is-invalid' : ''; ?>" id="tahun_akademik" name="tahun_akademik">
-                                    <option value="">Pilih Tahun Akademik</option>
-                                    <?php foreach ($tahun_akademik as $t) : ?>
-                                        <option value="<?= $t['id_tahun_akademik']; ?>" <?= $t['status'] == true ? 'selected' : '' ?>>
-                                            <?= $t['tahun_akademik']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('prodi'); ?>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="semester">Semester</label>
-                                <select class="form-control <?= (validation_show_error('semester')) ? 'is-invalid' : ''; ?>" id="semester" name="semester">
-                                    <option value="">Pilih Semester</option>
-                                    <option value="ganjil">Ganjil</option>
-                                    <option value="genap">Genap</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('semester'); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
@@ -72,10 +39,10 @@
                         <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen') ?>" placeholder="Dosen" readonly>
                     </div>
                     <div id="ruangan">
-                        <div id="fg_ruangan_peserta">
+                        <div class="fg_ruangan_peserta">
                             <div class="form-group">
                                 <label for="ruang_ujian">Ruang Ujian</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian">
+                                <select class="form-control <?= (validation_show_error('ruang_ujian')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian</option>
                                     <?php foreach ($ruang_ujian as $r) : ?>
                                         <option value="<?= $r['id_ruang_ujian']; ?>" data-kapasitas="<?= $r['kapasitas'] ?>" <?= old('ruang_ujian') == $r['id_ruang_ujian'] ? 'selected' : '' ?>>
@@ -89,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="jumlah_peserta">Jumlah Peserta</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta" value="<?= old('jumlah_peserta'); ?>" placeholder="Jumlah Peserta">
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta'); ?>" placeholder="Jumlah Peserta">
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jumlah_peserta'); ?>
                                 </div>
@@ -176,34 +143,44 @@
                     function getPesertaKelas() {
                         let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
                         console.log('peserta_kelas', peserta_kelas);
-                        $('input[name=jumlah_peserta]').val(peserta_kelas);
+                        $('input[name^=jumlah_peserta]').val(peserta_kelas);
                     }
 
-                    function getKapasitasRuangan() {
+                    function setRuangan(el) {
                         let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
-                        let kapasitas_ruangan = $('select[name=ruang_ujian]').children('option:selected').data('kapasitas');
-                        if (peserta_kelas <= kapasitas_ruangan) {
-                            console.log('peserta_kelas', peserta_kelas);
-                            $('input[name=jumlah_peserta]').val(peserta_kelas);
-                        } else {
-                            console.log('kapasitas_ruangan', kapasitas_ruangan);
-                            $('input[name=jumlah_peserta]').val(kapasitas_ruangan);
-                        }
-                    }
-
-                    function getSisaPeserta() {
-                        let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
-                        let kapasitas_ruangan = $('select[name=ruang_ujian]').children('option:selected').data('kapasitas');
+                        let kapasitas_ruangan = el.children('option:selected').data('kapasitas');
                         let sisa_peserta = peserta_kelas - kapasitas_ruangan;
+                        console.log('peserta_kelas', peserta_kelas);
+                        console.log('kapasitas_ruangan', kapasitas_ruangan);
                         console.log('sisa_peserta', sisa_peserta);
-                        $('input[name=jumlah_peserta]').val(sisa_peserta);
-                        $('#fg_ruangan_peserta').clone().appendTo('#ruangan')
-                        if (sisa_peserta > 0) {
-                            $('input[name=jumlah_peserta]').val(kapasitas_ruangan);
+                        if (peserta_kelas <= kapasitas_ruangan) {
+                            $('input[name^=jumlah_peserta]').val(peserta_kelas);
                         } else {
-                            $('input[name=jumlah_peserta]').val(peserta_kelas);
+                            $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
+                            $('.fg_ruangan_peserta').clone().appendTo('#ruangan')
                         }
+
+                        // $('input[name^=jumlah_peserta]').val(sisa_peserta);
+                        // if (sisa_peserta > 0) {
+                        //     $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
+                        // } else {
+                        //     $('input[name^=jumlah_peserta]').val(peserta_kelas);
+                        // }
                     }
+
+                    // function getSisaPeserta(el) {
+                    //     let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
+                    //     let kapasitas_ruangan = $('select[name^=ruang_ujian]').children('option:selected').data('kapasitas');
+                    //     let sisa_peserta = peserta_kelas - kapasitas_ruangan;
+                    //     console.log('sisa_peserta', sisa_peserta);
+                    //     $('input[name^=jumlah_peserta]').val(sisa_peserta);
+                    //     $('.fg_ruangan_peserta').clone().appendTo('#ruangan')
+                    //     if (sisa_peserta > 0) {
+                    //         $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
+                    //     } else {
+                    //         $('input[name^=jumlah_peserta]').val(peserta_kelas);
+                    //     }
+                    // }
 
                     $('select[name=prodi]').on('change', function() {
                         getKelas(this.value)
@@ -214,9 +191,12 @@
                         getPesertaKelas()
                     })
 
-                    $('select[name=ruang_ujian]').on('change', function() {
-                        getKapasitasRuangan()
-                        getSisaPeserta()
+                    $('select[name^=ruang_ujian]').on('change', function() {
+                        setRuangan($(this))
+                        // getKapasitasRuangan($(this))
+                        // getSisaPeserta($(this))
+                        // console.log(this);
+                        console.log($(this))
                     })
 
                     // $('select[name=ruang_ujian]').clone().appendTo('#ruangan')

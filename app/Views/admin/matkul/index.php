@@ -19,7 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Mata Kuliah</th>
-                                <th>Nama Mata Kuliah</th>
+                                <th>Mata Kuliah</th>
                                 <th>Jumlah SKS</th>
                                 <th>Semester</th>
                                 <th>Program Studi</th>
