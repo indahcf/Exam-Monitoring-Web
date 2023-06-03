@@ -13,7 +13,6 @@ class CreateJadwalUjianTable extends Migration
         $this->forge->addField([
             'id_jadwal_ujian'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment'    => true],
             'id_kelas'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'id_ruang_ujian'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_tahun_akademik'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'jumlah_peserta'        => ['type' => 'int', 'constraint' => 11],
             'tanggal'               => ['type' => 'date'],
@@ -27,7 +26,6 @@ class CreateJadwalUjianTable extends Migration
 
         $this->forge->addKey('id_jadwal_ujian', true);
         $this->forge->addForeignKey('id_kelas', 'kelas', 'id_kelas');
-        $this->forge->addForeignKey('id_ruang_ujian', 'ruang_ujian', 'id_ruang_ujian');
         $this->forge->addForeignKey('id_tahun_akademik', 'tahun_akademik', 'id_tahun_akademik');
 
         $this->forge->createTable('jadwal_ujian', true);

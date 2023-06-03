@@ -17,5 +17,6 @@ class TestSeeder extends Seeder
         $this->call('TahunAkademik');
         $this->call('Kelas');
         $this->call('JadwalUjian');
+        $this->call('JadwalRuang');
     }
 }
