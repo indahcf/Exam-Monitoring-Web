@@ -199,7 +199,7 @@
                         // total select ruangan yg belum dipilih 
                         let select_ruangan_kosong = getEmptySelect()
 
-                        if (total_kapasitas <= peserta_kelas && select_ruangan_kosong == 0) {
+                        if (total_kapasitas < peserta_kelas && select_ruangan_kosong == 0) {
                             // tambah ruangan 
                             let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
                             fg_ruangan_peserta.find('input[select^=ruang_ujian]').val('')

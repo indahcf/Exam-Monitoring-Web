@@ -6,11 +6,13 @@ use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\MatkulModel;
 use App\Models\RuangUjianModel;
+use App\Models\JadwalRuangModel;
 use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
 
 class JadwalUjian extends BaseController
 {
+    protected $jadwal_ruangModel;
     protected $jadwal_ujianModel;
     protected $prodiModel;
     protected $kelasModel;
@@ -20,6 +22,7 @@ class JadwalUjian extends BaseController
 
     public function __construct()
     {
+        $this->jadwal_ruangModel = new JadwalRuangModel();
         $this->jadwal_ujianModel = new JadwalUjianModel();
         $this->prodiModel = new ProdiModel();
         $this->kelasModel = new KelasModel();
@@ -62,14 +65,14 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'ruang_ujian' => [
+            'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'jumlah_peserta' => [
+            'jumlah_peserta.*' => [
                 'rules' => 'required',
                 'label' => 'Jumlah Peserta',
                 'errors' => [
@@ -104,8 +107,6 @@ class JadwalUjian extends BaseController
         try {
             $this->jadwal_ujianModel->save([
                 'id_kelas' => $this->request->getVar('kelas'),
-                'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
-                'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),

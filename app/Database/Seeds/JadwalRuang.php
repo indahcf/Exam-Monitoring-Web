@@ -12,7 +12,8 @@ class JadwalRuang extends Seeder
         $jadwal_ruang_data = [
             [
                 'id_jadwal_ujian'    => 1,
-                'id_ruang_ujian'     => 1
+                'id_ruang_ujian'     => 1,
+                'jumlah_peserta'     => 58
             ]
         ];
 

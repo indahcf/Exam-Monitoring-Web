@@ -13,7 +13,6 @@ class JadwalUjian extends Seeder
             [
                 'id_kelas'           => 1,
                 'id_tahun_akademik'  => 1,
-                'jumlah_peserta'     => 18,
                 'tanggal'            => '2023-05-25',
                 'jam_mulai'          => '07:30',
                 'jam_selesai'        => '10:00'
