@@ -118,6 +118,19 @@ class JadwalUjian extends BaseController
             session()->setFlashdata('error', $e->getMessage());
         }
 
+        $id_jadwal_ujian = $this->jadwal_ujianModel->getInsertID();
+        $ruang_ujian = $this->request->getVar('ruang_ujian');
+        $jumlah_peserta = $this->request->getVar('jumlah_peserta');
+        $jadwal_ruangan = [];
+        foreach ($ruang_ujian as $i => $r) {
+            $jadwal_ruangan[] = [
+                'id_jadwal_ujian' => $id_jadwal_ujian,
+                'id_ruang_ujian' => $r,
+                'jumlah_peserta' => $jumlah_peserta[$i]
+            ];
+        }
+        $this->jadwal_ruangModel->insertBatch($jadwal_ruangan);
+
         return redirect()->to('/admin/jadwal_ujian');
     }
 
