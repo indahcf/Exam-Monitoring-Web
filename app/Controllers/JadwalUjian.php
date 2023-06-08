@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\MatkulModel;
@@ -19,6 +20,7 @@ class JadwalUjian extends BaseController
     protected $tahun_akademikModel;
     protected $ruang_ujianModel;
     protected $matkulModel;
+    protected $db;
 
     public function __construct()
     {
@@ -29,6 +31,7 @@ class JadwalUjian extends BaseController
         $this->ruang_ujianModel = new RuangUjianModel();
         $this->tahun_akademikModel = new TahunAkademikModel();
         $this->matkulModel = new MatkulModel();
+        $this->db = \Config\Database::connect();
     }
 
     public function index()
@@ -105,31 +108,33 @@ class JadwalUjian extends BaseController
         }
 
         try {
-            $this->jadwal_ujianModel->save([
+            $this->db->transException(true)->transStart();
+            $this->db->table('jadwal_ujian')->insert([
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
                 'jam_selesai' => $this->request->getVar('jam_selesai')
             ]);
+
+            $id_jadwal_ujian = $this->db->insertID();
+            $ruang_ujian = $this->request->getVar('ruang_ujian');
+            $jumlah_peserta = $this->request->getVar('jumlah_peserta');
+            $jadwal_ruangan = [];
+            foreach ($ruang_ujian as $i => $r) {
+                $jadwal_ruangan[] = [
+                    'id_jadwal_ujian' => $id_jadwal_ujian,
+                    'id_ruang_ujian' => $r,
+                    'jumlah_peserta' => $jumlah_peserta[$i]
+                ];
+            }
+            $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+            $this->db->transComplete();
+
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
-        } catch (\Exception $e) {
-            // dd($e);
+        } catch (DatabaseException $e) {
             session()->setFlashdata('error', $e->getMessage());
         }
-
-        $id_jadwal_ujian = $this->jadwal_ujianModel->getInsertID();
-        $ruang_ujian = $this->request->getVar('ruang_ujian');
-        $jumlah_peserta = $this->request->getVar('jumlah_peserta');
-        $jadwal_ruangan = [];
-        foreach ($ruang_ujian as $i => $r) {
-            $jadwal_ruangan[] = [
-                'id_jadwal_ujian' => $id_jadwal_ujian,
-                'id_ruang_ujian' => $r,
-                'jumlah_peserta' => $jumlah_peserta[$i]
-            ];
-        }
-        $this->jadwal_ruangModel->insertBatch($jadwal_ruangan);
 
         return redirect()->to('/admin/jadwal_ujian');
     }

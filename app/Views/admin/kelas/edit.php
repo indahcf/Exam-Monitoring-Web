@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="matkul">Mata Kuliah</label>
                         <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= old('matkul', $kelas['id_matkul']) ?>">
-                            <option value="">Pilih Matkul</option>
+                            <option value="">Pilih Mata Kuliah</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('matkul'); ?>
@@ -118,7 +118,7 @@
                                 url: window.location.origin + '/api/dosen?id_prodi=' + id_asal_dosen,
                                 type: 'GET',
                                 success: function(response) {
-                                    let options = `<option value="">Pilih Dosen Pengampu</option>`
+                                    let options = `<option value="">Pilih Dosen</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_dosen}" ${id_dosen == data.id_dosen ? 'selected' : ''}>${data.dosen}</option>`
                                     }

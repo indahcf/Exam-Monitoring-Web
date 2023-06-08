@@ -33,11 +33,16 @@
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $kelas['id_dosen']) ?>" placeholder="Dosen" readonly>
-                    </div> -->
+                        <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen', $kelas['id_dosen']) ?>">
+                            <option value="">Pilih Dosen</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('dosen'); ?>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
                         <input type="file" class="form-control <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian', $soal_ujian['soal_ujian']); ?>" placeholder="Soal Ujian">

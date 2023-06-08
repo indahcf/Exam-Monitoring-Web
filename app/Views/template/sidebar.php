@@ -4,13 +4,13 @@
         <?php if (user()->role == 'Admin') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url(''); ?>">
-                    <i class="icon-grid menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="icon-layout menu-icon"></i>
+                    <i class="ti-server menu-icon"></i>
                     <span class="menu-title">Data Master</span>
                     <i class="menu-arrow"></i>
                 </a>
@@ -29,13 +29,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/jadwal_ujian'); ?>">
-                    <i class="icon-columns menu-icon"></i>
+                    <i class="ti-calendar menu-icon"></i>
                     <span class="menu-title">Jadwal Ujian</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/soal_ujian'); ?>">
-                    <i class="icon-bar-graph menu-icon"></i>
+                    <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
@@ -44,13 +44,13 @@
         <?php if (user()->role == 'Dosen') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#tables">
-                    <i class="icon-grid-2 menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#tables">
-                    <i class="icon-grid-2 menu-icon"></i>
+                    <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
@@ -59,13 +59,13 @@
         <?php if (user()->role == 'Gugus Kendali Mutu') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#icons">
-                    <i class="icon-contract menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#auth">
-                    <i class="icon-head menu-icon"></i>
+                    <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
@@ -74,19 +74,19 @@
         <?php if (user()->role == 'Panitia') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
-                    <i class="icon-ban menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="icon-paper menu-icon"></i>
+                    <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="icon-layout menu-icon"></i>
+                    <i class="ti-user menu-icon"></i>
                     <span class="menu-title">Kehadiran</span>
                     <i class="menu-arrow"></i>
                 </a>
@@ -102,13 +102,13 @@
         <?php if (user()->role == 'Pengawas') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
-                    <i class="icon-ban menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="icon-paper menu-icon"></i>
+                    <i class="ti-user menu-icon"></i>
                     <span class="menu-title">Kehadiran Peserta</span>
                 </a>
             </li>
@@ -117,19 +117,19 @@
         <?php if (user()->role == 'Koordinator') : ?>
             <li class="nav-item">
                 <a class="nav-link" href="#error">
-                    <i class="icon-ban menu-icon"></i>
+                    <i class="ti-home menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="icon-paper menu-icon"></i>
+                    <i class="ti-user menu-icon"></i>
                     <span class="menu-title">Kehadiran Peserta</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="icon-paper menu-icon"></i>
+                    <i class="ti-user menu-icon"></i>
                     <span class="menu-title">Kehadiran Pengawas</span>
                 </a>
             </li>

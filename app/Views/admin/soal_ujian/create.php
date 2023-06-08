@@ -27,17 +27,22 @@
                     </div>
                     <!-- <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">
+                        <select multiple placeholder="Pilih Kelas" data-allow-clear="1" class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">
                             <option value="">Pilih Kelas</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen') ?>" placeholder="Dosen" readonly>
-                    </div> -->
+                        <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
+                            <option value="">Pilih Dosen</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('dosen'); ?>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
                         <input type="file" class="form-control <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian'); ?>" placeholder="Soal Ujian">
@@ -83,113 +88,16 @@
                 </form>
 
                 <script>
-                    $(document).ready(function() {
-                        let id_prodi = $('select[name=prodi]').val();
-                        console.log('prodi', id_prodi)
-                        getKelas(id_prodi)
-                        setTimeout(() => {
-                            let id_kelas = $('select[name=kelas]').val();
-                            // console.log('kelas', id_kelas)
-                            getDosen(id_kelas)
-                        }, 1000);
-                    })
-
-                    function getKelas(id_prodi) {
-                        if (id_prodi !== '') {
-                            let id_kelas = $('select[name=kelas]').data('value');
-                            $.ajax({
-                                url: window.location.origin + '/api/kelas?id_prodi=' + id_prodi,
-                                type: 'GET',
-                                success: function(response) {
-                                    // console.log('data kelas', response)
-                                    let options = `<option value="">Pilih Kelas</option>`
-                                    for (const data of response) {
-                                        options += `<option value="${data.id_kelas}" data-peserta="${data.jumlah_mahasiswa}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.matkul} - ${data.kelas}</option>`
-                                    }
-                                    $('select[name=kelas]').html(options)
-                                },
-                            })
-                        }
-
-                    }
-
-                    function getDosen(id_kelas) {
-                        if (id_kelas !== '') {
-                            let id_dosen = $('input[name=dosen]').data('value');
-                            $.ajax({
-                                url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
-                                type: 'GET',
-                                success: function(response) {
-                                    // console.log('data dosen', response)
-                                    $('input[name=dosen]').val(response.dosen)
-                                },
-                            })
-                        }
-                    }
-
-                    function getPesertaKelas() {
-                        let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
-                        console.log('peserta_kelas', peserta_kelas);
-                        $('input[name^=jumlah_peserta]').val(peserta_kelas);
-                    }
-
-                    function setRuangan(el) {
-                        let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
-                        let kapasitas_ruangan = el.children('option:selected').data('kapasitas');
-                        let sisa_peserta = peserta_kelas - kapasitas_ruangan;
-                        console.log('peserta_kelas', peserta_kelas);
-                        console.log('kapasitas_ruangan', kapasitas_ruangan);
-                        console.log('sisa_peserta', sisa_peserta);
-                        if (peserta_kelas <= kapasitas_ruangan) {
-                            $('input[name^=jumlah_peserta]').val(peserta_kelas);
-                        } else {
-                            $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
-                            $('.fg_ruangan_peserta').clone().appendTo('#ruangan')
-                        }
-
-                        // $('input[name^=jumlah_peserta]').val(sisa_peserta);
-                        // if (sisa_peserta > 0) {
-                        //     $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
-                        // } else {
-                        //     $('input[name^=jumlah_peserta]').val(peserta_kelas);
-                        // }
-                    }
-
-                    // function getSisaPeserta(el) {
-                    //     let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta');
-                    //     let kapasitas_ruangan = $('select[name^=ruang_ujian]').children('option:selected').data('kapasitas');
-                    //     let sisa_peserta = peserta_kelas - kapasitas_ruangan;
-                    //     console.log('sisa_peserta', sisa_peserta);
-                    //     $('input[name^=jumlah_peserta]').val(sisa_peserta);
-                    //     $('.fg_ruangan_peserta').clone().appendTo('#ruangan')
-                    //     if (sisa_peserta > 0) {
-                    //         $('input[name^=jumlah_peserta]').val(kapasitas_ruangan);
-                    //     } else {
-                    //         $('input[name^=jumlah_peserta]').val(peserta_kelas);
-                    //     }
-                    // }
-
-                    $('select[name=prodi]').on('change', function() {
-                        getKelas(this.value)
-                    })
-
-                    $('select[name=kelas]').on('change', function() {
-                        getDosen(this.value)
-                        getPesertaKelas()
-                    })
-
-                    $('select[name^=ruang_ujian]').on('change', function() {
-                        setRuangan($(this))
-                        // getKapasitasRuangan($(this))
-                        // getSisaPeserta($(this))
-                        // console.log(this);
-                        console.log($(this))
-                    })
-
-                    // $('select[name=ruang_ujian]').clone().appendTo('#ruangan')
-                    // $('select[name=jumlah_peserta]').on('change', function() {
-                    //     getSisaPeserta()
-                    // })
+                    $(function() {
+                        $('#kelas').each(function() {
+                            $(this).select2({
+                                theme: 'bootstrap4',
+                                width: 'style',
+                                placeholder: $(this).attr('placeholder'),
+                                allowClear: Boolean($(this).data('allow-clear')),
+                            });
+                        });
+                    });
                 </script>
             </div>
         </div>
