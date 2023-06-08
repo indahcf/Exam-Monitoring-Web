@@ -250,7 +250,22 @@
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
                     })
 
-                    function getRuangan() {}
+                    function getRuangan(tanggal, jam_mulai, jam_selesai) {
+                        if (tanggal, jam_mulai, jam_selesai != NULL) {
+                            let id_ruang_ujian = $('select[name=ruang_ujian]').data('value');
+                            $.ajax({
+                                url: window.location.origin + '/api/ruang_ujian?id_kelas=' + id_kelas,
+                                type: 'GET',
+                                success: function(response) {
+                                    let options = `<option value="">Pilih Ruang Ujian</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_ruang_ujian}" ${id_ruang_ujian == data.id_ruang_ujian ? 'selected' : ''} data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
+                                    }
+                                    $('select[name=ruang_ujian]').val(response.ruang_ujian)
+                                }
+                            })
+                        }
+                    }
                 </script>
             </div>
         </div>
