@@ -40,27 +40,6 @@
                         <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $kelas['id_dosen']) ?>" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ruang_ujian">Ruang Ujian</label>
-                        <select class="form-control <?= (validation_show_error('ruang_ujian')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian">
-                            <option value="">Pilih Ruang Ujian</option>
-                            <?php foreach ($ruang_ujian as $r) : ?>
-                                <option value="<?= $r['id_ruang_ujian']; ?>" <?= (old('id_ruang_ujian', $jadwal_ujian['id_ruang_ujian']) == $r['id_ruang_ujian']) ? 'selected' : ''; ?>>
-                                    <?= $r['ruang_ujian']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('ruang_ujian'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="jumlah_peserta">Jumlah Peserta</label>
-                        <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta" value="<?= old('jumlah_peserta', $jadwal_ujian['jumlah_peserta']); ?>" placeholder="Jumlah Peserta">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('jumlah_peserta'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="tanggal">Tanggal</label>
                         <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal', $jadwal_ujian['tanggal']); ?>" placeholder="Tanggal">
                         <div class="invalid-feedback">
@@ -87,6 +66,27 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruang_ujian">Ruang Ujian</label>
+                        <select class="form-control <?= (validation_show_error('ruang_ujian')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian">
+                            <option value="">Pilih Ruang Ujian</option>
+                            <?php foreach ($ruang_ujian as $r) : ?>
+                                <option value="<?= $r['id_ruang_ujian']; ?>" <?= (old('id_ruang_ujian', $jadwal_ujian['id_ruang_ujian']) == $r['id_ruang_ujian']) ? 'selected' : ''; ?>>
+                                    <?= $r['ruang_ujian']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('ruang_ujian'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_peserta">Jumlah Peserta</label>
+                        <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta" value="<?= old('jumlah_peserta', $jadwal_ujian['jumlah_peserta']); ?>" placeholder="Jumlah Peserta">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('jumlah_peserta'); ?>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>

@@ -129,4 +129,24 @@ class RuangUjian extends BaseController
 
         return redirect()->to('/admin/ruang_ujian');
     }
+
+    public function json($id = null)
+    {
+        if ($id) {
+            // ruang_ujian yg belum digunakan di tanggal, jam_mulai, jam_selesai yg dipilih
+            $ruang_ujian = $this->ruang_ujianModel->find($id);
+        } else {
+            $tanggal = $this->request->getVar('tanggal', NULL);
+            $jam_mulai = $this->request->getVar('jam_mulai', NULL);
+            $jam_selesai = $this->request->getVar('jam_selesai', NULL);
+            if ($tanggal && $jam_mulai && $jam_selesai !== NULL) {
+                // ruang_ujian berdasarkan tanggal, jam_mulai, jam_selesai
+                $ruang_ujian = $this->ruang_ujianModel->getRuanganTersedia($tanggal, $jam_mulai, $jam_selesai);
+            } else {
+                // semua ruang_ujian
+                $ruang_ujian = $this->ruang_ujianModel->findAll();
+            }
+        }
+        return $this->response->setJSON($ruang_ujian);
+    }
 }

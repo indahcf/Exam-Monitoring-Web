@@ -109,6 +109,8 @@ $routes->get('api/matkul', 'Matkul::json');
 $routes->get('api/matkul/(:num)', 'Matkul::json/$1');
 $routes->get('api/kelas', 'Kelas::json');
 $routes->get('api/kelas/(:num)', 'Kelas::json/$1');
+$routes->get('api/ruang_ujian', 'RuangUjian::json');
+$routes->get('api/ruang_ujian/(:num)', 'RuangUjian::json/$1');
 
 /*
  * --------------------------------------------------------------------

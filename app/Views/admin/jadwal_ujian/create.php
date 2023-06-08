@@ -38,31 +38,6 @@
                         <label for="dosen">Dosen</label>
                         <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen') ?>" placeholder="Dosen" readonly>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
-                        <div class="row fg_ruangan_peserta">
-                            <div class="form-group col-md-6">
-                                <label for="ruang_ujian">Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
-                                    <option value="">Pilih Ruang Ujian</option>
-                                    <?php foreach ($ruang_ujian as $r) : ?>
-                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= old('ruang_ujian.0') == $r['id_ruang_ujian'] ? 'selected' : '' ?> data-kapasitas="<?= $r['kapasitas'] ?>">
-                                            <?= $r['ruang_ujian']; ?> (kap: <?= $r['kapasitas']; ?> orang)
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('ruang_ujian.1'); ?>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="jumlah_peserta">Jumlah Peserta Ruang 1</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0'); ?>" placeholder="Jumlah Peserta" readonly>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('jumlah_peserta.1'); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
                         <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal'); ?>" placeholder="Tanggal">
@@ -88,6 +63,31 @@
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('jam_selesai'); ?>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
+                        <div class="row fg_ruangan_peserta">
+                            <div class="form-group col-md-6">
+                                <label for="ruang_ujian">Ruang Ujian 1</label>
+                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
+                                    <option value="">Pilih Ruang Ujian</option>
+                                    <?php foreach ($ruang_ujian as $r) : ?>
+                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= old('ruang_ujian.0') == $r['id_ruang_ujian'] ? 'selected' : '' ?> data-kapasitas="<?= $r['kapasitas'] ?>">
+                                            <?= $r['ruang_ujian']; ?> (kap: <?= $r['kapasitas']; ?> orang)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('ruang_ujian.1'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="jumlah_peserta">Jumlah Peserta Ruang 1</label>
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0'); ?>" placeholder="Jumlah Peserta" readonly>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('jumlah_peserta.1'); ?>
                                 </div>
                             </div>
                         </div>
@@ -248,8 +248,9 @@
                         console.log('peserta kelas', peserta_kelas)
                         console.log('total kapasitas', total_kapasitas)
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
-
                     })
+
+                    function getRuangan() {}
                 </script>
             </div>
         </div>
