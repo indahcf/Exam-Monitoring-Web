@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
-                        <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal'); ?>" placeholder="Tanggal">
+                        <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="" data-value="<?= old('tanggal'); ?>" placeholder="Tanggal">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tanggal'); ?>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <label for="jam_mulai">Jam Mulai</label>
-                                    <input type="time" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="<?= old('jam_mulai'); ?>" placeholder="Jam Mulai">
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="" data-value="<?= old('jam_mulai'); ?>" placeholder="Jam Mulai">
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('jam_mulai'); ?>
                                     </div>
@@ -59,7 +59,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <label for="jam_selesai">Jam Selesai</label>
-                                    <input type="time" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="<?= old('jam_selesai'); ?>" placeholder="Jam Selesai">
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="" data-value="<?= old('jam_selesai'); ?>" placeholder="Jam Selesai">
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('jam_selesai'); ?>
                                     </div>
@@ -98,7 +98,9 @@
                 <script>
                     $(document).ready(function() {
                         let id_prodi = $('select[name=prodi]').val();
-
+                        let tanggal = $('input[name=tanggal]').val();
+                        let jam_mulai = $('input[name=jam_mulai]').val();
+                        let jam_selesai = $('input[name=jam_selesai]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
                         for (const i in old_ruangan) {
@@ -250,22 +252,39 @@
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
                     })
 
-                    function getRuangan(tanggal, jam_mulai, jam_selesai) {
-                        if (tanggal, jam_mulai, jam_selesai != NULL) {
-                            let id_ruang_ujian = $('select[name=ruang_ujian]').data('value');
+                    function getRuanganTersedia(tanggal, jam_mulai, jam_selesai) {
+                        let tanggal = $('input[name=tanggal]').val();
+                        let jam_mulai = $('input[name=jam_mulai]').val();
+                        let jam_selesai = $('input[name=jam_selesai]').val();
+                        if (tanggal != null && jam_mulai != null && jam_selesai != null) {
+                            console.log('tanggal', tanggal)
+                            console.log('jam mulai', jam_mulai)
+                            console.log('jam selesai', jam_selesai)
                             $.ajax({
-                                url: window.location.origin + '/api/ruang_ujian?id_kelas=' + id_kelas,
+                                url: window.location.origin + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
                                 type: 'GET',
                                 success: function(response) {
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
-                                        options += `<option value="${data.id_ruang_ujian}" ${id_ruang_ujian == data.id_ruang_ujian ? 'selected' : ''} data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
+                                        options += `<option value="${data.id_ruang_ujian}" data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
                                     }
-                                    $('select[name=ruang_ujian]').val(response.ruang_ujian)
+                                    $('select[name=ruang_ujian]').html(options)
                                 }
                             })
                         }
                     }
+
+                    $('input[name=tanggal]').on('change', function() {
+                        getRuanganTersedia(this.value)
+                    })
+
+                    $('input[name=jam_mulai]').on('change', function() {
+                        getRuanganTersedia(this.value)
+                    })
+
+                    $('input[name=jam_selesai]').on('change', function() {
+                        getRuanganTersedia(this.value)
+                    })
                 </script>
             </div>
         </div>
