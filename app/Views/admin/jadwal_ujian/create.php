@@ -98,9 +98,6 @@
                 <script>
                     $(document).ready(function() {
                         let id_prodi = $('select[name=prodi]').val();
-                        let tanggal = $('input[name=tanggal]').val();
-                        let jam_mulai = $('input[name=jam_mulai]').val();
-                        let jam_selesai = $('input[name=jam_selesai]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
                         for (const i in old_ruangan) {
@@ -252,7 +249,7 @@
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
                     })
 
-                    function getRuanganTersedia(tanggal, jam_mulai, jam_selesai) {
+                    function getRuanganTersedia() {
                         let tanggal = $('input[name=tanggal]').val();
                         let jam_mulai = $('input[name=jam_mulai]').val();
                         let jam_selesai = $('input[name=jam_selesai]').val();
@@ -275,15 +272,15 @@
                     }
 
                     $('input[name=tanggal]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        // getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_mulai]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        // getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_selesai]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        // getRuanganTersedia(this.value)
                     })
                 </script>
             </div>

@@ -136,6 +136,7 @@ class RuangUjian extends BaseController
             // ruang_ujian yg belum digunakan di tanggal, jam_mulai, jam_selesai yg dipilih
             $ruang_ujian = $this->ruang_ujianModel->find($id);
         } else {
+            // dd($this->request->getGet());
             $tanggal = $this->request->getVar('tanggal', NULL);
             $jam_mulai = $this->request->getVar('jam_mulai', NULL);
             $jam_selesai = $this->request->getVar('jam_selesai', NULL);

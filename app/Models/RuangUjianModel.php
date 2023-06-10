@@ -13,6 +13,6 @@ class RuangUjianModel extends Model
 
     public function getRuanganTersedia($tanggal, $jam_mulai, $jam_selesai)
     {
-        return $this->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->join('ruang_ujian', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->where('jadwal_ujian !=', $tanggal)->where('jadwal_ujian !=', $jam_mulai)->where('jadwal_ujian !=', $jam_selesai)->Get()->getResultArray();
+        return $this->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where('jadwal_ujian.tanggal !=', $tanggal)->where('jadwal_ujian.jam_mulai !=', $jam_mulai)->where('jadwal_ujian.jam_selesai !=', $jam_selesai)->Get()->getResultArray();
     }
 }
