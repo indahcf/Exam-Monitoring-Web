@@ -13,7 +13,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
+                <div>
                     <table id="jadwal_ujian" class="table table-striped">
                         <thead>
                             <tr>
@@ -63,7 +63,9 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#jadwal_ujian').DataTable();
+                            $('#jadwal_ujian').DataTable({
+                                "scrollX": true
+                            });
                         });
                     </script>
 
