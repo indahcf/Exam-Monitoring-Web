@@ -13,8 +13,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table id="ruang_ujian" class="table table-striped">
+                <div>
+                    <table id="ruang_ujian" class="table table-striped w-100">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -47,7 +47,9 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#ruang_ujian').DataTable();
+                            $('#ruang_ujian').DataTable({
+                                "scrollX": true
+                            });
                         });
                     </script>
 

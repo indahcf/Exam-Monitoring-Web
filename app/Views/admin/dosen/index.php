@@ -13,8 +13,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table id="dosen" class="table table-striped">
+                <div>
+                    <table id="dosen" class="table table-striped w-100">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -49,7 +49,9 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#dosen').DataTable();
+                            $('#dosen').DataTable({
+                                "scrollX": true
+                            });
                         });
                     </script>
 

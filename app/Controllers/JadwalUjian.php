@@ -107,6 +107,23 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
+        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
+        if ($this->jadwal_ujianModel->where([
+            'id_kelas' => $this->request->getVar('kelas'),
+            'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
+        ])->first()) {
+            return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
+        }
+
+        //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
+        if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
+            'tanggal' => $this->request->getVar('tanggal'),
+            'jam_mulai' => $this->request->getVar('jam_mulai'),
+            'jam_selesai' => $this->request->getVar('jam_selesai')
+        ])->first()) {
+            return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
+        }
+
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('jadwal_ujian')->insert([
@@ -219,6 +236,25 @@ class JadwalUjian extends BaseController
             ]
         ])) {
             return redirect()->back()->withInput();
+        }
+
+        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
+        if ($this->jadwal_ujianModel->where([
+            'id_kelas' => $this->request->getVar('kelas'),
+            'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
+            'id_jadwal_ujian !=' => $id_jadwal_ujian
+        ])->first()) {
+            return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
+        }
+
+        //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
+        if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
+            'tanggal' => $this->request->getVar('tanggal'),
+            'jam_mulai' => $this->request->getVar('jam_mulai'),
+            'jam_selesai' => $this->request->getVar('jam_selesai'),
+            'id_jadwal_ujian !=' => $id_jadwal_ujian
+        ])->first()) {
+            return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
         }
 
         try {
