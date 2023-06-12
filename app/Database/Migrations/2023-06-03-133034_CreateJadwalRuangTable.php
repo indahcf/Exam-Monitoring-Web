@@ -20,8 +20,8 @@ class CreateJadwalRuangTable extends Migration
         ]);
 
         $this->forge->addKey('id_jadwal_ruang', true);
-        $this->forge->addForeignKey('id_jadwal_ujian', 'jadwal_ujian', 'id_jadwal_ujian');
-        $this->forge->addForeignKey('id_ruang_ujian', 'ruang_ujian', 'id_ruang_ujian');
+        $this->forge->addForeignKey('id_jadwal_ujian', 'jadwal_ujian', 'id_jadwal_ujian', 'CASCADE', 'CASCADE', 'fk_jadwal_ujian');
+        $this->forge->addForeignKey('id_ruang_ujian', 'ruang_ujian', 'id_ruang_ujian', 'CASCADE', 'CASCADE', 'fk_ruang_ujian');
 
         $this->forge->createTable('jadwal_ruang', true);
     }
