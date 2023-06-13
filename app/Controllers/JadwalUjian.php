@@ -199,14 +199,14 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'ruang_ujian' => [
+            'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'jumlah_peserta' => [
+            'jumlah_peserta.*' => [
                 'rules' => 'required',
                 'label' => 'Jumlah Peserta',
                 'errors' => [
@@ -258,15 +258,28 @@ class JadwalUjian extends BaseController
         }
 
         try {
-            $this->jadwal_ujianModel->save([
-                'id_jadwal_ujian' => $id_jadwal_ujian,
+            $this->db->transException(true)->transStart();
+            $this->db->table('jadwal_ujian')->where('id_jadwal_ujian', $id_jadwal_ujian)->update([
                 'id_kelas' => $this->request->getVar('kelas'),
-                'id_ruang_ujian' => $this->request->getVar('ruang_ujian'),
-                'jumlah_peserta' => $this->request->getVar('jumlah_peserta'),
+                'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
                 'jam_selesai' => $this->request->getVar('jam_selesai')
             ]);
+
+            $ruang_ujian = $this->request->getVar('ruang_ujian');
+            $jumlah_peserta = $this->request->getVar('jumlah_peserta');
+            $jadwal_ruangan = [];
+            foreach ($ruang_ujian as $i => $r) {
+                $jadwal_ruangan[] = [
+                    'id_jadwal_ujian' => $id_jadwal_ujian,
+                    'id_ruang_ujian' => $r,
+                    'jumlah_peserta' => $jumlah_peserta[$i]
+                ];
+            }
+            $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+            $this->db->transComplete();
+
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
             session()->setFlashdata('error', $e->getMessage());

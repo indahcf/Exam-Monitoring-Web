@@ -135,7 +135,6 @@
                                 },
                             })
                         }
-
                     }
 
                     function getDosen(id_kelas) {
