@@ -39,8 +39,9 @@ class JadwalUjian extends BaseController
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $this->jadwal_ujianModel->getJadwalUjian()
+            // 'jadwal_ujian' => $this->jadwal_ujianModel->cobaLeftJoin()
         ];
-
+        dd($data);
         return view('admin/jadwal_ujian/index', $data);
     }
 
