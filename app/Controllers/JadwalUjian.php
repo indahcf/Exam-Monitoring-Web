@@ -41,7 +41,7 @@ class JadwalUjian extends BaseController
             'jadwal_ujian' => $this->jadwal_ujianModel->getJadwalUjian()
             // 'jadwal_ujian' => $this->jadwal_ujianModel->cobaLeftJoin()
         ];
-        dd($data);
+        // dd($data);
         return view('admin/jadwal_ujian/index', $data);
     }
 
