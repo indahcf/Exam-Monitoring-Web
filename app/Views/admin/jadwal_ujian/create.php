@@ -271,15 +271,15 @@
                     }
 
                     $('input[name=tanggal]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_mulai]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_selesai]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
                 </script>
             </div>
