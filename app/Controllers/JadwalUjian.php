@@ -39,9 +39,8 @@ class JadwalUjian extends BaseController
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $this->jadwal_ujianModel->getJadwalUjian()
-            // 'jadwal_ujian' => $this->jadwal_ujianModel->cobaLeftJoin()
         ];
-        // dd($data);
+
         return view('admin/jadwal_ujian/index', $data);
     }
 
@@ -62,23 +61,16 @@ class JadwalUjian extends BaseController
     public function save()
     {
         if (!$this->validate([
+            'prodi' => [
+                'rules' => 'required',
+                'label' => 'Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'ruang_ujian.*' => [
-                'rules' => 'required',
-                'label' => 'Ruang Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'jumlah_peserta.*' => [
-                'rules' => 'required',
-                'label' => 'Jumlah Peserta',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -103,7 +95,21 @@ class JadwalUjian extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ]
+            ],
+            'ruang_ujian.*' => [
+                'rules' => 'required',
+                'label' => 'Ruang Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'jumlah_peserta.*' => [
+                'rules' => 'required',
+                'label' => 'Jumlah Peserta',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
         ])) {
             return redirect()->back()->withInput();
         }
@@ -178,6 +184,8 @@ class JadwalUjian extends BaseController
         $jadwalUjian = $this->jadwal_ujianModel->find($id_jadwal_ujian);
         $id_kelas = $this->jadwal_ujianModel->find($id_jadwal_ujian)['id_kelas'];
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
+        // $id_jadwal_ruang = $this->jadwal_ruangModel->find($id_jadwal_ujian)['id_jadwal_ruang'];
+        // $id_ruang_ujian = $this->jadwal_ujianModel->find($id_jadwal_ruang)['id_ruang_ujian'];
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
@@ -185,7 +193,8 @@ class JadwalUjian extends BaseController
             'kelas' => $this->kelasModel->find($jadwalUjian['id_kelas']),
             'ruang_ujian' => $this->ruang_ujianModel->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($jadwalUjian['id_tahun_akademik']),
-            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi']
+            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
+            // 'ruangan' => $this->jadwal_ujianModel->find($id_ruang_ujian)['id_jadwal_ruang']
         ];
         return view('admin/jadwal_ujian/edit', $data);
     }
