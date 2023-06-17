@@ -140,11 +140,8 @@ class RuangUjian extends BaseController
             $tanggal = $this->request->getVar('tanggal', null);
             $jam_mulai = $this->request->getVar('jam_mulai', null);
             $jam_selesai = $this->request->getVar('jam_selesai', null);
-            // dd($this->ruang_ujianModel->getRuanganTersedia($tanggal, $jam_mulai, $jam_selesai));
-            // dd($this->ruang_ujianModel->cobaRawQuery($tanggal, $jam_mulai, $jam_selesai));
             if ($tanggal !== null && $jam_mulai !== null && $jam_selesai !== null) {
                 // ruang_ujian berdasarkan tanggal, jam_mulai, jam_selesai
-                // $ruang_ujian = $this->ruang_ujianModel->getRuanganTersedia($tanggal, $jam_mulai, $jam_selesai);
                 $ruang_ujian = $this->ruang_ujianModel->getRuanganTersedia($tanggal, $jam_mulai, $jam_selesai);
             } else {
                 // semua ruang_ujian

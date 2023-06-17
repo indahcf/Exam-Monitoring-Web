@@ -260,11 +260,12 @@
                                 url: window.location.origin + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
                                 type: 'GET',
                                 success: function(response) {
+                                    console.log('data ruang', response)
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_ruang_ujian}" data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
                                     }
-                                    $('select[name=ruang_ujian]').html(options)
+                                    $('select[name^=ruang_ujian]').html(options)
                                 }
                             })
                         }
