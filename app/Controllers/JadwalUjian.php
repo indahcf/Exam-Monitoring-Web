@@ -40,7 +40,7 @@ class JadwalUjian extends BaseController
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $this->jadwal_ujianModel->getJadwalUjian()
         ];
-
+        // dd($data);
         return view('admin/jadwal_ujian/index', $data);
     }
 

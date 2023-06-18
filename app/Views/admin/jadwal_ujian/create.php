@@ -73,18 +73,13 @@
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
                                 <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian</option>
-                                    <?php foreach ($ruang_ujian as $r) : ?>
-                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= old('ruang_ujian.0') == $r['id_ruang_ujian'] ? 'selected' : '' ?> data-kapasitas="<?= $r['kapasitas'] ?>">
-                                            <?= $r['ruang_ujian']; ?> (kap: <?= $r['kapasitas']; ?> orang)
-                                        </option>
-                                    <?php endforeach; ?>
                                 </select>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('ruang_ujian.1'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="jumlah_peserta">Jumlah Peserta Ruang 1</label>
+                                <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
                                 <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0'); ?>" placeholder="Jumlah Peserta" readonly>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jumlah_peserta.1'); ?>
@@ -263,7 +258,7 @@
                                     console.log('data ruang', response)
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
-                                        options += `<option value="${data.id_ruang_ujian}" data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
+                                        options += `<option value="${data.id_ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas} orang)</option>`
                                     }
                                     $('select[name^=ruang_ujian]').html(options)
                                 }
