@@ -36,7 +36,7 @@ class SoalUjian extends BaseController
             'title' => 'Data Soal Ujian',
             'soal_ujian' => $this->soal_ujianModel->getSoalUjian()
         ];
-
+        // dd($data);
         return view('admin/soal_ujian/index', $data);
     }
 

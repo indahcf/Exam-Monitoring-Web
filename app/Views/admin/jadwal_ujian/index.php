@@ -33,38 +33,28 @@
                         </thead>
                         <tbody>
                             <?php $i = 1; ?>
-                            <?php foreach ($jadwal_ujian as $id_jadwal_ujian => $group) : ?>
-                                <?php $rowspan = count($group); ?>
-                                <?php foreach ($group as $index => $jadwal) : ?>
-                                    <?php if ($index == 0) : ?>
-                                        <tr>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $i++; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= hari($jadwal['tanggal']); ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= date('d-m-Y', strtotime($jadwal['tanggal'])); ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= date('H.i', strtotime($jadwal['jam_mulai'])); ?> - <?= date('H.i', strtotime($jadwal['jam_selesai'])); ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $jadwal['kode_matkul']; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $jadwal['matkul']; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $jadwal['prodi']; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $jadwal['dosen']; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>"><?= $jadwal['kelas']; ?></td>
-                                            <td><?= $jadwal['ruang_ujian']; ?></td>
-                                            <td><?= $jadwal['jumlah_peserta']; ?></td>
-                                            <td rowspan="<?= $rowspan; ?>">
-                                                <a href="/admin/jadwal_ujian/edit/<?= $jadwal['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
-                                                    <i class="ti-pencil"></i>
-                                                </a>
-                                                <button data-id="<?= $jadwal['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
-                                                    <i class="ti-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php else : ?>
-                                        <tr>
-                                            <td><?= $jadwal['ruang_ujian']; ?></td>
-                                            <td><?= $jadwal['jumlah_peserta']; ?></td>
-                                        </tr>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
+                            <?php foreach ($jadwal_ujian as $j) : ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= hari($j['tanggal']); ?></td>
+                                    <td><?= date('d-m-Y', strtotime($j['tanggal'])); ?></td>
+                                    <td><?= date('H.i', strtotime($j['jam_mulai'])); ?> - <?= date('H.i', strtotime($j['jam_selesai'])); ?></td>
+                                    <td><?= $j['kode_matkul']; ?></td>
+                                    <td><?= $j['matkul']; ?></td>
+                                    <td><?= $j['prodi']; ?></td>
+                                    <td><?= $j['dosen']; ?></td>
+                                    <td><?= $j['kelas']; ?></td>
+                                    <td><?= $j['ruang_ujian']; ?></td>
+                                    <td><?= $j['jumlah_peserta']; ?></td>
+                                    <td>
+                                        <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -74,11 +64,11 @@
                     <script>
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
-                                "scrollX": true
+                                'scrollX': true,
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
                             });
                         });
                     </script>
-
                 </div>
             </div>
         </div>

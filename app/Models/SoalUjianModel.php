@@ -13,6 +13,6 @@ class SoalUjianModel extends Model
 
     public function getSoalUjian()
     {
-        return $this->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('kelas', 'soal_ujian.id_kelas=kelas.id_kelas')->findAll();
+        return $this->join('kelas', 'soal_ujian.id_kelas=kelas.id_kelas')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
     }
 }
