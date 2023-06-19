@@ -51,8 +51,7 @@ class JadwalUjian extends BaseController
             'title'          => 'Tambah Jadwal Ujian',
             'prodi'          => $this->prodiModel->findAll(),
             'ruang_ujian'    => $this->ruang_ujianModel->findAll(),
-            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'kelas'          => $this->kelasModel->findAll()
+            'tahun_akademik' => $this->tahun_akademikModel->findAll()
         ];
 
         return view('admin/jadwal_ujian/create', $data);
@@ -184,17 +183,14 @@ class JadwalUjian extends BaseController
         $jadwalUjian = $this->jadwal_ujianModel->find($id_jadwal_ujian);
         $id_kelas = $this->jadwal_ujianModel->find($id_jadwal_ujian)['id_kelas'];
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
-        // $id_jadwal_ruang = $this->jadwal_ruangModel->find($id_jadwal_ujian)['id_jadwal_ruang'];
-        // $id_ruang_ujian = $this->jadwal_ujianModel->find($id_jadwal_ruang)['id_ruang_ujian'];
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
             'prodi' => $this->prodiModel->findAll(),
             'kelas' => $this->kelasModel->find($jadwalUjian['id_kelas']),
-            'ruang_ujian' => $this->ruang_ujianModel->findAll(),
+            'ruang_ujian' => $this->ruang_ujianModel->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->where('jadwal_ruang.id_jadwal_ujian')->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($jadwalUjian['id_tahun_akademik']),
-            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
-            // 'ruangan' => $this->jadwal_ujianModel->find($id_ruang_ujian)['id_jadwal_ruang']
+            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi']
         ];
         return view('admin/jadwal_ujian/edit', $data);
     }

@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $kelas['id_dosen']) ?>" placeholder="Dosen" readonly>
+                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $jadwal_ujian['id_dosen']) ?>" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
@@ -70,11 +70,11 @@
                     <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-6">
-                                <label for="ruang_ujian">Ruang Ujian</label>
+                                <label for="ruang_ujian">Ruang Ujian 1</label>
                                 <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
-                                    <option value="">Pilih Ruang Ujian</option>
+                                    <option value="">Pilih Ruang Ujian 1</option>
                                     <?php foreach ($ruang_ujian as $r) : ?>
-                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= (old('id_ruang_ujian', $jadwal_ujian['id_ruang_ujian']) == $r['id_ruang_ujian']) ? 'selected' : ''; ?>>
+                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= (old('id_ruang_ujian', $ruang_ujian) == $r['id_ruang_ujian']) ? 'selected' : ''; ?>>
                                             <?= $r['ruang_ujian']; ?> (kap: <?= $r['kapasitas']; ?> orang)
                                         </option>
                                     <?php endforeach; ?>
@@ -84,8 +84,8 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="jumlah_peserta">Jumlah Peserta Ruang 1</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0', $jadwal_ujian['jumlah_peserta']); ?>" placeholder="Jumlah Peserta" readonly>
+                                <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0', $jadwal_ujian['jumlah_peserta']); ?>" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jumlah_peserta.1'); ?>
                                 </div>
@@ -222,6 +222,8 @@
                         $('.fg_ruangan_peserta').each(function(index, el) {
                             $(el).find('select[name^=ruang_ujian]').prev().text(`Ruang Ujian ${index+1}`)
                             $(el).find('input[name^=jumlah_peserta]').prev().text(`Jumlah Peserta Ruang Ujian ${index+1}`)
+                            $(el).find('select[name^=ruang_ujian]').children('option:first').text(`Pilih Ruang Ujian ${index+1}`)
+                            $(el).find('input[name^=jumlah_peserta]').attr('placeholder', `Jumlah Peserta Ruang Ujian ${index+1}`)
                         })
 
                         // set input jumlah peserta 
