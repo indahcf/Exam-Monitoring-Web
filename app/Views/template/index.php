@@ -57,6 +57,8 @@
     <script src="<?= base_url(); ?>/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="<?= base_url(); ?>/assets/js/dataTables.select.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/ashl1/datatables-rowsgroup@fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="<?= base_url(); ?>/assets/js/off-canvas.js"></script>
@@ -66,8 +68,6 @@
     <script src="<?= base_url(); ?>/assets/js/todolist.js"></script>
     <!-- endinject -->
     <script src="<?= base_url(); ?>/assets/js/sweetalert2.all.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/ashl1/datatables-rowsgroup@fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
 
     <?php if (session()->getFlashdata('success')) : ?>
         <script>

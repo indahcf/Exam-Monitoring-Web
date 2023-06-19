@@ -32,10 +32,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1; ?>
+                            <?php $i = 0;
+                            $temp = 0; ?>
                             <?php foreach ($jadwal_ujian as $j) : ?>
                                 <tr>
-                                    <td><?= $i++; ?></td>
+                                    <?php if ($temp != $j['id_jadwal_ujian']) {
+                                        $i++;
+                                        $temp = $j['id_jadwal_ujian'];
+                                    } ?>
+                                    <td><?= $i; ?></td>
                                     <td><?= hari($j['tanggal']); ?></td>
                                     <td><?= date('d-m-Y', strtotime($j['tanggal'])); ?></td>
                                     <td><?= date('H.i', strtotime($j['jam_mulai'])); ?> - <?= date('H.i', strtotime($j['jam_selesai'])); ?></td>
@@ -47,7 +52,7 @@
                                     <td><?= $j['ruang_ujian']; ?></td>
                                     <td><?= $j['jumlah_peserta']; ?></td>
                                     <td>
-                                        <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
