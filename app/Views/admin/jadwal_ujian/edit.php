@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $jadwal_ujian['id_dosen']) ?>" placeholder="Dosen" readonly>
+                        <input type="text" class="form-control" id="dosen" name="dosen" value="" data-value="<?= old('dosen', $dosen) ?>" placeholder="Dosen" readonly>
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
@@ -71,13 +71,8 @@
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-6">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
+                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]" data-value="<?= old('ruang_ujian', $ruang_ujian) ?>">
                                     <option value="">Pilih Ruang Ujian 1</option>
-                                    <?php foreach ($ruang_ujian as $r) : ?>
-                                        <option value="<?= $r['id_ruang_ujian']; ?>" <?= (old('id_ruang_ujian', $ruang_ujian) == $r['id_ruang_ujian']) ? 'selected' : ''; ?>>
-                                            <?= $r['ruang_ujian']; ?> (kap: <?= $r['kapasitas']; ?> orang)
-                                        </option>
-                                    <?php endforeach; ?>
                                 </select>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('ruang_ujian.1'); ?>
@@ -85,7 +80,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0', $jadwal_ujian['jumlah_peserta']); ?>" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0', $jumlah_peserta[0]['jumlah_peserta']); ?>" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jumlah_peserta.1'); ?>
                                 </div>
@@ -265,24 +260,24 @@
                                 success: function(response) {
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
-                                        options += `<option value="${data.id_ruang_ujian}" data-ruangan="${data.ruang_ujian}">${data.ruang_ujian}</option>`
+                                        options += `<option value="${data.id_ruang_ujian}" ${id_ruang_ujian == data.id_ruang_ujian ? 'selected' : ''} data-ruangan="${data.ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas} orang)</option>`
                                     }
-                                    $('select[name=ruang_ujian]').html(options)
+                                    $('select[name^=ruang_ujian]').html(options)
                                 }
                             })
                         }
                     }
 
                     $('input[name=tanggal]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_mulai]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
 
                     $('input[name=jam_selesai]').on('change', function() {
-                        // getRuanganTersedia(this.value)
+                        getRuanganTersedia(this.value)
                     })
                 </script>
             </div>
