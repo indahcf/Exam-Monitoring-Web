@@ -25,15 +25,15 @@
                             <?= validation_show_error('prodi'); ?>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select multiple placeholder="Pilih Kelas" data-allow-clear="1" class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" data-value="<?= old('kelas') ?>">
-                            <option value="">Pilih Kelas</option>
+                        <select class="form-control js-example-basic-multiple <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas[]" placeholder="Pilih Kelas" data-value="<?= old('kelas') ?>" multiple>
+                            <!-- <option value="">Pilih Kelas</option> -->
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
                         <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
-                        <input type="file" class="form-control <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian'); ?>" placeholder="Soal Ujian">
+                        <input type="file" class="form-control-file <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian'); ?>" placeholder="Soal Ujian">
                         <div class="invalid-feedback">
                             <?= validation_show_error('soal_ujian'); ?>
                         </div>
@@ -88,14 +88,14 @@
                 </form>
 
                 <script>
-                    $(function() {
-                        $('#kelas').each(function() {
-                            $(this).select2({
-                                theme: 'bootstrap4',
-                                width: 'style',
-                                placeholder: $(this).attr('placeholder'),
-                                allowClear: Boolean($(this).data('allow-clear')),
-                            });
+                    $(document).ready(function() {
+                        $('.js-example-basic-multiple').select2({
+                            ajax: {
+                                url: "<?= base_url('SoalUjian/getDataMultipleSelect') ?>"
+                            },
+                            placeholder: 'Pilih Kelas',
+                            templateResult: format,
+                            templateSelection: formatSelection
                         });
                     });
                 </script>
