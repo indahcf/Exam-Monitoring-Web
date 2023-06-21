@@ -297,5 +297,7 @@ class SoalUjian extends BaseController
 
     public function getDataMultipleSelect()
     {
+        $search = $this->input->post('search');
+        $page = $this->input->post('page');
     }
 }
