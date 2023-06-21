@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-6">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>

@@ -80,7 +80,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" value="<?= old('jumlah_peserta.0'); ?>" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jumlah_peserta.1'); ?>
                                 </div>
