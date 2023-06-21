@@ -294,4 +294,8 @@ class SoalUjian extends BaseController
 
         return redirect()->to('/admin/soal_ujian');
     }
+
+    public function getDataMultipleSelect()
+    {
+    }
 }
