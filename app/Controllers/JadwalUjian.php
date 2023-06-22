@@ -259,14 +259,14 @@ class JadwalUjian extends BaseController
         }
 
         //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
-        if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
-            'tanggal' => $this->request->getVar('tanggal'),
-            'jam_mulai' => $this->request->getVar('jam_mulai'),
-            'jam_selesai' => $this->request->getVar('jam_selesai'),
-            'id_jadwal_ujian !=' => $id_jadwal_ujian
-        ])->first()) {
-            return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
-        }
+        // if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
+        //     'tanggal' => $this->request->getVar('tanggal'),
+        //     'jam_mulai' => $this->request->getVar('jam_mulai'),
+        //     'jam_selesai' => $this->request->getVar('jam_selesai'),
+        //     'id_jadwal_ujian !=' => $id_jadwal_ujian
+        // ])->first()) {
+        //     return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
+        // }
 
         try {
             $this->db->transException(true)->transStart();
@@ -288,6 +288,7 @@ class JadwalUjian extends BaseController
                     'jumlah_peserta' => $jumlah_peserta[$i]
                 ];
             }
+            $this->db->table('jadwal_ruang')->where('id_jadwal_ujian', $id_jadwal_ujian)->delete();
             $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
             $this->db->transComplete();
 

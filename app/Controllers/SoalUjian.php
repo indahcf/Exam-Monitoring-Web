@@ -294,10 +294,4 @@ class SoalUjian extends BaseController
 
         return redirect()->to('/admin/soal_ujian');
     }
-
-    public function getDataMultipleSelect()
-    {
-        $search = $this->input->post('search');
-        $page = $this->input->post('page');
-    }
 }

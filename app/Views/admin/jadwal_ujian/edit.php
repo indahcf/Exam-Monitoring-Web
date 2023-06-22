@@ -9,6 +9,7 @@
                 <h4 class="card-title">Edit Data Jadwal Ujian</h4>
                 <form action="<?= base_url('/admin/jadwal_ujian/update/' . $jadwal_ujian['id_jadwal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
+                    <input type="hidden" name="id_jadwal_ujian" value="<?= $jadwal_ujian['id_jadwal_ujian']; ?>">
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
@@ -71,18 +72,18 @@
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-6">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
+                                <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian 1</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    <?= validation_show_error('ruang_ujian.1'); ?>
+                                    <?= validation_show_error('ruang_ujian.0'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
-                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.1')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_peserta.0')) ? 'is-invalid' : ''; ?>" id="jumlah_peserta" name="jumlah_peserta[]" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
                                 <div class="invalid-feedback">
-                                    <?= validation_show_error('jumlah_peserta.1'); ?>
+                                    <?= validation_show_error('jumlah_peserta.0'); ?>
                                 </div>
                             </div>
                         </div>
@@ -95,24 +96,24 @@
                         let id_prodi = $('select[name=prodi]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
-                        for (const i in old_ruangan) {
-                            let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
-                            if (i == 0) {
-                                $('.fg_ruangan_peserta').remove()
-                            }
-                            console.log(old_peserta[i]);
-                            fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
-                            fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
-                            $('#ruangan').append(fg_ruangan_peserta)
-                        }
-                        // console.log('prodi', id_prodi)
+                        getRuanganTersedia()
                         getKelas(id_prodi)
                         setTimeout(() => {
                             let id_kelas = $('select[name=kelas]').val();
                             // console.log('kelas', id_kelas)
                             getDosen(id_kelas)
+                            for (const i in old_ruangan) {
+                                let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                                if (i == 0) {
+                                    $('.fg_ruangan_peserta').remove()
+                                }
+                                console.log(old_peserta[i]);
+                                fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
+                                fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
+                                $('#ruangan').append(fg_ruangan_peserta)
+                            }
+                            handleRuangan()
                         }, 1000);
-
                     })
 
                     function getKelas(id_prodi) {
@@ -183,7 +184,7 @@
                         return total
                     }
 
-                    $('body').on('change', 'select[name^=ruang_ujian]', function() {
+                    function handleRuangan() {
                         // total mahasiswa dari kelas yg dipilih 
                         let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta')
 
@@ -228,39 +229,48 @@
 
                         $('select[name^=ruang_ujian]').each(function(index, el) {
                             let kapasitas = $(el).children('option:selected').data('kapasitas')
-                            if (kapasitas != undefined) {
-                                total2 += kapasitas
-                                if (total2 >= peserta_kelas) {
-                                    // jika total semua kapasitas ruangan yg dipilih >= peserta kelas
-                                    // jumlah peserta = sisa peserta
-                                    $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas - (total_kapasitas - peserta_kelas))
-                                } else {
-                                    // jumlah peserta = kapasitas ruangan
-                                    $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas)
-                                }
+                            if (kapasitas === undefined) {
+                                kapasitas = 0
+                            }
+                            total2 += kapasitas
+                            if (total2 >= peserta_kelas) {
+                                // jika total semua kapasitas ruangan yg dipilih >= peserta kelas
+                                // jumlah peserta = sisa peserta
+                                $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas - (total_kapasitas - peserta_kelas))
+                            } else {
+                                // jumlah peserta = kapasitas ruangan
+                                $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas)
                             }
                         })
 
                         console.log('peserta kelas', peserta_kelas)
                         console.log('total kapasitas', total_kapasitas)
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
+                    }
+
+                    $('body').on('change', 'select[name=ruang_ujian]', function() {
+                        handleRuangan()
                     })
 
                     function getRuanganTersedia() {
                         let tanggal = $('input[name=tanggal]').val();
                         let jam_mulai = $('input[name=jam_mulai]').val();
                         let jam_selesai = $('input[name=jam_selesai]').val();
-                        if (tanggal != null && jam_mulai != null && jam_selesai != null) {
+                        let id_jadwal_ujian = $('input[name=id_jadwal_ujian]').val();
+                        if (tanggal != null && jam_mulai != null && jam_selesai != null && id_jadwal_ujian != null) {
                             console.log('tanggal', tanggal)
                             console.log('jam mulai', jam_mulai)
                             console.log('jam selesai', jam_selesai)
+                            console.log('id jadwal ujian', id_jadwal_ujian)
                             $.ajax({
-                                url: window.location.origin + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
+                                url: window.location.origin + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai + '&id_jadwal_ujian=' + id_jadwal_ujian,
                                 type: 'GET',
                                 success: function(response) {
+                                    // console.log('data ruang', response)
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
-                                        options += `<option value="${data.id_ruang_ujian}" ${id_ruang_ujian == data.id_ruang_ujian ? 'selected' : ''} data-ruangan="${data.ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas} orang)</option>`
+                                        console.log(data)
+                                        options += `<option value="${data.id_ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas} orang)</option>`
                                     }
                                     $('select[name^=ruang_ujian]').html(options)
                                 }
@@ -269,15 +279,15 @@
                     }
 
                     $('input[name=tanggal]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        getRuanganTersedia()
                     })
 
                     $('input[name=jam_mulai]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        getRuanganTersedia()
                     })
 
                     $('input[name=jam_selesai]').on('change', function() {
-                        getRuanganTersedia(this.value)
+                        getRuanganTersedia()
                     })
                 </script>
             </div>
