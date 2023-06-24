@@ -13,7 +13,17 @@ class JadwalRuang extends Seeder
             [
                 'id_jadwal_ujian'    => 1,
                 'id_ruang_ujian'     => 1,
-                'jumlah_peserta'     => 58
+                'jumlah_peserta'     => 15
+            ],
+            [
+                'id_jadwal_ujian'    => 1,
+                'id_ruang_ujian'     => 2,
+                'jumlah_peserta'     => 30
+            ],
+            [
+                'id_jadwal_ujian'    => 1,
+                'id_ruang_ujian'     => 4,
+                'jumlah_peserta'     => 13
             ]
         ];
 

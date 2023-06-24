@@ -17,6 +17,22 @@ class RuangUjian extends Seeder
             [
                 'ruang_ujian' => 'A.201',
                 'kapasitas'   => 30
+            ],
+            [
+                'ruang_ujian' => 'A.202',
+                'kapasitas'   => 12
+            ],
+            [
+                'ruang_ujian' => 'C.203',
+                'kapasitas'   => 20
+            ],
+            [
+                'ruang_ujian' => 'E.101',
+                'kapasitas'   => 25
+            ],
+            [
+                'ruang_ujian' => 'E.102',
+                'kapasitas'   => 45
             ]
         ];
 

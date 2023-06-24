@@ -14,6 +14,9 @@ class Prodi extends Seeder
                 'prodi' => 'Teknik Elektro'
             ],
             [
+                'prodi' => 'Teknik Sipil'
+            ],
+            [
                 'prodi' => 'Informatika'
             ]
         ];

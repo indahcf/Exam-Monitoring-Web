@@ -21,6 +21,18 @@ class Kelas extends Seeder
                 'id_dosen'          => 2,
                 'kelas'             => 'A',
                 'jumlah_mahasiswa'  => 30
+            ],
+            [
+                'id_matkul'         => 2,
+                'id_dosen'          => 2,
+                'kelas'             => 'B',
+                'jumlah_mahasiswa'  => 20
+            ],
+            [
+                'id_matkul'         => 3,
+                'id_dosen'          => 3,
+                'kelas'             => 'A',
+                'jumlah_mahasiswa'  => 30
             ]
         ];
 
