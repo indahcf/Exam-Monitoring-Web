@@ -227,16 +227,17 @@
 
                         $('select[name^=ruang_ujian]').each(function(index, el) {
                             let kapasitas = $(el).children('option:selected').data('kapasitas')
-                            if (kapasitas != undefined) {
-                                total2 += kapasitas
-                                if (total2 >= peserta_kelas) {
-                                    // jika total semua kapasitas ruangan yg dipilih >= peserta kelas
-                                    // jumlah peserta = sisa peserta
-                                    $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas - (total_kapasitas - peserta_kelas))
-                                } else {
-                                    // jumlah peserta = kapasitas ruangan
-                                    $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas)
-                                }
+                            if (kapasitas === undefined) {
+                                kapasitas = 0
+                            }
+                            total2 += kapasitas
+                            if (total2 >= peserta_kelas) {
+                                // jika total semua kapasitas ruangan yg dipilih >= peserta kelas
+                                // jumlah peserta = sisa peserta
+                                $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas - (total_kapasitas - peserta_kelas))
+                            } else {
+                                // jumlah peserta = kapasitas ruangan
+                                $(el).closest('.fg_ruangan_peserta').find('input[name^=jumlah_peserta]').val(kapasitas)
                             }
                         })
 
