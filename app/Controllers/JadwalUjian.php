@@ -299,4 +299,45 @@ class JadwalUjian extends BaseController
 
         return redirect()->to('/admin/jadwal_ujian');
     }
+
+    public function simpanExcel()
+    {
+        $file_excel = $this->request->getFile('fileexcel');
+        $ext = $file_excel->getClientExtension();
+        if ($ext == 'xls') {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        } else {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $render->load($file_excel);
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        foreach ($data as $x => $row) {
+            if ($x == 0) {
+                continue;
+            }
+
+            $id_jadwal_ujian = $row[0];
+            $NamaSiswa = $row[1];
+            $Alamat = $row[2];
+
+            $db = \Config\Database::connect();
+
+            $cekNis = $db->table('jadwal_ujian')->getWhere(['id_jadwal_ujian' => $id_jadwal_ujian])->getResult();
+
+            if (count($cekNis) > 0) {
+                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import, ID Jadwal Ujian ada yang sama</b>');
+            } else {
+
+                $simpandata = [
+                    'id_jadwal_ujian' => $id_jadwal_ujian, 'NamaSiswa' => $NamaSiswa, 'Alamat' => $Alamat
+                ];
+
+                $db->table('jadwal_ujian')->insert($simpandata);
+                session()->setFlashdata('message', 'Berhasil Import Excel');
+            }
+        }
+
+        return redirect()->to('/admin/jadwal_ujian');
+    }
 }
