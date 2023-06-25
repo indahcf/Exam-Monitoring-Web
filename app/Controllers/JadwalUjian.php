@@ -122,13 +122,13 @@ class JadwalUjian extends BaseController
         }
 
         //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
-        if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
-            'tanggal' => $this->request->getVar('tanggal'),
-            'jam_mulai' => $this->request->getVar('jam_mulai'),
-            'jam_selesai' => $this->request->getVar('jam_selesai')
-        ])->first()) {
-            return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
-        }
+        // if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
+        //     'tanggal' => $this->request->getVar('tanggal'),
+        //     'jam_mulai' => $this->request->getVar('jam_mulai'),
+        //     'jam_selesai' => $this->request->getVar('jam_selesai')
+        // ])->first()) {
+        //     return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
+        // }
 
         try {
             $this->db->transException(true)->transStart();

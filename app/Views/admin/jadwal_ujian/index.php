@@ -12,10 +12,6 @@
         <i class="ti-import btn-icon-prepend"></i>
         Import
     </button>
-    <!-- <a href="/admin/jadwal_ujian/import" class="btn btn-success btn-icon-text">
-        <i class="ti-import btn-icon-prepend"></i>
-        Import
-    </a> -->
     <a href="/admin/jadwal_ujian/export" class="btn btn-danger btn-icon-text">
         <i class="ti-export btn-icon-prepend"></i>
         Export

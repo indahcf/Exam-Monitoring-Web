@@ -216,4 +216,52 @@ class Matkul extends BaseController
         }
         return $this->response->setJSON($matkul);
     }
+
+    public function simpanExcel()
+    {
+        $file_excel = $this->request->getFile('fileexcel');
+        $ext = $file_excel->getClientExtension();
+        if ($ext == 'xls') {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        } else {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $render->load($file_excel);
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        foreach ($data as $x => $row) {
+            if ($x == 0) {
+                continue;
+            }
+
+            // $id_matkul = $row[0];
+            $id_prodi = $row[0];
+            $kode_matkul = $row[1];
+            $matkul = $row[2];
+            $jumlah_sks = $row[3];
+            $semester = $row[4];
+
+            $db = \Config\Database::connect();
+
+            // $cek_id_matkul = $db->table('matkul')->getWhere(['id_matkul' => $id_matkul])->getResult();
+
+            // if (count($cek_id_matkul) > 0) {
+            //     session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import, ID Matkul ada yang sama</b>');
+            // } else {
+
+            $simpandata = [
+                'id_prodi' => $id_prodi,
+                'kode_matkul' => $kode_matkul,
+                'matkul' => $matkul,
+                'jumlah_sks' => $jumlah_sks,
+                'semester' => $semester
+            ];
+
+            $db->table('matkul')->insert($simpandata);
+            session()->setFlashdata('message', 'Berhasil import excel');
+            // }
+        }
+
+        return redirect()->to('/admin/matkul');
+    }
 }

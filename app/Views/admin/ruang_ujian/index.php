@@ -8,6 +8,10 @@
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
+    <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
+        <i class="ti-import btn-icon-prepend"></i>
+        Import
+    </button>
 </div>
 <div class="card">
     <div class="card-body">
@@ -54,6 +58,29 @@
                     </script>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalImport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Data Ruang Ujian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="<?= base_url('/admin/ruang_ujian/simpanExcel') ?>" enctype="multipart/form-data">
+                    <label for="file_excel">File Excel</label>
+                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </div>
     </div>

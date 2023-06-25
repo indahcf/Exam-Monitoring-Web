@@ -44,6 +44,7 @@ $routes->post('/admin/matkul/save', 'Matkul::save');
 $routes->get('/admin/matkul/edit/(:segment)', 'Matkul::edit/$1');
 $routes->post('/admin/matkul/update/(:segment)', 'Matkul::update/$1');
 $routes->delete('/admin/matkul/(:num)', 'Matkul::delete/$1');
+$routes->post('/admin/matkul/simpanExcel', 'Matkul::simpanExcel');
 
 $routes->get('/admin/prodi', 'Prodi::index');
 $routes->get('/admin/prodi/create', 'Prodi::create');
@@ -58,6 +59,7 @@ $routes->post('/admin/dosen/save', 'Dosen::save');
 $routes->get('/admin/dosen/edit/(:segment)', 'Dosen::edit/$1');
 $routes->post('/admin/dosen/update/(:segment)', 'Dosen::update/$1');
 $routes->delete('/admin/dosen/(:num)', 'Dosen::delete/$1');
+$routes->post('/admin/dosen/simpanExcel', 'Dosen::simpanExcel');
 
 $routes->get('/admin/kelas', 'Kelas::index');
 $routes->get('/admin/kelas/create', 'Kelas::create');
@@ -65,6 +67,7 @@ $routes->post('/admin/kelas/save', 'Kelas::save');
 $routes->get('/admin/kelas/edit/(:segment)', 'Kelas::edit/$1');
 $routes->post('/admin/kelas/update/(:segment)', 'Kelas::update/$1');
 $routes->delete('/admin/kelas/(:num)', 'Kelas::delete/$1');
+$routes->post('/admin/kelas/simpanExcel', 'Kelas::simpanExcel');
 
 $routes->get('/admin/ruang_ujian', 'RuangUjian::index');
 $routes->get('/admin/ruang_ujian/create', 'RuangUjian::create');
@@ -72,6 +75,7 @@ $routes->post('/admin/ruang_ujian/save', 'RuangUjian::save');
 $routes->get('/admin/ruang_ujian/edit/(:segment)', 'RuangUjian::edit/$1');
 $routes->post('/admin/ruang_ujian/update/(:segment)', 'RuangUjian::update/$1');
 $routes->delete('/admin/ruang_ujian/(:num)', 'RuangUjian::delete/$1');
+$routes->post('/admin/ruang_ujian/simpanExcel', 'RuangUjian::simpanExcel');
 
 $routes->get('/admin/pengawas', 'Pengawas::index');
 $routes->get('/admin/pengawas/create', 'Pengawas::create');

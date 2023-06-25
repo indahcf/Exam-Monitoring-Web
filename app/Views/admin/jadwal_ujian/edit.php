@@ -248,7 +248,7 @@
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
                     }
 
-                    $('body').on('change', 'select[name=ruang_ujian]', function() {
+                    $('body').on('change', 'select[name^=ruang_ujian]', function() {
                         handleRuangan()
                     })
 
