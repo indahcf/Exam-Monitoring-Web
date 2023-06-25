@@ -8,7 +8,7 @@
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
-    <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="modalImport">
+    <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
         <i class="ti-import btn-icon-prepend"></i>
         Import
     </button>
@@ -103,10 +103,8 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
-                        <label for="file_excel" class="col-form-label">File Excel</label>
-                        <input type="file" class="form-control" id="file_excel" required accept=".xls, .xlsx">
-                    </div>
+                    <label for="file_excel">File Excel</label>
+                    <input type="file" class="form-control-file" id="file_excel" required accept=".xls, .xlsx">
                 </form>
             </div>
             <div class="modal-footer">
