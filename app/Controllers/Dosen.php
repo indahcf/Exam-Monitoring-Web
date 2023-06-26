@@ -192,28 +192,25 @@ class Dosen extends BaseController
 
         try {
             foreach ($data as $x => $row) {
-                if ($x == 0) {
-                    continue;
-                }
-
-                if ($row[0] != null) {
+                if ($x != 0 && $row[0] != null) {
                     $id_prodi = $row[0];
                     $nidn = $row[1];
                     $dosen = $row[2];
 
                     //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
                     if ($this->dosenModel->where([
-                        'nidn !=' => $nidn
+                        'nidn' => $nidn
                     ])->first()) {
-
-                        $simpandata = [
-                            'id_prodi' => $id_prodi,
-                            'nidn' => $nidn,
-                            'dosen' => $dosen
-                        ];
-
-                        $db->table('dosen')->insert($simpandata);
+                        continue;
                     }
+
+                    $simpandata = [
+                        'id_prodi' => $id_prodi,
+                        'nidn' => $nidn,
+                        'dosen' => $dosen
+                    ];
+
+                    $db->table('dosen')->insert($simpandata);
                 }
             }
 
