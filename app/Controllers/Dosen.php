@@ -186,32 +186,42 @@ class Dosen extends BaseController
         $spreadsheet = $render->load($file_excel);
 
         $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
+        // dd($data);
+
+        $db = \Config\Database::connect();
+
+        try {
+            foreach ($data as $x => $row) {
+                if ($x == 0) {
+                    continue;
+                }
+
+                if ($row[0] != null) {
+                    $id_prodi = $row[0];
+                    $nidn = $row[1];
+                    $dosen = $row[2];
+
+                    //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
+                    if ($this->dosenModel->where([
+                        'nidn !=' => $nidn
+                    ])->first()) {
+
+                        $simpandata = [
+                            'id_prodi' => $id_prodi,
+                            'nidn' => $nidn,
+                            'dosen' => $dosen
+                        ];
+
+                        $db->table('dosen')->insert($simpandata);
+                    }
+                }
             }
 
-            $Nis = $row[0];
-            $NamaSiswa = $row[1];
-            $Alamat = $row[2];
-
-            $db = \Config\Database::connect();
-
-            $cekNis = $db->table('siswa')->getWhere(['Nis' => $Nis])->getResult();
-
-            if (count($cekNis) > 0) {
-                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIS ada yang sama</b>');
-            } else {
-
-                $simpandata = [
-                    'Nis' => $Nis, 'NamaSiswa' => $NamaSiswa, 'Alamat' => $Alamat
-                ];
-
-                $db->table('siswa')->insert($simpandata);
-                session()->setFlashdata('message', 'Berhasil import excel');
-            }
+            session()->setFlashdata('success', 'Data Berhasil Diimport');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/siswa');
+        return redirect()->to('/admin/dosen');
     }
 }

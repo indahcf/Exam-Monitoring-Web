@@ -234,7 +234,6 @@ class Matkul extends BaseController
                 continue;
             }
 
-            // $id_matkul = $row[0];
             $id_prodi = $row[0];
             $kode_matkul = $row[1];
             $matkul = $row[2];
@@ -243,23 +242,20 @@ class Matkul extends BaseController
 
             $db = \Config\Database::connect();
 
-            // $cek_id_matkul = $db->table('matkul')->getWhere(['id_matkul' => $id_matkul])->getResult();
+            try {
+                $simpandata = [
+                    'id_prodi' => $id_prodi,
+                    'kode_matkul' => $kode_matkul,
+                    'matkul' => $matkul,
+                    'jumlah_sks' => $jumlah_sks,
+                    'semester' => $semester
+                ];
 
-            // if (count($cek_id_matkul) > 0) {
-            //     session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import, ID Matkul ada yang sama</b>');
-            // } else {
-
-            $simpandata = [
-                'id_prodi' => $id_prodi,
-                'kode_matkul' => $kode_matkul,
-                'matkul' => $matkul,
-                'jumlah_sks' => $jumlah_sks,
-                'semester' => $semester
-            ];
-
-            $db->table('matkul')->insert($simpandata);
-            session()->setFlashdata('message', 'Berhasil import excel');
-            // }
+                $db->table('matkul')->insert($simpandata);
+                session()->setFlashdata('success', 'Data Berhasil Diimport');
+            } catch (\Exception $e) {
+                session()->setFlashdata('error', 'Data Gagal Diimport');
+            }
         }
 
         return redirect()->to('/admin/matkul');

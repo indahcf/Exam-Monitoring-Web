@@ -98,15 +98,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" action="<?= base_url('/admin/jadwal_ujian/simpanExcel') ?>" enctype="multipart/form-data">
                     <label for="file_excel">File Excel</label>
-                    <input type="file" class="form-control-file" id="file_excel" required accept=".xls, .xlsx">
-                </form>
+                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
+            </form>
         </div>
     </div>
 </div>

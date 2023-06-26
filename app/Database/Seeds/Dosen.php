@@ -16,12 +16,12 @@ class Dosen extends Seeder
                 'dosen'         => 'Widhiatmoko Herry Purnomo'
             ],
             [
-                'id_prodi'      => 2,
+                'id_prodi'      => 3,
                 'nidn'          => '0016047602',
                 'dosen'         => 'Bangun Wijayanto'
             ],
             [
-                'id_prodi'      => 2,
+                'id_prodi'      => 3,
                 'nidn'          => '0019088104',
                 'dosen'         => 'Nofiyati'
             ]
