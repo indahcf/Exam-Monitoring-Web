@@ -255,32 +255,43 @@ class Kelas extends BaseController
         $spreadsheet = $render->load($file_excel);
 
         $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
+        // dd($data);
+
+        $db = \Config\Database::connect();
+
+        try {
+            foreach ($data as $x => $row) {
+                if ($x != 0 && $row[0] != null) {
+                    $id_matkul = $row[0];
+                    $id_dosen = $row[1];
+                    $kelas = $row[2];
+                    $jumlah_mahasiswa = $row[3];
+
+                    //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
+                    if ($this->kelasModel->where([
+                        'id_matkul' => $id_matkul,
+                        'id_dosen' => $id_dosen,
+                        'kelas' => $kelas
+                    ])->first()) {
+                        continue;
+                    }
+
+                    $simpandata = [
+                        'id_matkul' => $id_matkul,
+                        'id_dosen' => $id_dosen,
+                        'kelas' => $kelas,
+                        'jumlah_mahasiswa' => $jumlah_mahasiswa
+                    ];
+
+                    $db->table('kelas')->insert($simpandata);
+                }
             }
 
-            $Nis = $row[0];
-            $NamaSiswa = $row[1];
-            $Alamat = $row[2];
-
-            $db = \Config\Database::connect();
-
-            $cekNis = $db->table('siswa')->getWhere(['Nis' => $Nis])->getResult();
-
-            if (count($cekNis) > 0) {
-                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIS ada yang sama</b>');
-            } else {
-
-                $simpandata = [
-                    'Nis' => $Nis, 'NamaSiswa' => $NamaSiswa, 'Alamat' => $Alamat
-                ];
-
-                $db->table('siswa')->insert($simpandata);
-                session()->setFlashdata('message', 'Berhasil import excel');
-            }
+            session()->setFlashdata('success', 'Data Berhasil Diimport');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/siswa');
+        return redirect()->to('/admin/kelas');
     }
 }

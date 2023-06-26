@@ -229,33 +229,42 @@ class Matkul extends BaseController
         $spreadsheet = $render->load($file_excel);
 
         $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
+        // dd($data);
+
+        $db = \Config\Database::connect();
+
+        try {
+            foreach ($data as $x => $row) {
+                if ($x != 0 && $row[0] != null) {
+                    $id_prodi = $row[0];
+                    $kode_matkul = $row[1];
+                    $matkul = $row[2];
+                    $jumlah_sks = $row[3];
+                    $semester = $row[4];
+
+                    //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
+                    if ($this->matkulModel->where([
+                        'matkul' => $matkul,
+                        'id_prodi' => $id_prodi
+                    ])->first()) {
+                        continue;
+                    }
+
+                    $simpandata = [
+                        'id_prodi' => $id_prodi,
+                        'kode_matkul' => $kode_matkul,
+                        'matkul' => $matkul,
+                        'jumlah_sks' => $jumlah_sks,
+                        'semester' => $semester
+                    ];
+
+                    $db->table('matkul')->insert($simpandata);
+                }
             }
 
-            $id_prodi = $row[0];
-            $kode_matkul = $row[1];
-            $matkul = $row[2];
-            $jumlah_sks = $row[3];
-            $semester = $row[4];
-
-            $db = \Config\Database::connect();
-
-            try {
-                $simpandata = [
-                    'id_prodi' => $id_prodi,
-                    'kode_matkul' => $kode_matkul,
-                    'matkul' => $matkul,
-                    'jumlah_sks' => $jumlah_sks,
-                    'semester' => $semester
-                ];
-
-                $db->table('matkul')->insert($simpandata);
-                session()->setFlashdata('success', 'Data Berhasil Diimport');
-            } catch (\Exception $e) {
-                session()->setFlashdata('error', 'Data Gagal Diimport');
-            }
+            session()->setFlashdata('success', 'Data Berhasil Diimport');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
         return redirect()->to('/admin/matkul');

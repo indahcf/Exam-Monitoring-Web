@@ -312,32 +312,39 @@ class JadwalUjian extends BaseController
         $spreadsheet = $render->load($file_excel);
 
         $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
+        // dd($data);
+
+        $db = \Config\Database::connect();
+
+        try {
+            foreach ($data as $x => $row) {
+                if ($x != 0 && $row[0] != null) {
+                    $id_prodi = $row[0];
+                    $nidn = $row[1];
+                    $dosen = $row[2];
+
+                    //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
+                    if ($this->jadwal_ujianModel->where([
+                        'nidn' => $nidn
+                    ])->first()) {
+                        continue;
+                    }
+
+                    $simpandata = [
+                        'id_prodi' => $id_prodi,
+                        'nidn' => $nidn,
+                        'dosen' => $dosen
+                    ];
+
+                    $db->table('dosen')->insert($simpandata);
+                }
             }
 
-            $id_jadwal_ujian = $row[0];
-            $NamaSiswa = $row[1];
-            $Alamat = $row[2];
-
-            $db = \Config\Database::connect();
-
-            $cekNis = $db->table('jadwal_ujian')->getWhere(['id_jadwal_ujian' => $id_jadwal_ujian])->getResult();
-
-            if (count($cekNis) > 0) {
-                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import, ID Jadwal Ujian ada yang sama</b>');
-            } else {
-
-                $simpandata = [
-                    'id_jadwal_ujian' => $id_jadwal_ujian, 'NamaSiswa' => $NamaSiswa, 'Alamat' => $Alamat
-                ];
-
-                $db->table('jadwal_ujian')->insert($simpandata);
-                session()->setFlashdata('message', 'Berhasil Import Excel');
-            }
+            session()->setFlashdata('success', 'Data Berhasil Diimport');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/admin/jadwal_ujian');
+        return redirect()->to('/admin/dosen');
     }
 }

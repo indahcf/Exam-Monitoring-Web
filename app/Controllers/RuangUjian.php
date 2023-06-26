@@ -169,32 +169,37 @@ class RuangUjian extends BaseController
         $spreadsheet = $render->load($file_excel);
 
         $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
+        // dd($data);
+
+        $db = \Config\Database::connect();
+
+        try {
+            foreach ($data as $x => $row) {
+                if ($x != 0 && $row[0] != null) {
+                    $ruang_ujian = $row[0];
+                    $kapasitas = $row[1];
+
+                    //skip ruang_ujian yang sama kaya yang di db
+                    if ($this->ruang_ujianModel->where([
+                        'ruang_ujian' => $ruang_ujian
+                    ])->first()) {
+                        continue;
+                    }
+
+                    $simpandata = [
+                        'ruang_ujian' => $ruang_ujian,
+                        'kapasitas' => $kapasitas
+                    ];
+
+                    $db->table('ruang_ujian')->insert($simpandata);
+                }
             }
 
-            $Nis = $row[0];
-            $NamaSiswa = $row[1];
-            $Alamat = $row[2];
-
-            $db = \Config\Database::connect();
-
-            $cekNis = $db->table('siswa')->getWhere(['Nis' => $Nis])->getResult();
-
-            if (count($cekNis) > 0) {
-                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIS ada yang sama</b>');
-            } else {
-
-                $simpandata = [
-                    'Nis' => $Nis, 'NamaSiswa' => $NamaSiswa, 'Alamat' => $Alamat
-                ];
-
-                $db->table('siswa')->insert($simpandata);
-                session()->setFlashdata('message', 'Berhasil import excel');
-            }
+            session()->setFlashdata('success', 'Data Berhasil Diimport');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/siswa');
+        return redirect()->to('/admin/ruang_ujian');
     }
 }
