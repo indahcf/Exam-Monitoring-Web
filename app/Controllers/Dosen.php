@@ -191,6 +191,8 @@ class Dosen extends BaseController
         $db = \Config\Database::connect();
 
         try {
+            $simpandata = [];
+            $count = 0;
             foreach ($data as $x => $row) {
                 if ($x != 0 && $row[0] != null) {
                     $id_prodi = $row[0];
@@ -204,17 +206,22 @@ class Dosen extends BaseController
                         continue;
                     }
 
-                    $simpandata = [
+                    $simpandata[] = [
                         'id_prodi' => $id_prodi,
                         'nidn' => $nidn,
                         'dosen' => $dosen
                     ];
 
-                    $db->table('dosen')->insert($simpandata);
+                    $count++;
                 }
             }
 
-            session()->setFlashdata('success', 'Data Berhasil Diimport');
+            if ($count > 0) {
+                $db->table('dosen')->insertBatch($simpandata);
+                session()->setFlashdata('success', 'Data Berhasil Diimport');
+            } else {
+                session()->setFlashdata('error', 'Tidak Ada Data yang Ditambahkan');
+            }
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }

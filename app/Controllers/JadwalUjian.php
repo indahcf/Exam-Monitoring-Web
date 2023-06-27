@@ -324,8 +324,6 @@ class JadwalUjian extends BaseController
                     $tanggal = $row[2];
                     $jam_mulai = $row[3];
                     $jam_selesai = $row[4];
-                    $id_ruang_ujian = $row[5];
-                    $jumlah_peserta = $row[6];
 
                     //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
                     if ($this->jadwal_ujianModel->where([
@@ -347,15 +345,15 @@ class JadwalUjian extends BaseController
                     $db->table('jadwal_ujian')->insert($simpandata);
 
                     $id_jadwal_ujian = $db->insertID();
-                    $ruang_ujian = $id_ruang_ujian;
-                    $jumlah_peserta = $jumlah_peserta;
                     $jadwal_ruangan = [];
-                    foreach ($ruang_ujian as $i => $r) {
-                        $jadwal_ruangan[] = [
-                            'id_jadwal_ujian' => $id_jadwal_ujian,
-                            'id_ruang_ujian' => $r,
-                            'jumlah_peserta' => $jumlah_peserta[$i]
-                        ];
+                    foreach ($data as $x => $row) {
+                        if ($row[0] == $id_kelas) {
+                            $jadwal_ruangan[] = [
+                                'id_jadwal_ujian' => $id_jadwal_ujian,
+                                'id_ruang_ujian' => $row[5],
+                                'jumlah_peserta' => $row[6]
+                            ];
+                        }
                     }
                     $db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
                     $db->transComplete();
