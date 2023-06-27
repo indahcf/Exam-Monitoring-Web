@@ -319,24 +319,46 @@ class JadwalUjian extends BaseController
         try {
             foreach ($data as $x => $row) {
                 if ($x != 0 && $row[0] != null) {
-                    $id_prodi = $row[0];
-                    $nidn = $row[1];
-                    $dosen = $row[2];
+                    $id_kelas = $row[0];
+                    $id_tahun_akademik = $row[1];
+                    $tanggal = $row[2];
+                    $jam_mulai = $row[3];
+                    $jam_selesai = $row[4];
+                    $id_ruang_ujian = $row[5];
+                    $jumlah_peserta = $row[6];
 
                     //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
                     if ($this->jadwal_ujianModel->where([
-                        'nidn' => $nidn
+                        'id_kelas' => $id_kelas,
+                        'id_tahun_akademik' => $id_tahun_akademik
                     ])->first()) {
                         continue;
                     }
 
                     $simpandata = [
-                        'id_prodi' => $id_prodi,
-                        'nidn' => $nidn,
-                        'dosen' => $dosen
+                        'id_kelas' => $id_kelas,
+                        'id_tahun_akademik' => $id_tahun_akademik,
+                        'tanggal' => $tanggal,
+                        'jam_mulai' => $jam_mulai,
+                        'jam_selesai' => $jam_selesai
                     ];
 
-                    $db->table('dosen')->insert($simpandata);
+                    $db->transException(true)->transStart();
+                    $db->table('jadwal_ujian')->insert($simpandata);
+
+                    $id_jadwal_ujian = $db->insertID();
+                    $ruang_ujian = $id_ruang_ujian;
+                    $jumlah_peserta = $jumlah_peserta;
+                    $jadwal_ruangan = [];
+                    foreach ($ruang_ujian as $i => $r) {
+                        $jadwal_ruangan[] = [
+                            'id_jadwal_ujian' => $id_jadwal_ujian,
+                            'id_ruang_ujian' => $r,
+                            'jumlah_peserta' => $jumlah_peserta[$i]
+                        ];
+                    }
+                    $db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+                    $db->transComplete();
                 }
             }
 
@@ -345,6 +367,6 @@ class JadwalUjian extends BaseController
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/admin/dosen');
+        return redirect()->to('/admin/jadwal_ujian');
     }
 }
