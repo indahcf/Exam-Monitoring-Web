@@ -314,53 +314,60 @@ class JadwalUjian extends BaseController
         $data = $spreadsheet->getActiveSheet()->toArray();
         // dd($data);
 
-        $db = \Config\Database::connect();
-
         try {
+            $count = 0;
+            $id_jadwal_ujian = $this->db->table('jadwal_ujian')->orderBy('created_at', 'DESC')->get()->getRowArray()['id_jadwal_ujian'];
+            // dd($id_jadwal_ujian);
+            $jadwal_ujian = [];
+            $jadwal_ruangan = [];
             foreach ($data as $x => $row) {
                 if ($x != 0 && $row[0] != null) {
-                    $id_kelas = $row[0];
-                    $id_tahun_akademik = $row[1];
-                    $tanggal = $row[2];
-                    $jam_mulai = $row[3];
-                    $jam_selesai = $row[4];
 
                     //cek file excel kalo nidn nya ada yg sama kaya db + nidn baru
                     if ($this->jadwal_ujianModel->where([
-                        'id_kelas' => $id_kelas,
-                        'id_tahun_akademik' => $id_tahun_akademik
+                        'id_kelas' => $row[0],
+                        'id_tahun_akademik' => $row[1]
                     ])->first()) {
                         continue;
                     }
 
-                    $simpandata = [
-                        'id_kelas' => $id_kelas,
-                        'id_tahun_akademik' => $id_tahun_akademik,
-                        'tanggal' => $tanggal,
-                        'jam_mulai' => $jam_mulai,
-                        'jam_selesai' => $jam_selesai
+                    $id_jadwal_ujian++;
+                    $jadwal_ujian[] = [
+                        'id_jadwal_ujian' => $id_jadwal_ujian,
+                        'id_kelas' => $row[0],
+                        'id_tahun_akademik' => $row[1],
+                        'tanggal' => $row[2],
+                        'jam_mulai' => $row[3],
+                        'jam_selesai' => $row[4]
                     ];
 
-                    $db->transException(true)->transStart();
-                    $db->table('jadwal_ujian')->insert($simpandata);
-
-                    $id_jadwal_ujian = $db->insertID();
-                    $jadwal_ruangan = [];
-                    foreach ($data as $x => $row) {
-                        if ($row[0] == $id_kelas) {
+                    $id_kelas = $row[0];
+                    foreach ($data as $r) {
+                        if ($r[0] == $id_kelas) {
                             $jadwal_ruangan[] = [
                                 'id_jadwal_ujian' => $id_jadwal_ujian,
-                                'id_ruang_ujian' => $row[5],
-                                'jumlah_peserta' => $row[6]
+                                'id_ruang_ujian' => $r[5],
+                                'jumlah_peserta' => $r[6]
                             ];
                         }
                     }
-                    $db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
-                    $db->transComplete();
+
+                    $count++;
                 }
             }
 
-            session()->setFlashdata('success', 'Data Berhasil Diimport');
+            if ($count > 0) {
+                $this->db->transException(true)->transStart();
+                // dd($jadwal_ujian);
+                // dd($jadwal_ruangan);
+                $this->db->table('jadwal_ujian')->insertBatch($jadwal_ujian);
+                $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+                $this->db->transComplete();
+
+                session()->setFlashdata('success', 'Data Berhasil Diimport');
+            } else {
+                session()->setFlashdata('error', 'Tidak Ada Data yang Diimport');
+            }
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }

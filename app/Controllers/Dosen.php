@@ -220,7 +220,7 @@ class Dosen extends BaseController
                 $db->table('dosen')->insertBatch($simpandata);
                 session()->setFlashdata('success', 'Data Berhasil Diimport');
             } else {
-                session()->setFlashdata('error', 'Tidak Ada Data yang Ditambahkan');
+                session()->setFlashdata('error', 'Tidak Ada Data yang Diimport');
             }
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diimport');

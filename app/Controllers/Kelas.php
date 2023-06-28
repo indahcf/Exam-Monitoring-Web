@@ -260,6 +260,8 @@ class Kelas extends BaseController
         $db = \Config\Database::connect();
 
         try {
+            $simpandata = [];
+            $count = 0;
             foreach ($data as $x => $row) {
                 if ($x != 0 && $row[0] != null) {
                     $id_matkul = $row[0];
@@ -276,18 +278,23 @@ class Kelas extends BaseController
                         continue;
                     }
 
-                    $simpandata = [
+                    $simpandata[] = [
                         'id_matkul' => $id_matkul,
                         'id_dosen' => $id_dosen,
                         'kelas' => $kelas,
                         'jumlah_mahasiswa' => $jumlah_mahasiswa
                     ];
 
-                    $db->table('kelas')->insert($simpandata);
+                    $count++;
                 }
             }
 
-            session()->setFlashdata('success', 'Data Berhasil Diimport');
+            if ($count > 0) {
+                $db->table('kelas')->insert($simpandata);
+                session()->setFlashdata('success', 'Data Berhasil Diimport');
+            } else {
+                session()->setFlashdata('error', 'Tidak Ada Data yang Diimport');
+            }
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }
