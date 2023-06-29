@@ -198,7 +198,7 @@ class RuangUjian extends BaseController
             }
 
             if ($count > 0) {
-                $db->table('ruang_ujian')->insert($simpandata);
+                $db->table('ruang_ujian')->insertBatch($simpandata);
                 session()->setFlashdata('success', 'Data Berhasil Diimport');
             } else {
                 session()->setFlashdata('error', 'Tidak Ada Data yang Diimport');

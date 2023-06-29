@@ -290,7 +290,7 @@ class Kelas extends BaseController
             }
 
             if ($count > 0) {
-                $db->table('kelas')->insert($simpandata);
+                $db->table('kelas')->insertBatch($simpandata);
                 session()->setFlashdata('success', 'Data Berhasil Diimport');
             } else {
                 session()->setFlashdata('error', 'Tidak Ada Data yang Diimport');
