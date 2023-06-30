@@ -203,6 +203,13 @@ class JadwalUjian extends BaseController
     public function update($id_jadwal_ujian)
     {
         if (!$this->validate([
+            'prodi' => [
+                'rules' => 'required',
+                'label' => 'Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'kelas' => [
                 'rules' => 'required',
                 'label' => 'Kelas',

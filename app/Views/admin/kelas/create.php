@@ -107,6 +107,9 @@
                                     $('select[name=matkul]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Mata Kuliah</option>`
+                            $('select[name=matkul]').html(options)
                         }
 
                     }
@@ -125,6 +128,9 @@
                                     $('select[name=dosen]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Dosen</option>`
+                            $('select[name=dosen]').html(options)
                         }
 
                     }

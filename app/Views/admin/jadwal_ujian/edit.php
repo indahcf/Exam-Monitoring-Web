@@ -97,6 +97,7 @@
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
                         getRuanganTersedia()
+                        console.log('prodi', id_prodi)
                         getKelas(id_prodi)
                         setTimeout(() => {
                             let id_kelas = $('select[name=kelas]').val();
@@ -107,6 +108,7 @@
                                 if (i == 0) {
                                     $('.fg_ruangan_peserta').remove()
                                 }
+                                console.log(old_ruangan[i]);
                                 console.log(old_peserta[i]);
                                 fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
                                 fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])

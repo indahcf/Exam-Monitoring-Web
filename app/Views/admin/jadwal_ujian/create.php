@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
-                        <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="" data-value="<?= old('tanggal'); ?>" placeholder="Tanggal">
+                        <input type="date" class="form-control <?= (validation_show_error('tanggal')) ? 'is-invalid' : ''; ?>" id="tanggal" name="tanggal" value="<?= old('tanggal'); ?>" placeholder="Tanggal">
                         <div class="invalid-feedback">
                             <?= validation_show_error('tanggal'); ?>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <label for="jam_mulai">Jam Mulai</label>
-                                    <input type="time" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="" data-value="<?= old('jam_mulai'); ?>" placeholder="Jam Mulai">
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_mulai')) ? 'is-invalid' : ''; ?>" id="jam_mulai" name="jam_mulai" value="<?= old('jam_mulai'); ?>" placeholder="Jam Mulai">
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('jam_mulai'); ?>
                                     </div>
@@ -59,7 +59,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <label for="jam_selesai">Jam Selesai</label>
-                                    <input type="time" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="" data-value="<?= old('jam_selesai'); ?>" placeholder="Jam Selesai">
+                                    <input type="time" class="form-control <?= (validation_show_error('jam_selesai')) ? 'is-invalid' : ''; ?>" id="jam_selesai" name="jam_selesai" value="<?= old('jam_selesai'); ?>" placeholder="Jam Selesai">
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('jam_selesai'); ?>
                                     </div>
@@ -71,11 +71,11 @@
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-6">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian.1')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
+                                <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian 1</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    <?= validation_show_error('ruang_ujian.1'); ?>
+                                    <?= validation_show_error('ruang_ujian.0'); ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -95,22 +95,25 @@
                         let id_prodi = $('select[name=prodi]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
-                        for (const i in old_ruangan) {
-                            let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
-                            if (i == 0) {
-                                $('.fg_ruangan_peserta').remove()
-                            }
-                            console.log(old_peserta[i]);
-                            fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
-                            fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
-                            $('#ruangan').append(fg_ruangan_peserta)
-                        }
+                        getRuanganTersedia()
                         // console.log('prodi', id_prodi)
                         getKelas(id_prodi)
                         setTimeout(() => {
                             let id_kelas = $('select[name=kelas]').val();
                             // console.log('kelas', id_kelas)
                             getDosen(id_kelas)
+                            for (const i in old_ruangan) {
+                                let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                                if (i == 0) {
+                                    $('.fg_ruangan_peserta').remove()
+                                }
+                                console.log(old_ruangan[i]);
+                                console.log(old_peserta[i]);
+                                fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
+                                fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
+                                $('#ruangan').append(fg_ruangan_peserta)
+                            }
+                            handleRuangan()
                         }, 1000);
                     })
 
@@ -129,6 +132,10 @@
                                     $('select[name=kelas]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Kelas</option>`
+                            $('select[name=kelas]').html(options)
+                            $('input[name=dosen]').val('')
                         }
                     }
 
@@ -143,6 +150,8 @@
                                     $('input[name=dosen]').val(response.dosen)
                                 },
                             })
+                        } else {
+                            $('input[name=dosen]').val('')
                         }
                     }
 
@@ -182,7 +191,7 @@
                         return total
                     }
 
-                    $('body').on('change', 'select[name^=ruang_ujian]', function() {
+                    function handleRuangan() {
                         // total mahasiswa dari kelas yg dipilih 
                         let peserta_kelas = $('select[name=kelas]').children('option:selected').data('peserta')
 
@@ -244,6 +253,10 @@
                         console.log('peserta kelas', peserta_kelas)
                         console.log('total kapasitas', total_kapasitas)
                         console.log('belum punya ruangan', peserta_kelas - total_kapasitas)
+                    }
+
+                    $('body').on('change', 'select[name^=ruang_ujian]', function() {
+                        handleRuangan()
                     })
 
                     function getRuanganTersedia() {
