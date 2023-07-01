@@ -69,7 +69,7 @@ class Matkul extends BaseController
             ],
             'prodi' => [
                 'rules' => 'required',
-                'label' => 'Nama Program Studi',
+                'label' => 'Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -163,7 +163,7 @@ class Matkul extends BaseController
             ],
             'prodi' => [
                 'rules' => 'required',
-                'label' => 'Nama Program Studi',
+                'label' => 'Program Studi',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]

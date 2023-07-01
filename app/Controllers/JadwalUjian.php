@@ -309,10 +309,8 @@ class JadwalUjian extends BaseController
 
         try {
             $count = 0;
-            // $id_jadwal_ujian = $this->db->table('jadwal_ujian')->orderBy('created_at', 'DESC')->get()->getRowArray()['id_jadwal_ujian'];
-            // dd($id_jadwal_ujian);
-            // $jadwal_ujian = [];
             $jadwal_ruangan = [];
+            $this->db->transException(true)->transStart();
             foreach ($data as $x => $row) {
                 if ($x != 0 && $row[0] != null) {
 
@@ -324,18 +322,16 @@ class JadwalUjian extends BaseController
                         continue;
                     }
 
-                    // $id_jadwal_ujian++;
                     $jadwal_ujian = [
-                        // 'id_jadwal_ujian' => $id_jadwal_ujian,
                         'id_kelas' => $row[0],
                         'id_tahun_akademik' => $row[1],
                         'tanggal' => $row[2],
                         'jam_mulai' => $row[3],
                         'jam_selesai' => $row[4]
                     ];
+
                     $this->db->table('jadwal_ujian')->insert($jadwal_ujian);
                     $id_jadwal_ujian = $this->db->insertID();
-                    // var_dump($id_jadwal_ujian);
                     $id_kelas = $row[0];
                     foreach ($data as $r) {
                         if ($r[0] == $id_kelas) {
@@ -347,16 +343,13 @@ class JadwalUjian extends BaseController
                         }
                     }
 
-                    // var_dump($count);
                     $count++;
                 }
             }
 
             if ($count > 0) {
-                $this->db->transException(true)->transStart();
                 // dd($jadwal_ujian);
                 // dd($jadwal_ruangan);
-                // $this->db->table('jadwal_ujian')->insertBatch($jadwal_ujian);
                 $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
                 $this->db->transComplete();
 

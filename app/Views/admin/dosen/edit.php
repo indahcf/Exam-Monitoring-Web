@@ -25,11 +25,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="prodi">Nama Program Studi</label>
+                        <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
-                                <option value="<?= $p['id_prodi']; ?>" <?= ($p['id_prodi'] == $dosen['id_prodi'] || $p['id_prodi'] == old('id_prodi')) ? 'selected' : ' '; ?>>
+                                <option value="<?= $p['id_prodi']; ?>" <?= (old('prodi', $dosen['id_prodi']) == $p['id_prodi']) ? 'selected' : ''; ?>>
                                     <?= $p['prodi']; ?>
                                 </option>
                             <?php endforeach; ?>
