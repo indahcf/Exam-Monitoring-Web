@@ -101,14 +101,7 @@ class JadwalUjian extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ],
-            'jumlah_peserta.*' => [
-                'rules' => 'required',
-                'label' => 'Jumlah Peserta',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
+            ]
         ])) {
             return redirect()->back()->withInput();
         }
@@ -220,13 +213,6 @@ class JadwalUjian extends BaseController
             'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'jumlah_peserta.*' => [
-                'rules' => 'required',
-                'label' => 'Jumlah Peserta',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]

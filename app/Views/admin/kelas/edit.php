@@ -16,7 +16,7 @@
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('id_prodi', $prodi_kelas) == $p['id_prodi']) ? 'selected' : ''; ?>>
+                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('prodi', $prodi_kelas) == $p['id_prodi']) ? 'selected' : ''; ?>>
                                         <?= $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>
@@ -43,7 +43,7 @@
                                     <select class="form-control <?= (validation_show_error('asal_dosen')) ? 'is-invalid' : ''; ?>" id="asal_dosen" name="asal_dosen">
                                         <option value="">Pilih Asal Dosen</option>
                                         <?php foreach ($prodi as $p) : ?>
-                                            <option value="<?= $p['id_prodi']; ?>" <?= (old('id_prodi', $asal_dosen) ==  $p['id_prodi']) ? 'selected' : ''; ?>>
+                                            <option value="<?= $p['id_prodi']; ?>" <?= (old('asal_dosen', $asal_dosen) ==  $p['id_prodi']) ? 'selected' : ''; ?>>
                                                 <?= $p['prodi']; ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -56,7 +56,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen', $kelas['id_dosen']) ?>">
-                                        <option value="">Pilih Dosen</option>
+                                        <option value="">Pilih Dosen Pengampu</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('dosen'); ?>
@@ -107,8 +107,10 @@
                                     $('select[name=matkul]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Mata Kuliah</option>`
+                            $('select[name=matkul]').html(options)
                         }
-
                     }
 
                     function getDosen(id_asal_dosen) {
@@ -118,15 +120,17 @@
                                 url: window.location.origin + '/api/dosen?id_prodi=' + id_asal_dosen,
                                 type: 'GET',
                                 success: function(response) {
-                                    let options = `<option value="">Pilih Dosen</option>`
+                                    let options = `<option value="">Pilih Dosen Pengampu</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_dosen}" ${id_dosen == data.id_dosen ? 'selected' : ''}>${data.dosen}</option>`
                                     }
                                     $('select[name=dosen]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Dosen Pengampu</option>`
+                            $('select[name=dosen]').html(options)
                         }
-
                     }
 
                     $('select[name=prodi]').on('change', function() {

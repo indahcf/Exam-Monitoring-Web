@@ -55,7 +55,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
-                                        <option value="">Pilih Dosen</option>
+                                        <option value="">Pilih Dosen Pengampu</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('dosen'); ?>
@@ -111,7 +111,6 @@
                             let options = `<option value="">Pilih Mata Kuliah</option>`
                             $('select[name=matkul]').html(options)
                         }
-
                     }
 
                     function getDosen(id_asal_dosen) {
@@ -121,7 +120,7 @@
                                 url: window.location.origin + '/api/dosen?id_prodi=' + id_asal_dosen,
                                 type: 'GET',
                                 success: function(response) {
-                                    let options = `<option value="">Pilih Dosen</option>`
+                                    let options = `<option value="">Pilih Dosen Pengampu</option>`
                                     for (const data of response) {
                                         options += `<option value="${data.id_dosen}" ${id_dosen == data.id_dosen ? 'selected' : ''}>${data.dosen}</option>`
                                     }
@@ -129,10 +128,9 @@
                                 },
                             })
                         } else {
-                            let options = `<option value="">Pilih Dosen</option>`
+                            let options = `<option value="">Pilih Dosen Pengampu</option>`
                             $('select[name=dosen]').html(options)
                         }
-
                     }
 
                     $('select[name=prodi]').on('change', function() {

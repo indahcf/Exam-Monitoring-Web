@@ -16,7 +16,7 @@
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('id_prodi', $prodi_kelas) == $p['id_prodi']) ? 'selected' : ''; ?>>
+                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('prodi', $prodi_kelas) == $p['id_prodi']) ? 'selected' : ''; ?>>
                                         <?= $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>
@@ -133,6 +133,10 @@
                                     $('select[name=kelas]').html(options)
                                 },
                             })
+                        } else {
+                            let options = `<option value="">Pilih Kelas</option>`
+                            $('select[name=kelas]').html(options)
+                            $('input[name=dosen]').val('')
                         }
                     }
 
@@ -147,6 +151,8 @@
                                     $('input[name=dosen]').val(response.dosen)
                                 },
                             })
+                        } else {
+                            $('input[name=dosen]').val('')
                         }
                     }
 
