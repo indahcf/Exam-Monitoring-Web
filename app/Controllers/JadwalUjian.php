@@ -36,11 +36,20 @@ class JadwalUjian extends BaseController
 
     public function index()
     {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
+        if (empty($id_tahun_akademik)) {
+            $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
+        } else {
+            $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
+        }
+
         $data = [
             'title' => 'Data Jadwal Ujian',
-            'jadwal_ujian' => $this->jadwal_ujianModel->getJadwalUjian()
+            'jadwal_ujian' => $jadwal_ujian,
+            'tahun_akademik' => $this->tahun_akademikModel->findAll()
         ];
-        // dd($data);
+
         return view('admin/jadwal_ujian/index', $data);
     }
 

@@ -3,19 +3,38 @@
 <?= $this->section('content'); ?>
 
 <h4 class="card-title">Data Jadwal Ujian</h4>
-<div class="template-demo">
-    <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text">
-        <i class="ti-plus btn-icon-prepend"></i>
-        Tambah
-    </a>
-    <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
-        <i class="ti-import btn-icon-prepend"></i>
-        Import
-    </button>
-    <a href="/admin/jadwal_ujian/export" class="btn btn-danger btn-icon-text">
-        <i class="ti-export btn-icon-prepend"></i>
-        Export
-    </a>
+<div class="template-demo row mb-3">
+    <div class="col-md-7">
+        <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group">
+            <select class="form-control w-10" id="tahun_akademik" name="tahun_akademik">
+                <option value="">Pilih Tahun Akademik</option>
+                <?php foreach ($tahun_akademik as $t) : ?>
+                    <option value="<?= $t['id_tahun_akademik']; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
+                        <?= $t['tahun_akademik']; ?> - <?= $t['semester']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="ti-filter btn-icon-prepend"></i>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5">
+        <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text">
+            <i class="ti-plus btn-icon-prepend"></i>
+            Tambah
+        </a>
+        <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
+            <i class="ti-import btn-icon-prepend"></i>
+            Import
+        </button>
+        <a href="/admin/jadwal_ujian/export" class="btn btn-danger btn-icon-text">
+            <i class="ti-export btn-icon-prepend"></i>
+            Export
+        </a>
+    </div>
 </div>
 <div class="card">
     <div class="card-body">
@@ -80,6 +99,10 @@
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
                             });
+                        });
+
+                        $("#tahun_akademik").change(function() {
+                            $("#formFilter").submit();
                         });
                     </script>
                 </div>
