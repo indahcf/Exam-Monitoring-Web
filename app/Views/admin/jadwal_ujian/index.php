@@ -5,8 +5,8 @@
 <h4 class="card-title">Data Jadwal Ujian</h4>
 <div class="template-demo row mb-3">
     <div class="col-md-7">
-        <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group">
-            <select class="form-control w-10" id="tahun_akademik" name="tahun_akademik">
+        <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 225px;">
+            <select class="form-control" id="tahun_akademik" name="tahun_akademik">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
                     <option value="<?= $t['id_tahun_akademik']; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
@@ -30,7 +30,7 @@
             <i class="ti-import btn-icon-prepend"></i>
             Import
         </button>
-        <a href="/admin/jadwal_ujian/export" class="btn btn-danger btn-icon-text">
+        <a href="<?= base_url('/admin/jadwal_ujian/export') ?>" class="btn btn-danger btn-icon-text">
             <i class="ti-export btn-icon-prepend"></i>
             Export
         </a>

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Database\Exceptions\DatabaseException;
+use Dompdf\Dompdf;
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\MatkulModel;
@@ -10,6 +10,7 @@ use App\Models\RuangUjianModel;
 use App\Models\JadwalRuangModel;
 use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class JadwalUjian extends BaseController
 {
@@ -40,17 +41,41 @@ class JadwalUjian extends BaseController
         $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
         if (empty($id_tahun_akademik)) {
             $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
+            // $url_export = 'jadwal_ujian/export';
         } else {
             $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
+            // $url_export = 'jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik;
         }
 
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $jadwal_ujian,
-            'tahun_akademik' => $this->tahun_akademikModel->findAll()
+            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+            // 'url_export' => base_url($url_export)
         ];
 
         return view('admin/jadwal_ujian/index', $data);
+    }
+
+    public function export()
+    {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
+        if (empty($id_tahun_akademik)) {
+            $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
+        } else {
+            $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
+        }
+
+        $data = [
+            'jadwal_ujian' => $jadwal_ujian
+        ];
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('admin/jadwal_ujian/export', $data));
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream('Jadwal Ujian.pdf', array("Attachment" => false));
     }
 
     public function create()

@@ -99,6 +99,7 @@ $routes->get('/admin/jadwal_ujian/edit/(:segment)', 'JadwalUjian::edit/$1');
 $routes->post('/admin/jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1');
 $routes->delete('/admin/jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
 $routes->post('/admin/jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
+$routes->get('/admin/jadwal_ujian/export', 'JadwalUjian::export');
 
 $routes->get('/admin/soal_ujian', 'SoalUjian::index');
 $routes->get('/admin/soal_ujian/create', 'SoalUjian::create');
