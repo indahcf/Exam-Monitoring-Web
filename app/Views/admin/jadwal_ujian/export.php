@@ -72,40 +72,35 @@
         <table class="table-laporan" width="100%" style="margin-top: 10px;">
             <tr>
                 <th>No</th>
-                <th>Hari</th>
-                <th>Tanggal</th>
-                <th>Jam</th>
-                <th>Kode Mata Kuliah</th>
-                <th>Mata Kuliah</th>
-                <th>Program Studi</th>
-                <th>Dosen</th>
-                <th>Kelas</th>
-                <th>Ruang</th>
-                <th>Jumlah Peserta</th>
+                <th>HARI</th>
+                <th>TANGGAL</th>
+                <th>JAM</th>
+                <th>KODE MATA KULIAH</th>
+                <th>MATA KULIAH</th>
+                <th>PROGRAM STUDI</th>
+                <th>DOSEN</th>
+                <th>KELAS</th>
+                <th>RUANG UJIAN</th>
+                <th>JUMLAH PESERTA</th>
             </tr>
             <?php
             if (empty($jadwal_ujian)) {
-                echo "<tr><td colspan='6'>Data tidak ada</td></tr>";
+                echo "<tr><td colspan='11' align='center'>Tidak ada data jadwal ujian</td></tr>";
             } else {
-                $i = 0;
-                $temp = 0;
+                $i = 1;
                 foreach ($jadwal_ujian as $j) {
                     echo "<tr>";
-                    if ($temp != $j['id_jadwal_ujian']) {
-                        $i++;
-                        $temp = $j['id_jadwal_ujian'];
-                    }
-                    echo "<td style='width: 15px; text-align: center;'>" . $i . "</td>";
+                    echo "<td style='width: 20px; text-align: center;'>" . $i++ . "</td>";
                     echo "<td style='width: 50px; text-align: center;'>" . hari($j['tanggal']) . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . date('d-m-Y', strtotime($j['tanggal'])) . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . date('H.i', strtotime($j['jam_mulai'])) - date('H.i', strtotime($j['jam_selesai'])) . "</td>";
-                    echo "<td style='width: 80px; text-align: center;'>" . $j['kode_matkul'] . "</td>";
+                    echo "<td style='width: 40px; text-align: center;'>" . date('d-m-Y', strtotime($j['tanggal'])) . "</td>";
+                    echo "<td style='width: 80px; text-align: center;'>" . date('H.i', strtotime($j['jam_mulai'])) . " - " . date('H.i', strtotime($j['jam_selesai'])) . "</td>";
+                    echo "<td style='width: 70px; text-align: center;'>" . $j['kode_matkul'] . "</td>";
                     echo "<td style='width: 100px; text-align: center;'>" . $j['matkul'] . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . $j['prodi'] . "</td>";
+                    echo "<td style='width: 90px; text-align: center;'>" . $j['prodi'] . "</td>";
                     echo "<td style='width: 100px; text-align: center;'>" . $j['dosen'] . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . $j['kelas'] . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . $j['ruang_ujian'] . "</td>";
-                    echo "<td style='width: 100px; text-align: center;'>" . $j['jumlah_peserta'] . "</td>";
+                    echo "<td style='width: 50px; text-align: center;'>" . $j['kelas'] . "</td>";
+                    echo "<td style='width: 50px; text-align: center;'>" . $j['ruang_ujian'] . "</td>";
+                    echo "<td style='width: 40px; text-align: center;'>" . $j['jumlah_peserta'] . "</td>";
                     echo "</tr>";
                 }
             }

@@ -41,17 +41,17 @@ class JadwalUjian extends BaseController
         $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
         if (empty($id_tahun_akademik)) {
             $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
-            // $url_export = 'jadwal_ujian/export';
+            $url_export = 'admin/jadwal_ujian/export';
         } else {
             $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
-            // $url_export = 'jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik;
+            $url_export = 'admin/jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik;
         }
 
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $jadwal_ujian,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            // 'url_export' => base_url($url_export)
+            'url_export' => base_url($url_export)
         ];
 
         return view('admin/jadwal_ujian/index', $data);

@@ -30,7 +30,7 @@
             <i class="ti-import btn-icon-prepend"></i>
             Import
         </button>
-        <a href="<?= base_url('/admin/jadwal_ujian/export') ?>" class="btn btn-danger btn-icon-text">
+        <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
             <i class="ti-export btn-icon-prepend"></i>
             Export
         </a>
@@ -53,7 +53,7 @@
                                 <th>Program Studi</th>
                                 <th>Dosen</th>
                                 <th>Kelas</th>
-                                <th>Ruang</th>
+                                <th>Ruang Ujian</th>
                                 <th>Jumlah Peserta</th>
                                 <th>Aksi</th>
                             </tr>
