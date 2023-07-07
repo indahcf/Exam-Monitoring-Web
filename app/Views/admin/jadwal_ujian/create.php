@@ -281,14 +281,32 @@
 
                     $('input[name=tanggal]').on('change', function() {
                         getRuanganTersedia()
+
+                        // reset select ruangan 
+                        let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                        fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val('')
+                        $('.fg_ruangan_peserta').remove()
+                        $('#ruangan').append(fg_ruangan_peserta)
                     })
 
                     $('input[name=jam_mulai]').on('change', function() {
                         getRuanganTersedia()
+
+                        // reset select ruangan 
+                        let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                        fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val('')
+                        $('.fg_ruangan_peserta').remove()
+                        $('#ruangan').append(fg_ruangan_peserta)
                     })
 
                     $('input[name=jam_selesai]').on('change', function() {
                         getRuanganTersedia()
+
+                        // reset select ruangan 
+                        let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                        fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val('')
+                        $('.fg_ruangan_peserta').remove()
+                        $('#ruangan').append(fg_ruangan_peserta)
                     })
                 </script>
             </div>

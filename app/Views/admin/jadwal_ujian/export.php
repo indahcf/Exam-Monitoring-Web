@@ -33,6 +33,10 @@
             padding: 5 px;
         }
 
+        .table-laporan th {
+            font-weight: normal;
+        }
+
         .rangkasurat {
             width: 980px;
             margin: 0 auto;
@@ -40,7 +44,6 @@
         }
 
         .surat {
-            border-bottom: 2px solid #000;
             padding: 2px;
         }
 
@@ -60,15 +63,13 @@
         <table width="100%" class="surat">
             <tr>
                 <td class="tengah">
-                    <h3>PT Noto Teknologi Indonesia</h3>
-                    <p>Alamat: Jl. Bocoran 62 Karangsalam Kidul RT 03/02 Kedungbanteng, Telp: 081334923095</p>
-                    <p><i>Email</i>: halo@ultranesia.com <i>Website</i>: ultranesia.com</p>
+                    <h3>Jadwal Ujian Akhir Semester Genap Tahun Akademik 2022/2023</h3>
+                    <h3>Fakultas Teknik Unsoed</h3>
                 </td>
             </tr>
         </table>
     </div>
     <div class="laporan">
-        <h3 style="margin-bottom: 5px;"><u>DATA JADWAL UJIAN</u></h3>
         <table class="table-laporan" width="100%" style="margin-top: 10px;">
             <tr>
                 <th>No</th>
