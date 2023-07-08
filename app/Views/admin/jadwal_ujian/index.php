@@ -6,11 +6,11 @@
 <div class="template-demo row mb-3">
     <div class="col-md-7">
         <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 225px;">
-            <select class="form-control" id="tahun_akademik" name="tahun_akademik">
+            <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
                     <?php foreach (["UTS", "UAS"] as $periode_ujian) : ?>
-                        <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
+                        <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('filter') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
                             <?= $periode_ujian; ?> <?= $t['semester']; ?> <?= $t['tahun_akademik']; ?>
                         </option>
                     <?php endforeach; ?>
@@ -124,8 +124,21 @@
             </div>
             <div class="modal-body">
                 <form method="post" action="<?= base_url('/admin/jadwal_ujian/simpanExcel') ?>" enctype="multipart/form-data">
-                    <label for="file_excel">File Excel</label>
-                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
+                    <div class="form-group">
+                        <label for="periode_ujian">Periode Ujian</label>
+                        <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">
+                            <option value="">Pilih Periode Ujian</option>
+                            <option value="UTS" <?= old('periode_ujian') == 'UTS' ? 'selected' : '' ?>>UTS</option>
+                            <option value="UAS" <?= old('periode_ujian') == 'UAS' ? 'selected' : '' ?>>UAS</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('periode_ujian'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file_excel">File Excel</label>
+                        <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

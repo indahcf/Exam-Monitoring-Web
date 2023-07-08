@@ -11,6 +11,17 @@
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id_jadwal_ujian" value="<?= $jadwal_ujian['id_jadwal_ujian']; ?>">
                     <div class="form-group">
+                        <label for="periode_ujian">Periode Ujian</label>
+                        <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">
+                            <option value="">Pilih Periode Ujian</option>
+                            <option value="UTS" <?= old('periode_ujian', $jadwal_ujian['periode_ujian']) == 'UTS' ? 'selected' : '' ?>>UTS</option>
+                            <option value="UAS" <?= old('periode_ujian', $jadwal_ujian['periode_ujian']) == 'UAS' ? 'selected' : '' ?>>UAS</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('periode_ujian'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
