@@ -9,9 +9,11 @@
             <select class="form-control" id="tahun_akademik" name="tahun_akademik">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
-                    <option value="<?= $t['id_tahun_akademik']; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
-                        <?= $t['tahun_akademik']; ?> - <?= $t['semester']; ?>
-                    </option>
+                    <?php foreach (["UTS", "UAS"] as $periode_ujian) : ?>
+                        <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('tahun_akademik') == $t['id_tahun_akademik'] ? 'selected' : '' ?>>
+                            <?= $periode_ujian; ?> <?= $t['semester']; ?> <?= $t['tahun_akademik']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             </select>
             <div class="input-group-append">

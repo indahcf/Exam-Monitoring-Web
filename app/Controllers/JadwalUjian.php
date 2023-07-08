@@ -39,12 +39,13 @@ class JadwalUjian extends BaseController
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
         $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
-        if (empty($id_tahun_akademik)) {
+        $periode_ujian = $this->request->getVar('periode_ujian');
+        if (empty($id_tahun_akademik) && empty($periode_ujian)) {
             $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
             $url_export = 'admin/jadwal_ujian/export';
         } else {
-            $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
-            $url_export = 'admin/jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik;
+            $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik, $periode_ujian);
+            $url_export = 'admin/jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik . '&periode_ujian=' . $periode_ujian;
         }
 
         $data = [
@@ -94,6 +95,13 @@ class JadwalUjian extends BaseController
     public function save()
     {
         if (!$this->validate([
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -160,6 +168,7 @@ class JadwalUjian extends BaseController
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('jadwal_ujian')->insert([
+                'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
