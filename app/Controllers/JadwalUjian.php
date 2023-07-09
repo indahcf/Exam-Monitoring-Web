@@ -40,12 +40,12 @@ class JadwalUjian extends BaseController
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
         $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll()[0]['periode_ujian'];
         $periode_ujian_aktif = $jadwal_ujian_terakhir;
-        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_$periode_ujian_aktif";
+        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
         // dd($filter);
         $id_tahun_akademik = explode("_", $filter)[0];
         $periode_ujian = explode("_", $filter)[1];
         $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik, $periode_ujian);
-        $url_export = 'admin/jadwal_ujian/export?tahun_akademik=' . $id_tahun_akademik . '&periode_ujian=' . $periode_ujian;
+        $url_export = 'admin/jadwal_ujian/export?id_tahun_akademik=' . $id_tahun_akademik . '&periode_ujian=' . $periode_ujian;
 
         $data = [
             'title' => 'Data Jadwal Ujian',
@@ -60,15 +60,18 @@ class JadwalUjian extends BaseController
     public function export()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $id_tahun_akademik = $this->request->getVar('tahun_akademik') ?: $tahun_akademik_aktif;
-        if (empty($id_tahun_akademik)) {
-            $jadwal_ujian = $this->jadwal_ujianModel->getJadwalUjian($tahun_akademik_aktif);
-        } else {
-            $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik);
-        }
+        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll()[0]['periode_ujian'];
+        $periode_ujian_aktif = $jadwal_ujian_terakhir;
+        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+        // dd($filter);
+        $id_tahun_akademik = explode("_", $filter)[0];
+        $periode_ujian = explode("_", $filter)[1];
+        $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik, $periode_ujian);
+        $label = 'Jadwal ' . $periode_ujian;
 
         $data = [
-            'jadwal_ujian' => $jadwal_ujian
+            'jadwal_ujian' => $jadwal_ujian,
+            'label' => $label
         ];
 
         $dompdf = new Dompdf();

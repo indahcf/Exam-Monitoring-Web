@@ -103,7 +103,7 @@
                             });
                         });
 
-                        $("#tahun_akademik").change(function() {
+                        $("#filter").change(function() {
                             $("#formFilter").submit();
                         });
                     </script>
