@@ -45,7 +45,7 @@ class JadwalUjian extends BaseController
         $id_tahun_akademik = explode("_", $filter)[0];
         $periode_ujian = explode("_", $filter)[1];
         $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik, $periode_ujian);
-        $url_export = 'admin/jadwal_ujian/export?id_tahun_akademik=' . $id_tahun_akademik . '&periode_ujian=' . $periode_ujian;
+        $url_export = 'admin/jadwal_ujian/export?filter=' . $filter;
 
         $data = [
             'title' => 'Data Jadwal Ujian',
