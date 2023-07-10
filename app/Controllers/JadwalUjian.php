@@ -151,9 +151,10 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
+        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester serta periode ujian yg sama
         if ($this->jadwal_ujianModel->where([
             'id_kelas' => $this->request->getVar('kelas'),
+            'periode_ujian' => $this->request->getVar('periode_ujian'),
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
         ])->first()) {
             return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
@@ -298,6 +299,7 @@ class JadwalUjian extends BaseController
         //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
         if ($this->jadwal_ujianModel->where([
             'id_kelas' => $this->request->getVar('kelas'),
+            'periode_ujian' => $this->request->getVar('periode_ujian'),
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
             'id_jadwal_ujian !=' => $id_jadwal_ujian
         ])->first()) {

@@ -23,12 +23,12 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5">
-        <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text">
+    <div class="col-md-5 d-flex justify-content-end">
+        <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text mr-2">
             <i class="ti-plus btn-icon-prepend"></i>
             Tambah
         </a>
-        <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
+        <button type="button" class="btn btn-success btn-icon-text mr-2" data-toggle="modal" data-target="#modalImport">
             <i class="ti-import btn-icon-prepend"></i>
             Import
         </button>
