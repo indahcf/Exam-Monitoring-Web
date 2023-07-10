@@ -67,7 +67,7 @@ class JadwalUjian extends BaseController
         $id_tahun_akademik = explode("_", $filter)[0];
         $periode_ujian = explode("_", $filter)[1];
         $jadwal_ujian = $this->jadwal_ujianModel->filterTahunAkademik($id_tahun_akademik, $periode_ujian);
-        $label = 'Jadwal ' . $periode_ujian;
+        $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' ' . $jadwal_ujian[0]['tahun_akademik'];
 
         $data = [
             'jadwal_ujian' => $jadwal_ujian,
@@ -78,7 +78,7 @@ class JadwalUjian extends BaseController
         $dompdf->loadHtml(view('admin/jadwal_ujian/export', $data));
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream('Jadwal Ujian.pdf', array("Attachment" => false));
+        $dompdf->stream(str_replace("/", "-", $label), array("Attachment" => false));
     }
 
     public function create()

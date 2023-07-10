@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 
 <h4 class="card-title">Data Jadwal Ujian</h4>
-<div class="template-demo row mb-3">
+<div class="template-demo row mb-3 mt-4">
     <div class="col-md-7">
         <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 225px;">
             <select class="form-control" id="filter" name="filter">
@@ -32,10 +32,12 @@
             <i class="ti-import btn-icon-prepend"></i>
             Import
         </button>
-        <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
-            <i class="ti-export btn-icon-prepend"></i>
-            Export
-        </a>
+        <?php if (!empty($jadwal_ujian)) : ?>
+            <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
+                <i class="ti-export btn-icon-prepend"></i>
+                Export
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 <div class="card">
