@@ -51,7 +51,8 @@ class JadwalUjian extends BaseController
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $jadwal_ujian,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'url_export' => base_url($url_export)
+            'url_export' => base_url($url_export),
+            'filter' => $id_tahun_akademik . "_" . $periode_ujian
         ];
 
         return view('admin/jadwal_ujian/index', $data);
