@@ -245,6 +245,25 @@ class Kelas extends BaseController
 
     public function simpanExcel()
     {
+        $validation = \Config\Services::validation();
+
+        if (!$this->validate([
+            'fileexcel' => [
+                'rules' => 'required',
+                'label' => 'File Excel',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            $message = [
+                'error' => [
+                    'fileexcel' => $validation->getError('fileexcel')
+                ]
+            ];
+        }
+        return $this->response->setJSON($message);
+
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
         if ($ext == 'xls') {

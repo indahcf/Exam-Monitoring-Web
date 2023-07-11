@@ -332,6 +332,33 @@ class JadwalUjian extends BaseController
 
     public function simpanExcel()
     {
+        $validation = \Config\Services::validation();
+
+        if (!$this->validate([
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'fileexcel' => [
+                'rules' => 'required',
+                'label' => 'File Excel',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            $message = [
+                'error' => [
+                    'periode_ujian' => $validation->getError('periode_ujian'),
+                    'fileexcel' => $validation->getError('fileexcel')
+                ]
+            ];
+        }
+        return $this->response->setJSON($message);
+
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
         if ($ext == 'xls') {

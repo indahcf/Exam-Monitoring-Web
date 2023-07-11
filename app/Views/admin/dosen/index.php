@@ -56,6 +56,33 @@
                             $('#dosen').DataTable({
                                 "scrollX": true
                             });
+
+                            $('.form_modal').submit(function(e) {
+                                e.preventDefault();
+                                $.ajax({
+                                    type: "post",
+                                    url: $(this).attr('action'),
+                                    data: $(this).serialize(),
+                                    dataType: "json",
+                                    success: function(response) {
+                                        if (response.error) {
+                                            if (response.error.fileexcel) {
+                                                $('#file_excel').addClass('is-invalid');
+                                                $('.errorFileExcel').html(response.error.fileexcel);
+                                            } else {
+                                                $('#file_excel').removeClass('is-invalid');
+                                                $('.errorFileExcel').html('');
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+
+                            $('#modalImport').on('hidden.bs.modal', function(e) {
+                                $('#file_excel').removeClass('is-invalid');
+                                $('.errorFileExcel').html('');
+                                $('input[name=fileexcel]').val('')
+                            });
                         });
                     </script>
 
@@ -74,15 +101,17 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="<?= base_url('/admin/dosen/simpanExcel') ?>" enctype="multipart/form-data">
+            <form method="post" action="<?= base_url('/admin/dosen/simpanExcel') ?>" enctype="multipart/form-data" class="form_modal">
+                <div class="modal-body">
                     <label for="file_excel">File Excel</label>
-                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
+                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" accept=".xls, .xlsx">
+                    <div class="invalid-feedback errorFileExcel">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
             </form>
         </div>
     </div>

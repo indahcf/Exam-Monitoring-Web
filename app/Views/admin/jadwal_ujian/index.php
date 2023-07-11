@@ -103,6 +103,44 @@
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
                             });
+
+                            $('.form_modal').submit(function(e) {
+                                e.preventDefault();
+                                $.ajax({
+                                    type: "post",
+                                    url: $(this).attr('action'),
+                                    data: $(this).serialize(),
+                                    dataType: "json",
+                                    success: function(response) {
+                                        if (response.error) {
+                                            if (response.error.periode_ujian) {
+                                                $('#periode_ujian').addClass('is-invalid');
+                                                $('.errorPeriodeUjian').html(response.error.periode_ujian);
+                                            } else {
+                                                $('#periode_ujian').removeClass('is-invalid');
+                                                $('.errorPeriodeUjian').html('');
+                                            }
+                                            if (response.error.fileexcel) {
+                                                $('#file_excel').addClass('is-invalid');
+                                                $('.errorFileExcel').html(response.error.fileexcel);
+                                            } else {
+                                                $('#file_excel').removeClass('is-invalid');
+                                                $('.errorFileExcel').html('');
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+
+                            $('#modalImport').on('hidden.bs.modal', function(e) {
+                                $('#periode_ujian').removeClass('is-invalid');
+                                $('.errorPeriodeUjian').html('');
+                                $('#file_excel').removeClass('is-invalid');
+                                $('.errorFileExcel').html('');
+                                let options = `<option value="">Pilih Periode Ujian</option>`
+                                $('select[name=periode_ujian]').html(options)
+                                $('input[name=fileexcel]').val('')
+                            });
                         });
 
                         $("#filter").change(function() {
@@ -124,28 +162,29 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="<?= base_url('/admin/jadwal_ujian/simpanExcel') ?>" enctype="multipart/form-data">
+            <form method="post" action="<?= base_url('/admin/jadwal_ujian/simpanExcel') ?>" enctype="multipart/form-data" class="form_modal">
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="periode_ujian">Periode Ujian</label>
-                        <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">
+                        <select class="form-control" id="periode_ujian" name="periode_ujian">
                             <option value="">Pilih Periode Ujian</option>
                             <option value="UTS" <?= old('periode_ujian') == 'UTS' ? 'selected' : '' ?>>UTS</option>
                             <option value="UAS" <?= old('periode_ujian') == 'UAS' ? 'selected' : '' ?>>UAS</option>
                         </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('periode_ujian'); ?>
+                        <div class="invalid-feedback errorPeriodeUjian">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="file_excel">File Excel</label>
-                        <input type="file" class="form-control-file" name="fileexcel" id="file_excel" required accept=".xls, .xlsx">
+                        <input type="file" class="form-control-file" name="fileexcel" id="file_excel" accept=".xls, .xlsx">
+                        <div class="invalid-feedback errorFileExcel">
+                        </div>
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
             </form>
         </div>
     </div>
