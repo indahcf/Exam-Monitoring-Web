@@ -160,6 +160,13 @@ class JadwalUjian extends BaseController
             return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
         }
 
+        //validasi agar tidak ada ruang ujian yang sama dalam 1 inputan jadwal ujian
+        // if ($this->jadwal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
+        //     'id_ruang_ujian' => $this->request->getVar('ruang_ujian')
+        // ])->first()) {
+        //     return redirect()->back()->with('error', 'Ruang Ujian yang Dipilih Ada yang Sama.')->withInput();
+        // }
+
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('jadwal_ujian')->insert([
@@ -332,6 +339,7 @@ class JadwalUjian extends BaseController
 
     public function simpanExcel()
     {
+        dd($this->request->getFile('fileexcel'));
         $validation = \Config\Services::validation();
 
         if (!$this->validate([

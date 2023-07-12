@@ -106,11 +106,15 @@
 
                             $('.form_modal').submit(function(e) {
                                 e.preventDefault();
+                                let data = new FormData(this)
+                                console.log(data);
                                 $.ajax({
                                     type: "post",
                                     url: $(this).attr('action'),
-                                    data: $(this).serialize(),
-                                    dataType: "json",
+                                    enctype: 'multipart/form-data',
+                                    data: new FormData(this),
+                                    processData: false,
+                                    contentType: false,
                                     success: function(response) {
                                         if (response.error) {
                                             if (response.error.periode_ujian) {
@@ -137,8 +141,7 @@
                                 $('.errorPeriodeUjian').html('');
                                 $('#file_excel').removeClass('is-invalid');
                                 $('.errorFileExcel').html('');
-                                let options = `<option value="">Pilih Periode Ujian</option>`
-                                $('select[name=periode_ujian]').html(options)
+                                $('select[name=periode_ujian]').val('')
                                 $('input[name=fileexcel]').val('')
                             });
                         });
