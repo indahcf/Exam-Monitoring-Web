@@ -235,8 +235,8 @@ class Matkul extends BaseController
                     'fileexcel' => $validation->getError('fileexcel')
                 ]
             ];
+            return $this->response->setJSON($message);
         }
-        return $this->response->setJSON($message);
 
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
