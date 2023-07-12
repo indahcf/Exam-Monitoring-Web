@@ -223,10 +223,10 @@ class Matkul extends BaseController
 
         if (!$this->validate([
             'fileexcel' => [
-                'rules' => 'required',
+                'rules' => 'uploaded[fileexcel]',
                 'label' => 'File Excel',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'uploaded' => '{field} harus diisi.'
                 ]
             ]
         ])) {
