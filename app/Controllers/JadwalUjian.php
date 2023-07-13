@@ -409,6 +409,7 @@ class JadwalUjian extends BaseController
                     }
 
                     $jadwal_ujian = [
+                        'periode_ujian' => $this->request->getVar('periode_ujian'),
                         'id_kelas' => $row[0],
                         'id_tahun_akademik' => $row[1],
                         'tanggal' => $row[2],
