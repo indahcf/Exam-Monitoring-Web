@@ -79,6 +79,8 @@
                                                 $('#file_excel').removeClass('is-invalid');
                                                 $('.errorFileExcel').html('');
                                             }
+                                        } else {
+                                            window.location.reload()
                                         }
                                     }
                                 });

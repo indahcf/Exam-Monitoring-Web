@@ -293,6 +293,6 @@ class Matkul extends BaseController
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/admin/matkul');
+        return $this->response->setJSON(["success" => true]);
     }
 }

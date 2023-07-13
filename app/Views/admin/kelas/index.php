@@ -68,8 +68,10 @@
                                 $.ajax({
                                     type: "post",
                                     url: $(this).attr('action'),
-                                    data: $(this).serialize(),
-                                    dataType: "json",
+                                    enctype: 'multipart/form-data',
+                                    data: new FormData(this),
+                                    processData: false,
+                                    contentType: false,
                                     success: function(response) {
                                         if (response.error) {
                                             if (response.error.fileexcel) {
@@ -79,6 +81,8 @@
                                                 $('#file_excel').removeClass('is-invalid');
                                                 $('.errorFileExcel').html('');
                                             }
+                                        } else {
+                                            window.location.reload()
                                         }
                                     }
                                 });

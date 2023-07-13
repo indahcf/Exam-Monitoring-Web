@@ -249,10 +249,10 @@ class Kelas extends BaseController
 
         if (!$this->validate([
             'fileexcel' => [
-                'rules' => 'required',
+                'rules' => 'uploaded[fileexcel]',
                 'label' => 'File Excel',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'uploaded' => '{field} harus diisi.'
                 ]
             ]
         ])) {
@@ -261,8 +261,8 @@ class Kelas extends BaseController
                     'fileexcel' => $validation->getError('fileexcel')
                 ]
             ];
+            return $this->response->setJSON($message);
         }
-        return $this->response->setJSON($message);
 
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
@@ -318,6 +318,6 @@ class Kelas extends BaseController
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/admin/kelas');
+        return $this->response->setJSON(["success" => true]);
     }
 }

@@ -378,8 +378,8 @@ class JadwalUjian extends BaseController
                     'fileexcel' => $validation->getError('fileexcel')
                 ]
             ];
+            return $this->response->setJSON($message);
         }
-        return $this->response->setJSON($message);
 
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
@@ -447,6 +447,6 @@ class JadwalUjian extends BaseController
             session()->setFlashdata('error', 'Data Gagal Diimport');
         }
 
-        return redirect()->to('/admin/jadwal_ujian');
+        return $this->response->setJSON(["success" => true]);
     }
 }
