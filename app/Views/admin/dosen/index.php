@@ -108,7 +108,7 @@
             <form method="post" action="<?= base_url('/admin/dosen/simpanExcel') ?>" enctype="multipart/form-data" class="form_modal">
                 <div class="modal-body">
                     <label for="file_excel">File Excel</label>
-                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel" accept=".xls, .xlsx">
+                    <input type="file" class="form-control-file" name="fileexcel" id="file_excel">
                     <div class="invalid-feedback errorFileExcel">
                     </div>
                 </div>

@@ -181,7 +181,7 @@
                     </div>
                     <div class="form-group">
                         <label for="file_excel">File Excel</label>
-                        <input type="file" class="form-control-file" name="fileexcel" id="file_excel" accept=".xls, .xlsx">
+                        <input type="file" class="form-control-file" name="fileexcel" id="file_excel">
                         <div class="invalid-feedback errorFileExcel">
                         </div>
                     </div>

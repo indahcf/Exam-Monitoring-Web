@@ -223,10 +223,12 @@ class Matkul extends BaseController
 
         if (!$this->validate([
             'fileexcel' => [
-                'rules' => 'uploaded[fileexcel]',
+                'rules' => 'uploaded[fileexcel]|max_size[fileexcel,2048]|ext_in[fileexcel,xls,xlsx]',
                 'label' => 'File Excel',
                 'errors' => [
-                    'uploaded' => '{field} harus diisi.'
+                    'uploaded' => '{field} harus diisi.',
+                    'max_size' => 'Ukuran file maksimal 2 MB.',
+                    'ext_in' => 'Yang Anda pilih bukan file excel.'
                 ]
             ]
         ])) {

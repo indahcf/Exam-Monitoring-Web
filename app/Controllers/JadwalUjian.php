@@ -365,10 +365,12 @@ class JadwalUjian extends BaseController
                 ]
             ],
             'fileexcel' => [
-                'rules' => 'uploaded[fileexcel]',
+                'rules' => 'uploaded[fileexcel]|max_size[fileexcel,2048]|ext_in[fileexcel,xls,xlsx]',
                 'label' => 'File Excel',
                 'errors' => [
-                    'uploaded' => '{field} harus diisi.'
+                    'uploaded' => '{field} harus diisi.',
+                    'max_size' => 'Ukuran file maksimal 2 MB.',
+                    'ext_in' => 'Yang Anda pilih bukan file excel.'
                 ]
             ]
         ])) {
@@ -402,6 +404,7 @@ class JadwalUjian extends BaseController
 
                     //cek validasi
                     if ($this->jadwal_ujianModel->where([
+                        'periode_ujian' => $this->request->getVar('periode_ujian'),
                         'id_kelas' => $row[0],
                         'id_tahun_akademik' => $row[1]
                     ])->first()) {
