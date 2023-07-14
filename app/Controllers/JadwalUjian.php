@@ -95,9 +95,8 @@ class JadwalUjian extends BaseController
         return view('admin/jadwal_ujian/create', $data);
     }
 
-    function ruangan_is_duplicate()
+    protected function ruangan_is_duplicate($ruang_ujian)
     {
-        $ruang_ujian = $this->request->getVar('ruang_ujian');
         $unique_array_id = array_unique($ruang_ujian);
 
         if (count($ruang_ujian) == count($unique_array_id)) {
@@ -173,7 +172,7 @@ class JadwalUjian extends BaseController
         }
 
         //validasi agar tidak ada ruang ujian yang sama dalam 1 jadwal ujian
-        if ($this->ruangan_is_duplicate()) {
+        if ($this->ruangan_is_duplicate($this->request->getVar('ruang_ujian'))) {
             return redirect()->back()->with('error', 'Ruang Ujian yang Dipilih Ada yang Sama.')->withInput();
         }
 
@@ -315,7 +314,7 @@ class JadwalUjian extends BaseController
         }
 
         //validasi agar tidak ada ruang ujian yang sama dalam 1 jadwal ujian
-        if ($this->ruangan_is_duplicate()) {
+        if ($this->ruangan_is_duplicate($this->request->getVar('ruang_ujian'))) {
             return redirect()->back()->with('error', 'Ruang Ujian yang Dipilih Ada yang Sama.')->withInput();
         }
 
@@ -438,6 +437,16 @@ class JadwalUjian extends BaseController
             }
 
             if ($count > 0) {
+                //validasi agar tidak ada ruang ujian yang sama dalam 1 jadwal ujian
+                $array_id_ruangan = array_column($jadwal_ruangan, 'id_ruang_ujian');
+                if ($this->ruangan_is_duplicate($array_id_ruangan)) {
+                    $message = [
+                        'error' => [
+                            'fileexcel' => ' Ruang Ujian yang Dipilih Ada yang Sama.'
+                        ]
+                    ];
+                    return $this->response->setJSON($message);
+                }
                 // dd($jadwal_ujian);
                 // dd($jadwal_ruangan);
                 $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
