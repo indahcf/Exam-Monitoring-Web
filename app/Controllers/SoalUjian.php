@@ -42,12 +42,9 @@ class SoalUjian extends BaseController
 
     public function create()
     {
-        // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
         $data = [
             'title'          => 'Tambah Soal Ujian',
-            'prodi'          => $this->prodiModel->findAll(),
-            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'kelas'          => $this->kelasModel->findAll()
+            'prodi'          => $this->prodiModel->findAll()
         ];
 
         return view('admin/soal_ujian/create', $data);
@@ -117,19 +114,9 @@ class SoalUjian extends BaseController
         //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
         // }
 
-        //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
-        // if ($this->soal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
-        //     'tanggal' => $this->request->getVar('tanggal'),
-        //     'jam_mulai' => $this->request->getVar('jam_mulai'),
-        //     'jam_selesai' => $this->request->getVar('jam_selesai')
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
-        // }
-
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->insert([
-                // 'id_kelas' => $this->request->getVar('kelas'),
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'soal_ujian' => $this->request->getVar('soal_ujian'),
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
@@ -253,16 +240,6 @@ class SoalUjian extends BaseController
         //     'id_soal_ujian !=' => $id_soal_ujian
         // ])->first()) {
         //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
-        // }
-
-        //validasi tidak ada ruang ujian yang dipakai bersama di rentang jam mulai dan jam selesai
-        // if ($this->soal_ujianModel->join('jadwal_ruang', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->where([
-        //     'tanggal' => $this->request->getVar('tanggal'),
-        //     'jam_mulai' => $this->request->getVar('jam_mulai'),
-        //     'jam_selesai' => $this->request->getVar('jam_selesai'),
-        //     'id_soal_ujian !=' => $id_soal_ujian
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Ruang Ujian Sudah Digunakan.')->withInput();
         // }
 
         try {
