@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select class="form-control js-example-basic-multiple <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas[]" placeholder="Pilih Kelas" data-value="<?= old('kelas') ?>" multiple>
+                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas" placeholder="Pilih Kelas" data-value="<?= old('kelas') ?>" data-allow-clear="1" multiple>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
@@ -62,13 +62,13 @@
                             <?= validation_show_error('dosen'); ?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
                         <input type="file" class="form-control-file <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian'); ?>" placeholder="Soal Ujian">
                         <div class="invalid-feedback">
                             <?= validation_show_error('soal_ujian'); ?>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="bentuk_soal">Bentuk Soal</label>
                         <select class="form-control <?= (validation_show_error('bentuk_soal')) ? 'is-invalid' : ''; ?>" id="bentuk_soal" name="bentuk_soal">
@@ -183,8 +183,6 @@
                     })
 
                     $('select[name=matkul]').on('change', function() {
-                        let id_matkul = $(this).val();
-                        console.log('matkul', id_matkul)
                         getKelas(this.value)
                         getDosen(this.value)
                     })

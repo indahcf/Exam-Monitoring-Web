@@ -53,9 +53,23 @@ class SoalUjian extends BaseController
     public function save()
     {
         if (!$this->validate([
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'matkul' => [
+                'rules' => 'required',
+                'label' => 'Mata Kuliah',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -74,20 +88,15 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'soal_ujian' => [
-                'rules' => 'required',
-                'label' => 'Soal Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
+            // 'soal_ujian' => [
+            //     'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf,doc,docx]',
+            //     'label' => 'Soal Ujian',
+            //     'errors' => [
+            //         'uploaded' => '{field} harus diisi.',
+            //         'max_size' => 'Ukuran file maksimal 2 MB.',
+            //         'ext_in' => 'Yang Anda pilih bukan file pdf/word.'
+            //     ]
+            // ],
             'bentuk_soal' => [
                 'rules' => 'required',
                 'label' => 'Bentuk Soal',
@@ -118,8 +127,8 @@ class SoalUjian extends BaseController
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-                'soal_ujian' => $this->request->getVar('soal_ujian'),
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
+                // 'soal_ujian' => $this->request->getVar('soal_ujian'),
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
             ]);
