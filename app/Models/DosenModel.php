@@ -25,8 +25,6 @@ class DosenModel extends Model
 
     public function getDosenByMatkul($id_matkul)
     {
-        $id_dosen = $this->db->table('matkul')->where('id_matkul', $id_matkul)->Get()->getRow()->id_dosen;
-
-        return $this->find($id_dosen);
+        return $this->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->where('matkul.id_matkul', $id_matkul)->Get()->getResultArray();
     }
 }

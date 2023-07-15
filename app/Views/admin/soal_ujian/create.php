@@ -110,7 +110,7 @@
                         // console.log('prodi', id_prodi)
                         getMatkul(id_prodi)
                         let id_matkul = $('select[name=matkul]').val();
-                        // console.log('kelas', id_kelas)
+                        // console.log('matkul', id_matkul)
                         getKelas(id_matkul)
                         getDosen(id_matkul)
                     });
@@ -144,7 +144,7 @@
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data kelas', response)
-                                    let options = `<option value="">Pilih Kelas</option>`
+                                    let options = ``
                                     for (const data of response) {
                                         options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.kelas}</option>`
                                     }
@@ -183,6 +183,8 @@
                     })
 
                     $('select[name=matkul]').on('change', function() {
+                        let id_matkul = $(this).val();
+                        console.log('matkul', id_matkul)
                         getKelas(this.value)
                         getDosen(this.value)
                     })
