@@ -20,4 +20,9 @@ class KelasModel extends Model
     {
         return $this->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->where('matkul.id_prodi', $id_prodi)->Get()->getResultArray();
     }
+
+    public function getKelasByMatkul($id_matkul)
+    {
+        return $this->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->where('matkul.id_matkul', $id_matkul)->Get()->getResultArray();
+    }
 }

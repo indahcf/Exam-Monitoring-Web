@@ -160,12 +160,16 @@ class Dosen extends BaseController
 
             $id_prodi = $this->request->getVar('id_prodi', null);
             $id_kelas = $this->request->getVar('id_kelas', null);
+            $id_matkul = $this->request->getVar('id_matkul', NULL);
             if ($id_prodi != null) {
                 // dosen berdasarkan id_prodi
                 $dosen = $this->dosenModel->where('id_prodi', $id_prodi)->findAll();
             } else if ($id_kelas != null) {
                 // dosen berdasarkan id_kelas
                 $dosen = $this->dosenModel->getDosenByKelas($id_kelas);
+            } else if ($id_matkul != null) {
+                // dosen berdasarkan id_matkul
+                $dosen = $this->dosenModel->getDosenByMatkul($id_matkul);
             } else {
                 // semua dosen 
                 $dosen = $this->dosenModel->findAll();

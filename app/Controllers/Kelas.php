@@ -232,9 +232,13 @@ class Kelas extends BaseController
         } else {
 
             $id_prodi = $this->request->getVar('id_prodi', NULL);
+            $id_matkul = $this->request->getVar('id_matkul', NULL);
             if ($id_prodi !== NULL) {
                 // kelas berdasarkan id_prodi
                 $kelas = $this->kelasModel->getKelasByProdi($id_prodi);
+            } else if ($id_matkul != null) {
+                // kelas berdasarkan id_matkul
+                $kelas = $this->kelasModel->getKelasByMatkul($id_matkul);
             } else {
                 // semua kelas 
                 $kelas = $this->kelasModel->findAll();

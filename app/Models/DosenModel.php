@@ -22,4 +22,11 @@ class DosenModel extends Model
 
         return $this->find($id_dosen);
     }
+
+    public function getDosenByMatkul($id_matkul)
+    {
+        $id_dosen = $this->db->table('matkul')->where('id_matkul', $id_matkul)->Get()->getRow()->id_dosen;
+
+        return $this->find($id_dosen);
+    }
 }

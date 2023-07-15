@@ -37,6 +37,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="matkul">Mata Kuliah</label>
+                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= old('matkul') ?>">
+                            <option value="">Pilih Mata Kuliah</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('matkul'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="kelas">Kelas</label>
                         <select class="form-control js-example-basic-multiple <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas[]" placeholder="Pilih Kelas" data-value="<?= old('kelas') ?>" multiple>
                         </select>
@@ -47,6 +56,7 @@
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
                         <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
+                            <option value="">Pilih Dosen</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('dosen'); ?>
@@ -98,38 +108,59 @@
 
                         let id_prodi = $('select[name=prodi]').val();
                         // console.log('prodi', id_prodi)
-                        getKelas(id_prodi)
-                        let id_kelas = $('select[name^=kelas]').val();
+                        getMatkul(id_prodi)
+                        let id_matkul = $('select[name=matkul]').val();
                         // console.log('kelas', id_kelas)
-                        getDosen(id_kelas)
+                        getKelas(id_matkul)
+                        getDosen(id_matkul)
                     });
 
-                    function getKelas(id_prodi) {
+                    function getMatkul(id_prodi) {
                         if (id_prodi !== '') {
+                            let id_matkul = $('select[name=matkul]').data('value');
+                            $.ajax({
+                                url: window.location.origin + '/api/matkul?id_prodi=' + id_prodi,
+                                type: 'GET',
+                                success: function(response) {
+                                    let options = `<option value="">Pilih Mata Kuliah</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_matkul}" ${id_matkul == data.id_matkul ? 'selected' : ''}>${data.kode_matkul} - ${data.matkul}</option>`
+                                    }
+                                    $('select[name=matkul]').html(options)
+                                },
+                            })
+                        } else {
+                            let options = `<option value="">Pilih Mata Kuliah</option>`
+                            $('select[name=matkul]').html(options)
+                            $('select[name^=kelas]').html('')
+                        }
+                    }
+
+                    function getKelas(id_matkul) {
+                        if (id_matkul !== '') {
                             let id_kelas = $('select[name=kelas]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/kelas?id_prodi=' + id_prodi,
+                                url: window.location.origin + '/api/kelas?id_matkul=' + id_matkul,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data kelas', response)
                                     let options = `<option value="">Pilih Kelas</option>`
                                     for (const data of response) {
-                                        options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.matkul} - ${data.kelas}</option>`
+                                        options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.kelas}</option>`
                                     }
                                     $('select[name^=kelas]').html(options)
                                 },
                             })
                         } else {
-                            let options = `<option value="">Pilih Kelas</option>`
-                            $('select[name^=kelas]').html(options)
+                            $('select[name^=kelas]').html('')
                         }
                     }
 
-                    function getDosen(id_kelas) {
-                        if (id_kelas !== '') {
+                    function getDosen(id_matkul) {
+                        if (id_matkul !== '') {
                             let id_dosen = $('select[name=dosen]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
+                                url: window.location.origin + '/api/dosen?id_matkul=' + id_matkul,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data dosen', response)
@@ -143,14 +174,16 @@
                         } else {
                             let options = `<option value="">Pilih Dosen</option>`
                             $('select[name=dosen]').html(options)
+                            $('select[name^=kelas]').html('')
                         }
                     }
 
                     $('select[name=prodi]').on('change', function() {
-                        getKelas(this.value)
+                        getMatkul(this.value)
                     })
 
-                    $('select[name=kelas]').on('change', function() {
+                    $('select[name=matkul]').on('change', function() {
+                        getKelas(this.value)
                         getDosen(this.value)
                     })
                 </script>
