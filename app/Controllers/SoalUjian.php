@@ -136,6 +136,7 @@ class SoalUjian extends BaseController
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
+                'id_dosen' => $this->request->getVar('dosen'),
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
