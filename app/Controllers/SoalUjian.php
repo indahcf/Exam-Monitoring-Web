@@ -130,7 +130,7 @@ class SoalUjian extends BaseController
         // generate nama soal ujian random
         $namaSoalUjian = $fileSoalUjian->getRandomName();
         // pindahkan file ke folder soal ujian
-        $fileSoalUjian->move('soal_ujian', $namaSoalUjian);
+        $fileSoalUjian->move('assets/soal_ujian/', $namaSoalUjian);
 
         try {
             $this->db->transException(true)->transStart();

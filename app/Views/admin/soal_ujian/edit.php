@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
-                        <input type="file" class="form-control <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" value="<?= old('soal_ujian', $soal_ujian['soal_ujian']); ?>" placeholder="Soal Ujian">
+                        <input type="file" class="form-control <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" placeholder="Soal Ujian">
                         <div class="invalid-feedback">
                             <?= validation_show_error('soal_ujian'); ?>
                         </div>
