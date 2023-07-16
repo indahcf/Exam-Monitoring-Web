@@ -12,7 +12,6 @@ class CreateSoalUjianTable extends Migration
         //Soal Ujian
         $this->forge->addField([
             'id_soal_ujian'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_kelas'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_tahun_akademik'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'soal_ujian'            => ['type' => 'varchar', 'constraint' => 1000],
             'status'                => ['type' => 'enum', 'constraint' => ['Menunggu Direview', 'Tolak GKM', 'Diterima', 'Dicetak', 'Distribusi Hasil Ujian'], 'default' => 'Menunggu Direview'],
@@ -24,7 +23,6 @@ class CreateSoalUjianTable extends Migration
         ]);
 
         $this->forge->addKey('id_soal_ujian', true);
-        $this->forge->addForeignKey('id_kelas', 'kelas', 'id_kelas');
         $this->forge->addForeignKey('id_tahun_akademik', 'tahun_akademik', 'id_tahun_akademik');
 
         $this->forge->createTable('soal_ujian', true);

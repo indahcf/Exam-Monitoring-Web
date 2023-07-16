@@ -52,6 +52,7 @@ class SoalUjian extends BaseController
 
     public function save()
     {
+        // dd($this->request->getPost());
         if (!$this->validate([
             'periode_ujian' => [
                 'rules' => 'required',
@@ -88,15 +89,15 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            // 'soal_ujian' => [
-            //     'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf,doc,docx]',
-            //     'label' => 'Soal Ujian',
-            //     'errors' => [
-            //         'uploaded' => '{field} harus diisi.',
-            //         'max_size' => 'Ukuran file maksimal 2 MB.',
-            //         'ext_in' => 'Yang Anda pilih bukan file pdf/word.'
-            //     ]
-            // ],
+            'soal_ujian' => [
+                'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf,doc,docx]',
+                'label' => 'Soal Ujian',
+                'errors' => [
+                    'uploaded' => '{field} harus diisi.',
+                    'max_size' => 'Ukuran file maksimal 2 MB.',
+                    'ext_in' => 'Yang Anda pilih bukan file pdf/word.'
+                ]
+            ],
             'bentuk_soal' => [
                 'rules' => 'required',
                 'label' => 'Bentuk Soal',
@@ -123,12 +124,20 @@ class SoalUjian extends BaseController
         //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
         // }
 
+        // ambil file soal ujian
+        $fileSoalUjian = $this->request->getFile('soal_ujian');
+        // dd($fileSoalUjian);
+        // generate nama soal ujian random
+        $namaSoalUjian = $fileSoalUjian->getRandomName();
+        // pindahkan file ke folder soal ujian
+        $fileSoalUjian->move('soal_ujian', $namaSoalUjian);
+
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
-                // 'soal_ujian' => $this->request->getVar('soal_ujian'),
+                'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
             ]);

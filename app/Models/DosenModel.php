@@ -25,6 +25,8 @@ class DosenModel extends Model
 
     public function getDosenByMatkul($id_matkul)
     {
-        return $this->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->where('matkul.id_matkul', $id_matkul)->Get()->getResultArray();
+        $ids_dosen = array_column($this->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->where('matkul.id_matkul', $id_matkul)->Get()->getResultArray(), 'id_dosen');
+
+        return $this->whereIn('id_dosen', $ids_dosen)->findAll();
     }
 }
