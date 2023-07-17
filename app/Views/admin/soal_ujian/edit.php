@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label for="matkul">Mata Kuliah</label>
-                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= old('matkul') ?>">
+                        <select class="form-control <?= (validation_show_error('matkul')) ? 'is-invalid' : ''; ?>" id="matkul" name="matkul" data-value="<?= (old('matkul', $matkul)) ?>">
                             <option value="">Pilih Mata Kuliah</option>
                         </select>
                         <div class="invalid-feedback">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas[]" placeholder="Pilih Kelas" data-value="<?= json_encode(old('kelas', $soal_ujian['id_kelas'])) ?>" data-allow-clear="1" multiple>
+                        <select class="form-control <?= (validation_show_error('kelas')) ? 'is-invalid' : ''; ?>" id="kelas" name="kelas[]" placeholder="Pilih Kelas" data-value='<?= json_encode(old('kelas', $kelas)) ?>' data-allow-clear="1" multiple>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('kelas'); ?>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dosen">Dosen</label>
-                        <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen', $kelas['id_dosen']) ?>">
+                        <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen', $soal_ujian['id_dosen']) ?>">
                             <option value="">Pilih Dosen</option>
                         </select>
                         <div class="invalid-feedback">
@@ -107,10 +107,11 @@
                         });
 
                         let id_prodi = $('select[name=prodi]').val();
-                        // console.log('prodi', id_prodi)
+                        let id_matkul = $('select[name=matkul]').data('value');
+                        let id_kelas = $('select[name^=kelas]').data('value');
+                        console.log('matkul', id_matkul)
+                        console.log('kelas', id_kelas)
                         getMatkul(id_prodi)
-                        let id_matkul = $('select[name=matkul]').val();
-                        // console.log('matkul', id_matkul)
                         getKelas(id_matkul)
                         getDosen(id_matkul)
                     });
@@ -138,7 +139,7 @@
 
                     function getKelas(id_matkul) {
                         if (id_matkul !== '') {
-                            let id_kelas = $('select[name=kelas]').data('value');
+                            let id_kelas = $('select[name^=kelas]').data('value');
                             $.ajax({
                                 url: window.location.origin + '/api/kelas?id_matkul=' + id_matkul,
                                 type: 'GET',
@@ -146,7 +147,7 @@
                                     // console.log('data kelas', response)
                                     let options = ``
                                     for (const data of response) {
-                                        options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.kelas}</option>`
+                                        options += `<option value="${data.id_kelas}" ${id_kelas.includes(data.id_kelas) ? 'selected' : ''}>${data.kelas}</option>`
                                     }
                                     $('select[name^=kelas]').html(options)
                                 },

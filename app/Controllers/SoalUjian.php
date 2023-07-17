@@ -182,16 +182,15 @@ class SoalUjian extends BaseController
     public function edit($id_soal_ujian)
     {
         $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
-        $id_kelas = $this->soal_kelasModel->find()['id_kelas'];
-        $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
+        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
         $data = [
             'title' => 'Edit Soal Ujian',
             'soal_ujian' => $soalUjian,
             'prodi' => $this->prodiModel->findAll(),
-            // 'kelas' => $this->kelasModel->find($soalUjian['id_kelas']),
-            // 'dosen' => $this->dosenModel->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
-            'prodi_matkul' => $this->matkulModel->find($id_matkul)['id_prodi']
+            'prodi_matkul' => $kelas[0]['id_prodi'],
+            'matkul' => $kelas[0]['id_matkul'],
+            'kelas' => array_column($kelas, 'id_kelas')
         ];
         return view('admin/soal_ujian/edit', $data);
     }
@@ -199,9 +198,23 @@ class SoalUjian extends BaseController
     public function update($id_soal_ujian)
     {
         if (!$this->validate([
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'matkul' => [
+                'rules' => 'required',
+                'label' => 'Mata Kuliah',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -223,13 +236,6 @@ class SoalUjian extends BaseController
             'soal_ujian' => [
                 'rules' => 'required',
                 'label' => 'Soal Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -261,12 +267,21 @@ class SoalUjian extends BaseController
         //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
         // }
 
+        // ambil file soal ujian
+        $fileSoalUjian = $this->request->getFile('soal_ujian');
+        // dd($fileSoalUjian);
+        // generate nama soal ujian random
+        $namaSoalUjian = $fileSoalUjian->getRandomName();
+        // pindahkan file ke folder soal ujian
+        $fileSoalUjian->move('assets/soal_ujian/', $namaSoalUjian);
+
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-                'soal_ujian' => $this->request->getVar('soal_ujian'),
+                'id_dosen' => $this->request->getVar('dosen'),
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
+                'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
             ]);
