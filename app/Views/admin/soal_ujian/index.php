@@ -28,10 +28,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1; ?>
+                            <?php $i = 0;
+                            $temp = 0; ?>
                             <?php foreach ($soal_ujian as $s) : ?>
                                 <tr>
-                                    <td><?= $i++; ?></td>
+                                    <?php if ($temp != $s['id_soal_ujian']) {
+                                        $i++;
+                                        $temp = $s['id_soal_ujian'];
+                                    } ?>
+                                    <td><?= $i; ?></td>
                                     <td><?= $s['kode_matkul']; ?></td>
                                     <td><?= $s['matkul']; ?></td>
                                     <td><?= $s['prodi']; ?></td>
@@ -39,7 +44,7 @@
                                     <td><?= $s['kelas']; ?></td>
                                     <td><?= $s['status']; ?></td>
                                     <td>
-                                        <a href="/admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="/admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" data-id="<?= $s['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
@@ -55,7 +60,10 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#soal_ujian').DataTable();
+                            $('#soal_ujian').DataTable({
+                                'scrollX': true,
+                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7]
+                            });
                         });
                     </script>
 

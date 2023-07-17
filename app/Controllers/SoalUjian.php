@@ -182,16 +182,16 @@ class SoalUjian extends BaseController
     public function edit($id_soal_ujian)
     {
         $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
-        $id_kelas = $this->soal_ujianModel->find($id_soal_ujian)['id_kelas'];
+        $id_kelas = $this->soal_kelasModel->find()['id_kelas'];
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $data = [
             'title' => 'Edit Soal Ujian',
             'soal_ujian' => $soalUjian,
             'prodi' => $this->prodiModel->findAll(),
-            'kelas' => $this->kelasModel->find($soalUjian['id_kelas']),
+            // 'kelas' => $this->kelasModel->find($soalUjian['id_kelas']),
             // 'dosen' => $this->dosenModel->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
-            'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi']
+            'prodi_matkul' => $this->matkulModel->find($id_matkul)['id_prodi']
         ];
         return view('admin/soal_ujian/edit', $data);
     }
