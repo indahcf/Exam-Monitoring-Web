@@ -7,8 +7,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data Soal Ujian</h4>
-                <form action="<?= base_url('/admin/soal_ujian/update/' . $soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/soal_ujian/update/' . $soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
+                    <input type="hidden" name="oldFile" value="<?= $soal_ujian['soal_ujian']; ?>">
                     <div class="form-group">
                         <label for="periode_ujian">Periode Ujian</label>
                         <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">

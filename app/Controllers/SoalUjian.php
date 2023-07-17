@@ -90,12 +90,12 @@ class SoalUjian extends BaseController
                 ]
             ],
             'soal_ujian' => [
-                'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf,doc,docx]',
+                'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
                 'label' => 'Soal Ujian',
                 'errors' => [
                     'uploaded' => '{field} harus diisi.',
                     'max_size' => 'Ukuran file maksimal 2 MB.',
-                    'ext_in' => 'Yang Anda pilih bukan file pdf/word.'
+                    'ext_in' => 'Yang Anda pilih bukan file pdf.'
                 ]
             ],
             'bentuk_soal' => [
@@ -166,6 +166,12 @@ class SoalUjian extends BaseController
     public function delete($id_soal_ujian)
     {
         try {
+            //cari soal ujian berdasarkan id_soal_ujian
+            $soal_ujian = $this->soal_ujianModel->find($id_soal_ujian);
+
+            //hapus soal ujian
+            unlink('assets/soal_ujian/' . $soal_ujian['soal_ujian']);
+
             $this->soal_ujianModel->delete($id_soal_ujian);
             return $this->response->setJSON([
                 'success' => true,
@@ -234,10 +240,12 @@ class SoalUjian extends BaseController
                 ]
             ],
             'soal_ujian' => [
-                'rules' => 'required',
+                'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
                 'label' => 'Soal Ujian',
                 'errors' => [
-                    'required' => '{field} harus diisi.'
+                    'uploaded' => '{field} harus diisi.',
+                    'max_size' => 'Ukuran file maksimal 2 MB.',
+                    'ext_in' => 'Yang Anda pilih bukan file pdf.'
                 ]
             ],
             'bentuk_soal' => [
@@ -267,6 +275,7 @@ class SoalUjian extends BaseController
         //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
         // }
 
+        $namaSoalUjian = $this->request->getVar('oldFile');
         // ambil file soal ujian
         $fileSoalUjian = $this->request->getFile('soal_ujian');
         // dd($fileSoalUjian);
@@ -274,6 +283,8 @@ class SoalUjian extends BaseController
         $namaSoalUjian = $fileSoalUjian->getRandomName();
         // pindahkan file ke folder soal ujian
         $fileSoalUjian->move('assets/soal_ujian/', $namaSoalUjian);
+        // hapus file yang lama
+        unlink('assets/soal_ujian/' . $this->request->getVar('oldFile'));
 
         try {
             $this->db->transException(true)->transStart();
@@ -286,7 +297,6 @@ class SoalUjian extends BaseController
                 'metode' => $this->request->getVar('metode')
             ]);
 
-            $id_soal_ujian = $this->db->insertID();
             $kelas = $this->request->getVar('kelas');
             $soal_kelas = [];
             foreach ($kelas as $k) {
@@ -295,6 +305,7 @@ class SoalUjian extends BaseController
                     'id_kelas' => $k
                 ];
             }
+            $this->db->table('soal_kelas')->where('id_soal_ujian', $id_soal_ujian)->delete();
             $this->db->table('soal_kelas')->insertBatch($soal_kelas);
             $this->db->transComplete();
 

@@ -146,7 +146,7 @@
                                     // console.log('data kelas', response)
                                     let options = ``
                                     for (const data of response) {
-                                        options += `<option value="${data.id_kelas}" ${id_kelas.includes(data.id_kelas) ? 'selected' : ''}>${data.kelas}</option>`
+                                        options += `<option value="${data.id_kelas}" ${id_kelas == data.id_kelas ? 'selected' : ''}>${data.kelas}</option>`
                                     }
                                     $('select[name^=kelas]').html(options)
                                 },
