@@ -15,4 +15,9 @@ class SoalUjianModel extends Model
     {
         return $this->join('soal_kelas', 'soal_ujian.id_soal_ujian=soal_kelas.id_soal_ujian')->join('kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
     }
+
+    public function filterSoalUjian($id_tahun_akademik, $periode_ujian)
+    {
+        return $this->join('soal_kelas', 'soal_ujian.id_soal_ujian=soal_kelas.id_soal_ujian')->join('kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('tahun_akademik', 'soal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)->where('periode_ujian', $periode_ujian)->findAll();
+    }
 }

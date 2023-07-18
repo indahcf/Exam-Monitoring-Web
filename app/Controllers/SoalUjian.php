@@ -30,13 +30,34 @@ class SoalUjian extends BaseController
         $this->db = \Config\Database::connect();
     }
 
+    // public function index()
+    // {
+    //     $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+    //     $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll()[0]['periode_ujian'];
+    //     $periode_ujian_aktif = $soal_ujian_terakhir;
+    //     $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+    //     // dd($filter);
+    //     $id_tahun_akademik = explode("_", $filter)[0];
+    //     $periode_ujian = explode("_", $filter)[1];
+    //     $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+
+    //     $data = [
+    //         'title' => 'Data Soal Ujian',
+    //         'soal_ujian' => $soal_ujian,
+    //         'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+    //         'filter' => $id_tahun_akademik . "_" . $periode_ujian
+    //     ];
+    //     // dd($data);
+    //     return view('admin/soal_ujian/index', $data);
+    // }
+
     public function index()
     {
         $data = [
             'title' => 'Data Soal Ujian',
             'soal_ujian' => $this->soal_ujianModel->getSoalUjian()
         ];
-        // dd($data);
+        //dd($data);
         return view('admin/soal_ujian/index', $data);
     }
 
@@ -116,12 +137,13 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
-        // if ($this->soal_ujianModel->where([
+        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        // if ($this->soal_ujianModel->soal_kelasModel->where([
         //     'id_kelas' => $this->request->getVar('kelas'),
+        //     'periode_ujian' => $this->request->getVar('periode_ujian'),
         //     'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
         // ])->first()) {
-        //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
+        //     return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
         // }
 
         // ambil file soal ujian
