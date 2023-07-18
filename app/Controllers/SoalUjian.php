@@ -30,34 +30,29 @@ class SoalUjian extends BaseController
         $this->db = \Config\Database::connect();
     }
 
-    // public function index()
-    // {
-    //     $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-    //     $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll()[0]['periode_ujian'];
-    //     $periode_ujian_aktif = $soal_ujian_terakhir;
-    //     $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-    //     // dd($filter);
-    //     $id_tahun_akademik = explode("_", $filter)[0];
-    //     $periode_ujian = explode("_", $filter)[1];
-    //     $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
-
-    //     $data = [
-    //         'title' => 'Data Soal Ujian',
-    //         'soal_ujian' => $soal_ujian,
-    //         'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-    //         'filter' => $id_tahun_akademik . "_" . $periode_ujian
-    //     ];
-    //     // dd($data);
-    //     return view('admin/soal_ujian/index', $data);
-    // }
-
     public function index()
     {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $soal_ujian = [];
+        if ($soal_ujian_terakhir) {
+            $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];;
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+        }
+
         $data = [
             'title' => 'Data Soal Ujian',
-            'soal_ujian' => $this->soal_ujianModel->getSoalUjian()
+            'soal_ujian' => $soal_ujian,
+            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+            'filter' => $filter
         ];
-        //dd($data);
+        // dd($data);
         return view('admin/soal_ujian/index', $data);
     }
 
@@ -138,13 +133,12 @@ class SoalUjian extends BaseController
         }
 
         //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
-        // if ($this->soal_ujianModel->soal_kelasModel->where([
-        //     'id_kelas' => $this->request->getVar('kelas'),
-        //     'periode_ujian' => $this->request->getVar('periode_ujian'),
-        //     'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
-        // }
+        if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
+            'periode_ujian' => $this->request->getVar('periode_ujian'),
+            'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
+        ])->first()) {
+            return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
+        }
 
         // ambil file soal ujian
         $fileSoalUjian = $this->request->getFile('soal_ujian');
@@ -288,14 +282,14 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
-        // if ($this->soal_ujianModel->where([
-        //     'id_kelas' => $this->request->getVar('kelas'),
-        //     'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-        //     'id_soal_ujian !=' => $id_soal_ujian
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
-        // }
+        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
+            'periode_ujian' => $this->request->getVar('periode_ujian'),
+            'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
+            'soal_ujian.id_soal_ujian !=' => $id_soal_ujian
+        ])->first()) {
+            return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
+        }
 
         $namaSoalUjian = $this->request->getVar('oldFile');
         // ambil file soal ujian
