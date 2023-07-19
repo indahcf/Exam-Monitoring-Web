@@ -11,8 +11,6 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class SoalUjian extends BaseController
 {
-    protected $review_soal_ujian;
-    protected $soal_kelasModel;
     protected $soal_ujianModel;
     protected $prodiModel;
     protected $kelasModel;
@@ -22,8 +20,6 @@ class SoalUjian extends BaseController
 
     public function __construct()
     {
-        // $this->soal_kelasModel = new SoalKelasModel();
-        $this->review_soal_ujianModel = new ReviewSoalUjianModel();
         $this->soal_ujianModel = new SoalUjianModel();
         $this->prodiModel = new ProdiModel();
         $this->kelasModel = new KelasModel();
@@ -34,11 +30,27 @@ class SoalUjian extends BaseController
 
     public function index()
     {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $review_soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $review_soal_ujian = [];
+        if ($review_soal_ujian_terakhir) {
+            $periode_ujian_aktif = $review_soal_ujian_terakhir[0]['periode_ujian'];
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $review_soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+        }
+
         $data = [
             'title' => 'Data Review Soal Ujian',
-            'review_soal_ujian' => $this->review_soal_ujianModel->getReviewSoalUjian()
+            'soal_ujian' => $review_soal_ujian,
+            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+            'filter' => $filter
         ];
-        //dd($data);
+        // dd($data);
         return view('admin/review_soal_ujian/index', $data);
     }
 
@@ -55,66 +67,80 @@ class SoalUjian extends BaseController
             'matkul' => $kelas[0]['id_matkul'],
             'kelas' => array_column($kelas, 'id_kelas')
         ];
-        return view('admin/soal_ujian/edit', $data);
+        return view('admin/review_soal_ujian/edit', $data);
     }
 
     public function update($id_soal_ujian)
     {
         if (!$this->validate([
-            'periode_ujian' => [
+            'durasi_pengerjaan' => [
                 'rules' => 'required',
-                'label' => 'Periode Ujian',
+                'label' => 'Durasi Pengerjaan',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'prodi' => [
+            'sifat_ujian' => [
                 'rules' => 'required',
-                'label' => 'Program Studi',
+                'label' => 'Sifat Ujian',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'matkul' => [
+            'petunjuk' => [
                 'rules' => 'required',
-                'label' => 'Mata Kuliah',
+                'label' => 'Petunjuk',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'kelas' => [
+            'sub_cpmk' => [
                 'rules' => 'required',
-                'label' => 'Kelas',
+                'label' => 'Sub CPMK',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'dosen' => [
+            'durasi_sks' => [
                 'rules' => 'required',
-                'label' => 'Dosen',
+                'label' => 'Durasi SKS',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'soal_ujian' => [
+            'pertanyaan' => [
                 'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
-                'label' => 'Soal Ujian',
+                'label' => 'Pertanyaan',
                 'errors' => [
                     'uploaded' => '{field} harus diisi.',
                     'max_size' => 'Ukuran file maksimal 2 MB.',
                     'ext_in' => 'Yang Anda pilih bukan file pdf.'
                 ]
             ],
-            'bentuk_soal' => [
+            'skor' => [
                 'rules' => 'required',
-                'label' => 'Bentuk Soal',
+                'label' => 'Skor',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'metode' => [
+            'gambar' => [
                 'rules' => 'required',
-                'label' => 'Metode',
+                'label' => 'Gambar',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'catatan' => [
+                'rules' => 'required',
+                'label' => 'Catatan',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'saran' => [
+                'rules' => 'required',
+                'label' => 'Saran',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -123,54 +149,27 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester yg sama
-        // if ($this->soal_ujianModel->where([
-        //     'id_kelas' => $this->request->getVar('kelas'),
+        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        // if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
+        //     'periode_ujian' => $this->request->getVar('periode_ujian'),
         //     'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-        //     'id_soal_ujian !=' => $id_soal_ujian
+        //     'soal_ujian.id_soal_ujian !=' => $id_soal_ujian
         // ])->first()) {
-        //     return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
+        //     return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
         // }
 
-        $namaSoalUjian = $this->request->getVar('oldFile');
-        // ambil file soal ujian
-        $fileSoalUjian = $this->request->getFile('soal_ujian');
-        // dd($fileSoalUjian);
-        // generate nama soal ujian random
-        $namaSoalUjian = $fileSoalUjian->getRandomName();
-        // pindahkan file ke folder soal ujian
-        $fileSoalUjian->move('assets/soal_ujian/', $namaSoalUjian);
-        // hapus file yang lama
-        unlink('assets/soal_ujian/' . $this->request->getVar('oldFile'));
-
         try {
-            $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-                'id_dosen' => $this->request->getVar('dosen'),
-                'periode_ujian' => $this->request->getVar('periode_ujian'),
-                'soal_ujian' => $namaSoalUjian,
+                // 'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
             ]);
-
-            $kelas = $this->request->getVar('kelas');
-            $soal_kelas = [];
-            foreach ($kelas as $k) {
-                $soal_kelas[] = [
-                    'id_soal_ujian' => $id_soal_ujian,
-                    'id_kelas' => $k
-                ];
-            }
-            $this->db->table('soal_kelas')->where('id_soal_ujian', $id_soal_ujian)->delete();
-            $this->db->table('soal_kelas')->insertBatch($soal_kelas);
-            $this->db->transComplete();
-
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
             session()->setFlashdata('error', $e->getMessage());
         }
 
-        return redirect()->to('/admin/soal_ujian');
+        return redirect()->to('/admin/review_soal_ujian');
     }
 }

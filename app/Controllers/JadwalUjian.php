@@ -415,31 +415,114 @@ class JadwalUjian extends BaseController
                     //cek validasi
                     if ($this->jadwal_ujianModel->where([
                         'periode_ujian' => $this->request->getVar('periode_ujian'),
-                        'id_kelas' => $row[0],
-                        'id_tahun_akademik' => $row[1]
+                        // 'id_kelas' => $row[0],
+                        'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
                     ])->first()) {
                         continue;
                     }
 
-                    $jadwal_ujian = [
-                        'periode_ujian' => $this->request->getVar('periode_ujian'),
-                        'id_kelas' => $row[0],
-                        'id_tahun_akademik' => $row[1],
-                        'tanggal' => $row[2],
-                        'jam_mulai' => $row[3],
-                        'jam_selesai' => $row[4]
+                    $dosen = [
+                        'dosen' => $row[6]
                     ];
 
-                    $this->db->table('jadwal_ujian')->insert($jadwal_ujian);
-                    $id_jadwal_ujian = $this->db->insertID();
-                    $id_kelas = $row[0];
-                    foreach ($data as $r) {
-                        if ($r[0] == $id_kelas) {
-                            $jadwal_ruangan[] = [
-                                'id_jadwal_ujian' => $id_jadwal_ujian,
-                                'id_ruang_ujian' => $r[5],
-                                'jumlah_peserta' => $r[6]
-                            ];
+                    $result_dosen = $this->db->table('dosen')->where($dosen)->get()->getRow();
+
+                    if (count($result_dosen) == 0) {
+                        $this->db->table('dosen')->insert($dosen);
+                        $id_dosen = $this->db->insertID();
+                    }
+
+                    $id_dosen = $this->db->table('dosen')->select('*')->where($dosen)->get()->getRow()->id_dosen;
+
+                    $prodi = [
+                        'prodi' => $row[5]
+                    ];
+
+                    $result_prodi = $this->db->table('prodi')->where($prodi)->get()->getRow();
+
+                    if (count($result_prodi) == 0) {
+                        $this->db->table('prodi')->insert($prodi);
+                        $id_prodi = $this->db->insertID();
+                    }
+
+                    $id_prodi = $this->db->table('prodi')->select('*')->where($prodi)->get()->getRow()->id_prodi;
+
+                    $matkul = [
+                        'kode_matkul' => $row[3],
+                        'matkul' => $row[4]
+                    ];
+
+                    $result_matkul = $this->db->table('matkul')->where($matkul)->get()->getRow();
+
+                    if (count($result_matkul) == 0) {
+                        $_matkul = [
+                            'id_prodi' => $id_prodi,
+                            'matkul'  => $matkul,
+                        ];
+                        $this->db->table('matkul')->insert($_matkul);
+                        $id_matkul = $this->db->insertID();
+                    }
+
+                    $id_matkul = $this->db->table('matkul')->select('*')->where($matkul)->get()->getRow()->id_matkul;
+
+                    $kelas = [
+                        'kelas' => $row[7]
+                    ];
+
+                    $result_kelas = $this->db->table('kelas')->where($kelas)->get()->getRow();
+
+                    if (count($result_kelas) == 0) {
+                        $_kelas = [
+                            'id_matkul' => $id_matkul,
+                            'id_dosen' => $id_dosen,
+                            'kelas'  => $kelas,
+                        ];
+                        $this->db->table('kelas')->insert($_kelas);
+                    }
+
+                    $id_kelas = $this->db->table('kelas')->select('*')->where($kelas)->get()->getRow()->id_kelas;
+
+                    $result_jadwal_ujian = $this->db->table('jadwal_ujian')->where(['kelas' => $id_kelas])->get()->getRow();
+                    // jadwal ujian
+                    $jam = explode("-", $row[3]);
+                    $jadwal_ujian = [
+                        'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
+                        'periode_ujian' => $this->request->getVar('periode_ujian'),
+                        'tanggal' => $row[1],
+                        'jam_mulai' => $jam[0],
+                        'jam_selesai' => $jam[1],
+                        'kode_matkul' => $id_matkul,
+                        'matkul' => $id_matkul,
+                        'prodi' => $id_prodi,
+                        'dosen' => $id_dosen,
+                        'kelas' => $id_kelas
+                    ];
+
+                    if (count($result_jadwal_ujian) == 0) {
+                        $this->db->table('jadwal_ujian')->insert($jadwal_ujian);
+                        $id_jadwal_ujian = $this->db->insertID();
+                        $tanggal = $row[1];
+                        foreach ($data as $r) {
+                            if ($r[1] == $tanggal) {
+                                $ruang_ujian = [
+                                    'ruang_ujian' => $row[8]
+                                ];
+
+                                $result_ruang_ujian = $this->db->table('ruang_ujian')->where($ruang_ujian)->get()->getRow();
+
+                                if (count($result_ruang_ujian) == 0) {
+                                    // insert ruang_ujian
+                                    $this->db->table('ruang_ujian')->insert($ruang_ujian);
+                                }
+
+                                $id_ruang_ujian = $this->db->table('ruang_ujian')->select('*')->where($ruang_ujian)->get()->getRow()->id_ruang_ujian;
+                                $result_jadwal_ruang = $this->db->table('jadwal_ruang')->where(['ruang_ujian' => $id_ruang_ujian])->get()->getRow();
+                                $jadwal_ruangan[] = [
+                                    'id_jadwal_ujian' => $id_jadwal_ujian,
+                                    'ruang_ujian' => $id_ruang_ujian,
+                                    'jumlah_peserta' => $r[9]
+                                ];
+                            }
                         }
                     }
 
@@ -460,8 +543,10 @@ class JadwalUjian extends BaseController
                 }
                 // dd($jadwal_ujian);
                 // dd($jadwal_ruangan);
-                $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
-                $this->db->transComplete();
+                if (count($result_jadwal_ruang) == 0) {
+                    $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+                    $this->db->transComplete();
+                }
 
                 session()->setFlashdata('success', 'Data Berhasil Diimport');
             } else {

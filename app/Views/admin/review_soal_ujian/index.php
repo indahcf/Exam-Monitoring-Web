@@ -3,13 +3,24 @@
 <?= $this->section('content'); ?>
 
 <h4 class="card-title">Data Soal Ujian</h4>
-<div class="template-demo row mb-3 mt-4">
-    <div class="col-md-5 d-flex justify-content-end">
-        <a href="/admin/review_soal_ujian/create" class="btn btn-primary btn-icon-text">
-            <i class="ti-plus btn-icon-prepend"></i>
-            Tambah
-        </a>
-    </div>
+<div class="template-demo">
+    <form action="<?= base_url('/admin/review_soal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
+        <select class="form-control" id="filter" name="filter">
+            <option value="">Pilih Tahun Akademik</option>
+            <?php foreach ($tahun_akademik as $t) : ?>
+                <?php foreach (["UTS", "UAS"] as $periode_ujian) : ?>
+                    <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('filter', $filter) == $t['id_tahun_akademik'] . "_" . $periode_ujian ? 'selected' : '' ?>>
+                        <?= $periode_ujian; ?> <?= $t['semester']; ?> <?= $t['tahun_akademik']; ?>
+                    </option>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </select>
+        <div class="input-group-append">
+            <span class="input-group-text">
+                <i class="ti-filter btn-icon-prepend"></i>
+            </span>
+        </div>
+    </form>
 </div>
 <div class="card">
     <div class="card-body">

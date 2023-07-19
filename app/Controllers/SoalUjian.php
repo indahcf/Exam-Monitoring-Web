@@ -11,7 +11,6 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class SoalUjian extends BaseController
 {
-    protected $soal_kelasModel;
     protected $soal_ujianModel;
     protected $prodiModel;
     protected $kelasModel;
@@ -21,7 +20,6 @@ class SoalUjian extends BaseController
 
     public function __construct()
     {
-        // $this->soal_kelasModel = new SoalKelasModel();
         $this->soal_ujianModel = new SoalUjianModel();
         $this->prodiModel = new ProdiModel();
         $this->kelasModel = new KelasModel();
