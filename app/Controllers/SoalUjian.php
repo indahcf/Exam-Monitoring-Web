@@ -38,7 +38,7 @@ class SoalUjian extends BaseController
         $filter = $this->request->getVar('filter');
         $soal_ujian = [];
         if ($soal_ujian_terakhir) {
-            $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];;
+            $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
             $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
             // dd($filter);
             $id_tahun_akademik = explode("_", $filter)[0];

@@ -38,21 +38,27 @@ class JadwalUjian extends BaseController
     public function index()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll()[0]['periode_ujian'];
-        $periode_ujian_aktif = $jadwal_ujian_terakhir;
-        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-        // dd($filter);
-        $id_tahun_akademik = explode("_", $filter)[0];
-        $periode_ujian = explode("_", $filter)[1];
-        $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
-        $url_export = 'admin/jadwal_ujian/export?filter=' . $filter;
+        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $jadwal_ujian = [];
+        $url_export = 'admin/jadwal_ujian/export';
+        if ($jadwal_ujian_terakhir) {
+            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
+            $url_export = 'admin/jadwal_ujian/export?filter=' . $filter;
+        }
 
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $jadwal_ujian,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
             'url_export' => base_url($url_export),
-            'filter' => $id_tahun_akademik . "_" . $periode_ujian
+            'filter' => $filter
         ];
 
         return view('admin/jadwal_ujian/index', $data);
@@ -61,14 +67,19 @@ class JadwalUjian extends BaseController
     public function export()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll()[0]['periode_ujian'];
-        $periode_ujian_aktif = $jadwal_ujian_terakhir;
-        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-        // dd($filter);
-        $id_tahun_akademik = explode("_", $filter)[0];
-        $periode_ujian = explode("_", $filter)[1];
-        $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
-        $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' ' . $jadwal_ujian[0]['tahun_akademik'];
+        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $jadwal_ujian = [];
+        if ($jadwal_ujian_terakhir) {
+            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
+            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' ' . $jadwal_ujian[0]['tahun_akademik'];
+        }
 
         $data = [
             'jadwal_ujian' => $jadwal_ujian,
