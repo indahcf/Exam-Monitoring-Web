@@ -82,9 +82,9 @@
                             });
                         });
 
-                        // $("#filter").change(function() {
-                        //     $("#formFilter").submit();
-                        // });
+                        $("#filter").change(function() {
+                            $("#formFilter").submit();
+                        });
                     </script>
 
                 </div>
