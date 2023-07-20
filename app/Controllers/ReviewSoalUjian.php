@@ -6,10 +6,11 @@ use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\MatkulModel;
 use App\Models\SoalUjianModel;
+use CodeIgniter\HTTP\Response;
 use App\Models\TahunAkademikModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
-class SoalUjian extends BaseController
+class ReviewSoalUjian extends BaseController
 {
     protected $soal_ujianModel;
     protected $prodiModel;
@@ -46,7 +47,7 @@ class SoalUjian extends BaseController
 
         $data = [
             'title' => 'Data Review Soal Ujian',
-            'soal_ujian' => $review_soal_ujian,
+            'review_soal_ujian' => $review_soal_ujian,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
             'filter' => $filter
         ];
@@ -54,18 +55,41 @@ class SoalUjian extends BaseController
         return view('admin/review_soal_ujian/index', $data);
     }
 
+    public function lihat_soal($soal_ujian)
+    {
+        if (isset($_POST['lihat_soal'])) {
+            $this->response->setHeader('Content-Type', 'application/pdf');
+            readfile('./assets/soal_ujian/' . $soal_ujian);
+        }
+    }
+
+    // public function lihat_soal($review_soal_ujian)
+    // {
+    //     // open the local file
+    //     $filepath = "./assets/soal_ujian/" . $review_soal_ujian;
+    //     if (isset($_POST['lihat_soal']) && file_exists($filepath)) {
+    //         // header("Content-Transfer-Encoding: binary");
+    //         $this->response->setHeader('Content-Type', 'application/pdf');
+    //         readfile($filepath);
+    //     } else {
+    //         echo "File not found.";
+    //     }
+    // }
+
     public function edit($id_soal_ujian)
     {
-        $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
-        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+        $reviewSoalUjian = $this->soal_ujianModel->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->find($id_soal_ujian);
+        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
         $data = [
             'title' => 'Edit Soal Ujian',
-            'soal_ujian' => $soalUjian,
+            'review_soal_ujian' => $reviewSoalUjian,
             'prodi' => $this->prodiModel->findAll(),
-            'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
-            'prodi_matkul' => $kelas[0]['id_prodi'],
-            'matkul' => $kelas[0]['id_matkul'],
-            'kelas' => array_column($kelas, 'id_kelas')
+            'tahun_akademik_aktif' => $this->tahun_akademikModel->find($reviewSoalUjian['id_tahun_akademik']),
+            'prodi_matkul' => $kelas[0]['prodi'],
+            'kode_matkul' => $kelas[0]['kode_matkul'],
+            'matkul' => $kelas[0]['matkul'],
+            // 'kelas' => array_column($kelas, 'kelas'),
+            'kelas' => implode(", ", array_column($kelas, 'kelas'))
         ];
         return view('admin/review_soal_ujian/edit', $data);
     }

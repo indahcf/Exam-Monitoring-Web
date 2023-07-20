@@ -111,6 +111,7 @@ $routes->delete('/admin/soal_ujian/(:num)', 'SoalUjian::delete/$1');
 $routes->get('/admin/review_soal_ujian', 'ReviewSoalUjian::index');
 $routes->get('/admin/review_soal_ujian/edit/(:segment)', 'ReviewSoalUjian::edit/$1');
 $routes->post('/admin/review_soal_ujian/update/(:segment)', 'ReviewSoalUjian::update/$1');
+$routes->post('/admin/review_soal_ujian/lihat_soal/(:segment)', 'ReviewSoalUjian::lihat_soal/$1');
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');

@@ -2,8 +2,8 @@
 
 <?= $this->section('content'); ?>
 
-<h4 class="card-title">Data Soal Ujian</h4>
-<div class="template-demo">
+<h4 class="card-title">Data Review Soal Ujian</h4>
+<div class="template-demo mb-3">
     <form action="<?= base_url('/admin/review_soal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
         <select class="form-control" id="filter" name="filter">
             <option value="">Pilih Tahun Akademik</option>
@@ -56,10 +56,14 @@
                                     <td><?= $r['prodi']; ?></td>
                                     <td><?= $r['dosen']; ?></td>
                                     <td><?= $r['kelas']; ?></td>
-                                    <td><?= $r['soal_ujian']; ?></td>
+                                    <td>
+                                        <form action="<?= base_url(); ?>admin/review_soal_ujian/lihat_soal/<?= $r['soal_ujian']; ?>" method="post">
+                                            <button name="lihat_soal" class="btn btn-primary">Lihat Soal</button>
+                                        </form>
+                                    </td>
                                     <td><?= $r['status_soal']; ?></td>
                                     <td>
-                                        <a href="/admin/soal_ujian/edit/<?= $r['id_soal_ujian']; ?>" data-id="<?= $r['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="/admin/review_soal_ujian/edit/<?= $r['id_soal_ujian']; ?>" data-id="<?= $r['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                     </td>
