@@ -96,6 +96,7 @@ class ReviewSoalUjian extends BaseController
 
     public function update($id_soal_ujian)
     {
+        // dd($this->request->getPost());
         if (!$this->validate([
             'durasi_pengerjaan' => [
                 'rules' => 'required',
@@ -133,12 +134,10 @@ class ReviewSoalUjian extends BaseController
                 ]
             ],
             'pertanyaan' => [
-                'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
+                'rules' => 'required',
                 'label' => 'Pertanyaan',
                 'errors' => [
-                    'uploaded' => '{field} harus diisi.',
-                    'max_size' => 'Ukuran file maksimal 2 MB.',
-                    'ext_in' => 'Yang Anda pilih bukan file pdf.'
+                    'required' => '{field} harus diisi.'
                 ]
             ],
             'skor' => [
@@ -168,26 +167,33 @@ class ReviewSoalUjian extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'status_soal' => [
+                'rules' => 'required',
+                'label' => 'Status',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
-        // if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
-        //     'periode_ujian' => $this->request->getVar('periode_ujian'),
-        //     'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-        //     'soal_ujian.id_soal_ujian !=' => $id_soal_ujian
-        // ])->first()) {
-        //     return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
-        // }
-
         try {
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
-                'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
+                // 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 // 'periode_ujian' => $this->request->getVar('periode_ujian'),
-                'bentuk_soal' => $this->request->getVar('bentuk_soal'),
-                'metode' => $this->request->getVar('metode')
+                'durasi_pengerjaan' => $this->request->getVar('durasi_pengerjaan'),
+                'sifat_ujian' => $this->request->getVar('sifat_ujian'),
+                'petunjuk' => $this->request->getVar('petunjuk'),
+                'sub_cpmk' => $this->request->getVar('sub_cpmk'),
+                'durasi_sks' => $this->request->getVar('durasi_sks'),
+                'pertanyaan' => $this->request->getVar('pertanyaan'),
+                'skor' => $this->request->getVar('skor'),
+                'gambar' => $this->request->getVar('gambar'),
+                'catatan' => $this->request->getVar('catatan'),
+                'saran' => $this->request->getVar('saran'),
+                'status_soal' => $this->request->getVar('status_soal')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
