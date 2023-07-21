@@ -17,3 +17,8 @@ a.btn {
     margin-bottom: 1.5rem !important;
     padding: 12px 20px;
 }
+
+.form-check-inline{
+    display: inline-flex;
+    margin-right: 10px;
+}

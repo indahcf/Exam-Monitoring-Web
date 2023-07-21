@@ -81,7 +81,7 @@ class ReviewSoalUjian extends BaseController
         $reviewSoalUjian = $this->soal_ujianModel->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->find($id_soal_ujian);
         $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
         $data = [
-            'title' => 'Edit Soal Ujian',
+            'title' => 'Tambah Review Soal Ujian',
             'review_soal_ujian' => $reviewSoalUjian,
             'prodi' => $this->prodiModel->findAll(),
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($reviewSoalUjian['id_tahun_akademik']),
