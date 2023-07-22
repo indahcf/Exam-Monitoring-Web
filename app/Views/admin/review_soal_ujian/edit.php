@@ -9,7 +9,7 @@
                 <h4 class="card-title">Tambah Data Review Soal Ujian</h4>
                 <form action="<?= base_url('/admin/review_soal_ujian/update/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <table>
+                    <table class="review">
                         <tbody>
                             <tr>
                                 <td style="width: 300px;">Program Studi</td>
