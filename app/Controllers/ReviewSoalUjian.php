@@ -73,7 +73,6 @@ class ReviewSoalUjian extends BaseController
     {
         $soal = $this->soal_ujianModel->find($id_soal_ujian);
         $download = $this->response->download('./assets/soal_ujian/' . $soal['soal_ujian'], null);
-        // 
 
         if ($download) {
             $data = ['status_soal' => 'Dicetak'];

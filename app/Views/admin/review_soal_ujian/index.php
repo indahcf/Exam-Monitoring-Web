@@ -60,11 +60,13 @@
                                         <form action="<?= base_url(); ?>admin/review_soal_ujian/lihat_soal/<?= $r['soal_ujian']; ?>#toolbar=0" method="post">
                                             <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
                                         </form>
-                                        <a href="/admin/review_soal_ujian/cetak_soal/<?= $r['id_soal_ujian']; ?>" class="btn btn-info">Cetak Soal</a>
+                                        <?php if ($r['status_soal'] == 'Diterima') : ?>
+                                            <button data-id="<?= $r['id_soal_ujian']; ?>" data-nama="<?= $r['prodi']; ?>-<?= $r['matkul']; ?>-<?= $r['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?= $r['status_soal']; ?></td>
                                     <td>
-                                        <a href="/admin/review_soal_ujian/edit/<?= $r['id_soal_ujian']; ?>" data-id="<?= $r['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="/admin/review_soal_ujian/edit/<?= $r['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                     </td>
@@ -81,10 +83,34 @@
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 6, 7, 8]
                             });
-                        });
 
-                        $("#filter").change(function() {
-                            $("#formFilter").submit();
+                            $(".cetak-soal").click(function() {
+                                let id = $(this).data('id')
+                                let nama = $(this).data('nama');
+                                $.ajax({
+                                    type: 'GET',
+                                    url: window.location.origin + '/admin/review_soal_ujian/cetak_soal/' + id,
+                                    xhrFields: {
+                                        responseType: 'blob'
+                                    },
+                                    success: function(response) {
+                                        console.log('data download', response)
+                                        var blob = new Blob([response]);
+                                        var link = document.createElement('a');
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = nama.trim() + ".pdf";
+                                        link.click();
+                                        window.location.reload()
+                                    },
+                                    error: function(blob) {
+                                        console.log(blob);
+                                    }
+                                });
+                            });
+
+                            $("#filter").change(function() {
+                                $("#formFilter").submit();
+                            });
                         });
                     </script>
 
