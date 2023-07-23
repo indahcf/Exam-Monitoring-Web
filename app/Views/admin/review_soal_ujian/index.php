@@ -57,9 +57,10 @@
                                     <td><?= $r['dosen']; ?></td>
                                     <td><?= $r['kelas']; ?></td>
                                     <td>
-                                        <form action="<?= base_url(); ?>admin/review_soal_ujian/lihat_soal/<?= $r['soal_ujian']; ?>" method="post">
-                                            <button name="lihat_soal" class="btn btn-primary">Lihat Soal</button>
+                                        <form action="<?= base_url(); ?>admin/review_soal_ujian/lihat_soal/<?= $r['soal_ujian']; ?>#toolbar=0" method="post">
+                                            <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
                                         </form>
+                                        <a href="/admin/review_soal_ujian/cetak_soal/<?= $r['id_soal_ujian']; ?>" class="btn btn-info">Cetak Soal</a>
                                     </td>
                                     <td><?= $r['status_soal']; ?></td>
                                     <td>

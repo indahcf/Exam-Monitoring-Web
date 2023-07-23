@@ -8,7 +8,7 @@ class SoalUjianModel extends Model
 {
     protected $table            = 'soal_ujian';
     protected $primaryKey       = 'id_soal_ujian';
-    protected $allowedFields    = ['id_tahun_akademik', 'id_dosen', 'soal_ujian', 'periode_ujian', 'bentuk_soal', 'metode', 'status', 'durasi_pengerjaan', 'sifat_ujian', 'petunjuk', 'sub_cpmk', 'durasi_sks', 'pertanyaan', 'skor', 'gambar', 'catatan', 'saran'];
+    protected $allowedFields    = ['id_tahun_akademik', 'id_dosen', 'soal_ujian', 'periode_ujian', 'bentuk_soal', 'metode', 'status_soal', 'durasi_pengerjaan', 'sifat_ujian', 'petunjuk', 'sub_cpmk', 'durasi_sks', 'pertanyaan', 'skor', 'gambar', 'catatan', 'saran'];
     protected $useTimestamps    = true;
 
     public function filterSoalUjian($id_tahun_akademik, $periode_ujian)
