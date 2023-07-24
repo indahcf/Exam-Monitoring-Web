@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tambah Data Review Soal Ujian</h4>
-                <form action="<?= base_url('/admin/review_soal_ujian/update/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/soal_ujian/update_review/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <table class="review">
                         <tbody>
@@ -223,7 +223,6 @@
                                         <option value="Revisi" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Revisi') ? 'selected' : '';  ?>>Revisi</option>
                                         <option value="Diterima" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Diterima') ? 'selected' : '';  ?>>Diterima</option>
                                         <option value="Dicetak" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Dicetak') ? 'selected' : '';  ?>>Dicetak</option>
-                                        <option value="Distribusi Hasil Ujian" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Distribusi Hasil Ujian') ? 'selected' : '';  ?>>Distribusi Hasil Ujian</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('status_soal'); ?>

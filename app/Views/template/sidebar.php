@@ -34,17 +34,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-soal" aria-expanded="false" aria-controls="ui-soal">
+                <a class="nav-link" href="<?= base_url('admin/soal_ujian'); ?>">
                     <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
-                    <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="ui-soal">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/soal_ujian'); ?>">Upload Soal Ujian</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/review_soal_ujian'); ?>">Review Soal Ujian</a></li>
-                    </ul>
-                </div>
             </li>
         <?php endif; ?>
 

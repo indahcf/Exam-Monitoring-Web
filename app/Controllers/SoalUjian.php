@@ -350,4 +350,148 @@ class SoalUjian extends BaseController
 
         return redirect()->to('/admin/soal_ujian');
     }
+
+    public function review($id_soal_ujian)
+    {
+        $reviewSoalUjian = $this->soal_ujianModel->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->find($id_soal_ujian);
+        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+        $data = [
+            'title' => 'Tambah Review Soal Ujian',
+            'review_soal_ujian' => $reviewSoalUjian,
+            'prodi' => $this->prodiModel->findAll(),
+            'tahun_akademik_aktif' => $this->tahun_akademikModel->find($reviewSoalUjian['id_tahun_akademik']),
+            'prodi_matkul' => $kelas[0]['prodi'],
+            'kode_matkul' => $kelas[0]['kode_matkul'],
+            'matkul' => $kelas[0]['matkul'],
+            'kelas' => implode(", ", array_column($kelas, 'kelas'))
+        ];
+        return view('admin/soal_ujian/review', $data);
+    }
+
+    public function update_review($id_soal_ujian)
+    {
+        // dd($this->request->getPost());
+        if (!$this->validate([
+            'durasi_pengerjaan' => [
+                'rules' => 'required',
+                'label' => 'Durasi Pengerjaan',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'sifat_ujian' => [
+                'rules' => 'required',
+                'label' => 'Sifat Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'petunjuk' => [
+                'rules' => 'required',
+                'label' => 'Petunjuk',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'sub_cpmk' => [
+                'rules' => 'required',
+                'label' => 'Sub CPMK',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'durasi_sks' => [
+                'rules' => 'required',
+                'label' => 'Durasi SKS',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'pertanyaan' => [
+                'rules' => 'required',
+                'label' => 'Pertanyaan',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'skor' => [
+                'rules' => 'required',
+                'label' => 'Skor',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'gambar' => [
+                'rules' => 'required',
+                'label' => 'Gambar',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'catatan' => [
+                'rules' => 'required',
+                'label' => 'Catatan',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'saran' => [
+                'rules' => 'required',
+                'label' => 'Saran',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'status_soal' => [
+                'rules' => 'required',
+                'label' => 'Status',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
+                'durasi_pengerjaan' => $this->request->getVar('durasi_pengerjaan'),
+                'sifat_ujian' => $this->request->getVar('sifat_ujian'),
+                'petunjuk' => $this->request->getVar('petunjuk'),
+                'sub_cpmk' => $this->request->getVar('sub_cpmk'),
+                'durasi_sks' => $this->request->getVar('durasi_sks'),
+                'pertanyaan' => $this->request->getVar('pertanyaan'),
+                'skor' => $this->request->getVar('skor'),
+                'gambar' => $this->request->getVar('gambar'),
+                'catatan' => $this->request->getVar('catatan'),
+                'saran' => $this->request->getVar('saran'),
+                'status_soal' => $this->request->getVar('status_soal')
+            ]);
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        return redirect()->to('/admin/soal_ujian');
+    }
+
+    public function lihat_soal($soal_ujian)
+    {
+        if (isset($_POST['lihat_soal'])) {
+            $this->response->setHeader('Content-Type', 'application/pdf');
+            readfile('./assets/soal_ujian/' . $soal_ujian);
+        }
+    }
+
+    function cetak_soal($id_soal_ujian)
+    {
+        $soal = $this->soal_ujianModel->find($id_soal_ujian);
+        $download = $this->response->download('./assets/soal_ujian/' . $soal['soal_ujian'], null);
+
+        if ($download) {
+            $data = ['status_soal' => 'Dicetak'];
+            $this->soal_ujianModel->update($id_soal_ujian, $data);
+            return $download;
+        }
+    }
 }

@@ -44,6 +44,7 @@
                                 <th>Program Studi</th>
                                 <th>Dosen Pembuat Soal</th>
                                 <th>Kelas</th>
+                                <th>Berkas Soal Ujian</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -63,6 +64,14 @@
                                     <td><?= $s['prodi']; ?></td>
                                     <td><?= $s['dosen']; ?></td>
                                     <td><?= $s['kelas']; ?></td>
+                                    <td>
+                                        <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
+                                            <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
+                                        </form>
+                                        <?php if ($s['status_soal'] == 'Diterima' or $s['status_soal'] == 'Dicetak') : ?>
+                                            <button data-id="<?= $s['id_soal_ujian']; ?>" data-nama="<?= $s['prodi']; ?>-<?= $s['matkul']; ?>-<?= $s['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>
                                         <a href="/admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" data-id="<?= $s['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
@@ -71,6 +80,9 @@
                                         <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
+                                        <a href="/admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                            <i class="ti-search"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -83,12 +95,36 @@
                         $(document).ready(function() {
                             $('#soal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7]
+                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7, 8]
                             });
-                        });
 
-                        $("#filter").change(function() {
-                            $("#formFilter").submit();
+                            $(".cetak-soal").click(function() {
+                                let id = $(this).data('id')
+                                let nama = $(this).data('nama');
+                                $.ajax({
+                                    type: 'GET',
+                                    url: window.location.origin + '/admin/soal_ujian/cetak_soal/' + id,
+                                    xhrFields: {
+                                        responseType: 'blob'
+                                    },
+                                    success: function(response) {
+                                        console.log('data download', response)
+                                        var blob = new Blob([response]);
+                                        var link = document.createElement('a');
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = nama.trim() + ".pdf";
+                                        link.click();
+                                        window.location.reload()
+                                    },
+                                    error: function(blob) {
+                                        console.log(blob);
+                                    }
+                                });
+                            });
+
+                            $("#filter").change(function() {
+                                $("#formFilter").submit();
+                            });
                         });
                     </script>
 
