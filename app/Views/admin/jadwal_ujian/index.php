@@ -59,6 +59,8 @@
                                 <th>Kelas</th>
                                 <th>Ruang Ujian</th>
                                 <th>Jumlah Peserta</th>
+                                <th>Pengawas I</th>
+                                <th>Pengawas II</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -82,6 +84,8 @@
                                     <td><?= $j['kelas']; ?></td>
                                     <td><?= $j['ruang_ujian']; ?></td>
                                     <td><?= $j['jumlah_peserta']; ?></td>
+                                    <td><?= $j['pengawas']; ?></td>
+                                    <td><?= $j['pengawas']; ?></td>
                                     <td>
                                         <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
@@ -101,7 +105,7 @@
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 13]
                             });
 
                             $('.form_modal').submit(function(e) {

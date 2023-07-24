@@ -11,8 +11,36 @@ class Pengawas extends Seeder
         //membuat data
         $pengawas_data = [
             [
-                'nip' => '198903132015042004',
-                'pengawas'  => 'Nur Chasanah'
+                'nip' => '198900100200300405',
+                'pengawas'  => 'Yulianto'
+            ],
+            [
+                'nip' => '198800200300400506',
+                'pengawas'  => 'Teguh Narwoko, S.T.'
+            ],
+            [
+                'nip' => '198700300400500607',
+                'pengawas'  => 'Subekti Afrianto, A.Md.'
+            ],
+            [
+                'nip' => '198600400500600708',
+                'pengawas'  => 'Sri Herawati,A.Md.'
+            ],
+            [
+                'nip' => '198500500600700809',
+                'pengawas'  => 'Mugi Trianto, S.E.'
+            ],
+            [
+                'nip' => '198400600700800910',
+                'pengawas'  => 'Maruf Setiawan'
+            ],
+            [
+                'nip' => '198300700800901011',
+                'pengawas'  => 'Asjik Setyawan, S.T'
+            ],
+            [
+                'nip' => '198200800901001112',
+                'pengawas'  => 'Kuswanto'
             ]
         ];
 

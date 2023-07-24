@@ -80,7 +80,7 @@
                     </div>
                     <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
                         <div class="row fg_ruangan_peserta">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
                                 <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian 1</option>
@@ -89,9 +89,27 @@
                                     <?= validation_show_error('ruang_ujian.0'); ?>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
                                 <input type="number" class="form-control" id="jumlah_peserta" name="jumlah_peserta[]" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="pengawas1">Pengawas 1 Ruang Ujian 1</label>
+                                <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1[]">
+                                    <option value="">Pilih Pengawas 1 Ruang Ujian 1</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('pengawas1.0'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="pengawas2">Pengawas 2 Ruang Ujian 1</label>
+                                <select class="form-control <?= (validation_show_error('pengawas2.0')) ? 'is-invalid' : ''; ?>" id="pengawas2" name="pengawas2[]">
+                                    <option value="">Pilih Pengawas 2 Ruang Ujian 1</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('pengawas2.0'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>

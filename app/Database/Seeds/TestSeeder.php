@@ -13,10 +13,11 @@ class TestSeeder extends Seeder
         $this->call('Matkul');
         $this->call('Dosen');
         $this->call('RuangUjian');
-        $this->call('Pengawas');
         $this->call('TahunAkademik');
         $this->call('Kelas');
+        $this->call('Pengawas');
         $this->call('JadwalUjian');
         $this->call('JadwalRuang');
+        $this->call('JadwalPengawas');
     }
 }
