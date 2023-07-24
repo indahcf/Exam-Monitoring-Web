@@ -220,7 +220,7 @@
                                     <select class="form-control <?= (validation_show_error('status_soal')) ? 'is-invalid' : ''; ?>" id="status_soal" name="status_soal">
                                         <option value="">Pilih Status</option>
                                         <option value="Menunggu Direview" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Menunggu Direview') ? 'selected' : '';  ?>>Menunggu Direview</option>
-                                        <option value="Tolak GKM" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Tolak GKM') ? 'selected' : '';  ?>>Tolak GKM</option>
+                                        <option value="Revisi" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Revisi') ? 'selected' : '';  ?>>Revisi</option>
                                         <option value="Diterima" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Diterima') ? 'selected' : '';  ?>>Diterima</option>
                                         <option value="Dicetak" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Dicetak') ? 'selected' : '';  ?>>Dicetak</option>
                                         <option value="Distribusi Hasil Ujian" <?= (old('status_soal', $review_soal_ujian['status_soal']) == 'Distribusi Hasil Ujian') ? 'selected' : '';  ?>>Distribusi Hasil Ujian</option>

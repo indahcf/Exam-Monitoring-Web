@@ -300,6 +300,21 @@ class SoalUjian extends BaseController
         // hapus file yang lama
         unlink('assets/soal_ujian/' . $this->request->getVar('oldFile'));
 
+        // Mendapatkan status soal sebelum diupdate
+        $oldStatus = $this->db->table('soal_ujian')
+            ->where('id_soal_ujian', $id_soal_ujian)
+            ->get()
+            ->getRow('status_soal');
+
+        // Cek apakah status soal adalah "revisi"
+        if ($oldStatus === 'Revisi') {
+            // Jika status soal adalah "revisi", ubah menjadi "diterima"
+            $newStatus = 'Diterima';
+        } else {
+            // Jika status soal bukan "revisi", tetapkan status yang sama
+            $newStatus = $oldStatus;
+        }
+
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
@@ -322,6 +337,11 @@ class SoalUjian extends BaseController
             $this->db->table('soal_kelas')->where('id_soal_ujian', $id_soal_ujian)->delete();
             $this->db->table('soal_kelas')->insertBatch($soal_kelas);
             $this->db->transComplete();
+
+            // Ganti status soal dengan status baru
+            $this->db->table('soal_ujian')
+                ->where('id_soal_ujian', $id_soal_ujian)
+                ->update(['status_soal' => $newStatus]);
 
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {

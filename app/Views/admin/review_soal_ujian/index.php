@@ -60,7 +60,7 @@
                                         <form action="<?= base_url(); ?>admin/review_soal_ujian/lihat_soal/<?= $r['soal_ujian']; ?>#toolbar=0" method="post">
                                             <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
                                         </form>
-                                        <?php if ($r['status_soal'] == 'Diterima') : ?>
+                                        <?php if ($r['status_soal'] == 'Diterima' or $r['status_soal'] == 'Dicetak' or $r['status_soal'] == 'Distribusi Hasil Ujian') : ?>
                                             <button data-id="<?= $r['id_soal_ujian']; ?>" data-nama="<?= $r['prodi']; ?>-<?= $r['matkul']; ?>-<?= $r['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
                                         <?php endif; ?>
                                     </td>

@@ -63,36 +63,19 @@ class ReviewSoalUjian extends BaseController
         }
     }
 
-    // function cetak_soal($id_soal_ujian)
-    // {
-    //     $data = $this->soal_ujianModel->find($id_soal_ujian);
-    //     return $this->response->download('./assets/soal_ujian/' . $data['soal_ujian'], null);
-    // }
-
     function cetak_soal($id_soal_ujian)
     {
         $soal = $this->soal_ujianModel->find($id_soal_ujian);
         $download = $this->response->download('./assets/soal_ujian/' . $soal['soal_ujian'], null);
 
-        if ($download) {
+        if ($soal['status_soal'] === 'Distribusi Hasil Ujian') {
+            return false;
+        } else if ($download) {
             $data = ['status_soal' => 'Dicetak'];
             $this->soal_ujianModel->update($id_soal_ujian, $data);
+            return $download;
         }
-        return $download;
     }
-
-    // public function lihat_soal($review_soal_ujian)
-    // {
-    //     // open the local file
-    //     $filepath = "./assets/soal_ujian/" . $review_soal_ujian;
-    //     if (isset($_POST['lihat_soal']) && file_exists($filepath)) {
-    //         // header("Content-Transfer-Encoding: binary");
-    //         $this->response->setHeader('Content-Type', 'application/pdf');
-    //         readfile($filepath);
-    //     } else {
-    //         echo "File not found.";
-    //     }
-    // }
 
     public function edit($id_soal_ujian)
     {
