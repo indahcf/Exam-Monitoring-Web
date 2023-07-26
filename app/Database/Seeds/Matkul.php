@@ -13,23 +13,17 @@ class Matkul extends Seeder
             [
                 'id_prodi'      => 1,
                 'kode_matkul'   => 'TKE191111',
-                'matkul'        => 'Matematika',
-                'jumlah_sks'    => 3,
-                'semester'      => 'Gasal'
+                'matkul'        => 'Matematika'
             ],
             [
                 'id_prodi'      => 3,
                 'kode_matkul'   => 'INF191111',
-                'matkul'        => 'Logika Informatika',
-                'jumlah_sks'    => 3,
-                'semester'      => 'Gasal'
+                'matkul'        => 'Logika Informatika'
             ],
             [
                 'id_prodi'      => 3,
                 'kode_matkul'   => 'INF191112',
-                'matkul'        => 'Matematika Dasar',
-                'jumlah_sks'    => 3,
-                'semester'      => 'Gasal'
+                'matkul'        => 'Matematika Dasar'
             ]
         ];
 

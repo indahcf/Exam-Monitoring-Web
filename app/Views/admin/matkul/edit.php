@@ -25,24 +25,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="jumlah_sks">Jumlah SKS</label>
-                        <input type="number" class="form-control <?= (validation_show_error('jumlah_sks')) ? 'is-invalid' : ''; ?>" id="jumlah_sks" name="jumlah_sks" value="<?= old('jumlah_sks', $matkul['jumlah_sks']); ?>" placeholder="Jumlah SKS">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('jumlah_sks'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="semester">Semester</label>
-                        <select class="form-control <?= (validation_show_error('semester')) ? 'is-invalid' : ''; ?>" id="semester" name="semester">
-                            <option value="">Pilih Semester</option>
-                            <option value="Gasal" <?= (old('semester', $matkul['semester']) == 'Gasal') ? 'selected' : '' ?>>Gasal</option>
-                            <option value="Genap" <?= (old('semester', $matkul['semester']) == 'Genap') ? 'selected' : '' ?>>Genap</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('semester'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>

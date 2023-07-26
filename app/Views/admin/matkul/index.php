@@ -18,14 +18,12 @@
         <div class="row">
             <div class="col-12">
                 <div>
-                    <table id="matkul" class="table table-striped">
+                    <table id="matkul" class="table table-striped w-100">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
-                                <th>Jumlah SKS</th>
-                                <th>Semester</th>
                                 <th>Program Studi</th>
                                 <th>Aksi</th>
                             </tr>
@@ -37,8 +35,6 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $m['kode_matkul']; ?></td>
                                     <td><?= $m['matkul']; ?></td>
-                                    <td><?= $m['jumlah_sks']; ?></td>
-                                    <td><?= $m['semester']; ?></td>
                                     <td><?= $m['prodi']; ?></td>
                                     <td>
                                         <a href="/admin/matkul/edit/<?= $m['id_matkul']; ?>" class="btn btn-warning btn-rounded btn-icon">

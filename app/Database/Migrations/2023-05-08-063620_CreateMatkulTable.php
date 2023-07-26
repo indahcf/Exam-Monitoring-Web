@@ -15,8 +15,6 @@ class CreateMatkulTable extends Migration
             'id_prodi'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'kode_matkul'      => ['type' => 'varchar', 'constraint' => 255],
             'matkul'           => ['type' => 'varchar', 'constraint' => 255],
-            'jumlah_sks'       => ['type' => 'int', 'constraint' => 11],
-            'semester'         => ['type' => 'enum', 'constraint' => ['Gasal', 'Genap']],
             'created_at'       => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'       => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
