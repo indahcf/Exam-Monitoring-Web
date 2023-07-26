@@ -152,7 +152,7 @@
                             error: function(xhr, ajaxOptions, thrownError) {
                                 Swal.fire(
                                     'Oops!',
-                                    'Data Gagal Dihapus',
+                                    xhr.responseJSON.message,
                                     'error'
                                 ).then(function() {
                                     location.reload()

@@ -13,7 +13,7 @@ class CreateDosenTable extends Migration
         $this->forge->addField([
             'id_dosen'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_prodi'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'nidn'              => ['type' => 'varchar', 'constraint' => 25],
+            'nidn'              => ['type' => 'varchar', 'constraint' => 10],
             'dosen'             => ['type' => 'varchar', 'constraint' => 255],
             'created_at'        => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'        => ['type' => 'TIMESTAMP', 'null' => true],

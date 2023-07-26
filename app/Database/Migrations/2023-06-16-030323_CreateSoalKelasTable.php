@@ -11,7 +11,7 @@ class CreateSoalKelasTable extends Migration
     {
         //Soal Kelas
         $this->forge->addField([
-            'id_soal_kelas'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment'        => true],
+            'id_soal_kelas'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_soal_ujian'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_kelas'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],

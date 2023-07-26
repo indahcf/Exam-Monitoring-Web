@@ -11,7 +11,7 @@ class CreateJadwalRuangTable extends Migration
     {
         //Jadwal Ruang
         $this->forge->addField([
-            'id_jadwal_ruang'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment'    => true],
+            'id_jadwal_ruang'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_jadwal_ujian'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_ruang_ujian'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'jumlah_peserta'        => ['type' => 'int', 'constraint' => 11],
