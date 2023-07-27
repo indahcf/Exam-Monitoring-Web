@@ -145,6 +145,7 @@ class Pengawas extends BaseController
             // dd($this->request->getGet());
             if ($tanggal !== null && $jam_mulai !== null && $jam_selesai !== null) {
                 // pengawas berdasarkan tanggal, jam_mulai, jam_selesai
+                // dd($this->pengawasModel->getPengawasTersedia($tanggal, $jam_mulai, $jam_selesai));
                 $pengawas = $this->pengawasModel->getPengawasTersedia($tanggal, $jam_mulai, $jam_selesai);
             } else {
                 // semua pengawas
