@@ -20,7 +20,7 @@ class CreateSoalKelasTable extends Migration
 
         $this->forge->addKey('id_soal_kelas', true);
         $this->forge->addForeignKey('id_soal_ujian', 'soal_ujian', 'id_soal_ujian', 'CASCADE', 'CASCADE', 'fk_soal_ujian');
-        $this->forge->addForeignKey('id_kelas', 'kelas', 'id_kelas', 'CASCADE', 'CASCADE', 'fk_kelas');
+        $this->forge->addForeignKey('id_kelas', 'kelas', 'id_kelas');
 
         $this->forge->createTable('soal_kelas', true);
     }

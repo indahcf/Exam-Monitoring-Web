@@ -192,9 +192,9 @@ class SoalUjian extends BaseController
                 'message' => 'Data Berhasil Dihapus',
             ]);
         } catch (\Exception $e) {
-            return $this->response->setJSON([
+            return $this->response->setStatusCode(500)->setJSON([
                 'success' => false,
-                'message' => 'Data Gagal Dihapus',
+                'message' => $e->getMessage()
             ]);
         }
     }

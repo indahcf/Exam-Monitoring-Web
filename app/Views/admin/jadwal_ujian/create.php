@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>'>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>' data-pengawas1='<?= json_encode(old('pengawas1')) ?>' data-pengawas2='<?= json_encode(old('pengawas2')) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-3">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
@@ -104,12 +104,9 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="pengawas2">Pengawas 2 Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('pengawas2.0')) ? 'is-invalid' : ''; ?>" id="pengawas2" name="pengawas2[]">
+                                <select class="form-control" id="pengawas2" name="pengawas2[]">
                                     <option value="">Pilih Pengawas 2 Ruang Ujian 1</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('pengawas2.0'); ?>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,6 +118,8 @@
                         let id_prodi = $('select[name=prodi]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
+                        let old_pengawas1 = $('#ruangan').data('pengawas1')
+                        let old_pengawas2 = $('#ruangan').data('pengawas2')
                         getRuanganTersedia()
                         getPengawasTersedia()
                         // console.log('prodi', id_prodi)
@@ -138,6 +137,8 @@
                                 console.log(old_peserta[i]);
                                 fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
                                 fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[i])
                                 $('#ruangan').append(fg_ruangan_peserta)
                             }
                             handleRuangan()

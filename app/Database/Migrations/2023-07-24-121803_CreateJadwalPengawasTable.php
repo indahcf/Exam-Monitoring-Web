@@ -20,7 +20,7 @@ class CreateJadwalPengawasTable extends Migration
 
         $this->forge->addKey('id_jadwal_pengawas', true);
         $this->forge->addForeignKey('id_jadwal_ruang', 'jadwal_ruang', 'id_jadwal_ruang', 'CASCADE', 'CASCADE', 'fk_jadwal_ruang');
-        $this->forge->addForeignKey('id_pengawas', 'pengawas', 'id_pengawas', 'CASCADE', 'CASCADE', 'fk_pengawas');
+        $this->forge->addForeignKey('id_pengawas', 'pengawas', 'id_pengawas');
 
         $this->forge->createTable('jadwal_pengawas', true);
     }

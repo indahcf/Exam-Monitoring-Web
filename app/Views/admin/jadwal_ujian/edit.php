@@ -79,9 +79,9 @@
                             </div>
                         </div>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>'>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas1)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas2)) ?>'>
                         <div class="row fg_ruangan_peserta">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
                                 <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
                                     <option value="">Pilih Ruang Ujian 1</option>
@@ -90,9 +90,24 @@
                                     <?= validation_show_error('ruang_ujian.0'); ?>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
                                 <input type="number" class="form-control" id="jumlah_peserta" name="jumlah_peserta[]" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="pengawas1">Pengawas 1 Ruang Ujian 1</label>
+                                <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1[]">
+                                    <option value="">Pilih Pengawas 1 Ruang Ujian 1</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('pengawas1.0'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="pengawas2">Pengawas 2 Ruang Ujian 1</label>
+                                <select class="form-control" id="pengawas2" name="pengawas2[]">
+                                    <option value="">Pilih Pengawas 2 Ruang Ujian 1</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -104,7 +119,10 @@
                         let id_prodi = $('select[name=prodi]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
+                        let old_pengawas1 = $('#ruangan').data('pengawas1')
+                        let old_pengawas2 = $('#ruangan').data('pengawas2')
                         getRuanganTersedia()
+                        getPengawasTersedia()
                         console.log('prodi', id_prodi)
                         getKelas(id_prodi)
                         setTimeout(() => {
@@ -120,6 +138,8 @@
                                 console.log(old_peserta[i]);
                                 fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
                                 fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[i])
                                 $('#ruangan').append(fg_ruangan_peserta)
                             }
                             handleRuangan()
@@ -294,8 +314,33 @@
                         }
                     }
 
+                    function getPengawasTersedia() {
+                        let tanggal = $('input[name=tanggal]').val();
+                        let jam_mulai = $('input[name=jam_mulai]').val();
+                        let jam_selesai = $('input[name=jam_selesai]').val();
+                        let id_jadwal_ujian = $('input[name=id_jadwal_ujian]').val();
+                        if (tanggal != null && jam_mulai != null && jam_selesai != null) {
+                            console.log('tanggal', tanggal)
+                            console.log('jam mulai', jam_mulai)
+                            console.log('jam selesai', jam_selesai)
+                            $.ajax({
+                                url: window.location.origin + '/api/pengawas?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai + '&id_jadwal_ujian=' + id_jadwal_ujian,
+                                type: 'GET',
+                                success: function(response) {
+                                    console.log('data pengawas', response)
+                                    let options = `<option value="">Pilih Pengawas</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_pengawas}">${data.pengawas}</option>`
+                                    }
+                                    $('select[name^=pengawas]').html(options)
+                                }
+                            })
+                        }
+                    }
+
                     $('input[name=tanggal]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
@@ -306,6 +351,7 @@
 
                     $('input[name=jam_mulai]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
@@ -316,6 +362,7 @@
 
                     $('input[name=jam_selesai]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()

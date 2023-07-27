@@ -6,6 +6,7 @@ use Dompdf\Dompdf;
 use App\Models\KelasModel;
 use App\Models\ProdiModel;
 use App\Models\MatkulModel;
+use App\Models\PengawasModel;
 use App\Models\RuangUjianModel;
 use App\Models\JadwalRuangModel;
 use App\Models\JadwalUjianModel;
@@ -21,6 +22,7 @@ class JadwalUjian extends BaseController
     protected $tahun_akademikModel;
     protected $ruang_ujianModel;
     protected $matkulModel;
+    protected $pengawasModel;
     protected $db;
 
     public function __construct()
@@ -32,6 +34,7 @@ class JadwalUjian extends BaseController
         $this->ruang_ujianModel = new RuangUjianModel();
         $this->tahun_akademikModel = new TahunAkademikModel();
         $this->matkulModel = new MatkulModel();
+        $this->pengawasModel = new PengawasModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -78,7 +81,7 @@ class JadwalUjian extends BaseController
             $id_tahun_akademik = explode("_", $filter)[0];
             $periode_ujian = explode("_", $filter)[1];
             $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
-            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' ' . $jadwal_ujian[0]['tahun_akademik'];
+            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
         }
 
         $data = [
@@ -99,8 +102,8 @@ class JadwalUjian extends BaseController
         $data = [
             'title'          => 'Tambah Jadwal Ujian',
             'prodi'          => $this->prodiModel->findAll(),
-            'ruang_ujian'    => $this->ruang_ujianModel->findAll(),
-            'tahun_akademik' => $this->tahun_akademikModel->findAll()
+            // 'ruang_ujian'    => $this->ruang_ujianModel->findAll(),
+            // 'tahun_akademik' => $this->tahun_akademikModel->findAll()
         ];
 
         return view('admin/jadwal_ujian/create', $data);
@@ -119,6 +122,7 @@ class JadwalUjian extends BaseController
 
     public function save()
     {
+        // dd($this->request->getPost());
         if (!$this->validate([
             'periode_ujian' => [
                 'rules' => 'required',
@@ -165,6 +169,13 @@ class JadwalUjian extends BaseController
             'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'pengawas1.*' => [
+                'rules' => 'required',
+                'label' => 'Pengawas 1',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -201,15 +212,27 @@ class JadwalUjian extends BaseController
             $id_jadwal_ujian = $this->db->insertID();
             $ruang_ujian = $this->request->getVar('ruang_ujian');
             $jumlah_peserta = $this->request->getVar('jumlah_peserta');
-            $jadwal_ruangan = [];
+            $pengawas1 = $this->request->getVar('pengawas1');
+            $pengawas2 = $this->request->getVar('pengawas2');
             foreach ($ruang_ujian as $i => $r) {
-                $jadwal_ruangan[] = [
+                $this->db->table('jadwal_ruang')->insert([
                     'id_jadwal_ujian' => $id_jadwal_ujian,
                     'id_ruang_ujian' => $r,
                     'jumlah_peserta' => $jumlah_peserta[$i]
-                ];
-            }
-            $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+                ]);
+                $id_jadwal_ruang = $this->db->insertID();
+                $this->db->table('jadwal_pengawas')->insert([
+                    'id_jadwal_ruang' => $id_jadwal_ruang,
+                    'id_pengawas' => $pengawas1[$i]
+                ]);
+                if (!empty($pengawas2[$i])) {
+                    $this->db->table('jadwal_pengawas')->insert([
+                        'id_jadwal_ruang' => $id_jadwal_ruang,
+                        'id_pengawas' => $pengawas2[$i]
+                    ]);
+                }
+            };
+
             $this->db->transComplete();
 
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
@@ -229,9 +252,9 @@ class JadwalUjian extends BaseController
                 'message' => 'Data Berhasil Dihapus',
             ]);
         } catch (\Exception $e) {
-            return $this->response->setJSON([
+            return $this->response->setStatusCode(500)->setJSON([
                 'success' => false,
-                'message' => 'Data Gagal Dihapus',
+                'message' => $e->getMessage()
             ]);
         }
     }
@@ -243,6 +266,8 @@ class JadwalUjian extends BaseController
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $ruang_ujian = $this->ruang_ujianModel->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
         $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
+        $pengawas1 = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
+        $pengawas2 = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
@@ -252,7 +277,9 @@ class JadwalUjian extends BaseController
             'tahun_akademik_aktif' => $this->tahun_akademikModel->find($jadwalUjian['id_tahun_akademik']),
             'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
             'dosen' => $this->kelasModel->find($id_kelas)['id_dosen'],
-            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta')
+            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
+            'pengawas1' => array_column($pengawas1, 'id_pengawas'),
+            'pengawas2' => array_column($pengawas2, 'id_pengawas')
         ];
         // dd($data);
         return view('admin/jadwal_ujian/edit', $data);
@@ -282,13 +309,6 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'ruang_ujian.*' => [
-                'rules' => 'required',
-                'label' => 'Ruang Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'tanggal' => [
                 'rules' => 'required',
                 'label' => 'Tanggal',
@@ -306,6 +326,20 @@ class JadwalUjian extends BaseController
             'jam_selesai' => [
                 'rules' => 'required',
                 'label' => 'Jam Selesai',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'ruang_ujian.*' => [
+                'rules' => 'required',
+                'label' => 'Ruang Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'pengawas1.*' => [
+                'rules' => 'required',
+                'label' => 'Pengawas 1',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -342,16 +376,28 @@ class JadwalUjian extends BaseController
 
             $ruang_ujian = $this->request->getVar('ruang_ujian');
             $jumlah_peserta = $this->request->getVar('jumlah_peserta');
-            $jadwal_ruangan = [];
+            $pengawas1 = $this->request->getVar('pengawas1');
+            $pengawas2 = $this->request->getVar('pengawas2');
             foreach ($ruang_ujian as $i => $r) {
-                $jadwal_ruangan[] = [
+                $this->db->table('jadwal_ruang')->where('id_jadwal_ujian', $id_jadwal_ujian)->delete();
+                $this->db->table('jadwal_ruang')->insert([
                     'id_jadwal_ujian' => $id_jadwal_ujian,
                     'id_ruang_ujian' => $r,
                     'jumlah_peserta' => $jumlah_peserta[$i]
-                ];
-            }
-            $this->db->table('jadwal_ruang')->where('id_jadwal_ujian', $id_jadwal_ujian)->delete();
-            $this->db->table('jadwal_ruang')->insertBatch($jadwal_ruangan);
+                ]);
+                $id_jadwal_ruang = $this->db->insertID();
+                // $this->db->table('jadwal_pengawas')->where('id_jadwal_ruang', $id_jadwal_ruang)->delete();
+                $this->db->table('jadwal_pengawas')->insert([
+                    'id_jadwal_ruang' => $id_jadwal_ruang,
+                    'id_pengawas' => $pengawas1[$i]
+                ]);
+                if (!empty($pengawas2[$i])) {
+                    $this->db->table('jadwal_pengawas')->insert([
+                        'id_jadwal_ruang' => $id_jadwal_ruang,
+                        'id_pengawas' => $pengawas2[$i]
+                    ]);
+                }
+            };
             $this->db->transComplete();
 
             session()->setFlashdata('success', 'Data Berhasil Diubah');

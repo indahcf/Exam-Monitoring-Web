@@ -75,10 +75,15 @@ class Pengawas extends BaseController
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
             ]);
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            return $this->response->setStatusCode(400)->setJSON([
                 'success' => false,
-                'message' => 'Data Gagal Dihapus',
+                'message' => 'Terjadi masalah dengan database saat menghapus data',
+            ]);
+        } catch (\Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'success' => false,
+                'message' => $e->getMessage()
             ]);
         }
     }
