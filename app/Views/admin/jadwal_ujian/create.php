@@ -122,6 +122,7 @@
                         let old_ruangan = $('#ruangan').data('ruangan')
                         let old_peserta = $('#ruangan').data('peserta')
                         getRuanganTersedia()
+                        getPengawasTersedia()
                         // console.log('prodi', id_prodi)
                         getKelas(id_prodi)
                         setTimeout(() => {
@@ -308,8 +309,32 @@
                         }
                     }
 
+                    function getPengawasTersedia() {
+                        let tanggal = $('input[name=tanggal]').val();
+                        let jam_mulai = $('input[name=jam_mulai]').val();
+                        let jam_selesai = $('input[name=jam_selesai]').val();
+                        if (tanggal != null && jam_mulai != null && jam_selesai != null) {
+                            console.log('tanggal', tanggal)
+                            console.log('jam mulai', jam_mulai)
+                            console.log('jam selesai', jam_selesai)
+                            $.ajax({
+                                url: window.location.origin + '/api/pengawas?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
+                                type: 'GET',
+                                success: function(response) {
+                                    console.log('data pengawas', response)
+                                    let options = `<option value="">Pilih Pengawas</option>`
+                                    for (const data of response) {
+                                        options += `<option value="${data.id_pengawas}">${data.pengawas}</option>`
+                                    }
+                                    $('select[name^=pengawas]').html(options)
+                                }
+                            })
+                        }
+                    }
+
                     $('input[name=tanggal]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
@@ -320,6 +345,7 @@
 
                     $('input[name=jam_mulai]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
@@ -330,6 +356,7 @@
 
                     $('input[name=jam_selesai]').on('change', function() {
                         getRuanganTersedia()
+                        getPengawasTersedia()
 
                         // reset select ruangan 
                         let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()

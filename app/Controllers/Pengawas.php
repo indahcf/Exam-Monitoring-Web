@@ -129,4 +129,28 @@ class Pengawas extends BaseController
 
         return redirect()->to('/admin/pengawas');
     }
+
+    public function json($id = null)
+    {
+        $tanggal = $this->request->getVar('tanggal', null);
+        $jam_mulai = $this->request->getVar('jam_mulai', null);
+        $jam_selesai = $this->request->getVar('jam_selesai', null);
+        $id_jadwal_ujian = $this->request->getVar('id_jadwal_ujian', null);
+        if ($id) {
+            // pengawas yg belum digunakan di tanggal, jam_mulai, jam_selesai yg dipilih
+            $pengawas = $this->pengawasModel->find($id);
+        } elseif ($tanggal !== null && $jam_mulai !== null && $jam_selesai !== null && $id_jadwal_ujian !== null) {
+            $pengawas = $this->pengawasModel->getPengawasTersediaEdit($tanggal, $jam_mulai, $jam_selesai, $id_jadwal_ujian);
+        } else {
+            // dd($this->request->getGet());
+            if ($tanggal !== null && $jam_mulai !== null && $jam_selesai !== null) {
+                // pengawas berdasarkan tanggal, jam_mulai, jam_selesai
+                $pengawas = $this->pengawasModel->getPengawasTersedia($tanggal, $jam_mulai, $jam_selesai);
+            } else {
+                // semua pengawas
+                $pengawas = $this->pengawasModel->findAll();
+            }
+        }
+        return $this->response->setJSON($pengawas);
+    }
 }

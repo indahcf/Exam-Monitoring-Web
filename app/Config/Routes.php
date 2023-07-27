@@ -121,6 +121,8 @@ $routes->get('api/kelas', 'Kelas::json');
 $routes->get('api/kelas/(:num)', 'Kelas::json/$1');
 $routes->get('api/ruang_ujian', 'RuangUjian::json');
 $routes->get('api/ruang_ujian/(:num)', 'RuangUjian::json/$1');
+$routes->get('api/pengawas', 'Pengawas::json');
+$routes->get('api/pengawas/(:num)', 'Pengawas::json/$1');
 
 /*
  * --------------------------------------------------------------------
