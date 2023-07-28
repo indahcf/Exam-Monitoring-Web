@@ -120,6 +120,18 @@ class JadwalUjian extends BaseController
         }
     }
 
+    protected function pengawas_is_duplicate($pengawas1, $pengawas2)
+    {
+        $merged_pengawas = array_merge($pengawas1, $pengawas2);
+        $unique_array_id = array_unique($merged_pengawas);
+
+        if (count($merged_pengawas) == count($unique_array_id)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function save()
     {
         // dd($this->request->getPost());
@@ -196,6 +208,13 @@ class JadwalUjian extends BaseController
         //validasi agar tidak ada ruang ujian yang sama dalam 1 jadwal ujian
         if ($this->ruangan_is_duplicate($this->request->getVar('ruang_ujian'))) {
             return redirect()->back()->with('error', 'Ruang Ujian yang Dipilih Ada yang Sama.')->withInput();
+        }
+
+        //validasi agar tidak ada pengawas yang sama dalam 1 jadwal ujian
+        $pengawas1 = $this->request->getVar('pengawas1');
+        $pengawas2 = $this->request->getVar('pengawas2');
+        if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
+            return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
         }
 
         try {
