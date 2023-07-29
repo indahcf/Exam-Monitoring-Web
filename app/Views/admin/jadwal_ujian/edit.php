@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas1)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas2)) ?>'>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas)) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-3">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
