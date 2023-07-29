@@ -123,9 +123,13 @@ class JadwalUjian extends BaseController
     protected function pengawas_is_duplicate($pengawas1, $pengawas2)
     {
         $merged_pengawas = array_merge($pengawas1, $pengawas2);
-        $unique_array_id = array_unique($merged_pengawas);
 
-        if (count($merged_pengawas) == count($unique_array_id)) {
+        $hapus_string_kosong = array_diff($merged_pengawas, array(""));
+        // dd($hapus_string_kosong);
+        $unique_array_id = array_unique($hapus_string_kosong);
+        // dd($unique_array_id);
+
+        if (count($hapus_string_kosong) == count($unique_array_id)) {
             return false;
         } else {
             return true;
