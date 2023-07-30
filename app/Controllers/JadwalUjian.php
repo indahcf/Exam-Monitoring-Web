@@ -302,7 +302,7 @@ class JadwalUjian extends BaseController
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
             'pengawas' => array_column($pengawas, 'id_pengawas')
         ];
-        // dd($data);
+        // dd($data['pengawas']);
         return view('admin/jadwal_ujian/edit', $data);
     }
 
