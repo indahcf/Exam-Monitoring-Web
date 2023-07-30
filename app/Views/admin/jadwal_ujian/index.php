@@ -4,8 +4,8 @@
 
 <h4 class="card-title">Data Jadwal Ujian</h4>
 <div class="template-demo row mb-3 mt-4">
-    <div class="col-md-7">
-        <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
+    <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
+        <form action="<?= base_url('/admin/jadwal_ujian') ?>" method="get" id="formFilter" class="input-group">
             <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
@@ -23,19 +23,31 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5 d-flex justify-content-end">
+    <div class="col-md-7 col-lg-8 col-xl-8 mb-2 d-flex justify-content-md-end justify-content-center">
         <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text mr-2">
-            <i class="ti-plus btn-icon-prepend"></i>
-            Tambah
+            <div class="d-md-block d-flex flex-column">
+                <i class="ti-plus"></i>
+                <span class="d-none d-md-inline ml-1">
+                    Tambah
+                </span>
+            </div>
         </a>
         <button type="button" class="btn btn-success btn-icon-text mr-2" data-toggle="modal" data-target="#modalImport">
-            <i class="ti-import btn-icon-prepend"></i>
-            Import
+            <div class="d-md-block d-flex flex-column">
+                <i class="ti-import"></i>
+                <span class="d-none d-md-inline ml-1">
+                    Import
+                </span>
+            </div>
         </button>
         <?php if (!empty($jadwal_ujian)) : ?>
             <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
-                <i class="ti-export btn-icon-prepend"></i>
-                Export
+                <div class="d-md-block d-flex flex-column">
+                    <i class="ti-export"></i>
+                    <span class="d-none d-md-inline ml-1">
+                        Export
+                    </span>
+                </div>
             </a>
         <?php endif; ?>
     </div>

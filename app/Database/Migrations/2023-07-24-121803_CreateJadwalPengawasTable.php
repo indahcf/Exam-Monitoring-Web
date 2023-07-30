@@ -14,6 +14,7 @@ class CreateJadwalPengawasTable extends Migration
             'id_jadwal_pengawas'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_jadwal_ruang'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_pengawas'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'jenis_pengawas'        => ['type' => 'enum', 'constraint' => ['Pengawas 1', 'Pengawas 2']],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);

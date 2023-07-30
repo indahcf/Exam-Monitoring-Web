@@ -289,7 +289,25 @@ class JadwalUjian extends BaseController
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $ruang_ujian = $this->ruang_ujianModel->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
         $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
-        $pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
+        // $pengawas1 = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->where('jadwal_pengawas.jenis_pengawas="Pengawas 1"')->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        // $pengawas2 = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->where('jadwal_pengawas.jenis_pengawas="Pengawas 2"')->orderBy('id_ruang_ujian', 'ASC')->findAll();
+
+        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
+
+        $pengawas = array();
+
+        foreach ($data_pengawas as $row) {
+            $id_ruang_ujian = $row['id_ruang_ujian'];
+            $id_pengawas = $row['id_pengawas'];
+            $jenis_pengawas = $row['jenis_pengawas'];
+
+            if (!isset($pengawas[$id_ruang_ujian])) {
+                $pengawas[$id_ruang_ujian] = array();
+            }
+
+            $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
+        }
+
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
@@ -300,8 +318,11 @@ class JadwalUjian extends BaseController
             'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
             'dosen' => $this->kelasModel->find($id_kelas)['id_dosen'],
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
-            'pengawas' => array_column($pengawas, 'id_pengawas')
+            // 'pengawas1' => array_column($pengawas1, 'id_pengawas'),
+            // 'pengawas2' => array_column($pengawas2, 'id_pengawas')
+            'pengawas' => $pengawas
         ];
+
         // dd($data['pengawas']);
         return view('admin/jadwal_ujian/edit', $data);
     }
@@ -410,12 +431,14 @@ class JadwalUjian extends BaseController
                 // $this->db->table('jadwal_pengawas')->where('id_jadwal_ruang', $id_jadwal_ruang)->delete();
                 $this->db->table('jadwal_pengawas')->insert([
                     'id_jadwal_ruang' => $id_jadwal_ruang,
-                    'id_pengawas' => $pengawas1[$i]
+                    'id_pengawas' => $pengawas1[$i],
+                    'jenis_pengawas' => 'Pengawas 1'
                 ]);
                 if (!empty($pengawas2[$i])) {
                     $this->db->table('jadwal_pengawas')->insert([
                         'id_jadwal_ruang' => $id_jadwal_ruang,
-                        'id_pengawas' => $pengawas2[$i]
+                        'id_pengawas' => $pengawas2[$i],
+                        'jenis_pengawas' => 'Pengawas 2'
                     ]);
                 }
             };

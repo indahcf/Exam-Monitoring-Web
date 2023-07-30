@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Soal Ujian</h4>
 <div class="template-demo row mb-3 mt-4">
-    <div class=" col-md-7">
+    <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
         <form action="<?= base_url('/admin/soal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
             <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
@@ -23,10 +23,14 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5 d-flex justify-content-end">
+    <div class="col-md-7 col-lg-8 col-xl-8 mb-2 d-flex justify-content-md-end justify-content-center">
         <a href="/admin/soal_ujian/create" class="btn btn-primary btn-icon-text">
-            <i class="ti-plus btn-icon-prepend"></i>
-            Tambah
+            <div class="d-md-block d-flex flex-column">
+                <i class="ti-plus"></i>
+                <span class="d-none d-md-inline ml-1">
+                    Tambah
+                </span>
+            </div>
         </a>
     </div>
 </div>

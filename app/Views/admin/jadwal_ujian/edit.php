@@ -131,6 +131,7 @@
                             getDosen(id_kelas)
                             for (const i in old_ruangan) {
                                 let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
+                                let id_ruangan = old_ruangan[i]
                                 if (i == 0) {
                                     $('.fg_ruangan_peserta').remove()
                                 }
@@ -138,12 +139,15 @@
                                 console.log(old_peserta[i]);
                                 fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
                                 fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
-                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[i])
-                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[id_ruangan]['Pengawas 1'])
+                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[id_ruangan]['Pengawas 2'])
                                 $('#ruangan').append(fg_ruangan_peserta)
                             }
                             handleRuangan()
                         }, 1000);
+                        console.log(old_ruangan);
+                        console.log(old_pengawas1);
+                        // console.log(old_pengawas2);
                     })
 
                     function getKelas(id_prodi) {
