@@ -253,8 +253,12 @@
                         $('.fg_ruangan_peserta').each(function(index, el) {
                             $(el).find('select[name^=ruang_ujian]').prev().text(`Ruang Ujian ${index+1}`)
                             $(el).find('input[name^=jumlah_peserta]').prev().text(`Jumlah Peserta Ruang Ujian ${index+1}`)
+                            $(el).find('select[name^=pengawas1]').prev().text(`Pengawas 1 Ruang Ujian ${index+1}`)
+                            $(el).find('select[name^=pengawas2]').prev().text(`Pengawas 2 Ruang Ujian ${index+1}`)
                             $(el).find('select[name^=ruang_ujian]').children('option:first').text(`Pilih Ruang Ujian ${index+1}`)
                             $(el).find('input[name^=jumlah_peserta]').attr('placeholder', `Jumlah Peserta Ruang Ujian ${index+1}`)
+                            $(el).find('select[name^=pengawas1]').children('option:first').text(`Pilih Pengawas 1 Ruang Ujian ${index+1}`)
+                            $(el).find('select[name^=pengawas2]').children('option:first').text(`Pilih Pengawas 2 Ruang Ujian ${index+1}`)
                         })
 
                         // set input jumlah peserta 
