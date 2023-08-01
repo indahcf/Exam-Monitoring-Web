@@ -318,7 +318,6 @@ class SoalUjian extends BaseController
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
-                'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'id_dosen' => $this->request->getVar('dosen'),
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'soal_ujian' => $namaSoalUjian,
