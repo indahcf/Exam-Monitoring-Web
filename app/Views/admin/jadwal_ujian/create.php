@@ -78,6 +78,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="koordinator_ujian">Koordinator Ujian</label>
+                        <select class="form-control <?= (validation_show_error('koordinator_ujian')) ? 'is-invalid' : ''; ?>" id="koordinator_ujian" name="koordinator_ujian">
+                            <option value="">Pilih Koordinator Ujian</option>
+                            <?php foreach ($koordinator_ujian as $k) : ?>
+                                <option value="<?= $k['id_dosen']; ?>" <?= old('koordinator_ujian') == $k['id_dosen'] ? 'selected' : '' ?>>
+                                    <?= $k['dosen']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('koordinator_ujian'); ?>
+                        </div>
+                    </div>
                     <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian')) ?>' data-peserta='<?= json_encode(old('jumlah_peserta')) ?>' data-pengawas1='<?= json_encode(old('pengawas1')) ?>' data-pengawas2='<?= json_encode(old('pengawas2')) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-3">

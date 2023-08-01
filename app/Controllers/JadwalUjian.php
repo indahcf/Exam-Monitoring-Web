@@ -11,6 +11,7 @@ use App\Models\RuangUjianModel;
 use App\Models\JadwalRuangModel;
 use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
+use App\Models\DosenModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class JadwalUjian extends BaseController
@@ -23,6 +24,7 @@ class JadwalUjian extends BaseController
     protected $ruang_ujianModel;
     protected $matkulModel;
     protected $pengawasModel;
+    protected $dosenModel;
     protected $db;
 
     public function __construct()
@@ -35,6 +37,7 @@ class JadwalUjian extends BaseController
         $this->tahun_akademikModel = new TahunAkademikModel();
         $this->matkulModel = new MatkulModel();
         $this->pengawasModel = new PengawasModel();
+        $this->dosenModel = new DosenModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -63,6 +66,7 @@ class JadwalUjian extends BaseController
             'url_export' => base_url($url_export),
             'filter' => $filter
         ];
+        // dd($data);
 
         return view('admin/jadwal_ujian/index', $data);
     }
@@ -100,8 +104,9 @@ class JadwalUjian extends BaseController
     {
         // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
         $data = [
-            'title'          => 'Tambah Jadwal Ujian',
-            'prodi'          => $this->prodiModel->findAll()
+            'title'                 => 'Tambah Jadwal Ujian',
+            'prodi'                 => $this->prodiModel->findAll(),
+            'koordinator_ujian'     => $this->dosenModel->findAll()
         ];
 
         return view('admin/jadwal_ujian/create', $data);
@@ -180,6 +185,13 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
+            'koordinator_ujian' => [
+                'rules' => 'required',
+                'label' => 'Koordinator Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
@@ -227,7 +239,8 @@ class JadwalUjian extends BaseController
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
-                'jam_selesai' => $this->request->getVar('jam_selesai')
+                'jam_selesai' => $this->request->getVar('jam_selesai'),
+                'koordinator_ujian' => $this->request->getVar('koordinator_ujian')
             ]);
 
             $id_jadwal_ujian = $this->db->insertID();
@@ -314,7 +327,8 @@ class JadwalUjian extends BaseController
             'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
             'dosen' => $this->kelasModel->find($id_kelas)['id_dosen'],
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
-            'pengawas' => $pengawas
+            'pengawas' => $pengawas,
+            'koordinator_ujian' => $this->dosenModel->findAll()
         ];
 
         // dd($data['pengawas']);
@@ -366,6 +380,13 @@ class JadwalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
+            'koordinator_ujian' => [
+                'rules' => 'required',
+                'label' => 'Koordinator Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'ruang_ujian.*' => [
                 'rules' => 'required',
                 'label' => 'Ruang Ujian',
@@ -406,7 +427,8 @@ class JadwalUjian extends BaseController
                 'id_kelas' => $this->request->getVar('kelas'),
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),
-                'jam_selesai' => $this->request->getVar('jam_selesai')
+                'jam_selesai' => $this->request->getVar('jam_selesai'),
+                'koordinator_ujian' => $this->request->getVar('koordinator_ujian')
             ]);
 
             $ruang_ujian = $this->request->getVar('ruang_ujian');
