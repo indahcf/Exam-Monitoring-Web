@@ -19,5 +19,6 @@ class TestSeeder extends Seeder
         $this->call('JadwalUjian');
         $this->call('JadwalRuang');
         $this->call('JadwalPengawas');
+        $this->call('KehadiranPengawas');
     }
 }

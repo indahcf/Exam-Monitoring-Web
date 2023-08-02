@@ -105,7 +105,7 @@
                                         <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
-                                        <a href="/admin/jadwal_ujian/detail/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                        <a href="/admin/jadwal_ujian/kehadiran_pengawas/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
                                             <i class="ti-eye"></i>
                                         </a>
                                     </td>

@@ -193,7 +193,7 @@
                                 url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
                                 type: 'GET',
                                 success: function(response) {
-                                    // console.log('data dosen', response)
+                                    console.log('data dosen', response)
                                     $('input[name=dosen]').val(response.dosen)
                                 },
                             })
