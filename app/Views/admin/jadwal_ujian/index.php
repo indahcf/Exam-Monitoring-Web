@@ -120,7 +120,7 @@
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13]
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 9, 10]
                             });
 
                             $('.form_modal').submit(function(e) {
