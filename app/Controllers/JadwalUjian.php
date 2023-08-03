@@ -103,10 +103,20 @@ class JadwalUjian extends BaseController
     public function create()
     {
         // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
+
+        $koordinator_ujian = [];
+        $dosen = $this->dosenModel->findAll();
+        foreach ($dosen as $i => $d) {
+            $prodi = $this->prodiModel->where('id_prodi =', $d['id_prodi'])->first();
+            if ($prodi['prodi'] != 'Non Teknik') {
+                $koordinator_ujian[$i] = $d;
+            }
+        }
+
         $data = [
             'title'                 => 'Tambah Jadwal Ujian',
             'prodi'                 => $this->prodiModel->findAll(),
-            'koordinator_ujian'     => $this->dosenModel->findAll()
+            'koordinator_ujian'     => $koordinator_ujian
         ];
 
         return view('admin/jadwal_ujian/create', $data);
@@ -318,6 +328,15 @@ class JadwalUjian extends BaseController
             $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
         }
 
+        $koordinator_ujian = [];
+        $dosen = $this->dosenModel->findAll();
+        foreach ($dosen as $i => $d) {
+            $prodi = $this->prodiModel->where('id_prodi =', $d['id_prodi'])->first();
+            if ($prodi['prodi'] != 'Non Teknik') {
+                $koordinator_ujian[$i] = $d;
+            }
+        }
+
         $data = [
             'title' => 'Edit Jadwal Ujian',
             'jadwal_ujian' => $jadwalUjian,
@@ -328,7 +347,7 @@ class JadwalUjian extends BaseController
             'dosen' => $this->kelasModel->find($id_kelas)['id_dosen'],
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
             'pengawas' => $pengawas,
-            'koordinator_ujian' => $this->dosenModel->findAll()
+            'koordinator_ujian' => $koordinator_ujian
         ];
 
         // dd($data['pengawas']);
@@ -665,17 +684,44 @@ class JadwalUjian extends BaseController
 
     public function kehadiran_pengawas($id_jadwal_ujian)
     {
-        // $reviewSoalUjian = $this->soal_ujianModel->join('dosen', 'soal_ujian.id_dosen=dosen.id_dosen')->find($id_soal_ujian);
-        // $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+        $jadwal_ujian = $this->jadwal_ujianModel
+            ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*, dosen_koordinator.dosen as nama_koordinator')
+            ->join('kelas', 'jadwal_ujian.id_kelas=kelas.id_kelas')
+            ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
+            ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
+            ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
+            ->join('dosen as dosen_koordinator', 'jadwal_ujian.koordinator_ujian=dosen_koordinator.id_dosen')
+            ->find($id_jadwal_ujian);
+
+        $ruang_ujian = $this->ruang_ujianModel
+            ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
+            ->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)
+            ->findAll();
+
+        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
+
+        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
+
+        $pengawas = array();
+
+        foreach ($data_pengawas as $row) {
+            $id_ruang_ujian = $row['id_ruang_ujian'];
+            $id_pengawas = $row['id_pengawas'];
+            $jenis_pengawas = $row['jenis_pengawas'];
+
+            if (!isset($pengawas[$id_ruang_ujian])) {
+                $pengawas[$id_ruang_ujian] = array();
+            }
+
+            $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
+        }
+
         $data = [
             'title' => 'Edit Data Kehadiran Pengawas',
-            // 'review_soal_ujian' => $reviewSoalUjian,
-            // 'prodi' => $this->prodiModel->findAll(),
-            // 'tahun_akademik_aktif' => $this->tahun_akademikModel->find($reviewSoalUjian['id_tahun_akademik']),
-            // 'prodi_matkul' => $kelas[0]['prodi'],
-            // 'kode_matkul' => $kelas[0]['kode_matkul'],
-            // 'matkul' => $kelas[0]['matkul'],
-            // 'kelas' => implode(", ", array_column($kelas, 'kelas'))
+            'jadwal_ujian' => $jadwal_ujian,
+            'ruang_ujian' => array_column($ruang_ujian, 'ruang_ujian'),
+            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
+            'pengawas' => $pengawas
         ];
         return view('admin/jadwal_ujian/kehadiran_pengawas', $data);
     }
