@@ -719,7 +719,7 @@ class JadwalUjian extends BaseController
         $data = [
             'title' => 'Edit Data Kehadiran Pengawas',
             'jadwal_ujian' => $jadwal_ujian,
-            'ruang_ujian' => array_column($ruang_ujian, 'ruang_ujian'),
+            'ruang_ujian' => $ruang_ujian,
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
             'pengawas' => $pengawas
         ];

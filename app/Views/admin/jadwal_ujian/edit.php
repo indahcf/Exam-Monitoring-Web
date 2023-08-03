@@ -132,6 +132,7 @@
                     $(document).ready(function() {
                         let id_prodi = $('select[name=prodi]').val();
                         let old_ruangan = $('#ruangan').data('ruangan')
+                        console.log('old ruangan', old_ruangan)
                         let old_peserta = $('#ruangan').data('peserta')
                         let old_pengawas1 = $('#ruangan').data('pengawas1')
                         let old_pengawas2 = $('#ruangan').data('pengawas2')
@@ -146,6 +147,7 @@
                             for (const i in old_ruangan) {
                                 let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
                                 let id_ruangan = old_ruangan[i]
+                                console.log('id ruangan', id_ruangan)
                                 if (i == 0) {
                                     $('.fg_ruangan_peserta').remove()
                                 }
