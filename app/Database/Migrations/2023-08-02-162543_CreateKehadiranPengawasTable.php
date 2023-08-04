@@ -13,9 +13,9 @@ class CreateKehadiranPengawasTable extends Migration
         $this->forge->addField([
             'id_kehadiran_pengawas'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_jadwal_ruang'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'pengawas_1'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'pengawas_2'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'pengawas_3'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'pengawas_1'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'pengawas_2'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'pengawas_3'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);

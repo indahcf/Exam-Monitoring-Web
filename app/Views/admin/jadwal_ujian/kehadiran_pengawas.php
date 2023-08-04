@@ -56,28 +56,43 @@
                     </div>
                     <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas)) ?>'>
                         <?php foreach ($ruang_ujian as $i => $r) : ?>
-                            <div class="row fg_ruangan_peserta">
-                                <div class="form-group col-md-3">
-                                    <label for="ruang_ujian">Ruang Ujian 1</label>
-                                    <input type="text" class="form-control" id="ruang_ujian" name="ruang_ujian" value="<?= $r['ruang_ujian']; ?>" placeholder="Ruang Ujian 1" readonly>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="jumlah_peserta">Jumlah Peserta Ruang Ujian 1</label>
-                                    <input type="number" class="form-control" id="jumlah_peserta" name="jumlah_peserta" value="<?= $jumlah_peserta[$i]; ?>" placeholder="Jumlah Peserta Ruang Ujian 1" readonly>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="pengawas1">Pengawas 1 Ruang Ujian 1</label>
-                                    <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1_<?= $r['id_ruang_ujian'] ?>" name="pengawas1[]">
-                                        <option value="">Pilih Pengawas 1 Ruang Ujian 1</option>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">Ruang Ujian</div>
+                                <div class="d-none d-sm-inline">:</div>
+                                <div class="col-sm"><?= $r['ruang_ujian']; ?></div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">Jumlah Peserta</div>
+                                <div class="d-none d-sm-inline">:</div>
+                                <div class="col-sm"><?= $jumlah_peserta[$i]; ?></div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">Pengawas 1</div>
+                                <div class="d-none d-sm-inline">:</div>
+                                <div class="col-sm">
+                                    <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1_<?= $r['id_ruang_ujian'] ?>" name="pengawas1">
+                                        <option value="">Pilih Pengawas</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         <?= validation_show_error('pengawas1.0'); ?>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="pengawas2">Pengawas 2 Ruang Ujian 1</label>
-                                    <select class="form-control" id="pengawas2_<?= $r['id_ruang_ujian'] ?>" name="pengawas2[]">
-                                        <option value="">Pilih Pengawas 2 Ruang Ujian 1</option>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">Pengawas 2</div>
+                                <div class="d-none d-sm-inline">:</div>
+                                <div class="col-sm">
+                                    <select class="form-control" id="pengawas2_<?= $r['id_ruang_ujian'] ?>" name="pengawas2">
+                                        <option value="">Pilih Pengawas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">Pengawas 3</div>
+                                <div class="d-none d-sm-inline">:</div>
+                                <div class="col-sm">
+                                    <select class="form-control" id="pengawas3" name="pengawas3">
+                                        <option value="">Pilih Pengawas</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,53 +105,33 @@
                     const pengawas1 = JSON.parse(
                         '<?= json_encode($pengawas) ?>'
                     )
-
                     // console.log(pengawas1)
+
                     const jadwal_ujian = JSON.parse(
                         '<?= json_encode($jadwal_ujian) ?>'
                     )
+                    // console.log(jadwal_ujian)
 
                     $(document).ready(function() {
                         let old_ruangan = $('#ruangan').data('ruangan')
                         // console.log('old ruangan', old_ruangan)
                         let old_pengawas1 = $('#ruangan').data('pengawas1')
                         let old_pengawas2 = $('#ruangan').data('pengawas2')
-                        // console.log(old_pengawas1)
+                        console.log(old_pengawas2)
                         getPengawasTersedia()
+                        getDosenPengawas3()
                         setTimeout(() => {
                             for (const i in old_ruangan) {
-                                // let fg_ruangan_peserta = $('.fg_ruangan_peserta').first().clone()
                                 let id_ruangan = old_ruangan[i].id_ruang_ujian
                                 // console.log(id_ruangan)
-                                // if (i == 0) {
-                                //     $('.fg_ruangan_peserta').remove()
-                                // }
-                                console.log(old_pengawas1[id_ruangan]['Pengawas 1'])
+                                // console.log(old_pengawas1[id_ruangan]['Pengawas 1'])
                                 $(`select[id=pengawas1_${id_ruangan}]`).val(old_pengawas1[id_ruangan]['Pengawas 1'])
                                 $(`select[id=pengawas2_${id_ruangan}]`).val(old_pengawas2[id_ruangan]['Pengawas 2'])
-                                // fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[id_ruangan]['Pengawas 1'])
-                                // fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[id_ruangan]['Pengawas 2'])
-                                // $('#ruangan').append(fg_ruangan_peserta)
                             }
-                            handleRuangan()
                         }, 1000);
                         // console.log(old_pengawas1);
                         // console.log(old_pengawas2);
                     })
-
-                    function handleRuangan() {
-                        // ubah label 
-                        $('.fg_ruangan_peserta').each(function(index, el) {
-                            $(el).find('select[name^=ruang_ujian]').prev().text(`Ruang Ujian ${index+1}`)
-                            $(el).find('input[name^=jumlah_peserta]').prev().text(`Jumlah Peserta Ruang Ujian ${index+1}`)
-                            $(el).find('select[name^=pengawas1]').prev().text(`Pengawas 1 Ruang Ujian ${index+1}`)
-                            $(el).find('select[name^=pengawas2]').prev().text(`Pengawas 2 Ruang Ujian ${index+1}`)
-                            $(el).find('select[name^=ruang_ujian]').children('option:first').text(`Pilih Ruang Ujian ${index+1}`)
-                            $(el).find('input[name^=jumlah_peserta]').attr('placeholder', `Jumlah Peserta Ruang Ujian ${index+1}`)
-                            $(el).find('select[name^=pengawas1]').children('option:first').text(`Pilih Pengawas 1 Ruang Ujian ${index+1}`)
-                            $(el).find('select[name^=pengawas2]').children('option:first').text(`Pilih Pengawas 2 Ruang Ujian ${index+1}`)
-                        })
-                    }
 
                     function getPengawasTersedia() {
                         let tanggal = jadwal_ujian.tanggal;
@@ -157,6 +152,25 @@
                                         options += `<option value="${data.id_pengawas}">${data.pengawas}</option>`
                                     }
                                     $('select[name^=pengawas]').html(options)
+                                }
+                            })
+                        }
+                    }
+
+                    function getDosenPengawas3() {
+                        let id_kelas = jadwal_ujian.id_kelas;
+                        let id_dosen = jadwal_ujian.id_dosen;
+                        if (id_kelas !== '') {
+                            // console.log('id kelas', id_kelas)
+                            console.log('id dosen', id_dosen)
+                            $.ajax({
+                                url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
+                                type: 'GET',
+                                success: function(response) {
+                                    // console.log('data dosen', response)
+                                    let options = `<option value="">Pilih Pengawas</option>`
+                                    options += `<option value="${response.id_dosen}" ${id_dosen == response.id_dosen ? 'selected' : ''}>${response.dosen}</option>`
+                                    $('select[name=pengawas3]').html(options)
                                 }
                             })
                         }
