@@ -682,25 +682,29 @@ class JadwalUjian extends BaseController
         return $this->response->setJSON(["success" => true]);
     }
 
-    public function kehadiran_pengawas($id_jadwal_ujian)
+    public function kehadiran_pengawas($id_jadwal_ruang)
     {
-        $jadwal_ujian = $this->jadwal_ujianModel
-            ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*, dosen_koordinator.dosen as nama_koordinator')
+        $jadwal_ruang = $this->jadwal_ruangModel
+            ->select('jadwal_ruang.*, jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*, dosen_koordinator.dosen as nama_koordinator, pengawas.*, jadwal_pengawas.*')
+            ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian', 'right')
+            // ->join('ruang_ujian', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian', 'left')
             ->join('kelas', 'jadwal_ujian.id_kelas=kelas.id_kelas')
             ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
             ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
             ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
             ->join('dosen as dosen_koordinator', 'jadwal_ujian.koordinator_ujian=dosen_koordinator.id_dosen')
-            ->find($id_jadwal_ujian);
+            ->join('jadwal_pengawas', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')
+            ->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')
+            ->find($id_jadwal_ruang);
 
         $ruang_ujian = $this->ruang_ujianModel
             ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
-            ->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)
+            ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
             ->findAll();
 
-        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
+        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
 
-        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ruang)->orderBy('id_ruang_ujian', 'ASC')->findAll();
 
         $pengawas = array();
 
@@ -718,11 +722,13 @@ class JadwalUjian extends BaseController
 
         $data = [
             'title' => 'Edit Data Kehadiran Pengawas',
-            'jadwal_ujian' => $jadwal_ujian,
-            'ruang_ujian' => $ruang_ujian,
+            'jadwal_ruang' => $jadwal_ruang,
+            // 'ruang_ujian' => $ruang_ujian,
+            'ruang_ujian' => array_column($ruang_ujian, 'ruang_ujian'),
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
             'pengawas' => $pengawas
         ];
+        dd($jadwal_ruang);
         return view('admin/jadwal_ujian/kehadiran_pengawas', $data);
     }
 }

@@ -15,6 +15,9 @@ class CreateJadwalRuangTable extends Migration
             'id_jadwal_ujian'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_ruang_ujian'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'jumlah_peserta'        => ['type' => 'int', 'constraint' => 11],
+            'pengawas_1'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'pengawas_2'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'pengawas_3'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
@@ -22,6 +25,9 @@ class CreateJadwalRuangTable extends Migration
         $this->forge->addKey('id_jadwal_ruang', true);
         $this->forge->addForeignKey('id_jadwal_ujian', 'jadwal_ujian', 'id_jadwal_ujian', 'CASCADE', 'CASCADE', 'fk_jadwal_ujian');
         $this->forge->addForeignKey('id_ruang_ujian', 'ruang_ujian', 'id_ruang_ujian');
+        $this->forge->addForeignKey('pengawas_1', 'pengawas', 'id_pengawas');
+        $this->forge->addForeignKey('pengawas_2', 'pengawas', 'id_pengawas');
+        $this->forge->addForeignKey('pengawas_3', 'dosen', 'id_dosen');
 
         $this->forge->createTable('jadwal_ruang', true);
     }
