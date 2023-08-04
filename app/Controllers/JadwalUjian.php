@@ -12,6 +12,7 @@ use App\Models\JadwalRuangModel;
 use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
 use App\Models\DosenModel;
+use App\Models\KehadiranPengawasModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class JadwalUjian extends BaseController
@@ -25,6 +26,7 @@ class JadwalUjian extends BaseController
     protected $matkulModel;
     protected $pengawasModel;
     protected $dosenModel;
+    protected $kehadiran_pengawasModel;
     protected $db;
 
     public function __construct()
@@ -38,6 +40,7 @@ class JadwalUjian extends BaseController
         $this->matkulModel = new MatkulModel();
         $this->pengawasModel = new PengawasModel();
         $this->dosenModel = new DosenModel();
+        $this->kehadiran_pengawasModel = new KehadiranPengawasModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -682,7 +685,7 @@ class JadwalUjian extends BaseController
         return $this->response->setJSON(["success" => true]);
     }
 
-    public function kehadiran_pengawas($id_jadwal_ujian)
+    public function kehadiran_pengawas($id_jadwal_ujian, $id_jadwal_ruang)
     {
         $jadwal_ujian = $this->jadwal_ujianModel
             ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*, dosen_koordinator.dosen as nama_koordinator')
@@ -695,12 +698,12 @@ class JadwalUjian extends BaseController
 
         $ruang_ujian = $this->ruang_ujianModel
             ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
-            ->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)
+            ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
             ->findAll();
 
-        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
+        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
 
-        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->orderBy('id_ruang_ujian', 'ASC')->findAll();
 
         $pengawas = array();
 
@@ -724,5 +727,43 @@ class JadwalUjian extends BaseController
             'pengawas' => $pengawas
         ];
         return view('admin/jadwal_ujian/kehadiran_pengawas', $data);
+    }
+
+    public function save_kehadiran_pengawas()
+    {
+        // dd($this->request->getPost());
+        if (!$this->validate([
+            'pengawas1' => [
+                'rules' => 'required',
+                'label' => 'Pengawas 1',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        //validasi agar tidak ada pengawas yang sama dalam 1 jadwal ujian
+        $pengawas1 = $this->request->getVar('pengawas1');
+        $pengawas2 = $this->request->getVar('pengawas2');
+        if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
+            return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
+        }
+
+        try {
+            $this->kehadiran_pengawasModel->save([
+                // 'id_jadwal_ruang' => $this->request->getVar('kode_matkul'),
+                'pengawas_1' => $this->request->getVar('pengawas1'),
+                'pengawas_2' => $this->request->getVar('pengawas2'),
+                'pengawas_3' => $this->request->getVar('pengawas3')
+            ]);
+
+            session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
+        } catch (DatabaseException $e) {
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        return redirect()->to('/admin/jadwal_ujian');
     }
 }

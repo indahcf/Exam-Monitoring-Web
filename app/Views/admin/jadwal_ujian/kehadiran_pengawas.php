@@ -70,11 +70,11 @@
                                 <div class="col-sm-3">Pengawas 1</div>
                                 <div class="d-none d-sm-inline">:</div>
                                 <div class="col-sm">
-                                    <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1_<?= $r['id_ruang_ujian'] ?>" name="pengawas1">
+                                    <select class="form-control <?= (validation_show_error('pengawas1')) ? 'is-invalid' : ''; ?>" id="pengawas1_<?= $r['id_ruang_ujian'] ?>" name="pengawas1">
                                         <option value="">Pilih Pengawas</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        <?= validation_show_error('pengawas1.0'); ?>
+                                        <?= validation_show_error('pengawas1'); ?>
                                     </div>
                                 </div>
                             </div>

@@ -61,10 +61,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Hari</th>
                                 <th>Tanggal</th>
                                 <th>Jam</th>
-                                <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
                                 <th>Program Studi</th>
                                 <th>Dosen</th>
@@ -73,6 +71,7 @@
                                 <th>Jumlah Peserta</th>
                                 <th>Pengawas</th>
                                 <th>Koordinator Ujian</th>
+                                <th>Rekap</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -86,11 +85,9 @@
                                         $temp = $j['id_jadwal_ujian'];
                                     } ?>
                                     <td><?= $i; ?></td>
-                                    <td><?= hari($j['tanggal']); ?></td>
-                                    <td><?= date('d-m-Y', strtotime($j['tanggal'])); ?></td>
+                                    <td><?= hari($j['tanggal']); ?>, <?= date('d-m-Y', strtotime($j['tanggal'])); ?></td>
                                     <td><?= date('H.i', strtotime($j['jam_mulai'])); ?> - <?= date('H.i', strtotime($j['jam_selesai'])); ?></td>
-                                    <td><?= $j['kode_matkul']; ?></td>
-                                    <td><?= $j['matkul']; ?></td>
+                                    <td><?= $j['kode_matkul']; ?> - <?= $j['matkul']; ?></td>
                                     <td><?= $j['prodi']; ?></td>
                                     <td><?= $j['dosen']; ?></td>
                                     <td><?= $j['kelas']; ?></td>
@@ -99,15 +96,17 @@
                                     <td><?= $j['pengawas']; ?></td>
                                     <td><?= $j['nama_koordinator']; ?></td>
                                     <td>
+                                        <a href="/admin/jadwal_ujian/kehadiran_pengawas/<?= $j['id_jadwal_ujian']; ?>/<?= $j['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                            <i class="ti-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>
                                         <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
-                                        <a href="/admin/jadwal_ujian/kehadiran_pengawas/<?= $j['id_jadwal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                            <i class="ti-eye"></i>
-                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -120,7 +119,7 @@
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 9, 10]
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 10, 12, 7, 8, 11]
                             });
 
                             $('.form_modal').submit(function(e) {
