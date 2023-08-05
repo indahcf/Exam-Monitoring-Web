@@ -53,13 +53,27 @@ class KehadiranPengawas extends BaseController
             $kehadiran_pengawas = $this->kehadiran_pengawasModel->filterKehadiranPengawas($id_tahun_akademik, $periode_ujian);
         }
 
+        $jadwal_pengawas = $this->jadwal_pengawas_model->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->findAll();
+        // Fungsi untuk mengelompokkan array berdasarkan kolom tertentu
+        function groupBy($array, $key)
+        {
+            return array_reduce($array, function ($result, $item) use ($key) {
+                $result[$item[$key]][] = $item;
+                return $result;
+            }, []);
+        }
+
+        // Mengelompokkan array berdasarkan kolom id_jadwal_ruang
+        $groupedPengawas = groupBy($jadwal_pengawas, 'id_jadwal_ruang');
+
         $data = [
             'title' => 'Data Kehadiran Pengawas',
             'kehadiran_pengawas' => $kehadiran_pengawas,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'filter' => $filter
+            'filter' => $filter,
+            'groupedPengawas' => $groupedPengawas
         ];
-        // dd($data);
+        // dd($groupedPengawas);
 
         return view('admin/kehadiran_pengawas/index', $data);
     }
@@ -90,8 +104,9 @@ class KehadiranPengawas extends BaseController
 
         $pengawas3 = $this->dosenModel->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->where('jadwal_ujian.id_jadwal_ujian =', $id_jadwal_ujian)->get()->getRowArray();
         // dd($pengawas3);
+
         $data = [
-            'title' => 'Edit Data Kehadiran Pengawas',
+            'title' => 'Rekap Data Kehadiran Pengawas',
             'jadwal_ujian' => $jadwal_ujian,
             'ruang_ujian' => $ruang_ujian,
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),

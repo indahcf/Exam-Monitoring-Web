@@ -64,8 +64,15 @@
                                     <td><?= $k['kelas']; ?></td>
                                     <td><?= $k['ruang_ujian']; ?></td>
                                     <td><?= $k['jumlah_peserta']; ?></td>
-                                    <td><?= $k['pengawas']; ?></td>
-                                    <td></td>
+                                    <td>
+                                        <?php foreach ($groupedPengawas[$k['id_jadwal_ruang']] as $grup) : ?>
+                                            <p><?= $grup['pengawas'] ?></p>
+                                        <?php endforeach; ?>
+                                    </td>
+                                    <td>
+                                        <p><?= $k['pengawas_bertugas_1']; ?></p>
+                                        <p><?= $k['pengawas_bertugas_2']; ?></p>
+                                    </td>
                                     <td>
                                         <a href="/admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
                                             <i class="ti-eye"></i>
