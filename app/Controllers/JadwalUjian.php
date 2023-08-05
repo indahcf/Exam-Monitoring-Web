@@ -13,6 +13,7 @@ use App\Models\JadwalUjianModel;
 use App\Models\TahunAkademikModel;
 use App\Models\DosenModel;
 use App\Models\KehadiranPengawasModel;
+use App\Models\JadwalPengawasModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class JadwalUjian extends BaseController
@@ -27,6 +28,7 @@ class JadwalUjian extends BaseController
     protected $pengawasModel;
     protected $dosenModel;
     protected $kehadiran_pengawasModel;
+    protected $jadwal_pengawas_model;
     protected $db;
 
     public function __construct()
@@ -41,6 +43,7 @@ class JadwalUjian extends BaseController
         $this->pengawasModel = new PengawasModel();
         $this->dosenModel = new DosenModel();
         $this->kehadiran_pengawasModel = new KehadiranPengawasModel();
+        $this->jadwal_pengawas_model = new JadwalPengawasModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -683,89 +686,5 @@ class JadwalUjian extends BaseController
         }
 
         return $this->response->setJSON(["success" => true]);
-    }
-
-    public function kehadiran_pengawas($id_jadwal_ujian, $id_jadwal_ruang)
-    {
-        $jadwal_ujian = $this->jadwal_ujianModel
-            ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*, dosen_koordinator.dosen as nama_koordinator')
-            ->join('kelas', 'jadwal_ujian.id_kelas=kelas.id_kelas')
-            ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
-            ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
-            ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
-            ->join('dosen as dosen_koordinator', 'jadwal_ujian.koordinator_ujian=dosen_koordinator.id_dosen')
-            ->find($id_jadwal_ujian);
-
-        $ruang_ujian = $this->ruang_ujianModel
-            ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
-            ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
-            ->findAll();
-
-        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
-
-        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->orderBy('id_ruang_ujian', 'ASC')->findAll();
-
-        $pengawas = array();
-
-        foreach ($data_pengawas as $row) {
-            $id_ruang_ujian = $row['id_ruang_ujian'];
-            $id_pengawas = $row['id_pengawas'];
-            $jenis_pengawas = $row['jenis_pengawas'];
-
-            if (!isset($pengawas[$id_ruang_ujian])) {
-                $pengawas[$id_ruang_ujian] = array();
-            }
-
-            $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
-        }
-
-        $data = [
-            'title' => 'Edit Data Kehadiran Pengawas',
-            'jadwal_ujian' => $jadwal_ujian,
-            'ruang_ujian' => $ruang_ujian,
-            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
-            'pengawas' => $pengawas,
-            'id_jadwal_ujian' => $id_jadwal_ujian,
-            'id_jadwal_ruang' => $id_jadwal_ruang
-        ];
-        return view('admin/jadwal_ujian/kehadiran_pengawas', $data);
-    }
-
-    public function save_kehadiran_pengawas()
-    {
-        // dd($this->request->getPost());
-        if (!$this->validate([
-            'pengawas1' => [
-                'rules' => 'required',
-                'label' => 'Pengawas 1',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ]
-        ])) {
-            return redirect()->back()->withInput();
-        }
-
-        //validasi agar tidak ada pengawas yang sama dalam 1 jadwal ujian
-        // $pengawas1 = $this->request->getVar('pengawas1');
-        // $pengawas2 = $this->request->getVar('pengawas2');
-        // if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
-        //     return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
-        // }
-
-        try {
-            $this->kehadiran_pengawasModel->save([
-                'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                'pengawas_1' => $this->request->getVar('pengawas1'),
-                'pengawas_2' => $this->request->getVar('pengawas2'),
-                'pengawas_3' => $this->request->getVar('pengawas3')
-            ]);
-
-            session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
-        } catch (DatabaseException $e) {
-            session()->setFlashdata('error', $e->getMessage());
-        }
-
-        return redirect()->to('/admin/jadwal_ujian');
     }
 }

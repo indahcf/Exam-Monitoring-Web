@@ -71,7 +71,6 @@
                                 <th>Peserta</th>
                                 <th>Pengawas</th>
                                 <th>Koordinator Ujian</th>
-                                <th>Rekap</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -96,11 +95,6 @@
                                     <td><?= $j['pengawas']; ?></td>
                                     <td><?= $j['nama_koordinator']; ?></td>
                                     <td>
-                                        <a href="/admin/jadwal_ujian/kehadiran_pengawas/<?= $j['id_jadwal_ujian']; ?>/<?= $j['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                            <i class="ti-eye"></i>
-                                        </a>
-                                    </td>
-                                    <td>
                                         <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
@@ -119,7 +113,7 @@
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 10, 12, 7, 8, 11]
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 10, 11, 7, 8]
                             });
 
                             $('.form_modal').submit(function(e) {

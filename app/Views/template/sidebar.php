@@ -39,6 +39,18 @@
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/kehadiran_pengawas'); ?>">
+                    <i class="ti-lock menu-icon"></i>
+                    <span class="menu-title">Kehadiran Pengawas</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/kehadiran_peserta'); ?>">
+                    <i class="ti-user menu-icon"></i>
+                    <span class="menu-title">Kehadiran Peserta</span>
+                </a>
+            </li>
         <?php endif; ?>
 
         <?php if (user()->role == 'Dosen') : ?>

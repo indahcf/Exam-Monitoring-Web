@@ -100,8 +100,6 @@ $routes->post('/admin/jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1')
 $routes->delete('/admin/jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
 $routes->post('/admin/jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
 $routes->get('/admin/jadwal_ujian/export', 'JadwalUjian::export');
-$routes->get('/admin/jadwal_ujian/kehadiran_pengawas/(:segment)/(:segment)', 'JadwalUjian::kehadiran_pengawas/$1/$2');
-$routes->post('/admin/jadwal_ujian/save_kehadiran_pengawas/(:segment)/(:segment)', 'JadwalUjian::save_kehadiran_pengawas/$1/$2');
 
 $routes->get('/admin/soal_ujian', 'SoalUjian::index');
 $routes->get('/admin/soal_ujian/create', 'SoalUjian::create');
@@ -113,6 +111,10 @@ $routes->get('/admin/soal_ujian/review/(:segment)', 'SoalUjian::review/$1');
 $routes->post('/admin/soal_ujian/update_review/(:segment)', 'SoalUjian::update_review/$1');
 $routes->post('/admin/soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1');
 $routes->get('/admin/soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1');
+
+$routes->get('/admin/kehadiran_pengawas', 'KehadiranPengawas::index');
+$routes->get('/admin/kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2');
+$routes->post('/admin/kehadiran_pengawas/save/(:segment)/(:segment)', 'KehadiranPengawas::save/$1/$2');
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');
