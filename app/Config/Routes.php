@@ -101,6 +101,7 @@ $routes->delete('/admin/jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
 $routes->post('/admin/jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
 $routes->get('/admin/jadwal_ujian/export', 'JadwalUjian::export');
 $routes->get('/admin/jadwal_ujian/kehadiran_pengawas/(:segment)/(:segment)', 'JadwalUjian::kehadiran_pengawas/$1/$2');
+$routes->post('/admin/jadwal_ujian/save_kehadiran_pengawas/(:segment)/(:segment)', 'JadwalUjian::save_kehadiran_pengawas/$1/$2');
 
 $routes->get('/admin/soal_ujian', 'SoalUjian::index');
 $routes->get('/admin/soal_ujian/create', 'SoalUjian::create');

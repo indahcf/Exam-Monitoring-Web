@@ -7,8 +7,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data Kehadiran Pengawas</h4>
-                <form action="<?= base_url('/admin/jadwal_ujian/update_kehadiran_pengawas/' . $jadwal_ujian['id_jadwal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/jadwal_ujian/save_kehadiran_pengawas/' . $id_jadwal_ujian . '/' . $id_jadwal_ruang); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
+                    <input type="hidden" name="id_jadwal_ruang" value="<?= $id_jadwal_ruang; ?>">
                     <div class="row mb-3">
                         <div class="col-sm-3">Hari</div>
                         <div class="d-none d-sm-inline">:</div>

@@ -68,7 +68,7 @@
                                 <th>Dosen</th>
                                 <th>Kelas</th>
                                 <th>Ruang Ujian</th>
-                                <th>Jumlah Peserta</th>
+                                <th>Peserta</th>
                                 <th>Pengawas</th>
                                 <th>Koordinator Ujian</th>
                                 <th>Rekap</th>

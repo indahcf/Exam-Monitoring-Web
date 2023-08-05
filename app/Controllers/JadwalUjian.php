@@ -724,7 +724,9 @@ class JadwalUjian extends BaseController
             'jadwal_ujian' => $jadwal_ujian,
             'ruang_ujian' => $ruang_ujian,
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
-            'pengawas' => $pengawas
+            'pengawas' => $pengawas,
+            'id_jadwal_ujian' => $id_jadwal_ujian,
+            'id_jadwal_ruang' => $id_jadwal_ruang
         ];
         return view('admin/jadwal_ujian/kehadiran_pengawas', $data);
     }
@@ -745,15 +747,15 @@ class JadwalUjian extends BaseController
         }
 
         //validasi agar tidak ada pengawas yang sama dalam 1 jadwal ujian
-        $pengawas1 = $this->request->getVar('pengawas1');
-        $pengawas2 = $this->request->getVar('pengawas2');
-        if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
-            return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
-        }
+        // $pengawas1 = $this->request->getVar('pengawas1');
+        // $pengawas2 = $this->request->getVar('pengawas2');
+        // if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
+        //     return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
+        // }
 
         try {
             $this->kehadiran_pengawasModel->save([
-                // 'id_jadwal_ruang' => $this->request->getVar('kode_matkul'),
+                'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
                 'pengawas_1' => $this->request->getVar('pengawas1'),
                 'pengawas_2' => $this->request->getVar('pengawas2'),
                 'pengawas_3' => $this->request->getVar('pengawas3')
