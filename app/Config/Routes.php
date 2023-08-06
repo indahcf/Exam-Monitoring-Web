@@ -115,6 +115,11 @@ $routes->get('/admin/soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$
 $routes->get('/admin/kehadiran_pengawas', 'KehadiranPengawas::index');
 $routes->get('/admin/kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2');
 $routes->post('/admin/kehadiran_pengawas/save/(:segment)/(:segment)', 'KehadiranPengawas::save/$1/$2');
+$routes->post('/admin/kehadiran_pengawas/update/(:segment)', 'KehadiranPengawas::update/$1');
+
+$routes->get('/admin/kehadiran_peserta', 'KehadiranPeserta::index');
+$routes->get('/admin/kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranPeserta::rekap/$1/$2');
+$routes->post('/admin/kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2');
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');

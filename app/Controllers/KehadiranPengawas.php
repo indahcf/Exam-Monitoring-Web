@@ -96,14 +96,22 @@ class KehadiranPengawas extends BaseController
 
         $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
 
-        $pengawas1 = $this->jadwal_pengawas_model->where('jadwal_pengawas.id_jadwal_ruang', $id_jadwal_ruang)->where('jadwal_pengawas.jenis_pengawas =', 'Pengawas 1')->get()->getRowArray()['id_pengawas'];
+        $kehadiran_pengawas = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
 
-        $pengawas2 = $this->jadwal_pengawas_model->where('jadwal_pengawas.id_jadwal_ruang', $id_jadwal_ruang)->where('jadwal_pengawas.jenis_pengawas =', 'Pengawas 2')->get()->getRowArray();
-        $pengawas2 = $pengawas2 ? $pengawas2['id_pengawas'] : '';
-        // dd($pengawas2);
+        if ($kehadiran_pengawas != NULL) {
+            $kehadiran_pengawas = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
 
-        $pengawas3 = $this->dosenModel->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->where('jadwal_ujian.id_jadwal_ujian =', $id_jadwal_ujian)->get()->getRowArray();
-        // dd($pengawas3);
+            $pengawas1 = $this->pengawasModel->where('pengawas.id_pengawas =', $kehadiran_pengawas['pengawas_1'])->get()->getRowArray()['id_pengawas'];
+
+            $pengawas2 = $this->pengawasModel->where('pengawas.id_pengawas =', $kehadiran_pengawas['pengawas_2'])->get()->getRowArray();
+            $pengawas2 = $pengawas2 ? $pengawas2['id_pengawas'] : '';
+        } else {
+            $pengawas1 = $this->jadwal_pengawas_model->where('jadwal_pengawas.id_jadwal_ruang', $id_jadwal_ruang)->where('jadwal_pengawas.jenis_pengawas =', 'Pengawas 1')->get()->getRowArray()['id_pengawas'];
+
+            $pengawas2 = $this->jadwal_pengawas_model->where('jadwal_pengawas.id_jadwal_ruang', $id_jadwal_ruang)->where('jadwal_pengawas.jenis_pengawas =', 'Pengawas 2')->get()->getRowArray();
+            $pengawas2 = $pengawas2 ? $pengawas2['id_pengawas'] : '';
+            // dd($pengawas2);
+        }
 
         $data = [
             'title' => 'Rekap Data Kehadiran Pengawas',
@@ -113,9 +121,9 @@ class KehadiranPengawas extends BaseController
             'pengawas' => $this->pengawasModel->findAll(),
             'pengawas1' => $pengawas1,
             'pengawas2' => $pengawas2,
-            'pengawas3' => $pengawas3,
             'id_jadwal_ujian' => $id_jadwal_ujian,
-            'id_jadwal_ruang' => $id_jadwal_ruang
+            'id_jadwal_ruang' => $id_jadwal_ruang,
+            'kehadiran_pengawas' => $kehadiran_pengawas
         ];
         return view('admin/kehadiran_pengawas/rekap', $data);
     }
@@ -127,13 +135,6 @@ class KehadiranPengawas extends BaseController
             'pengawas1' => [
                 'rules' => 'required',
                 'label' => 'Pengawas 1',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'pengawas3' => [
-                'rules' => 'required',
-                'label' => 'Pengawas 3',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
@@ -150,24 +151,47 @@ class KehadiranPengawas extends BaseController
         // }
 
         try {
-            if (!empty($this->request->getVar('pengawas2'))) {
-                $this->kehadiran_pengawasModel->save([
-                    'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'pengawas_1' => $this->request->getVar('pengawas1'),
-                    'pengawas_2' => $this->request->getVar('pengawas2'),
-                    'pengawas_3' => $this->request->getVar('pengawas3')
-                ]);
-            } else {
-                $this->kehadiran_pengawasModel->save([
-                    'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'pengawas_1' => $this->request->getVar('pengawas1'),
-                    'pengawas_3' => $this->request->getVar('pengawas3')
-                ]);
-            }
+            $this->kehadiran_pengawasModel->save([
+                'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
+                'pengawas_1' => $this->request->getVar('pengawas1'),
+                'pengawas_2' => $this->request->getVar('pengawas2') == '' ? NULL : $this->request->getVar('pengawas2')
+            ]);
 
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (DatabaseException $e) {
             session()->setFlashdata('error', $e->getMessage());
+        }
+
+        return redirect()->to('/admin/kehadiran_pengawas');
+    }
+
+    public function update($id_kehadiran_pengawas)
+    {
+        // dd($id_kehadiran_pengawas);
+        // dd($this->request->getPost());
+        if (!$this->validate([
+            'pengawas1' => [
+                'rules' => 'required',
+                'label' => 'Pengawas 1',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->kehadiran_pengawasModel->save([
+                'id_kehadiran_pengawas' => $id_kehadiran_pengawas,
+                'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
+                'pengawas_1' => $this->request->getVar('pengawas1'),
+                'pengawas_2' => $this->request->getVar('pengawas2') == '' ? NULL : $this->request->getVar('pengawas2')
+            ]);
+
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Data Gagal Diubah');
         }
 
         return redirect()->to('/admin/kehadiran_pengawas');

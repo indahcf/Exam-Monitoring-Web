@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<h4 class="card-title">Data Kehadiran Pengawas</h4>
+<h4 class="card-title">Data Kehadiran Peserta</h4>
 <div class="template-demo row mb-3 mt-4">
     <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
         <form action="<?= base_url('/admin/kehadiran_pengawas') ?>" method="get" id="formFilter" class="input-group">
@@ -41,15 +41,16 @@
                                 <th>Kelas</th>
                                 <th>Ruang Ujian</th>
                                 <th>Peserta</th>
-                                <th>Pengawas</th>
-                                <th>Pengawas Bertugas</th>
+                                <th>Sakit</th>
+                                <th>TK</th>
+                                <th>Izin</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 0;
                             $temp = 0; ?>
-                            <?php foreach ($kehadiran_pengawas as $k) : ?>
+                            <?php foreach ($kehadiran_peserta as $k) : ?>
                                 <tr>
                                     <?php if ($temp != $k['id_jadwal_ujian']) {
                                         $i++;
@@ -64,22 +65,12 @@
                                     <td><?= $k['kelas']; ?></td>
                                     <td><?= $k['ruang_ujian']; ?></td>
                                     <td><?= $k['jumlah_peserta']; ?></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
-                                        <?php foreach ($groupedPengawas[$k['id_jadwal_ruang']] as $grup) : ?>
-                                            <p><?= $grup['pengawas'] ?></p>
-                                        <?php endforeach; ?>
-                                    </td>
-                                    <td>
-                                        <p><?= $k['pengawas_bertugas_1']; ?></p>
-                                        <p><?= $k['pengawas_bertugas_2']; ?></p>
-                                    </td>
-                                    <td>
-                                        <?php if ($k['pengawas_bertugas_1']) : ?>
-                                            <a href="/admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
-                                                <i class="ti-pencil"></i>
-                                            </a>
-                                        <?php else : ?>
-                                            <a href="/admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-primary btn-rounded btn-icon">
+                                        <?php if ($k['nama_pengawas1']) : ?>
+                                            <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-plus"></i>
                                             </a>
                                         <?php endif; ?>

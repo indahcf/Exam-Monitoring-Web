@@ -4,19 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KehadiranPengawasModel extends Model
+class KehadiranPesertaModel extends Model
 {
-    protected $table            = 'kehadiran_pengawas';
-    protected $primaryKey       = 'id_kehadiran_pengawas';
-    protected $allowedFields    = ['id_jadwal_ruang', 'pengawas_1', 'pengawas_2', 'pengawas_3'];
+    protected $table            = 'kehadiran_peserta';
+    protected $primaryKey       = 'id_kehadiran_peserta';
+    protected $allowedFields    = ['id_jadwal_ruang', 'total_hadir', 'sakit', 'nim_sakit', 'izin', 'nim_izin', 'tanpa_ket', 'nim_tanpa_ket', 'tidak_memenuhi_syarat', 'nim_tidak_memenuhi_syarat', 'presensi_kurang', 'nim_presensi_kurang', 'jumlah_lju'];
     protected $useTimestamps    = true;
 
-    public function filterKehadiranPengawas($id_tahun_akademik, $periode_ujian)
+    public function filterKehadiranPeserta($id_tahun_akademik, $periode_ujian)
     {
         // dd($id_tahun_akademik);
         // dd($periode_ujian);
         return $this->db->table('jadwal_ruang')
-            ->select('jadwal_ruang.*, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, tahun_akademik.*, kehadiran_pengawas.pengawas_1, kehadiran_pengawas.pengawas_2, kehadiran_pengawas.pengawas_3, pengawas1.pengawas as pengawas_bertugas_1, pengawas2.pengawas as pengawas_bertugas_2')
+            ->select('jadwal_ruang.*, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, tahun_akademik.*, pengawas1.pengawas as nama_pengawas1, pengawas2.pengawas as nama_pengawas2')
             ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')
             ->join('tahun_akademik', 'jadwal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->join('ruang_ujian', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
@@ -24,9 +24,10 @@ class KehadiranPengawasModel extends Model
             ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
             ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
             ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
+            // ->join('kehadiran_peserta', 'jadwal_ruang.id_jadwal_ruang=kehadiran_peserta.id_jadwal_ruang', 'left')
             ->join('kehadiran_pengawas', 'jadwal_ruang.id_jadwal_ruang=kehadiran_pengawas.id_jadwal_ruang', 'left')
-            ->join('pengawas as pengawas1', 'kehadiran_pengawas.pengawas_1=pengawas1.id_pengawas', 'left')
-            ->join('pengawas as pengawas2', 'kehadiran_pengawas.pengawas_2=pengawas2.id_pengawas', 'left')
+            ->join('pengawas as pengawas1', 'pengawas1.id_pengawas=kehadiran_pengawas.pengawas_1', 'left')
+            ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->orderBy('tanggal', 'ASC')

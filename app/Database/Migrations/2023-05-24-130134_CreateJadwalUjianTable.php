@@ -19,8 +19,6 @@ class CreateJadwalUjianTable extends Migration
             'tanggal'               => ['type' => 'date'],
             'jam_mulai'             => ['type' => 'time'],
             'jam_selesai'           => ['type' => 'time'],
-            'total_hadir'           => ['type' => 'int', 'constraint' => 11, 'null' => true],
-            'jumlah_lju'            => ['type' => 'int', 'constraint' => 11, 'null' => true],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
