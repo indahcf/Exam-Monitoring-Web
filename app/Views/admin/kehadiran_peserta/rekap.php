@@ -77,22 +77,19 @@
                             <div class="col-sm-3"><?= $pengawas && $pengawas['nama_pengawas2'] ? 'Pengawas 3' : 'Pengawas 2' ?></div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control <?= (validation_show_error('pengawas3')) ? 'is-invalid' : ''; ?>" id="pengawas3" name="pengawas3">
+                                <select class="form-control" id="pengawas3" name="pengawas3">
                                     <option value="">Pilih Pengawas</option>
                                     <option value="<?= $pengawas3['id_dosen']; ?>" <?= (old('pengawas3', $pengawas3['id_dosen']) == $pengawas3['id_dosen']) ? 'selected' : ''; ?>>
                                         <?= $pengawas3['dosen']; ?>
                                     </option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('pengawas3'); ?>
-                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">Hadir</div>
+                            <div class="col-sm-3">Total Hadir</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('hadir')) ? 'is-invalid' : ''; ?>" id="hadir" name="hadir" value="<?= old('hadir'); ?>" placeholder="Hadir">
+                                <input type="number" class="form-control <?= (validation_show_error('hadir')) ? 'is-invalid' : ''; ?>" id="hadir" name="hadir" value="<?= old('hadir', $kehadiran_peserta ? $kehadiran_peserta['total_hadir'] : ''); ?>" placeholder="Total Hadir">
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('hadir'); ?>
                                 </div>
@@ -102,17 +99,14 @@
                             <div class="col-sm-3">Sakit</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('sakit')) ? 'is-invalid' : ''; ?>" id="sakit" name="sakit" value="<?= old('sakit'); ?>" placeholder="Sakit">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('sakit'); ?>
-                                </div>
+                                <input type="number" class="form-control" id="sakit" name="sakit" value="<?= old('sakit', $kehadiran_peserta ? $kehadiran_peserta['sakit'] : ''); ?>" placeholder="Sakit">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3">NIM Sakit</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control select-tag" multiple="multiple" id="nim_sakit" name="nim_sakit">
+                                <select class="form-control select-tag" multiple="multiple" id="nim_sakit" name="nim_sakit" value="<?= old('nim_sakit', $kehadiran_peserta ? $kehadiran_peserta['nim_sakit'] : ''); ?>">
                                 </select>
                             </div>
                         </div>
@@ -120,17 +114,14 @@
                             <div class="col-sm-3">Izin</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('izin')) ? 'is-invalid' : ''; ?>" id="izin" name="izin" value="<?= old('izin'); ?>" placeholder="Izin">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('izin'); ?>
-                                </div>
+                                <input type="number" class="form-control" id="izin" name="izin" value="<?= old('izin', $kehadiran_peserta ? $kehadiran_peserta['izin'] : ''); ?>" placeholder="Izin">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3">NIM Izin</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control select-tag" multiple="multiple" id="nim_izin" name="nim_izin">
+                                <select class="form-control select-tag" multiple="multiple" id="nim_izin" name="nim_izin" value="<?= old('nim_izin', $kehadiran_peserta ? $kehadiran_peserta['nim_izin'] : ''); ?>">
                                 </select>
                             </div>
                         </div>
@@ -138,17 +129,14 @@
                             <div class="col-sm-3">Tanpa Keterangan</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('tanpa_ket')) ? 'is-invalid' : ''; ?>" id="tanpa_ket" name="tanpa_ket" value="<?= old('tanpa_ket'); ?>" placeholder="Tanpa Keterangan">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('tanpa_ket'); ?>
-                                </div>
+                                <input type="number" class="form-control" id="tanpa_ket" name="tanpa_ket" value="<?= old('tanpa_ket', $kehadiran_peserta ? $kehadiran_peserta['tanpa_ket'] : ''); ?>" placeholder="Tanpa Keterangan">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3">NIM Tanpa Keterangan</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control select-tag" multiple="multiple" id="nim_tanpa_ket" name="nim_tanpa_ket">
+                                <select class="form-control select-tag" multiple="multiple" id="nim_tanpa_ket" name="nim_tanpa_ket" value="<?= old('nim_tanpa_ket', $kehadiran_peserta ? $kehadiran_peserta['nim_tanpa_ket'] : ''); ?>">
                                 </select>
                             </div>
                         </div>
@@ -156,17 +144,14 @@
                             <div class="col-sm-3">Tidak Memenuhi Syarat</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('tidak_memenuhi_syarat')) ? 'is-invalid' : ''; ?>" id="tidak_memenuhi_syarat" name="tidak_memenuhi_syarat" value="<?= old('tidak_memenuhi_syarat'); ?>" placeholder="Tidak Memenuhi Syarat">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('tidak_memenuhi_syarat'); ?>
-                                </div>
+                                <input type="number" class="form-control" id="tidak_memenuhi_syarat" name="tidak_memenuhi_syarat" value="<?= old('tidak_memenuhi_syarat', $kehadiran_peserta ? $kehadiran_peserta['tidak_memenuhi_syarat'] : ''); ?>" placeholder="Tidak Memenuhi Syarat">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3">NIM Tidak Memenuhi Syarat</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control select-tag" multiple="multiple" id="nim_tidak_memenuhi_syarat" name="nim_tidak_memenuhi_syarat">
+                                <select class="form-control select-tag" multiple="multiple" id="nim_tidak_memenuhi_syarat" name="nim_tidak_memenuhi_syarat" value="<?= old('nim_tidak_memenuhi_syarat', $kehadiran_peserta ? $kehadiran_peserta['nim_tidak_memenuhi_syarat'] : ''); ?>">
                                 </select>
                             </div>
                         </div>
@@ -174,18 +159,25 @@
                             <div class="col-sm-3">Presensi Kurang</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <input type="number" class="form-control <?= (validation_show_error('presensi_kurang')) ? 'is-invalid' : ''; ?>" id="presensi_kurang" name="presensi_kurang" value="<?= old('presensi_kurang'); ?>" placeholder="Presensi Kurang">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('presensi_kurang'); ?>
-                                </div>
+                                <input type="number" class="form-control" id="presensi_kurang" name="presensi_kurang" value="<?= old('presensi_kurang', $kehadiran_peserta ? $kehadiran_peserta['presensi_kurang'] : ''); ?>" placeholder="Presensi Kurang">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-3">NIM Presensi Kurang</div>
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm">
-                                <select class="form-control select-tag" multiple="multiple" id="nim_presensi_kurang" name="nim_presensi_kurang">
+                                <select class="form-control select-tag" multiple="multiple" id="nim_presensi_kurang" name="nim_presensi_kurang" value="<?= old('nim_presensi_kurang', $kehadiran_peserta ? $kehadiran_peserta['nim_presensi_kurang'] : ''); ?>">
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">Jumlah LJU</div>
+                            <div class="d-none d-sm-inline">:</div>
+                            <div class="col-sm">
+                                <input type="number" class="form-control <?= (validation_show_error('jumlah_lju')) ? 'is-invalid' : ''; ?>" id="jumlah_lju" name="jumlah_lju" value="<?= old('jumlah_lju', $kehadiran_peserta ? $kehadiran_peserta['jumlah_lju'] : ''); ?>" placeholder="Jumlah LJU">
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('jumlah_lju'); ?>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -195,18 +187,18 @@
                                 <div id="dynamic_form">
                                     <div class="row form-group baru-data">
                                         <div class="col-md-3">
-                                            <input type="text" name="nim" placeholder="NIM" class="form-control">
+                                            <input type="text" name="nim" placeholder="NIM" class="form-control" value="<?= old('nim', $kejadian ? $kejadian['nim'] : ''); ?>">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" name="nama_mhs" placeholder="Nama Mahasiswa" class="form-control">
+                                            <input type="text" name="nama_mhs" placeholder="Nama Mahasiswa" class="form-control" value="<?= old('nama_mhs', $kejadian ? $kejadian['nama_mhs'] : ''); ?>">
                                         </div>
                                         <div class="col-md-3">
-                                            <select class="form-control" id="jenis_kejadian" name="jenis_kejadian">
+                                            <select class="form-control" name="jenis_kejadian">
                                                 <option value="">Pilih Kejadian</option>
-                                                <option value="1">Menyontek</option>
-                                                <option value="2">Ke Toilet/Tindakan Mencurigakan</option>
-                                                <option value="3">Tidak Tercantum Di Absen</option>
-                                                <option value="4">Lain-lain</option>
+                                                <option value="Menyontek" <?= (old('jenis_kejadian', $kejadian && $kejadian['jenis_kejadian']) == 'Menyontek') ? 'selected' : '' ?>>Menyontek</option>
+                                                <option value="Ke Toilet/Tindakan Mencurigakan" <?= (old('jenis_kejadian', $kejadian && $kejadian['jenis_kejadian']) == 'Ke Toilet/Tindakan Mencurigakan') ? 'selected' : '' ?>>Ke Toilet/Tindakan Mencurigakan</option>
+                                                <option value="Tidak Tercantum Di Absen" <?= (old('jenis_kejadian', $kejadian && $kejadian['jenis_kejadian']) == 'Tidak Tercantum Di Absen') ? 'selected' : '' ?>>Tidak Tercantum Di Absen</option>
+                                                <option value="Lain-lain" <?= (old('jenis_kejadian', $kejadian && $kejadian['jenis_kejadian']) == 'Lain-lain') ? 'selected' : '' ?>>Lain-lain</option>
                                             </select>
                                         </div>
                                         <div class="button-group">
