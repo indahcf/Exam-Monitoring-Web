@@ -42,8 +42,13 @@
                                 <th>Ruang Ujian</th>
                                 <th>Peserta</th>
                                 <th>Sakit</th>
+                                <th>NIM Sakit</th>
                                 <th>TK</th>
+                                <th>NIM TK</th>
                                 <th>Izin</th>
+                                <th>NIM Izin</th>
+                                <th>NIM Kejadian</th>
+                                <th>Keterangan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -65,15 +70,53 @@
                                     <td><?= $k['kelas']; ?></td>
                                     <td><?= $k['ruang_ujian']; ?></td>
                                     <td><?= $k['jumlah_peserta']; ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?= $k['sakit']; ?></td>
+                                    <td>
+                                        <?php if ($k['nim_sakit'] != NULL && $k['nim_sakit'] != 'null') : ?>
+                                            <?php foreach (json_decode($k['nim_sakit']) as $nim_sakit) : ?>
+                                                <p><?= $nim_sakit ?>
+                                                <p>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                    </td>
+                                    <td><?= $k['tanpa_ket']; ?></td>
+                                    <td>
+                                        <?php if ($k['nim_tanpa_ket'] != NULL && $k['nim_tanpa_ket'] != 'null') : ?>
+                                            <?php foreach (json_decode($k['nim_tanpa_ket']) as $nim_tanpa_ket) : ?>
+                                                <p><?= $nim_tanpa_ket ?>
+                                                <p>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                    </td>
+                                    <td><?= $k['izin']; ?></td>
+                                    <td>
+                                        <?php if ($k['nim_izin'] != NULL && $k['nim_izin'] != 'null') : ?>
+                                            <?php foreach (json_decode($k['nim_izin']) as $nim_izin) : ?>
+                                                <p><?= $nim_izin ?>
+                                                <p>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                    </td>
+                                    <td><?= $k['nim']; ?></td>
+                                    <td>
+                                        <?php if ($k['jenis_kejadian']) : ?>
+                                            <?= $jenis_kejadian[intval($k['jenis_kejadian']) - 1]; ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php if ($k['nama_pengawas1']) : ?>
-                                            <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-primary btn-rounded btn-icon">
-                                                <i class="ti-plus"></i>
-                                            </a>
+                                            <?php if ($k['id_kehadiran_peserta']) : ?>
+                                                <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
+                                            <?php else : ?>
+                                                <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-primary btn-rounded btn-icon">
+                                                    <i class="ti-plus"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         <?php endif; ?>
+
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -86,7 +129,7 @@
                         $(document).ready(function() {
                             $('#jadwal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
+                                'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17]
                             });
                         });
 

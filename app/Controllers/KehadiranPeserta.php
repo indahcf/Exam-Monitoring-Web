@@ -58,12 +58,16 @@ class KehadiranPeserta extends BaseController
             $periode_ujian = explode("_", $filter)[1];
             $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
         }
+        // dd($kehadiran_peserta);
+
+        $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
 
         $data = [
             'title' => 'Data Kehadiran Peserta',
             'kehadiran_peserta' => $kehadiran_peserta,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'filter' => $filter
+            'filter' => $filter,
+            'jenis_kejadian' => $jenis_kejadian
         ];
 
         return view('admin/kehadiran_peserta/index', $data);
@@ -82,9 +86,10 @@ class KehadiranPeserta extends BaseController
         $ruang_ujian = $this->ruang_ujianModel
             ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
             ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
-            ->findAll();
+            ->get()
+            ->getRowArray();
 
-        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
+        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->get()->getRowArray();
 
         $kehadiran_peserta = $this->kehadiran_pesertaModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
 
@@ -98,19 +103,21 @@ class KehadiranPeserta extends BaseController
         // dd($pengawas);
         $pengawas3 = $this->dosenModel->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->where('jadwal_ujian.id_jadwal_ujian =', $id_jadwal_ujian)->get()->getRowArray();
 
-        $kejadian = $this->kejadianModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
+        $pengawas3_hadir = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
+        $kejadian = $this->kejadianModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
 
         $data = [
             'title' => 'Rekap Data Kehadiran Peserta',
             'jadwal_ujian' => $jadwal_ujian,
-            'ruang_ujian' => $ruang_ujian,
-            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
+            'ruang_ujian' => $ruang_ujian['ruang_ujian'],
+            'jumlah_peserta' => $jumlah_peserta['jumlah_peserta'],
             'id_jadwal_ujian' => $id_jadwal_ujian,
             'id_jadwal_ruang' => $id_jadwal_ruang,
             'kehadiran_peserta' => $kehadiran_peserta,
             'pengawas' => $pengawas,
             'pengawas3' => $pengawas3,
-            'kejadian' => $kejadian
+            'kejadian' => $kejadian != NULL ? $kejadian : [],
+            'pengawas3_hadir' => $pengawas3_hadir != NULL ? $pengawas3_hadir['pengawas_3'] : ''
         ];
         // dd($data['pengawas']);
         return view('admin/kehadiran_peserta/rekap', $data);
@@ -163,15 +170,15 @@ class KehadiranPeserta extends BaseController
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
                     'total_hadir' => $this->request->getVar('hadir'),
                     'sakit' => $this->request->getVar('sakit'),
-                    'nim_sakit' => $this->request->getVar('nim_sakit'),
+                    'nim_sakit' => json_encode($this->request->getVar('nim_sakit')),
                     'izin' => $this->request->getVar('izin'),
-                    'nim_izin' => $this->request->getVar('nim_izin'),
+                    'nim_izin' => json_encode($this->request->getVar('nim_izin')),
                     'tanpa_ket' => $this->request->getVar('tanpa_ket'),
-                    'nim_tanpa_ket' => $this->request->getVar('nim_tanpa_ket'),
+                    'nim_tanpa_ket' => json_encode($this->request->getVar('nim_tanpa_ket')),
                     'tidak_memenuhi_syarat' => $this->request->getVar('tidak_memenuhi_syarat'),
-                    'nim_tidak_memenuhi_syarat' => $this->request->getVar('nim_tidak_memenuhi_syarat'),
+                    'nim_tidak_memenuhi_syarat' => json_encode($this->request->getVar('nim_tidak_memenuhi_syarat')),
                     'presensi_kurang' => $this->request->getVar('presensi_kurang'),
-                    'nim_presensi_kurang' => $this->request->getVar('nim_presensi_kurang'),
+                    'nim_presensi_kurang' => json_encode($this->request->getVar('nim_presensi_kurang')),
                     'jumlah_lju' => $this->request->getVar('jumlah_lju')
                 ]);
             } else {
@@ -179,33 +186,31 @@ class KehadiranPeserta extends BaseController
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
                     'total_hadir' => $this->request->getVar('hadir'),
                     'sakit' => $this->request->getVar('sakit'),
-                    'nim_sakit' => $this->request->getVar('nim_sakit'),
+                    'nim_sakit' => json_encode($this->request->getVar('nim_sakit')),
                     'izin' => $this->request->getVar('izin'),
-                    'nim_izin' => $this->request->getVar('nim_izin'),
+                    'nim_izin' => json_encode($this->request->getVar('nim_izin')),
                     'tanpa_ket' => $this->request->getVar('tanpa_ket'),
-                    'nim_tanpa_ket' => $this->request->getVar('nim_tanpa_ket'),
+                    'nim_tanpa_ket' => json_encode($this->request->getVar('nim_tanpa_ket')),
                     'tidak_memenuhi_syarat' => $this->request->getVar('tidak_memenuhi_syarat'),
-                    'nim_tidak_memenuhi_syarat' => $this->request->getVar('nim_tidak_memenuhi_syarat'),
+                    'nim_tidak_memenuhi_syarat' => json_encode($this->request->getVar('nim_tidak_memenuhi_syarat')),
                     'presensi_kurang' => $this->request->getVar('presensi_kurang'),
-                    'nim_presensi_kurang' => $this->request->getVar('nim_presensi_kurang'),
+                    'nim_presensi_kurang' => json_encode($this->request->getVar('nim_presensi_kurang')),
                     'jumlah_lju' => $this->request->getVar('jumlah_lju')
                 ]);
             }
 
+            $data_kejadian = $this->request->getVar('kejadian');
+
             if ($kejadian) {
-                $this->kejadianModel->save([
-                    'id_kejadian' => $this->request->getVar('id_kejadian'),
-                    'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'nim' => $this->request->getVar('nim'),
-                    'nama_mhs' => $this->request->getVar('nama_mhs'),
-                    'jenis_kejadian' => $this->request->getVar('jenis_kejadian'),
-                ]);
-            } else {
+                $this->kejadianModel->where('id_jadwal_ruang', $this->request->getVar('id_jadwal_ruang'))->delete();
+            }
+
+            foreach ($data_kejadian as $data) {
                 $this->kejadianModel->save([
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'nim' => $this->request->getVar('nim'),
-                    'nama_mhs' => $this->request->getVar('nama_mhs'),
-                    'jenis_kejadian' => $this->request->getVar('jenis_kejadian'),
+                    'nim' => $data['nim'],
+                    'nama_mhs' => $data['nama_mhs'],
+                    'jenis_kejadian' => $data['jenis_kejadian']
                 ]);
             }
 

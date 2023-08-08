@@ -15,7 +15,7 @@ class CreateKejadianTable extends Migration
             'id_jadwal_ruang'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'nim'  => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'nama_mhs'  => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'jenis_kejadian' => ['type' => 'enum', 'constraint' => ['Menyontek', 'Ke Toilet/Tidak Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'], 'null' => true],
+            'jenis_kejadian' => ['type' => 'int', 'null' => true],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
