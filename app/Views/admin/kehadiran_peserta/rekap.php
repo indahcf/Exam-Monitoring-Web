@@ -90,23 +90,6 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Total Hadir</div>
-                        <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm">
-                            <input type="number" class="form-control <?= (validation_show_error('hadir')) ? 'is-invalid' : ''; ?>" id="hadir" name="hadir" value="<?= old('hadir', $kehadiran_peserta ? $kehadiran_peserta['total_hadir'] : ''); ?>" placeholder="Total Hadir">
-                            <div class="invalid-feedback">
-                                <?= validation_show_error('hadir'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">Sakit</div>
-                        <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm">
-                            <input type="number" class="form-control" id="sakit" name="sakit" value="<?= old('sakit', $kehadiran_peserta ? $kehadiran_peserta['sakit'] : ''); ?>" placeholder="Sakit" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
                         <div class="col-sm-3">NIM Sakit</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
@@ -120,10 +103,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Izin</div>
+                        <div class="col-sm-3">Sakit</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <input type="number" class="form-control" id="izin" name="izin" value="<?= old('izin', $kehadiran_peserta ? $kehadiran_peserta['izin'] : ''); ?>" placeholder="Izin" readonly>
+                            <input type="number" class="form-control" id="sakit" name="sakit" value="<?= old('sakit', $kehadiran_peserta ? $kehadiran_peserta['sakit'] : ''); ?>" placeholder="Sakit" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -140,10 +123,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Tanpa Keterangan</div>
+                        <div class="col-sm-3">Izin</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <input type="number" class="form-control" id="tanpa_ket" name="tanpa_ket" value="<?= old('tanpa_ket', $kehadiran_peserta ? $kehadiran_peserta['tanpa_ket'] : ''); ?>" placeholder="Tanpa Keterangan" readonly>
+                            <input type="number" class="form-control" id="izin" name="izin" value="<?= old('izin', $kehadiran_peserta ? $kehadiran_peserta['izin'] : ''); ?>" placeholder="Izin" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -160,10 +143,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Tidak Memenuhi Syarat</div>
+                        <div class="col-sm-3">Tanpa Keterangan</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <input type="number" class="form-control" id="tidak_memenuhi_syarat" name="tidak_memenuhi_syarat" value="<?= old('tidak_memenuhi_syarat', $kehadiran_peserta ? $kehadiran_peserta['tidak_memenuhi_syarat'] : ''); ?>" placeholder="Tidak Memenuhi Syarat" readonly>
+                            <input type="number" class="form-control" id="tanpa_ket" name="tanpa_ket" value="<?= old('tanpa_ket', $kehadiran_peserta ? $kehadiran_peserta['tanpa_ket'] : ''); ?>" placeholder="Tanpa Keterangan" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -180,10 +163,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Presensi Kurang</div>
+                        <div class="col-sm-3">Tidak Memenuhi Syarat</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <input type="number" class="form-control" id="presensi_kurang" name="presensi_kurang" value="<?= old('presensi_kurang', $kehadiran_peserta ? $kehadiran_peserta['presensi_kurang'] : ''); ?>" placeholder="Presensi Kurang" readonly>
+                            <input type="number" class="form-control" id="tidak_memenuhi_syarat" name="tidak_memenuhi_syarat" value="<?= old('tidak_memenuhi_syarat', $kehadiran_peserta ? $kehadiran_peserta['tidak_memenuhi_syarat'] : ''); ?>" placeholder="Tidak Memenuhi Syarat" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -197,6 +180,23 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">Presensi Kurang</div>
+                        <div class="d-none d-sm-inline">:</div>
+                        <div class="col-sm">
+                            <input type="number" class="form-control" id="presensi_kurang" name="presensi_kurang" value="<?= old('presensi_kurang', $kehadiran_peserta ? $kehadiran_peserta['presensi_kurang'] : ''); ?>" placeholder="Presensi Kurang" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">Total Hadir</div>
+                        <div class="d-none d-sm-inline">:</div>
+                        <div class="col-sm">
+                            <input type="number" class="form-control <?= (validation_show_error('hadir')) ? 'is-invalid' : ''; ?>" id="hadir" name="hadir" value="<?= old('hadir', $kehadiran_peserta ? $kehadiran_peserta['total_hadir'] : ''); ?>" placeholder="Total Hadir" readonly>
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('hadir'); ?>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -318,6 +318,25 @@
             $('input[name="presensi_kurang"]').val(inputPresensiKurangValue);
         });
 
+        function hitungTotalHadir() {
+            var totalPeserta = <?= json_decode($jumlah_peserta) ?>
+
+            var totalSakit = $('input[name="sakit"]').val();
+            var totalIzin = $('input[name="izin"]').val();
+            var totalTanpaKet = $('input[name="tanpa_ket"]').val();
+            var totalTidakMemenuhiSyarat = $('input[name="tidak_memenuhi_syarat"]').val();
+            var totalPresensiKurang = $('input[name="presensi_kurang"]').val();
+
+            var totalHadir = totalPeserta - (parseInt(totalSakit) + parseInt(totalIzin) + parseInt(totalTanpaKet) + parseInt(totalTidakMemenuhiSyarat) + parseInt(totalPresensiKurang));
+
+            $('input[name="hadir"]').val(totalHadir);
+        }
+
+        $('select[name^="nim_sakit"]').on('change', hitungTotalHadir);
+        $('select[name^="nim_izin"]').on('change', hitungTotalHadir);
+        $('select[name^="nim_tanpa_ket"]').on('change', hitungTotalHadir);
+        $('select[name^="nim_tidak_memenuhi_syarat"]').on('change', hitungTotalHadir);
+        $('select[name^="nim_presensi_kurang"]').on('change', hitungTotalHadir);
     });
 </script>
 <?= $this->endSection(); ?>
