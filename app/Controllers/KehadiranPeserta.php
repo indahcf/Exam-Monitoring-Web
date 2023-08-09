@@ -2,16 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\KehadiranPengawasModel;
-use App\Models\KehadiranPesertaModel;
-use App\Models\TahunAkademikModel;
-use App\Models\JadwalUjianModel;
+use Dompdf\Dompdf;
+use App\Models\DosenModel;
+use App\Models\KejadianModel;
+use App\Models\PengawasModel;
 use App\Models\RuangUjianModel;
 use App\Models\JadwalRuangModel;
+use App\Models\JadwalUjianModel;
+use App\Models\TahunAkademikModel;
 use App\Models\JadwalPengawasModel;
-use App\Models\DosenModel;
-use App\Models\PengawasModel;
-use App\Models\KejadianModel;
+use App\Models\KehadiranPesertaModel;
+use App\Models\KehadiranPengawasModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class KehadiranPeserta extends BaseController
@@ -127,13 +128,6 @@ class KehadiranPeserta extends BaseController
     {
         // dd($this->request->getPost());
         if (!$this->validate([
-            'hadir' => [
-                'rules' => 'required',
-                'label' => 'Total Hadir',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'jumlah_lju' => [
                 'rules' => 'required',
                 'label' => 'Jumlah LJU',
@@ -168,7 +162,7 @@ class KehadiranPeserta extends BaseController
                 $this->kehadiran_pesertaModel->save([
                     'id_kehadiran_peserta' => $kehadiran_peserta['id_kehadiran_peserta'],
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'total_hadir' => $this->request->getVar('hadir'),
+                    'total_hadir' => $this->request->getVar('total_hadir'),
                     'sakit' => $this->request->getVar('sakit'),
                     'nim_sakit' => json_encode($this->request->getVar('nim_sakit')),
                     'izin' => $this->request->getVar('izin'),
@@ -184,7 +178,7 @@ class KehadiranPeserta extends BaseController
             } else {
                 $this->kehadiran_pesertaModel->save([
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'total_hadir' => $this->request->getVar('hadir'),
+                    'total_hadir' => $this->request->getVar('total_hadir'),
                     'sakit' => $this->request->getVar('sakit'),
                     'nim_sakit' => json_encode($this->request->getVar('nim_sakit')),
                     'izin' => $this->request->getVar('izin'),
@@ -220,5 +214,21 @@ class KehadiranPeserta extends BaseController
         }
 
         return redirect()->to('/admin/kehadiran_peserta');
+    }
+
+    public function export($id_jadwal_ujian, $id_jadwal_ruang)
+    {
+        $kehadiran_peserta = $this->kehadiran_pesertaModel->getLamaran();
+
+        $data = [
+            'lamaran' => $kehadiran_peserta
+        ];
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('admin/kehadiran_peserta/export', $data));
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+        // $dompdf->stream();
+        $dompdf->stream('Berita Acara Ujian.pdf', array("Attachment" => false));
     }
 }

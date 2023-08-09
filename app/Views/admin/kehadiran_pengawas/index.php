@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-12">
                 <div>
-                    <table id="jadwal_ujian" class="table table-striped">
+                    <table id="kehadiran_pengawas" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -93,7 +93,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#jadwal_ujian').DataTable({
+                            $('#kehadiran_pengawas').DataTable({
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 11]
                             });

@@ -63,7 +63,6 @@
         <table width="100%" class="surat">
             <tr>
                 <td class="tengah">
-                    <!-- <h3>Jadwal Ujian Akhir Semester Genap Tahun Akademik 2022/2023</h3> -->
                     <h3><b><?= $label; ?></b></h3>
                     <h3>Fakultas Teknik Unsoed</h3>
                 </td>

@@ -80,7 +80,9 @@
                                 <?php if ($kehadiran_peserta == NULL) : ?>
                                     <option value="">Pilih Pengawas</option>
                                     <option value="<?= $pengawas3['id_dosen']; ?>" <?= (old('pengawas3') == $pengawas3['id_dosen']) ? 'selected' : ''; ?>>
-                                    <?php else : ?>
+                                        <?= $pengawas3['dosen']; ?>
+                                    </option>
+                                <?php else : ?>
                                     <option value="">Pilih Pengawas</option>
                                     <option value="<?= $pengawas3['id_dosen']; ?>" <?= (old('pengawas3', $pengawas3_hadir) == $pengawas3['id_dosen']) ? 'selected' : ''; ?>>
                                         <?= $pengawas3['dosen']; ?>
@@ -193,10 +195,7 @@
                         <div class="col-sm-3">Total Hadir</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <input type="number" class="form-control <?= (validation_show_error('hadir')) ? 'is-invalid' : ''; ?>" id="hadir" name="hadir" value="<?= old('hadir', $kehadiran_peserta ? $kehadiran_peserta['total_hadir'] : ''); ?>" placeholder="Total Hadir" readonly>
-                            <div class="invalid-feedback">
-                                <?= validation_show_error('hadir'); ?>
-                            </div>
+                            <input type="number" class="form-control" id="total_hadir" name="total_hadir" value="<?= old('total_hadir', $kehadiran_peserta ? $kehadiran_peserta['total_hadir'] : ''); ?>" placeholder="Total Hadir" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -242,10 +241,10 @@
         var html = `
                         <div class="row mb-3 kejadian">
                             <div class="col-md-4">
-                                <input type="text" name="kejadian[${index}][nama_mhs]" class="form-control" placeholder="Nama" value="${item ? item.nama_mhs : ''}" required>
+                                <input type="text" name="kejadian[${index}][nim]" class="form-control" placeholder="NIM" value="${item ? item.nim : ''}" required>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" name="kejadian[${index}][nim]" class="form-control" placeholder="NIM Mahasiswa" value="${item ? item.nim : ''}" required>
+                                <input type="text" name="kejadian[${index}][nama_mhs]" class="form-control" placeholder="Nama Mahasiswa" value="${item ? item.nama_mhs : ''}" required>
                             </div>
                             <div class="col-md-3">
                                 <select name="kejadian[${index}][jenis_kejadian]" class="form-control" required>
@@ -321,15 +320,19 @@
         function hitungTotalHadir() {
             var totalPeserta = <?= json_decode($jumlah_peserta) ?>
 
-            var totalSakit = $('input[name="sakit"]').val();
-            var totalIzin = $('input[name="izin"]').val();
-            var totalTanpaKet = $('input[name="tanpa_ket"]').val();
-            var totalTidakMemenuhiSyarat = $('input[name="tidak_memenuhi_syarat"]').val();
-            var totalPresensiKurang = $('input[name="presensi_kurang"]').val();
+            var totalSakit = $('input[name="sakit"]').val() || 0;
+            var totalIzin = $('input[name="izin"]').val() || 0;
+            var totalTanpaKet = $('input[name="tanpa_ket"]').val() || 0;
+            var totalTidakMemenuhiSyarat = $('input[name="tidak_memenuhi_syarat"]').val() || 0;
+            var totalPresensiKurang = $('input[name="presensi_kurang"]').val() || 0;
 
             var totalHadir = totalPeserta - (parseInt(totalSakit) + parseInt(totalIzin) + parseInt(totalTanpaKet) + parseInt(totalTidakMemenuhiSyarat) + parseInt(totalPresensiKurang));
 
-            $('input[name="hadir"]').val(totalHadir);
+            if (totalHadir < 0) {
+                totalHadir = 0; // Set totalHadir to zero if it's negative
+            }
+
+            $('input[name="total_hadir"]').val(totalHadir);
         }
 
         $('select[name^="nim_sakit"]').on('change', hitungTotalHadir);
@@ -337,6 +340,8 @@
         $('select[name^="nim_tanpa_ket"]').on('change', hitungTotalHadir);
         $('select[name^="nim_tidak_memenuhi_syarat"]').on('change', hitungTotalHadir);
         $('select[name^="nim_presensi_kurang"]').on('change', hitungTotalHadir);
+
+        hitungTotalHadir();
     });
 </script>
 <?= $this->endSection(); ?>
