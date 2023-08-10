@@ -55,30 +55,32 @@
     </div>
     <div>
         <h4 style="margin-bottom: 5px; text-align: center;"><u>BERITA ACARA UJIAN</u></h4>
-        <p style="text-align: justify;">Pada hari ini Senin tanggal 10 Agustus 2023 telah diadakan UAS Gasal Tahun Akademik 2022/2023</p>
+        <p style="text-align: justify;">Pada hari ini <?= hari($jadwal_ujian['tanggal']); ?> tanggal <?= date('d-m-Y', strtotime($jadwal_ujian['tanggal'])); ?> telah diadakan <?= $label; ?>.</p>
         <table>
             <tr>
                 <td width="100px">Mata Ujian</td>
                 <td width="10px">:</td>
-                <td>ipa</td>
+                <td><?= $jadwal_ujian['matkul']; ?></td>
             </tr>
             <tr>
                 <td width="100px">Pukul</td>
                 <td width="10px">:</td>
-                <td>9 pagi</td>
+                <td><?= date('H.i', strtotime($jadwal_ujian['jam_mulai'])); ?> - <?= date('H.i', strtotime($jadwal_ujian['jam_selesai'])); ?> WIB</td>
             </tr>
             <tr>
                 <td width="100px">Ruang</td>
                 <td width="10px">:</td>
-                <td>a101</td>
+                <td><?= $ruang_ujian; ?></td>
             </tr>
             <tr>
                 <td width="100px" valign="top">Pengawas</td>
                 <td width="10px" valign="top">:</td>
                 <td>
-                    <div style="margin-bottom: 3px;">1. indah</div>
-                    <div style="margin-bottom: 3px;">2. cahya</div>
-                    <div>3. febriani</div>
+                    <div style="margin-bottom: 3px;">1. <?= $pengawas ? $pengawas['nama_pengawas1'] : ''; ?></div>
+                    <?php if ($pengawas && $pengawas['nama_pengawas2']) : ?>
+                        <div style="margin-bottom: 3px;">2. <?= $pengawas['nama_pengawas2']; ?></div>
+                    <?php endif; ?>
+                    <div><?= $pengawas && $pengawas['nama_pengawas2'] ? '3' : '2' ?>. <?= $pengawas3['dosen']; ?></div>
                 </td>
             </tr>
         </table>

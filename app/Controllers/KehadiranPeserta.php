@@ -220,10 +220,46 @@ class KehadiranPeserta extends BaseController
 
     public function export($id_jadwal_ujian, $id_jadwal_ruang)
     {
-        // $kehadiran_peserta = $this->kehadiran_pesertaModel->getLamaran();
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+        $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
+        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+        $id_tahun_akademik = explode("_", $filter)[0];
+        $periode_ujian = explode("_", $filter)[1];
+        $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+
+        $label = $periode_ujian . ' ' . $kehadiran_peserta[0]['semester'] . ' Tahun Akademik ' . $kehadiran_peserta[0]['tahun_akademik'];
+
+        $jadwal_ujian = $this->jadwal_ujianModel
+            ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*')
+            ->join('kelas', 'jadwal_ujian.id_kelas=kelas.id_kelas')
+            ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
+            ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
+            ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
+            ->find($id_jadwal_ujian);
+
+        $ruang_ujian = $this->ruang_ujianModel
+            ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
+            ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
+            ->get()
+            ->getRowArray();
+
+        $pengawas = $this->kehadiran_pengawasModel
+            ->select('pengawas1.pengawas as nama_pengawas1, pengawas2.pengawas as nama_pengawas2')
+            ->join('pengawas as pengawas1', 'pengawas1.id_pengawas=kehadiran_pengawas.pengawas_1', 'left')
+            ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
+            ->where('id_jadwal_ruang', $id_jadwal_ruang)
+            ->get()
+            ->getRowArray();
+
+        $pengawas3 = $this->dosenModel->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->where('jadwal_ujian.id_jadwal_ujian =', $id_jadwal_ujian)->get()->getRowArray();
 
         $data = [
-            // 'lamaran' => $kehadiran_peserta
+            'label' => $label,
+            'jadwal_ujian' => $jadwal_ujian,
+            'ruang_ujian' => $ruang_ujian['ruang_ujian'],
+            'pengawas' => $pengawas,
+            'pengawas3' => $pengawas3
         ];
 
         $options = new Options();

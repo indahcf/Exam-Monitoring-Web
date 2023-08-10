@@ -48,7 +48,7 @@
                                 <th>Izin</th>
                                 <th>NIM Izin</th>
                                 <th>NIM Kejadian</th>
-                                <th>Keterangan</th>
+                                <th>Jenis Kejadian</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
