@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\DosenModel;
 use App\Models\KejadianModel;
 use App\Models\PengawasModel;
@@ -151,11 +152,6 @@ class KehadiranPeserta extends BaseController
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
                     'pengawas_3' => $this->request->getVar('pengawas3') == '' ? NULL : $this->request->getVar('pengawas3')
                 ]);
-            } else {
-                $this->kehadiran_pengawasModel->save([
-                    'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'pengawas_3' => $this->request->getVar('pengawas3') == '' ? NULL : $this->request->getVar('pengawas3')
-                ]);
             }
 
             if ($kehadiran_peserta) {
@@ -175,6 +171,8 @@ class KehadiranPeserta extends BaseController
                     'nim_presensi_kurang' => json_encode($this->request->getVar('nim_presensi_kurang')),
                     'jumlah_lju' => $this->request->getVar('jumlah_lju')
                 ]);
+
+                session()->setFlashdata('success', 'Data Berhasil Diubah');
             } else {
                 $this->kehadiran_pesertaModel->save([
                     'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
@@ -191,6 +189,8 @@ class KehadiranPeserta extends BaseController
                     'nim_presensi_kurang' => json_encode($this->request->getVar('nim_presensi_kurang')),
                     'jumlah_lju' => $this->request->getVar('jumlah_lju')
                 ]);
+
+                session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
             }
 
             $data_kejadian = $this->request->getVar('kejadian');
@@ -199,16 +199,18 @@ class KehadiranPeserta extends BaseController
                 $this->kejadianModel->where('id_jadwal_ruang', $this->request->getVar('id_jadwal_ruang'))->delete();
             }
 
-            foreach ($data_kejadian as $data) {
-                $this->kejadianModel->save([
-                    'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
-                    'nim' => $data['nim'],
-                    'nama_mhs' => $data['nama_mhs'],
-                    'jenis_kejadian' => $data['jenis_kejadian']
-                ]);
+            if ($data_kejadian) {
+                foreach ($data_kejadian as $data) {
+                    $this->kejadianModel->save([
+                        'id_jadwal_ruang' => $this->request->getVar('id_jadwal_ruang'),
+                        'nim' => $data['nim'],
+                        'nama_mhs' => $data['nama_mhs'],
+                        'jenis_kejadian' => $data['jenis_kejadian']
+                    ]);
+                }
             }
 
-            session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
+            // session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (DatabaseException $e) {
             session()->setFlashdata('error', $e->getMessage());
         }
@@ -218,17 +220,19 @@ class KehadiranPeserta extends BaseController
 
     public function export($id_jadwal_ujian, $id_jadwal_ruang)
     {
-        $kehadiran_peserta = $this->kehadiran_pesertaModel->getLamaran();
+        // $kehadiran_peserta = $this->kehadiran_pesertaModel->getLamaran();
 
         $data = [
-            'lamaran' => $kehadiran_peserta
+            // 'lamaran' => $kehadiran_peserta
         ];
 
-        $dompdf = new Dompdf();
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+
         $dompdf->loadHtml(view('admin/kehadiran_peserta/export', $data));
         $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();
-        // $dompdf->stream();
         $dompdf->stream('Berita Acara Ujian.pdf', array("Attachment" => false));
     }
 }

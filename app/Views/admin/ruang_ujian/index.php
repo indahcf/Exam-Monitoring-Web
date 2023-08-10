@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Ruang Ujian</h4>
 <div class="template-demo">
-    <a href="/admin/ruang_ujian/create" class="btn btn-primary btn-icon-text">
+    <a href="<?= base_url(); ?>admin/ruang_ujian/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -35,7 +35,7 @@
                                     <td><?= $r['ruang_ujian']; ?></td>
                                     <td><?= $r['kapasitas']; ?></td>
                                     <td>
-                                        <a href="/admin/ruang_ujian/edit/<?= $r['id_ruang_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/ruang_ujian/edit/<?= $r['id_ruang_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $r['id_ruang_ujian']; ?>" data-model="ruang_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
@@ -47,7 +47,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {

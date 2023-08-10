@@ -1,8 +1,7 @@
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="<?= base_url(); ?>/assets/images/logo_unsoed.png" class="mr-2" alt="logo" /><b>SIMONJI</b></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="<?= base_url(); ?>/assets/images/logo_unsoed.png" alt="logo" /></a>
+        <a class="navbar-brand brand-logo mr-5" href="<?= base_url(''); ?>"><img src="<?= base_url(); ?>/assets/images/logo_unsoed.png" class="mr-2" alt="logo" /><b>SIMONJI</b></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -22,7 +21,7 @@
                         <i class="ti-settings text-primary"></i>
                         Ubah Password
                     </button>
-                    <button class="dropdown-item" href="<?= base_url('logout'); ?>" id="logout">
+                    <button class="dropdown-item" id="logout">
                         <i class="ti-power-off text-primary"></i>
                         Logout
                     </button>
@@ -35,5 +34,5 @@
     </div>
 </nav>
 
-<script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+<script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 <!-- partial -->

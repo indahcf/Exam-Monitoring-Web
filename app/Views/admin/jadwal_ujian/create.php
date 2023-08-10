@@ -163,7 +163,7 @@
                         if (id_prodi !== '') {
                             let id_kelas = $('select[name=kelas]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/kelas?id_prodi=' + id_prodi,
+                                url: "<?= base_url(); ?>" + '/api/kelas?id_prodi=' + id_prodi,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data kelas', response)
@@ -185,7 +185,7 @@
                         if (id_kelas !== '') {
                             let id_dosen = $('input[name=dosen]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/dosen?id_kelas=' + id_kelas,
+                                url: "<?= base_url(); ?>" + '/api/dosen?id_kelas=' + id_kelas,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data dosen', response)
@@ -314,7 +314,7 @@
                             console.log('jam mulai', jam_mulai)
                             console.log('jam selesai', jam_selesai)
                             $.ajax({
-                                url: window.location.origin + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
+                                url: "<?= base_url(); ?>" + '/api/ruang_ujian?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
                                 type: 'GET',
                                 success: function(response) {
                                     console.log('data ruang', response)
@@ -337,7 +337,7 @@
                             console.log('jam mulai', jam_mulai)
                             console.log('jam selesai', jam_selesai)
                             $.ajax({
-                                url: window.location.origin + '/api/pengawas?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
+                                url: "<?= base_url(); ?>" + '/api/pengawas?tanggal=' + tanggal + '&jam_mulai=' + jam_mulai + '&jam_selesai=' + jam_selesai,
                                 type: 'GET',
                                 success: function(response) {
                                     console.log('data pengawas', response)

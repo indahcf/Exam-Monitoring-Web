@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Kelas</h4>
 <div class="template-demo">
-    <a href="/admin/kelas/create" class="btn btn-primary btn-icon-text">
+    <a href="<?= base_url(); ?>admin/kelas/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -43,7 +43,7 @@
                                     <td><?= $k['prodi']; ?></td>
                                     <td><?= $k['jumlah_mahasiswa']; ?></td>
                                     <td>
-                                        <a href="/admin/kelas/edit/<?= $k['id_kelas']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/kelas/edit/<?= $k['id_kelas']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $k['id_kelas']; ?>" data-model="kelas" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
@@ -55,7 +55,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {

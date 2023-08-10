@@ -120,6 +120,7 @@ $routes->post('/admin/kehadiran_pengawas/update/(:segment)', 'KehadiranPengawas:
 $routes->get('/admin/kehadiran_peserta', 'KehadiranPeserta::index');
 $routes->get('/admin/kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranPeserta::rekap/$1/$2');
 $routes->post('/admin/kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2');
+$routes->get('/admin/kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2');
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');

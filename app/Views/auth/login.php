@@ -38,7 +38,7 @@
 
                             <?= view('Myth\Auth\Views\_message_block') ?>
 
-                            <form action="<?= route_to('login') ?>" method="post" class="pt-3">
+                            <form action="<?= base_url('login') ?>" method="post" class="pt-3">
                                 <?= csrf_field() ?>
 
                                 <div class="form-group">

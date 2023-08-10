@@ -54,7 +54,7 @@
     </div>
     <!-- container-scroller -->
 
-    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
     <!-- plugins:js -->
     <script src="<?= base_url(); ?>/assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
@@ -132,7 +132,7 @@
                     confirmButtonText: 'Ya'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.replace(location.origin + "/logout")
+                        location.replace("<?= base_url('/logout'); ?>")
                     }
                 })
             });

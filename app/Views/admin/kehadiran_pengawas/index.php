@@ -75,11 +75,11 @@
                                     </td>
                                     <td>
                                         <?php if ($k['pengawas_bertugas_1']) : ?>
-                                            <a href="/admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <a href="<?= base_url(); ?>admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                                 <i class="ti-pencil"></i>
                                             </a>
                                         <?php else : ?>
-                                            <a href="/admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-primary btn-rounded btn-icon">
+                                            <a href="<?= base_url(); ?>admin/kehadiran_pengawas/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_jadwal_ruang']; ?>" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-plus"></i>
                                             </a>
                                         <?php endif; ?>
@@ -89,7 +89,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {

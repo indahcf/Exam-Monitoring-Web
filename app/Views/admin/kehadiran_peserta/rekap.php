@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Rekap Data Kehadiran Peserta</h4>
-                <form action="<?= base_url('/admin/kehadiran_peserta/save/' . $id_jadwal_ujian . '/' . $id_jadwal_ruang); ?>" method="post" class="" id="form-edit">
+                <form action="<?= base_url('/admin/kehadiran_peserta/save/' . $id_jadwal_ujian . '/' . $id_jadwal_ruang); ?>" method="post" class="">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id_jadwal_ruang" value="<?= $id_jadwal_ruang; ?>">
                     <div class="row mb-3">
@@ -219,7 +219,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
+                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
                 </form>
             </div>
         </div>

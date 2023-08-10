@@ -121,7 +121,7 @@
                         if (id_prodi !== '') {
                             let id_matkul = $('select[name=matkul]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/matkul?id_prodi=' + id_prodi,
+                                url: "<?= base_url(); ?>" + '/api/matkul?id_prodi=' + id_prodi,
                                 type: 'GET',
                                 success: function(response) {
                                     let options = `<option value="">Pilih Mata Kuliah</option>`
@@ -142,7 +142,7 @@
                         if (id_matkul !== '') {
                             let id_kelas = $('select[name^=kelas]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/kelas?id_matkul=' + id_matkul,
+                                url: "<?= base_url(); ?>" + '/api/kelas?id_matkul=' + id_matkul,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data kelas', response)
@@ -162,7 +162,7 @@
                         if (id_matkul !== '') {
                             let id_dosen = $('select[name=dosen]').data('value');
                             $.ajax({
-                                url: window.location.origin + '/api/dosen?id_matkul=' + id_matkul,
+                                url: "<?= base_url(); ?>" + '/api/dosen?id_matkul=' + id_matkul,
                                 type: 'GET',
                                 success: function(response) {
                                     // console.log('data dosen', response)

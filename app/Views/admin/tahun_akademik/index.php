@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Tahun Akademik</h4>
 <div class="template-demo">
-    <a href="/admin/tahun_akademik/create" class="btn btn-primary btn-icon-text">
+    <a href="<?= base_url(); ?>admin/tahun_akademik/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -38,7 +38,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="/admin/tahun_akademik/edit/<?= $t['id_tahun_akademik']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/tahun_akademik/edit/<?= $t['id_tahun_akademik']; ?>" type="button" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $t['id_tahun_akademik']; ?>" data-model="tahun_akademik" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
@@ -50,7 +50,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {

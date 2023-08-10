@@ -71,32 +71,11 @@
                                     <td><?= $k['ruang_ujian']; ?></td>
                                     <td><?= $k['jumlah_peserta']; ?></td>
                                     <td><?= $k['sakit']; ?></td>
-                                    <td>
-                                        <?php if ($k['nim_sakit'] != NULL && $k['nim_sakit'] != 'null') : ?>
-                                            <?php foreach (json_decode($k['nim_sakit']) as $nim_sakit) : ?>
-                                                <p><?= $nim_sakit ?>
-                                                <p>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                    </td>
+                                    <td><?php if ($k['nim_sakit'] != NULL && $k['nim_sakit'] != 'null') : ?><?php foreach (json_decode($k['nim_sakit']) as $n => $nim_sakit) : ?><?= $nim_sakit ?><?= count(json_decode($k['nim_sakit'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                                     <td><?= $k['tanpa_ket']; ?></td>
-                                    <td>
-                                        <?php if ($k['nim_tanpa_ket'] != NULL && $k['nim_tanpa_ket'] != 'null') : ?>
-                                            <?php foreach (json_decode($k['nim_tanpa_ket']) as $nim_tanpa_ket) : ?>
-                                                <p><?= $nim_tanpa_ket ?>
-                                                <p>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                    </td>
+                                    <td><?php if ($k['nim_tanpa_ket'] != NULL && $k['nim_tanpa_ket'] != 'null') : ?><?php foreach (json_decode($k['nim_tanpa_ket']) as $n => $nim_tanpa_ket) : ?><?= $nim_tanpa_ket ?><?= count(json_decode($k['nim_tanpa_ket'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                                     <td><?= $k['izin']; ?></td>
-                                    <td>
-                                        <?php if ($k['nim_izin'] != NULL && $k['nim_izin'] != 'null') : ?>
-                                            <?php foreach (json_decode($k['nim_izin']) as $nim_izin) : ?>
-                                                <p><?= $nim_izin ?>
-                                                <p>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                    </td>
+                                    <td><?php if ($k['nim_izin'] != NULL && $k['nim_izin'] != 'null') : ?><?php foreach (json_decode($k['nim_izin']) as $n => $nim_izin) : ?><?= $nim_izin ?><?= count(json_decode($k['nim_izin'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                                     <td><?= $k['nim']; ?></td>
                                     <td>
                                         <?php if ($k['jenis_kejadian']) : ?>
@@ -106,14 +85,14 @@
                                     <td>
                                         <?php if ($k['nama_pengawas1']) : ?>
                                             <?php if ($k['id_kehadiran_peserta']) : ?>
-                                                <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                                <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                                     <i class="ti-pencil"></i>
                                                 </a>
-                                                <a href="/admin/kehadiran_peserta/export/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                                <a href="<?= base_url(); ?>admin/kehadiran_peserta/export/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-success btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>
                                                 </a>
                                             <?php else : ?>
-                                                <a href="/admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-primary btn-rounded btn-icon">
+                                                <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-plus"></i>
                                                 </a>
                                             <?php endif; ?>
@@ -124,7 +103,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {
@@ -135,7 +114,7 @@
                                 buttons: [{
                                     extend: 'excel',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16]
+                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16]
                                     }
                                 }]
                             });

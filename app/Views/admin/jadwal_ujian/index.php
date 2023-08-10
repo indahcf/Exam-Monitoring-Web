@@ -24,7 +24,7 @@
         </form>
     </div>
     <div class="col-md-7 col-lg-8 col-xl-8 mb-2 d-flex justify-content-md-end justify-content-center">
-        <a href="/admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text mr-2">
+        <a href="<?= base_url(); ?>admin/jadwal_ujian/create" class="btn btn-primary btn-icon-text mr-2">
             <div class="d-md-block d-flex flex-column">
                 <i class="ti-plus"></i>
                 <span class="d-none d-md-inline ml-1">
@@ -95,7 +95,7 @@
                                     <td><?= $j['pengawas']; ?></td>
                                     <td><?= $j['nama_koordinator']; ?></td>
                                     <td>
-                                        <a href="/admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/jadwal_ujian/edit/<?= $j['id_jadwal_ujian']; ?>" data-id="<?= $j['id_jadwal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $j['id_jadwal_ujian']; ?>" data-model="jadwal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
@@ -107,7 +107,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {

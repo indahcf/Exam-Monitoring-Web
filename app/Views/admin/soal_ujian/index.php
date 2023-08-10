@@ -24,7 +24,7 @@
         </form>
     </div>
     <div class="col-md-7 col-lg-8 col-xl-8 mb-2 d-flex justify-content-md-end justify-content-center">
-        <a href="/admin/soal_ujian/create" class="btn btn-primary btn-icon-text">
+        <a href="<?= base_url(); ?>admin/soal_ujian/create" class="btn btn-primary btn-icon-text">
             <div class="d-md-block d-flex flex-column">
                 <i class="ti-plus"></i>
                 <span class="d-none d-md-inline ml-1">
@@ -78,13 +78,13 @@
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>
-                                        <a href="/admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" data-id="<?= $s['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" data-id="<?= $s['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
                                         <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
-                                        <a href="/admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
                                             <i class="ti-search"></i>
                                         </a>
                                     </td>
@@ -93,7 +93,7 @@
                         </tbody>
                     </table>
 
-                    <script src="/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
+                    <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
                     <script>
                         $(document).ready(function() {
@@ -107,7 +107,7 @@
                                 let nama = $(this).data('nama');
                                 $.ajax({
                                     type: 'GET',
-                                    url: window.location.origin + '/admin/soal_ujian/cetak_soal/' + id,
+                                    url: "<?= base_url(); ?>" + '/admin/soal_ujian/cetak_soal/' + id,
                                     xhrFields: {
                                         responseType: 'blob'
                                     },
