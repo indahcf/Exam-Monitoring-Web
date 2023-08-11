@@ -122,6 +122,8 @@ $routes->get('/admin/kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranP
 $routes->post('/admin/kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2');
 $routes->get('/admin/kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2');
 
+$routes->get('/admin/distribusi_hasil_ujian', 'DistribusiHasilUjian::index');
+
 // API 
 $routes->get('api/dosen', 'Dosen::json');
 $routes->get('api/dosen/(:num)', 'Dosen::json/$1');

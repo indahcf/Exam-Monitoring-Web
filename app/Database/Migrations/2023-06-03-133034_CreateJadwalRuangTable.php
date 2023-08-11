@@ -15,6 +15,7 @@ class CreateJadwalRuangTable extends Migration
             'id_jadwal_ujian'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_ruang_ujian'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'jumlah_peserta'        => ['type' => 'int', 'constraint' => 11],
+            'status_distribusi'     => ['type' => 'enum', 'constraint' => ['Belum', 'Sudah'], 'default' => 'Belum'],
             'created_at'            => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'            => ['type' => 'TIMESTAMP', 'null' => true],
         ]);

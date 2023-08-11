@@ -29,6 +29,21 @@
             border: 1px solid black;
             padding: 5px;
         }
+
+        .table-container {
+            display: table;
+            width: 100%;
+        }
+
+        .table-row {
+            display: table-row;
+        }
+
+        .table-cell {
+            display: table-cell;
+            width: 33%;
+            vertical-align: top;
+        }
     </style>
 </head>
 
@@ -76,11 +91,13 @@
                 <td width="100px" valign="top">Pengawas</td>
                 <td width="10px" valign="top">:</td>
                 <td>
-                    <div style="margin-bottom: 3px;">1. <?= $pengawas ? $pengawas['nama_pengawas1'] : ''; ?></div>
+                    <div style="margin-bottom: 3px;">1. <?= $pengawas['nama_pengawas1']; ?></div>
                     <?php if ($pengawas && $pengawas['nama_pengawas2']) : ?>
                         <div style="margin-bottom: 3px;">2. <?= $pengawas['nama_pengawas2']; ?></div>
                     <?php endif; ?>
-                    <div><?= $pengawas && $pengawas['nama_pengawas2'] ? '3' : '2' ?>. <?= $pengawas3['dosen']; ?></div>
+                    <?php if ($pengawas3_hadir) : ?>
+                        <div><?= $pengawas && $pengawas['nama_pengawas2'] ? '3' : '2' ?>. <?= $pengawas3['dosen']; ?></div>
+                    <?php endif; ?>
                 </td>
             </tr>
         </table>
@@ -93,52 +110,52 @@
                         <tr>
                             <td width="180px"><b>Hadir</b></td>
                             <td>:</td>
-                            <td width="60px">7 orang;</td>
+                            <td width="80px"><?= $kehadiran_peserta['total_hadir']; ?> orang;</td>
                         </tr>
                         <tr>
                             <td valign="top"><b>Sakit</b></td>
                             <td valign="top">:</td>
-                            <td valign="top">7 orang;</td>
+                            <td valign="top"><?= $kehadiran_peserta['sakit']; ?> orang;</td>
                             <td valign="top"><i class="ti-arrow-right"></i></td>
                             <td valign="top"><b>NIM</b></td>
                             <td valign="top">:</td>
-                            <td>H1D, H1D, H1D, H1D, H1D, H1D, H1D, H1D</td>
+                            <td><?php if ($kehadiran_peserta['nim_sakit'] != NULL && $kehadiran_peserta['nim_sakit'] != 'null') : ?><?php foreach (json_decode($kehadiran_peserta['nim_sakit']) as $n => $nim_sakit) : ?><?= $nim_sakit ?><?= count(json_decode($kehadiran_peserta['nim_sakit'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                         </tr>
                         <tr>
                             <td valign="top"><b>Izin</b></td>
                             <td valign="top">:</td>
-                            <td valign="top">7 orang;</td>
+                            <td valign="top"><?= $kehadiran_peserta['izin']; ?> orang;</td>
                             <td valign="top"><i class="ti-arrow-right"></i></td>
                             <td valign="top"><b>NIM</b></td>
                             <td valign="top">:</td>
-                            <td>H1D, H1D, H1D, H1D, H1D, H1D, H1D, H1D</td>
+                            <td><?php if ($kehadiran_peserta['nim_izin'] != NULL && $kehadiran_peserta['nim_izin'] != 'null') : ?><?php foreach (json_decode($kehadiran_peserta['nim_izin']) as $n => $nim_izin) : ?><?= $nim_izin ?><?= count(json_decode($kehadiran_peserta['nim_izin'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                         </tr>
                         <tr>
                             <td valign="top"><b>Tanpa Keterangan</b></td>
                             <td valign="top">:</td>
-                            <td valign="top">7 orang;</td>
+                            <td valign="top"><?= $kehadiran_peserta['tanpa_ket']; ?> orang;</td>
                             <td valign="top"><i class="ti-arrow-right"></i></td>
                             <td valign="top"><b>NIM</b></td>
                             <td valign="top">:</td>
-                            <td>H1D, H1D, H1D, H1D, H1D, H1D, H1D, H1D</td>
+                            <td><?php if ($kehadiran_peserta['nim_tanpa_ket'] != NULL && $kehadiran_peserta['nim_tanpa_ket'] != 'null') : ?><?php foreach (json_decode($kehadiran_peserta['nim_tanpa_ket']) as $n => $nim_tanpa_ket) : ?><?= $nim_tanpa_ket ?><?= count(json_decode($kehadiran_peserta['nim_tanpa_ket'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                         </tr>
                         <tr>
                             <td valign="top"><b>Tidak Memenuhi Syarat</b></td>
                             <td valign="top">:</td>
-                            <td valign="top">7 orang;</td>
+                            <td valign="top"><?= $kehadiran_peserta['tidak_memenuhi_syarat']; ?> orang;</td>
                             <td valign="top"><i class="ti-arrow-right"></i></td>
                             <td valign="top"><b>NIM</b></td>
                             <td valign="top">:</td>
-                            <td>H1D, H1D, H1D, H1D, H1D, H1D, H1D, H1D</td>
+                            <td><?php if ($kehadiran_peserta['nim_tidak_memenuhi_syarat'] != NULL && $kehadiran_peserta['nim_tidak_memenuhi_syarat'] != 'null') : ?><?php foreach (json_decode($kehadiran_peserta['nim_tidak_memenuhi_syarat']) as $n => $nim_tidak_memenuhi_syarat) : ?><?= $nim_tidak_memenuhi_syarat ?><?= count(json_decode($kehadiran_peserta['nim_tidak_memenuhi_syarat'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                         </tr>
                         <tr>
                             <td valign="top"><b>Presensi &lt; 70%</b></td>
                             <td valign="top">:</td>
-                            <td valign="top">7 orang.</td>
+                            <td valign="top"><?= $kehadiran_peserta['presensi_kurang']; ?> orang.</td>
                             <td valign="top"><i class="ti-arrow-right"></i></td>
                             <td valign="top"><b>NIM</b></td>
                             <td valign="top">:</td>
-                            <td>H1D, H1D, H1D, H1D, H1D, H1D, H1D, H1D</td>
+                            <td><?php if ($kehadiran_peserta['nim_presensi_kurang'] != NULL && $kehadiran_peserta['nim_presensi_kurang'] != 'null') : ?><?php foreach (json_decode($kehadiran_peserta['nim_presensi_kurang']) as $n => $nim_presensi_kurang) : ?><?= $nim_presensi_kurang ?><?= count(json_decode($kehadiran_peserta['nim_presensi_kurang'])) == $n + 1 ? '' : ', ' ?><?php endforeach; ?><?php endif; ?></td>
                         </tr>
                     </table>
                 </td>
@@ -149,7 +166,7 @@
             <tr>
                 <td><b>Jumlah LJU</b></td>
                 <td>:</td>
-                <td>5</td>
+                <td><?= $kehadiran_peserta['jumlah_lju']; ?></td>
                 <td>lembar</td>
             </tr>
         </table>
@@ -162,35 +179,45 @@
                 <th width="200px">Nama Mahasiswa</th>
                 <th width="200px">Kejadian</th>
             </tr>
-            <tr>
-                <td style="text-align: center;">H1D019052</td>
-                <td>sabrina</td>
-                <td>lain-lain</td>
-            </tr>
+            <?php foreach ($kejadian as $k) : ?>
+                <tr>
+                    <td style="text-align: center;"><?= $k ? $k['nim'] : ''; ?></td>
+                    <td><?= $k ? $k['nama_mhs'] : ''; ?></td>
+                    <td>
+                        <?php if ($k['jenis_kejadian']) : ?>
+                            <?= $jenis_kejadian[intval($k['jenis_kejadian']) - 1]; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         </table>
 
         <table width="100%">
             <tr>
-                <td style="text-align: right;">Purbalingga, 10 Agustus 2023</td>
+                <td style="text-align: right;">Purbalingga, <?= date('d-m-Y', strtotime($jadwal_ujian['tanggal'])); ?></td>
             </tr>
         </table>
 
-        <table width="100%">
-            <tr>
-                <td>
-                    <p style="margin-bottom: 100px;">Pengawas III</p>
-                    <p>indah</p>
-                </td>
-                <td>
-                    <p style="margin-bottom: 100px;">Pengawas II</p>
-                    <p>indah</p>
-                </td>
-                <td>
+        <div class="table-container">
+            <div class="table-row">
+                <div class="table-cell">
+                    <?php if ($pengawas3_hadir) : ?>
+                        <p style="margin-bottom: 100px;"><?= $pengawas && $pengawas['nama_pengawas2'] ? 'Pengawas III' : 'Pengawas II' ?></p>
+                        <p><?= $pengawas3['dosen']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="table-cell">
+                    <?php if ($pengawas && $pengawas['nama_pengawas2']) : ?>
+                        <p style="margin-bottom: 100px;">Pengawas II</p>
+                        <p><?= $pengawas['nama_pengawas2']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="table-cell">
                     <p style="margin-bottom: 100px;">Pengawas I</p>
-                    <p>indah</p>
-                </td>
-            </tr>
-        </table>
+                    <p><?= $pengawas['nama_pengawas1']; ?></p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

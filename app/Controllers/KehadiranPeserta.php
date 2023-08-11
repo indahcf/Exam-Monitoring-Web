@@ -209,8 +209,6 @@ class KehadiranPeserta extends BaseController
                     ]);
                 }
             }
-
-            // session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (DatabaseException $e) {
             session()->setFlashdata('error', $e->getMessage());
         }
@@ -226,9 +224,9 @@ class KehadiranPeserta extends BaseController
         $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
         $id_tahun_akademik = explode("_", $filter)[0];
         $periode_ujian = explode("_", $filter)[1];
-        $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+        $kehadiran_peserta_label = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
 
-        $label = $periode_ujian . ' ' . $kehadiran_peserta[0]['semester'] . ' Tahun Akademik ' . $kehadiran_peserta[0]['tahun_akademik'];
+        $label = $periode_ujian . ' ' . $kehadiran_peserta_label[0]['semester'] . ' Tahun Akademik ' . $kehadiran_peserta_label[0]['tahun_akademik'];
 
         $jadwal_ujian = $this->jadwal_ujianModel
             ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*')
@@ -254,14 +252,26 @@ class KehadiranPeserta extends BaseController
 
         $pengawas3 = $this->dosenModel->join('kelas', 'kelas.id_dosen=dosen.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->where('jadwal_ujian.id_jadwal_ujian =', $id_jadwal_ujian)->get()->getRowArray();
 
+        $kehadiran_peserta = $this->kehadiran_pesertaModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
+
+        $pengawas3_hadir = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
+
+        $kejadian = $this->kejadianModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
+
+        $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
+
         $data = [
             'label' => $label,
             'jadwal_ujian' => $jadwal_ujian,
             'ruang_ujian' => $ruang_ujian['ruang_ujian'],
             'pengawas' => $pengawas,
-            'pengawas3' => $pengawas3
+            'pengawas3' => $pengawas3,
+            'kehadiran_peserta' => $kehadiran_peserta,
+            'pengawas3_hadir' => $pengawas3_hadir != NULL ? $pengawas3_hadir['pengawas_3'] : '',
+            'kejadian' => $kejadian,
+            'jenis_kejadian' => $jenis_kejadian
         ];
-
+        // dd($data['kejadian']);
         $options = new Options();
         $options->set('isRemoteEnabled', true);
         $dompdf = new Dompdf($options);

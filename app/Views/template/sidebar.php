@@ -51,6 +51,12 @@
                     <span class="menu-title">Kehadiran Peserta</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/distribusi_hasil_ujian'); ?>">
+                    <i class="ti-write menu-icon"></i>
+                    <span class="menu-title">Distribusi Hasil Ujian</span>
+                </a>
+            </li>
         <?php endif; ?>
 
         <?php if (user()->role == 'Dosen') : ?>
