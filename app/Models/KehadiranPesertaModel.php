@@ -32,6 +32,7 @@ class KehadiranPesertaModel extends Model
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->orderBy('tanggal', 'ASC')
+            ->orderBy('nim', 'ASC')
             ->get()
             ->getResultArray();
     }

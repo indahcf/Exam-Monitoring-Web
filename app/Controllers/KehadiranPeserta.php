@@ -256,7 +256,7 @@ class KehadiranPeserta extends BaseController
 
         $pengawas3_hadir = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
 
-        $kejadian = $this->kejadianModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
+        $kejadian = $this->kejadianModel->where('id_jadwal_ruang', $id_jadwal_ruang)->orderBy('nim', 'ASC')->findAll();
 
         $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
 

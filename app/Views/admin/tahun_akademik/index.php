@@ -78,7 +78,7 @@
                                 });
                                 console.log('id', id)
                                 $.ajax({
-                                    url: "/admin/tahun_akademik/update_status/" + id,
+                                    url: "<?= base_url('admin/tahun_akademik/update_status/'); ?>" + id,
                                     type: "POST",
                                     success: function(response) {
                                         if (response.success) {

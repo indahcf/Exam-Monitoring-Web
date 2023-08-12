@@ -123,6 +123,7 @@ $routes->post('/admin/kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranP
 $routes->get('/admin/kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2');
 
 $routes->get('/admin/distribusi_hasil_ujian', 'DistribusiHasilUjian::index');
+$routes->post('/admin/distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1');
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');

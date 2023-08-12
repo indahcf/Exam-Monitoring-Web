@@ -5,7 +5,7 @@
 <h4 class="card-title">Data Kehadiran Peserta</h4>
 <div class="template-demo row mb-3 mt-4">
     <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
-        <form action="<?= base_url('/admin/kehadiran_pengawas') ?>" method="get" id="formFilter" class="input-group">
+        <form action="<?= base_url('/admin/kehadiran_peserta') ?>" method="get" id="formFilter" class="input-group">
             <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
