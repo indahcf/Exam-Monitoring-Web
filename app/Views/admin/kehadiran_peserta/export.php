@@ -70,7 +70,7 @@
     </div>
     <div>
         <h4 style="margin-bottom: 5px; text-align: center;"><u>BERITA ACARA UJIAN</u></h4>
-        <p style="text-align: justify;">Pada hari ini <?= hari($jadwal_ujian['tanggal']); ?> tanggal <?= date('d-m-Y', strtotime($jadwal_ujian['tanggal'])); ?> telah diadakan <?= $label; ?>.</p>
+        <p style="text-align: justify;">Pada hari ini <?= hari($jadwal_ujian['tanggal']); ?> tanggal <?= tgl_indo(date('Y-m-d', strtotime($jadwal_ujian['tanggal']))); ?> telah diadakan <?= $label; ?>.</p>
         <table>
             <tr>
                 <td width="100px">Mata Ujian</td>
@@ -194,7 +194,7 @@
 
         <table width="100%">
             <tr>
-                <td style="text-align: right;">Purbalingga, <?= date('d-m-Y', strtotime($jadwal_ujian['tanggal'])); ?></td>
+                <td style="text-align: right;">Purbalingga, <?= tgl_indo(date('Y-m-d', strtotime($jadwal_ujian['tanggal']))); ?></td>
             </tr>
         </table>
 
