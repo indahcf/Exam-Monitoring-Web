@@ -4,22 +4,29 @@ namespace App\Controllers;
 
 use Myth\Auth\Password;
 use App\Models\UsersModel;
+use App\Models\UserRoleModel;
+use App\Models\RoleModel;
 
 class Users extends BaseController
 {
     protected $usersModel;
+    protected $user_role_model;
+    protected $role_model;
+
     public function __construct()
     {
         $this->usersModel = new UsersModel();
+        $this->user_role_model = new UserRoleModel();
+        $this->role_model = new RoleModel();
     }
 
     public function index()
     {
         $data = [
             'title' => 'Data User',
-            'users' => $this->usersModel->findAll()
+            'users' => $this->usersModel->getUser()
         ];
-
+        // dd(user()->roles);
         return view('admin/user/index', $data);
     }
 
@@ -114,7 +121,9 @@ class Users extends BaseController
     {
         $data = [
             'title' => 'Edit User',
-            'users' => $this->usersModel->find($id)
+            'users' => $this->usersModel->find($id),
+            'data_role' => $this->role_model->findAll(),
+            'role'  => $this->user_role_model->getIdRoleByUserId($id)
         ];
 
         return view('admin/user/edit', $data);
@@ -124,13 +133,6 @@ class Users extends BaseController
     {
         //validasi input
         if (!$this->validate([
-            'fullname' => [
-                'rules' => 'required',
-                'label' => 'Nama User',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'role' => [
                 'rules' => 'required',
                 'label' => 'Role',
@@ -143,11 +145,16 @@ class Users extends BaseController
         }
 
         try {
-            $this->usersModel->save([
-                'id' => $id,
-                'fullname' => $this->request->getVar('fullname'),
-                'role' => $this->request->getVar('role')
-            ]);
+            $this->user_role_model->where('id_user', $id)->delete();
+
+            $roles = $this->request->getVar('role');
+            foreach ($roles as $r) {
+                $this->user_role_model->insert([
+                    'id_user' => $id,
+                    'id_role' => $r
+                ]);
+            }
+
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diubah');

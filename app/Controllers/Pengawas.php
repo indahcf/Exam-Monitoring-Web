@@ -3,13 +3,23 @@
 namespace App\Controllers;
 
 use App\Models\PengawasModel;
+use App\Models\UsersModel;
+use App\Models\UserRoleModel;
+use Myth\Auth\Password;
 
 class Pengawas extends BaseController
 {
     protected $pengawasModel;
+    protected $usersModel;
+    protected $user_role_model;
+    protected $db;
+
     public function __construct()
     {
         $this->pengawasModel = new PengawasModel();
+        $this->usersModel = new UsersModel();
+        $this->user_role_model = new UserRoleModel();
+        $this->db = \Config\Database::connect();
     }
 
     public function index()
@@ -49,16 +59,38 @@ class Pengawas extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'email' => [
+                'rules' => 'required|is_unique[users.email]|valid_email',
+                'label' => 'Email',
+                'errors' => [
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.',
+                    'valid_email' => '{field} harus valid.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
         try {
+            $this->usersModel->save([
+                'email' => $this->request->getVar('email'),
+                'password_hash' => Password::hash("adminsimonji")
+            ]);
+            $id_user = $this->db->insertID();
+
             $this->pengawasModel->save([
+                'id_user' => $id_user,
                 'nip' => $this->request->getVar('nip'),
                 'pengawas' => $this->request->getVar('pengawas')
             ]);
+
+            $this->user_role_model->save([
+                'id_user' => $id_user,
+                'id_role' => 5
+            ]);
+
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Ditambahkan');

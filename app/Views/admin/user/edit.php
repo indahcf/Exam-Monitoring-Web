@@ -11,26 +11,18 @@
                     <?= csrf_field(); ?>
                     <!-- <input type="hidden" name="id" value="<?= $users['id']; ?>"> -->
                     <div class="form-group">
-                        <label for="fullname">Nama User</label>
-                        <input type="text" class="form-control <?= (validation_show_error('fullname')) ? 'is-invalid' : ''; ?>" id="fullname" name="fullname" value="<?= old('fullname', $users['fullname']); ?>" placeholder="Nama User">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('fullname'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" value="<?= old('email', $users['email']); ?>" placeholder="Email" readonly>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role">
+                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role[]" data-allow-clear="1" multiple>
                             <option value="">Pilih Role</option>
-                            <option value="Admin" <?= (old('role', $users['role']) == 'Admin') ? 'selected' : '' ?>>Admin</option>
-                            <option value="Dosen" <?= (old('role', $users['role']) == 'Dosen') ? 'selected' : '' ?>>Dosen</option>
-                            <option value="Gugus Kendali Mutu" <?= (old('role', $users['role']) == 'Gugus Kendali Mutu') ? 'selected' : '' ?>>Gugus Kendali Mutu</option>
-                            <option value="Panitia" <?= (old('role', $users['role']) == 'Panitia') ? 'selected' : '' ?>>Panitia</option>
-                            <option value="Pengawas" <?= (old('role', $users['role']) == 'Pengawas') ? 'selected' : '' ?>>Pengawas</option>
-                            <option value="Koordinator" <?= (old('role', $users['role']) == 'Koordinator') ? 'selected' : '' ?>>Koordinator</option>
+                            <?php foreach ($data_role as $dr) : ?>
+                                <option value="<?= $dr['id_role']; ?>" <?= in_array($dr['id_role'], old('role', $role)) ? 'selected' : ''; ?>>
+                                    <?= $dr['role'] ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('role'); ?>
@@ -38,6 +30,19 @@
                     </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
+
+                <script>
+                    $(document).ready(function() {
+                        $('#role').each(function() {
+                            $(this).select2({
+                                theme: 'bootstrap4',
+                                width: 'style',
+                                placeholder: $(this).attr('placeholder'),
+                                allowClear: Boolean($(this).data('allow-clear')),
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

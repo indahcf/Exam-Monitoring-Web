@@ -364,7 +364,7 @@ class SoalUjian extends BaseController
             'matkul' => $kelas[0]['matkul'],
             'kelas' => implode(", ", array_column($kelas, 'kelas'))
         ];
-        return view('admin/soal_ujian/review', $data);
+        return view('admin/review_soal_ujian/review', $data);
     }
 
     public function update_review($id_soal_ujian)
@@ -471,7 +471,7 @@ class SoalUjian extends BaseController
             session()->setFlashdata('error', $e->getMessage());
         }
 
-        return redirect()->to('/admin/soal_ujian');
+        return redirect()->to('/admin/review_soal');
     }
 
     public function lihat_soal($soal_ujian)
@@ -492,5 +492,31 @@ class SoalUjian extends BaseController
             $this->soal_ujianModel->update($id_soal_ujian, $data);
             return $download;
         }
+    }
+
+    public function view_review_soal_ujian()
+    {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $soal_ujian = [];
+        if ($soal_ujian_terakhir) {
+            $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+        }
+
+        $data = [
+            'title' => 'Data Review Soal Ujian',
+            'soal_ujian' => $soal_ujian,
+            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+            'filter' => $filter
+        ];
+        // dd($data);
+        return view('admin/review_soal_ujian/index', $data);
     }
 }

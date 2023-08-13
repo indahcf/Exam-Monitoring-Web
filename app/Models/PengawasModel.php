@@ -8,7 +8,7 @@ class PengawasModel extends Model
 {
     protected $table            = 'pengawas';
     protected $primaryKey       = 'id_pengawas';
-    protected $allowedFields    = ['nip', 'pengawas'];
+    protected $allowedFields    = ['id_user', 'nip', 'pengawas'];
     protected $useTimestamps    = true;
 
     public function getPengawasTersedia($tanggal, $jam_mulai, $jam_selesai)

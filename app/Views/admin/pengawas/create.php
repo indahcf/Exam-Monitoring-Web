@@ -23,6 +23,13 @@
                             <?= validation_show_error('pengawas'); ?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control <?= (validation_show_error('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" value="<?= old('email'); ?>" placeholder="Email">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('email'); ?>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary mr-2">Simpan</button>
                 </form>
             </div>

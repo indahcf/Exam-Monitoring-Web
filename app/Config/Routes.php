@@ -30,100 +30,105 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
 
-$routes->get('/admin/user', 'Users::index');
-$routes->get('/admin/user/create', 'Users::create');
-$routes->post('/admin/user/save', 'Users::save');
-$routes->get('/admin/user/edit/(:segment)', 'Users::edit/$1');
-$routes->post('/admin/user/update/(:segment)', 'Users::update/$1');
-$routes->delete('/admin/user/(:num)', 'Users::delete/$1');
+    $routes->get('user', 'Users::index');
+    $routes->get('user/create', 'Users::create');
+    $routes->post('user/save', 'Users::save');
+    $routes->get('user/edit/(:segment)', 'Users::edit/$1');
+    $routes->post('user/update/(:segment)', 'Users::update/$1');
+    $routes->delete('user/(:num)', 'Users::delete/$1');
 
-$routes->get('/admin/matkul', 'Matkul::index');
-$routes->get('/admin/matkul/create', 'Matkul::create');
-$routes->post('/admin/matkul/save', 'Matkul::save');
-$routes->get('/admin/matkul/edit/(:segment)', 'Matkul::edit/$1');
-$routes->post('/admin/matkul/update/(:segment)', 'Matkul::update/$1');
-$routes->delete('/admin/matkul/(:num)', 'Matkul::delete/$1');
-$routes->post('/admin/matkul/simpanExcel', 'Matkul::simpanExcel');
+    $routes->get('matkul', 'Matkul::index');
+    $routes->get('matkul/create', 'Matkul::create');
+    $routes->post('matkul/save', 'Matkul::save');
+    $routes->get('matkul/edit/(:segment)', 'Matkul::edit/$1');
+    $routes->post('matkul/update/(:segment)', 'Matkul::update/$1');
+    $routes->delete('matkul/(:num)', 'Matkul::delete/$1');
+    $routes->post('matkul/simpanExcel', 'Matkul::simpanExcel');
 
-$routes->get('/admin/prodi', 'Prodi::index');
-$routes->get('/admin/prodi/create', 'Prodi::create');
-$routes->post('/admin/prodi/save', 'Prodi::save');
-$routes->get('/admin/prodi/edit/(:segment)', 'Prodi::edit/$1');
-$routes->post('/admin/prodi/update/(:segment)', 'Prodi::update/$1');
-$routes->delete('/admin/prodi/(:num)', 'Prodi::delete/$1');
+    $routes->get('prodi', 'Prodi::index');
+    $routes->get('prodi/create', 'Prodi::create');
+    $routes->post('prodi/save', 'Prodi::save');
+    $routes->get('prodi/edit/(:segment)', 'Prodi::edit/$1');
+    $routes->post('prodi/update/(:segment)', 'Prodi::update/$1');
+    $routes->delete('prodi/(:num)', 'Prodi::delete/$1');
 
-$routes->get('/admin/dosen', 'Dosen::index');
-$routes->get('/admin/dosen/create', 'Dosen::create');
-$routes->post('/admin/dosen/save', 'Dosen::save');
-$routes->get('/admin/dosen/edit/(:segment)', 'Dosen::edit/$1');
-$routes->post('/admin/dosen/update/(:segment)', 'Dosen::update/$1');
-$routes->delete('/admin/dosen/(:num)', 'Dosen::delete/$1');
-$routes->post('/admin/dosen/simpanExcel', 'Dosen::simpanExcel');
+    $routes->get('dosen', 'Dosen::index');
+    $routes->get('dosen/create', 'Dosen::create');
+    $routes->post('dosen/save', 'Dosen::save');
+    $routes->get('dosen/edit/(:segment)', 'Dosen::edit/$1');
+    $routes->post('dosen/update/(:segment)', 'Dosen::update/$1');
+    $routes->delete('dosen/(:num)', 'Dosen::delete/$1');
+    $routes->post('dosen/simpanExcel', 'Dosen::simpanExcel');
 
-$routes->get('/admin/kelas', 'Kelas::index');
-$routes->get('/admin/kelas/create', 'Kelas::create');
-$routes->post('/admin/kelas/save', 'Kelas::save');
-$routes->get('/admin/kelas/edit/(:segment)', 'Kelas::edit/$1');
-$routes->post('/admin/kelas/update/(:segment)', 'Kelas::update/$1');
-$routes->delete('/admin/kelas/(:num)', 'Kelas::delete/$1');
-$routes->post('/admin/kelas/simpanExcel', 'Kelas::simpanExcel');
+    $routes->get('kelas', 'Kelas::index');
+    $routes->get('kelas/create', 'Kelas::create');
+    $routes->post('kelas/save', 'Kelas::save');
+    $routes->get('kelas/edit/(:segment)', 'Kelas::edit/$1');
+    $routes->post('kelas/update/(:segment)', 'Kelas::update/$1');
+    $routes->delete('kelas/(:num)', 'Kelas::delete/$1');
+    $routes->post('kelas/simpanExcel', 'Kelas::simpanExcel');
 
-$routes->get('/admin/ruang_ujian', 'RuangUjian::index');
-$routes->get('/admin/ruang_ujian/create', 'RuangUjian::create');
-$routes->post('/admin/ruang_ujian/save', 'RuangUjian::save');
-$routes->get('/admin/ruang_ujian/edit/(:segment)', 'RuangUjian::edit/$1');
-$routes->post('/admin/ruang_ujian/update/(:segment)', 'RuangUjian::update/$1');
-$routes->delete('/admin/ruang_ujian/(:num)', 'RuangUjian::delete/$1');
-$routes->post('/admin/ruang_ujian/simpanExcel', 'RuangUjian::simpanExcel');
+    $routes->get('ruang_ujian', 'RuangUjian::index');
+    $routes->get('ruang_ujian/create', 'RuangUjian::create');
+    $routes->post('ruang_ujian/save', 'RuangUjian::save');
+    $routes->get('ruang_ujian/edit/(:segment)', 'RuangUjian::edit/$1');
+    $routes->post('ruang_ujian/update/(:segment)', 'RuangUjian::update/$1');
+    $routes->delete('ruang_ujian/(:num)', 'RuangUjian::delete/$1');
+    $routes->post('ruang_ujian/simpanExcel', 'RuangUjian::simpanExcel');
 
-$routes->get('/admin/pengawas', 'Pengawas::index');
-$routes->get('/admin/pengawas/create', 'Pengawas::create');
-$routes->post('/admin/pengawas/save', 'Pengawas::save');
-$routes->get('/admin/pengawas/edit/(:segment)', 'Pengawas::edit/$1');
-$routes->post('/admin/pengawas/update/(:segment)', 'Pengawas::update/$1');
-$routes->delete('/admin/pengawas/(:num)', 'Pengawas::delete/$1');
+    $routes->get('pengawas', 'Pengawas::index');
+    $routes->get('pengawas/create', 'Pengawas::create');
+    $routes->post('pengawas/save', 'Pengawas::save');
+    $routes->get('pengawas/edit/(:segment)', 'Pengawas::edit/$1');
+    $routes->post('pengawas/update/(:segment)', 'Pengawas::update/$1');
+    $routes->delete('pengawas/(:num)', 'Pengawas::delete/$1');
 
-$routes->get('/admin/tahun_akademik', 'TahunAkademik::index');
-$routes->get('/admin/tahun_akademik/create', 'TahunAkademik::create');
-$routes->post('/admin/tahun_akademik/save', 'TahunAkademik::save');
-$routes->get('/admin/tahun_akademik/edit/(:segment)', 'TahunAkademik::edit/$1');
-$routes->post('/admin/tahun_akademik/update/(:segment)', 'TahunAkademik::update/$1');
-$routes->delete('/admin/tahun_akademik/(:num)', 'TahunAkademik::delete/$1');
-$routes->post('/admin/tahun_akademik/update_status/(:segment)', 'TahunAkademik::update_status/$1');
+    $routes->get('tahun_akademik', 'TahunAkademik::index');
+    $routes->get('tahun_akademik/create', 'TahunAkademik::create');
+    $routes->post('tahun_akademik/save', 'TahunAkademik::save');
+    $routes->get('tahun_akademik/edit/(:segment)', 'TahunAkademik::edit/$1');
+    $routes->post('tahun_akademik/update/(:segment)', 'TahunAkademik::update/$1');
+    $routes->delete('tahun_akademik/(:num)', 'TahunAkademik::delete/$1');
+    $routes->post('tahun_akademik/update_status/(:segment)', 'TahunAkademik::update_status/$1');
 
-$routes->get('/admin/jadwal_ujian', 'JadwalUjian::index');
-$routes->get('/admin/jadwal_ujian/create', 'JadwalUjian::create');
-$routes->post('/admin/jadwal_ujian/save', 'JadwalUjian::save');
-$routes->get('/admin/jadwal_ujian/edit/(:segment)', 'JadwalUjian::edit/$1');
-$routes->post('/admin/jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1');
-$routes->delete('/admin/jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
-$routes->post('/admin/jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
-$routes->get('/admin/jadwal_ujian/export', 'JadwalUjian::export');
+    $routes->get('jadwal_ujian', 'JadwalUjian::index');
+    $routes->get('jadwal_ujian/create', 'JadwalUjian::create');
+    $routes->post('jadwal_ujian/save', 'JadwalUjian::save');
+    $routes->get('jadwal_ujian/edit/(:segment)', 'JadwalUjian::edit/$1');
+    $routes->post('jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1');
+    $routes->delete('jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
+    $routes->post('jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
+    $routes->get('jadwal_ujian/export', 'JadwalUjian::export');
 
-$routes->get('/admin/soal_ujian', 'SoalUjian::index');
-$routes->get('/admin/soal_ujian/create', 'SoalUjian::create');
-$routes->post('/admin/soal_ujian/save', 'SoalUjian::save');
-$routes->get('/admin/soal_ujian/edit/(:segment)', 'SoalUjian::edit/$1');
-$routes->post('/admin/soal_ujian/update/(:segment)', 'SoalUjian::update/$1');
-$routes->delete('/admin/soal_ujian/(:num)', 'SoalUjian::delete/$1');
-$routes->get('/admin/soal_ujian/review/(:segment)', 'SoalUjian::review/$1');
-$routes->post('/admin/soal_ujian/update_review/(:segment)', 'SoalUjian::update_review/$1');
-$routes->post('/admin/soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1');
-$routes->get('/admin/soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1');
+    $routes->get('soal_ujian', 'SoalUjian::index', ['filter' => 'auth:Admin,Dosen']);
+    $routes->get('soal_ujian/create', 'SoalUjian::create', ['filter' => 'auth:Admin,Dosen'], ['filter' => 'auth:Admin,Dosen']);
+    $routes->post('soal_ujian/save', 'SoalUjian::save', ['filter' => 'auth:Admin,Dosen']);
+    $routes->get('soal_ujian/edit/(:segment)', 'SoalUjian::edit/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->post('soal_ujian/update/(:segment)', 'SoalUjian::update/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->delete('soal_ujian/(:num)', 'SoalUjian::delete/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->post('soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Panitia']);
+    // $routes->get('soal_ujian/hasil_review/(:segment)', 'SoalUjian::hasil_review/$1', ['filter' => 'auth:Admin,Dosen']);
 
-$routes->get('/admin/kehadiran_pengawas', 'KehadiranPengawas::index');
-$routes->get('/admin/kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2');
-$routes->post('/admin/kehadiran_pengawas/save/(:segment)/(:segment)', 'KehadiranPengawas::save/$1/$2');
-$routes->post('/admin/kehadiran_pengawas/update/(:segment)', 'KehadiranPengawas::update/$1');
+    $routes->get('review_soal', 'SoalUjian::view_review_soal_ujian', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
+    $routes->get('review_soal/review/(:segment)', 'SoalUjian::review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
+    $routes->post('review_soal/update_review/(:segment)', 'SoalUjian::update_review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
 
-$routes->get('/admin/kehadiran_peserta', 'KehadiranPeserta::index');
-$routes->get('/admin/kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranPeserta::rekap/$1/$2');
-$routes->post('/admin/kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2');
-$routes->get('/admin/kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2');
+    $routes->get('kehadiran_pengawas', 'KehadiranPengawas::index', ['filter' => 'auth:Admin,Koordinator']);
+    $routes->get('kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2', ['filter' => 'auth:Admin,Koordinator']);
+    $routes->post('kehadiran_pengawas/save/(:segment)/(:segment)', 'KehadiranPengawas::save/$1/$2', ['filter' => 'auth:Admin,Koordinator']);
+    $routes->post('kehadiran_pengawas/update/(:segment)', 'KehadiranPengawas::update/$1', ['filter' => 'auth:Admin,Koordinator']);
 
-$routes->get('/admin/distribusi_hasil_ujian', 'DistribusiHasilUjian::index');
-$routes->post('/admin/distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1');
+    $routes->get('kehadiran_peserta', 'KehadiranPeserta::index', ['filter' => 'auth:Admin,Pengawas']);
+    $routes->get('kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranPeserta::rekap/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
+    $routes->post('kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
+    $routes->get('kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
+
+    $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Panitia']);
+    $routes->post('distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1', ['filter' => 'auth:Admin,Panitia']);
+});
 
 // API 
 $routes->get('api/dosen', 'Dosen::json');
@@ -136,7 +141,6 @@ $routes->get('api/ruang_ujian', 'RuangUjian::json');
 $routes->get('api/ruang_ujian/(:num)', 'RuangUjian::json/$1');
 $routes->get('api/pengawas', 'Pengawas::json');
 $routes->get('api/pengawas/(:num)', 'Pengawas::json/$1');
-
 /*
  * --------------------------------------------------------------------
  * Additional Routing

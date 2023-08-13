@@ -3,12 +3,12 @@
 <?= $this->section('content'); ?>
 
 <h4 class="card-title font-weight-bold">Data User</h4>
-<div class="template-demo">
+<!-- <div class="template-demo">
     <a href="<?= base_url(); ?>admin/user/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
-</div>
+</div> -->
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -18,18 +18,21 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama User</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1; ?>
+                            <?php $i = 0;
+                            $temp = 0; ?>
                             <?php foreach ($users as $u) : ?>
                                 <tr>
-                                    <td><?= $i++; ?></td>
-                                    <td><?= $u['fullname']; ?></td>
+                                    <?php if ($temp != $u['id']) {
+                                        $i++;
+                                        $temp = $u['id'];
+                                    } ?>
+                                    <td><?= $i; ?></td>
                                     <td><?= $u['email']; ?></td>
                                     <td><?= $u['role']; ?></td>
                                     <td>
@@ -50,7 +53,9 @@
                     <script>
                         $(document).ready(function() {
                             $('#user').DataTable({
-                                "scrollX": true
+                                "scrollX": true,
+                                // 'rowsGroup': [0, 2],
+                                'rowsGroup': [0, 1, 3]
                             });
                         });
                     </script>

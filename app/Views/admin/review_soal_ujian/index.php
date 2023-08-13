@@ -2,10 +2,10 @@
 
 <?= $this->section('content'); ?>
 
-<h4 class="card-title">Data Soal Ujian</h4>
+<h4 class="card-title">Data Review Soal Ujian</h4>
 <div class="template-demo row mb-3 mt-4">
     <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
-        <form action="<?= base_url('/admin/soal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
+        <form action="<?= base_url('/admin/review_soal_ujian') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
             <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
@@ -23,23 +23,13 @@
             </div>
         </form>
     </div>
-    <div class="col-md-7 col-lg-8 col-xl-8 mb-2 d-flex justify-content-md-end justify-content-center">
-        <a href="<?= base_url(); ?>admin/soal_ujian/create" class="btn btn-primary btn-icon-text">
-            <div class="d-md-block d-flex flex-column">
-                <i class="ti-plus"></i>
-                <span class="d-none d-md-inline ml-1">
-                    Tambah
-                </span>
-            </div>
-        </a>
-    </div>
 </div>
 <div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="soal_ujian" class="table table-striped">
+                    <table id="review_soal_ujian" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -78,15 +68,9 @@
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>
-                                        <a href="<?= base_url(); ?>admin/soal_ujian/edit/<?= $s['id_soal_ujian']; ?>" data-id="<?= $s['id_soal_ujian']; ?>" class="btn btn-warning btn-rounded btn-icon">
-                                            <i class="ti-pencil"></i>
-                                        </a>
-                                        <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
-                                            <i class="ti-trash"></i>
-                                        </button>
-                                        <!-- <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
                                             <i class="ti-search"></i>
-                                        </a> -->
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -97,7 +81,7 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#soal_ujian').DataTable({
+                            $('#review_soal_ujian').DataTable({
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 6, 7, 8]
                             });

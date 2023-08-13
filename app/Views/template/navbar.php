@@ -13,7 +13,7 @@
                     <img class="mr-2" src="<?= base_url(); ?>/assets/images/profile.jpg" alt="profile" />
                     <div>
                         <p class="m-0 text-black"><?= user()->email; ?></p>
-                        <span class="badge bg-primary text-light"><?= user()->role; ?></span>
+                        <span class="badge bg-primary text-light"></span>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">

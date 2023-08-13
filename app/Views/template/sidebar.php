@@ -1,13 +1,14 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <?php if (user()->role == 'Admin') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url(''); ?>">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url(''); ?>">
+                <i class="ti-home menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+
+        <?php if (count(array_intersect(user()->roles, ['Admin'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-master" aria-expanded="false" aria-controls="ui-master">
                     <i class="ti-server menu-icon"></i>
@@ -33,122 +34,49 @@
                     <span class="menu-title">Jadwal Ujian</span>
                 </a>
             </li>
+        <?php endif; ?>
+
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Dosen'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/soal_ujian'); ?>">
                     <i class="ti-file menu-icon"></i>
                     <span class="menu-title">Soal Ujian</span>
                 </a>
             </li>
+        <?php endif; ?>
+
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Gugus Kendali Mutu'])) > 0) : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/review_soal'); ?>">
+                    <i class="ti-book menu-icon"></i>
+                    <span class="menu-title">Review Soal Ujian</span>
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Koordinator'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/kehadiran_pengawas'); ?>">
                     <i class="ti-lock menu-icon"></i>
                     <span class="menu-title">Kehadiran Pengawas</span>
                 </a>
             </li>
+        <?php endif; ?>
+
+        <?php if (count(array_intersect(user()->roles, ['Pengawas'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/kehadiran_peserta'); ?>">
                     <i class="ti-user menu-icon"></i>
                     <span class="menu-title">Kehadiran Peserta</span>
                 </a>
             </li>
+        <?php endif; ?>
+
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Panitia'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/distribusi_hasil_ujian'); ?>">
                     <i class="ti-write menu-icon"></i>
                     <span class="menu-title">Distribusi Hasil Ujian</span>
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (user()->role == 'Dosen') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#tables">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#tables">
-                    <i class="ti-file menu-icon"></i>
-                    <span class="menu-title">Soal Ujian</span>
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (user()->role == 'Gugus Kendali Mutu') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#icons">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#auth">
-                    <i class="ti-file menu-icon"></i>
-                    <span class="menu-title">Soal Ujian</span>
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (user()->role == 'Panitia') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#error">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="ti-file menu-icon"></i>
-                    <span class="menu-title">Soal Ujian</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="ti-user menu-icon"></i>
-                    <span class="menu-title">Kehadiran</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="ui-basic">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('panitia/kehadiran_peserta'); ?>">Kehadiran Peserta</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('panitia/kehadiran_pengawas'); ?>">Kehadiran Pengawas</a></li>
-                    </ul>
-                </div>
-            </li>
-        <?php endif; ?>
-
-        <?php if (user()->role == 'Pengawas') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#error">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="ti-user menu-icon"></i>
-                    <span class="menu-title">Kehadiran Peserta</span>
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (user()->role == 'Koordinator') : ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#error">
-                    <i class="ti-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="ti-user menu-icon"></i>
-                    <span class="menu-title">Kehadiran Peserta</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="ti-user menu-icon"></i>
-                    <span class="menu-title">Kehadiran Pengawas</span>
                 </a>
             </li>
         <?php endif; ?>

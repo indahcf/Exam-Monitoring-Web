@@ -19,16 +19,19 @@ class Pengawas extends Seeder
                 'pengawas'  => 'Teguh Narwoko, S.T.'
             ],
             [
+                'id_user' => 1,
                 'nip' => '198700300400500607',
                 'pengawas'  => 'Subekti Afrianto, A.Md.'
             ],
             [
+                'id_user' => 4,
                 'nip' => '198600400500600708',
-                'pengawas'  => 'Sri Herawati,A.Md.'
+                'pengawas'  => 'Gilang Dwi Ratmana'
             ],
             [
+                'id_user' => 5,
                 'nip' => '198500500600700809',
-                'pengawas'  => 'Mugi Trianto, S.E.'
+                'pengawas'  => 'Hera'
             ],
             [
                 'nip' => '198400600700800910',

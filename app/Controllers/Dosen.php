@@ -4,15 +4,25 @@ namespace App\Controllers;
 
 use App\Models\DosenModel;
 use App\Models\ProdiModel;
+use App\Models\UsersModel;
+use App\Models\UserRoleModel;
+use Myth\Auth\Password;
 
 class Dosen extends BaseController
 {
     protected $dosenModel;
     protected $prodiModel;
+    protected $usersModel;
+    protected $user_role_model;
+    protected $db;
+
     public function __construct()
     {
         $this->dosenModel = new DosenModel();
         $this->prodiModel = new ProdiModel();
+        $this->usersModel = new UsersModel();
+        $this->user_role_model = new UserRoleModel();
+        $this->db = \Config\Database::connect();
     }
 
     public function index()
@@ -60,17 +70,39 @@ class Dosen extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'email' => [
+                'rules' => 'required|is_unique[users.email]|valid_email',
+                'label' => 'Email',
+                'errors' => [
+                    'required' => '{field} harus diisi.',
+                    'is_unique' => '{field} sudah terdaftar.',
+                    'valid_email' => '{field} harus valid.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
         try {
+            $this->usersModel->save([
+                'email' => $this->request->getVar('email'),
+                'password_hash' => Password::hash("adminsimonji")
+            ]);
+            $id_user = $this->db->insertID();
+
             $this->dosenModel->save([
+                'id_user' => $id_user,
                 'nidn' => $this->request->getVar('nidn'),
                 'dosen' => $this->request->getVar('dosen'),
                 'id_prodi' => $this->request->getVar('prodi')
             ]);
+
+            $this->user_role_model->save([
+                'id_user' => $id_user,
+                'id_role' => 2
+            ]);
+
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Ditambahkan');

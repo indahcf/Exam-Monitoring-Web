@@ -8,7 +8,7 @@ class DosenModel extends Model
 {
     protected $table            = 'dosen';
     protected $primaryKey       = 'id_dosen';
-    protected $allowedFields    = ['id_prodi', 'nidn', 'dosen'];
+    protected $allowedFields    = ['id_user', 'id_prodi', 'nidn', 'dosen'];
     protected $useTimestamps    = true;
 
     public function getDosen()
