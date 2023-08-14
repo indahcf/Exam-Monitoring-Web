@@ -54,6 +54,15 @@
             </li>
         <?php endif; ?>
 
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Panitia'])) > 0) : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/cetak_soal'); ?>">
+                    <i class="ti-import menu-icon"></i>
+                    <span class="menu-title">Cetak Soal Ujian</span>
+                </a>
+            </li>
+        <?php endif; ?>
+
         <?php if (count(array_intersect(user()->roles, ['Admin', 'Koordinator'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/kehadiran_pengawas'); ?>">

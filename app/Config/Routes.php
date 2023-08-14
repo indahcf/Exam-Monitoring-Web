@@ -109,12 +109,14 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('soal_ujian/update/(:segment)', 'SoalUjian::update/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->delete('soal_ujian/(:num)', 'SoalUjian::delete/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->post('soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1', ['filter' => 'auth:Admin,Dosen']);
-    $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Panitia']);
     // $routes->get('soal_ujian/hasil_review/(:segment)', 'SoalUjian::hasil_review/$1', ['filter' => 'auth:Admin,Dosen']);
 
     $routes->get('review_soal', 'SoalUjian::view_review_soal_ujian', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->get('review_soal/review/(:segment)', 'SoalUjian::review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->post('review_soal/update_review/(:segment)', 'SoalUjian::update_review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
+
+    $routes->get('cetak_soal', 'SoalUjian::view_cetak_soal_ujian', ['filter' => 'auth:Admin,Panitia']);
+    $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Panitia']);
 
     $routes->get('kehadiran_pengawas', 'KehadiranPengawas::index', ['filter' => 'auth:Admin,Koordinator']);
     $routes->get('kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2', ['filter' => 'auth:Admin,Koordinator']);

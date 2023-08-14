@@ -2,10 +2,10 @@
 
 <?= $this->section('content'); ?>
 
-<h4 class="card-title">Data Review Soal Ujian</h4>
+<h4 class="card-title">Cetak Soal Ujian</h4>
 <div class="template-demo row mb-3 mt-4">
     <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
-        <form action="<?= base_url('/admin/review_soal') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
+        <form action="<?= base_url('/admin/cetak_soal') ?>" method="get" id="formFilter" class="input-group" style="width: 235px;">
             <select class="form-control" id="filter" name="filter">
                 <option value="">Pilih Tahun Akademik</option>
                 <?php foreach ($tahun_akademik as $t) : ?>
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="review_soal_ujian" class="table table-striped">
+                    <table id="cetak_soal_ujian" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -40,7 +40,6 @@
                                 <th>Kelas</th>
                                 <th>Berkas Soal Ujian</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,13 +61,11 @@
                                         <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
                                             <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
                                         </form>
+                                        <?php if ($s['status_soal'] == 'Diterima' or $s['status_soal'] == 'Dicetak') : ?>
+                                            <button data-id="<?= $s['id_soal_ujian']; ?>" data-nama="<?= $s['prodi']; ?>-<?= $s['matkul']; ?>-<?= $s['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
-                                    <td>
-                                        <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                            <i class="ti-search"></i>
-                                        </a>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -78,9 +75,33 @@
 
                     <script>
                         $(document).ready(function() {
-                            $('#review_soal_ujian').DataTable({
+                            $('#cetak_soal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7, 8]
+                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7]
+                            });
+
+                            $(".cetak-soal").click(function() {
+                                let id = $(this).data('id')
+                                let nama = $(this).data('nama');
+                                $.ajax({
+                                    type: 'GET',
+                                    url: "<?= base_url(); ?>" + '/admin/soal_ujian/cetak_soal/' + id,
+                                    xhrFields: {
+                                        responseType: 'blob'
+                                    },
+                                    success: function(response) {
+                                        console.log('data download', response)
+                                        var blob = new Blob([response]);
+                                        var link = document.createElement('a');
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = nama.trim() + ".pdf";
+                                        link.click();
+                                        window.location.reload()
+                                    },
+                                    error: function(blob) {
+                                        console.log(blob);
+                                    }
+                                });
                             });
 
                             $("#filter").change(function() {
