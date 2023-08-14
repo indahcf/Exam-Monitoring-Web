@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tambah Data Review Soal Ujian</h4>
-                <form action="<?= base_url('/admin/soal_ujian/update_review/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/review_soal/update_review/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <div class="row mb-3">
                         <div class="col-sm-4">Program Studi</div>

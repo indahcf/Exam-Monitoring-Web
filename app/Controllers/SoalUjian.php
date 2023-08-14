@@ -533,7 +533,7 @@ class SoalUjian extends BaseController
             // dd($filter);
             $id_tahun_akademik = explode("_", $filter)[0];
             $periode_ujian = explode("_", $filter)[1];
-            $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+            $soal_ujian = $this->soal_ujianModel->filterSoalUjianWithStatus($id_tahun_akademik, $periode_ujian);
         }
 
         $data = [

@@ -65,7 +65,7 @@
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>
-                                        <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/review_soal/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
                                             <i class="ti-search"></i>
                                         </a>
                                     </td>
