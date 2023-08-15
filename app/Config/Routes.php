@@ -109,7 +109,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('soal_ujian/update/(:segment)', 'SoalUjian::update/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->delete('soal_ujian/(:num)', 'SoalUjian::delete/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->post('soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1', ['filter' => 'auth:Admin,Dosen']);
-    // $routes->get('soal_ujian/hasil_review/(:segment)', 'SoalUjian::hasil_review/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->get('soal_ujian/hasil_review/(:segment)', 'SoalUjian::hasil_review/$1', ['filter' => 'auth:Admin,Dosen']);
 
     $routes->get('review_soal', 'SoalUjian::view_review_soal_ujian', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->get('review_soal/review/(:segment)', 'SoalUjian::review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);

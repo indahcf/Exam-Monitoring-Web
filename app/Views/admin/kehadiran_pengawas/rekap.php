@@ -59,49 +59,47 @@
                             <div class="d-none d-sm-inline">:</div>
                             <div class="col-sm"><?= $jadwal_ujian['nama_koordinator']; ?></div>
                         </div>
-                        <?php foreach ($ruang_ujian as $i => $r) : ?>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">Ruang Ujian</div>
-                                <div class="d-none d-sm-inline">:</div>
-                                <div class="col-sm"><?= $r['ruang_ujian']; ?></div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">Jumlah Peserta</div>
-                                <div class="d-none d-sm-inline">:</div>
-                                <div class="col-sm"><?= $jumlah_peserta[$i]; ?></div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">Pengawas 1</div>
-                                <div class="d-none d-sm-inline">:</div>
-                                <div class="col-sm">
-                                    <select class="form-control <?= (validation_show_error('pengawas1')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1">
-                                        <option value="">Pilih Pengawas</option>
-                                        <?php foreach ($pengawas as $p) : ?>
-                                            <option value="<?= $p['id_pengawas']; ?>" <?= (old('pengawas1', $pengawas1) == $p['id_pengawas']) ? 'selected' : ''; ?>>
-                                                <?= $p['pengawas']; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        <?= validation_show_error('pengawas1'); ?>
-                                    </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">Ruang Ujian</div>
+                            <div class="d-none d-sm-inline">:</div>
+                            <div class="col-sm"><?= $ruang_ujian; ?></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">Jumlah Peserta</div>
+                            <div class="d-none d-sm-inline">:</div>
+                            <div class="col-sm"><?= $jumlah_peserta; ?></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">Pengawas 1</div>
+                            <div class="d-none d-sm-inline">:</div>
+                            <div class="col-sm">
+                                <select class="form-control <?= (validation_show_error('pengawas1')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1">
+                                    <option value="">Pilih Pengawas</option>
+                                    <?php foreach ($pengawas as $p) : ?>
+                                        <option value="<?= $p['id_pengawas']; ?>" <?= (old('pengawas1', $pengawas1) == $p['id_pengawas']) ? 'selected' : ''; ?>>
+                                            <?= $p['pengawas']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('pengawas1'); ?>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">Pengawas 2</div>
-                                <div class="d-none d-sm-inline">:</div>
-                                <div class="col-sm">
-                                    <select class="form-control" id="pengawas2" name="pengawas2">
-                                        <option value="">Pilih Pengawas</option>
-                                        <?php foreach ($pengawas as $p) : ?>
-                                            <option value="<?= $p['id_pengawas']; ?>" <?= (old('pengawas2', $pengawas2) == $p['id_pengawas']) ? 'selected' : ''; ?>>
-                                                <?= $p['pengawas']; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">Pengawas 2</div>
+                            <div class="d-none d-sm-inline">:</div>
+                            <div class="col-sm">
+                                <select class="form-control" id="pengawas2" name="pengawas2">
+                                    <option value="">Pilih Pengawas</option>
+                                    <?php foreach ($pengawas as $p) : ?>
+                                        <option value="<?= $p['id_pengawas']; ?>" <?= (old('pengawas2', $pengawas2) == $p['id_pengawas']) ? 'selected' : ''; ?>>
+                                            <?= $p['pengawas']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
                         <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                         </form>
             </div>

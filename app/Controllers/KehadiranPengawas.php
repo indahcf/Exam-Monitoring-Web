@@ -92,9 +92,10 @@ class KehadiranPengawas extends BaseController
         $ruang_ujian = $this->ruang_ujianModel
             ->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
             ->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)
-            ->findAll();
+            ->get()
+            ->getRowArray();
 
-        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->findAll();
+        $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ruang', $id_jadwal_ruang)->get()->getRowArray();
 
         $kehadiran_pengawas = $this->kehadiran_pengawasModel->where('id_jadwal_ruang', $id_jadwal_ruang)->first();
 
@@ -116,8 +117,8 @@ class KehadiranPengawas extends BaseController
         $data = [
             'title' => 'Rekap Data Kehadiran Pengawas',
             'jadwal_ujian' => $jadwal_ujian,
-            'ruang_ujian' => $ruang_ujian,
-            'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
+            'ruang_ujian' => $ruang_ujian['ruang_ujian'],
+            'jumlah_peserta' => $jumlah_peserta['jumlah_peserta'],
             'pengawas' => $this->pengawasModel->findAll(),
             'pengawas1' => $pengawas1,
             'pengawas2' => $pengawas2,

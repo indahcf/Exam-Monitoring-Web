@@ -72,9 +72,6 @@
                                         <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
                                             <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
                                         </form>
-                                        <?php if ($s['status_soal'] == 'Diterima' or $s['status_soal'] == 'Dicetak') : ?>
-                                            <button data-id="<?= $s['id_soal_ujian']; ?>" data-nama="<?= $s['prodi']; ?>-<?= $s['matkul']; ?>-<?= $s['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
-                                        <?php endif; ?>
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>
@@ -84,9 +81,11 @@
                                         <button data-id="<?= $s['id_soal_ujian']; ?>" data-model="soal_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
-                                        <!-- <a href="<?= base_url(); ?>admin/soal_ujian/review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                            <i class="ti-search"></i>
-                                        </a> -->
+                                        <?php if ($s['status_soal'] != 'Menunggu Direview') : ?>
+                                            <a href="<?= base_url(); ?>admin/soal_ujian/hasil_review/<?= $s['id_soal_ujian']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                                <i class="ti-eye"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

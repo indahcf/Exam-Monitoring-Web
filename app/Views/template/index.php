@@ -155,7 +155,7 @@
                         let id = $(this).data('id')
                         let model = $(this).data('model')
                         $.ajax({
-                            url: "/admin/" + model + "/" + id,
+                            url: "<?= base_url('admin/'); ?>" + model + "/" + id,
                             type: "DELETE",
                             success: function() {
                                 Swal.fire(

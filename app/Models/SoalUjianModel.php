@@ -34,7 +34,7 @@ class SoalUjianModel extends Model
             ->join('tahun_akademik', 'soal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
-            ->where('status_soal', 'Diterima')
+            ->whereIn('status_soal', ['Diterima', 'Dicetak']) // Use whereIn for multiple status values
             ->findAll();
     }
 }

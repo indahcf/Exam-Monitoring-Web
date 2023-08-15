@@ -12,32 +12,32 @@
                     <div class="row mb-3">
                         <div class="col-sm-4">Program Studi</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('prodi', $prodi_matkul); ?></div>
+                        <div class="col-sm"><?= $prodi; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Kode dan Mata Kuliah</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('kode_matkul', $kode_matkul); ?> - <?= old('matkul', $matkul); ?></div>
+                        <div class="col-sm"><?= $kode_matkul; ?> - <?= $matkul; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Kelas</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('kelas', $kelas) ?></div>
+                        <div class="col-sm"><?= $kelas; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Dosen Pembuat Soal</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('dosen', $review_soal_ujian['dosen']); ?></div>
+                        <div class="col-sm"><?= $review_soal_ujian['dosen']; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Bentuk Soal</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('bentuk_soal', $review_soal_ujian['bentuk_soal']); ?></div>
+                        <div class="col-sm"><?= $review_soal_ujian['bentuk_soal']; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Metode</div>
                         <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm"><?= old('metode', $review_soal_ujian['metode']); ?></div>
+                        <div class="col-sm"><?= $review_soal_ujian['metode']; ?></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Durasi Waktu Pengerjaan Seluruh Butir</div>
