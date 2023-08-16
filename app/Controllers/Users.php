@@ -204,13 +204,12 @@ class Users extends BaseController
             return redirect()->back()->withInput();
         }
 
-        $userModel = new UsersModel();
-        $rowData = $userModel->find($id);
+        $rowData = $this->usersModel->find($id);
         $passwordUser = $rowData['password_hash'];
         $request = $this->request;
 
         if (password_verify(base64_encode(hash('sha384', service('request')->getVar('password_lama'), true)), $passwordUser)) {
-            $userModel->save([
+            $this->usersModel->save([
                 'id' => $id,
                 'password_hash' => Password::hash($request->getVar('password_baru'))
             ]);

@@ -3,14 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use Myth\Auth\Models\UserModel as MythModel;
 
 class Setting extends BaseController
 {
     protected $usersModel;
+    protected $userModel;
 
     public function __construct()
     {
         $this->usersModel = new UsersModel();
+        $this->userModel = new MythModel();
     }
 
     public function ubah_password()
@@ -54,14 +57,13 @@ class Setting extends BaseController
         }
 
         $id = user_id();
-        $userModel = new UsersModel();
-        $rowData = $userModel->find($id);
-        $passwordUser = $rowData['password_hash'];
+        $rowData = $this->userModel->find($id);
+        $passwordUser = $rowData->password_hash;
         $request = $this->request;
 
         if (password_verify(base64_encode(hash('sha384', service('request')->getVar('password_lama'), true)), $passwordUser)) {
             $rowData->setPassword($request->getVar('password_baru'));
-            $userModel->save($rowData);
+            $this->userModel->save($rowData);
             session()->setFlashdata('success', 'Password Berhasil Diubah.');
         } else {
             session()->setFlashdata('error', 'Password Yang Anda Masukan Salah!');
