@@ -17,10 +17,14 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <button class="dropdown-item">
+                    <!-- <button class="dropdown-item">
                         <i class="ti-settings text-primary"></i>
                         Ubah Password
-                    </button>
+                    </button> -->
+                    <a class="dropdown-item" href="<?= base_url('setting/ubah_password'); ?>">
+                        <i class="ti-settings text-primary"></i>
+                        Ubah Password
+                    </a>
                     <button class="dropdown-item" id="logout">
                         <i class="ti-power-off text-primary"></i>
                         Logout

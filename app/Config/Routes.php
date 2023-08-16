@@ -30,6 +30,10 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+
+$routes->get('setting/ubah_password', 'Setting::ubah_password');
+$routes->post('setting/update_password', 'Setting::update_password');
+
 $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
 
     $routes->get('user', 'Users::index');
@@ -39,6 +43,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('user/update/(:segment)', 'Users::update/$1');
     $routes->delete('user/(:num)', 'Users::delete/$1');
     $routes->get('user/ubah_password/(:segment)', 'Users::ubah_password/$1');
+    $routes->post('user/update_password/(:segment)', 'Users::update_password/$1');
 
     $routes->get('matkul', 'Matkul::index');
     $routes->get('matkul/create', 'Matkul::create');

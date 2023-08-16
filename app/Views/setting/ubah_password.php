@@ -6,10 +6,9 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Ubah Password User</h4>
-                <form action="<?= base_url('/admin/user/update_password/' . $users['id']); ?>" method="post" class="forms-sample" id="form-edit">
+                <h4 class="card-title">Ubah Password</h4>
+                <form action="<?= base_url('/setting/update_password'); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <!-- <input type="hidden" name="id" value="<?= $users['id']; ?>"> -->
                     <div class="form-group">
                         <label for="password_lama">Password Lama</label>
                         <input type="password" class="form-control <?= (validation_show_error('password_lama')) ? 'is-invalid' : ''; ?>" id="password_lama" name="password_lama" value="<?= old('password_lama'); ?>" placeholder="Password Lama">
