@@ -42,6 +42,9 @@
                                         <button data-id="<?= $u['id']; ?>" data-model="user" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
+                                        <a href="<?= base_url(); ?>admin/user/ubah_password/<?= $u['id']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                            <i class="ti-key"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

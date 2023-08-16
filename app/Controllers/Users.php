@@ -162,4 +162,14 @@ class Users extends BaseController
 
         return redirect()->to('/admin/user');
     }
+
+    public function ubah_password($id)
+    {
+        $data = [
+            'title' => 'Ubah Password User',
+            'users' => $this->usersModel->find($id)
+        ];
+
+        return view('admin/user/ubah_password', $data);
+    }
 }

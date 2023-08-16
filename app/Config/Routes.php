@@ -38,6 +38,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('user/edit/(:segment)', 'Users::edit/$1');
     $routes->post('user/update/(:segment)', 'Users::update/$1');
     $routes->delete('user/(:num)', 'Users::delete/$1');
+    $routes->get('user/ubah_password/(:segment)', 'Users::ubah_password/$1');
 
     $routes->get('matkul', 'Matkul::index');
     $routes->get('matkul/create', 'Matkul::create');
