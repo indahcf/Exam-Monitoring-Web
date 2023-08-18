@@ -33,12 +33,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
                                 <th>Program Studi</th>
                                 <th>Dosen Pembuat Soal</th>
                                 <th>Kelas</th>
-                                <th>Berkas Soal Ujian</th>
+                                <th>Mahasiswa</th>
+                                <th>Berkas Soal</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -52,11 +52,11 @@
                                         $temp = $s['id_soal_ujian'];
                                     } ?>
                                     <td><?= $i; ?></td>
-                                    <td><?= $s['kode_matkul']; ?></td>
-                                    <td><?= $s['matkul']; ?></td>
+                                    <td><?= $s['kode_matkul']; ?> - <?= $s['matkul']; ?></td>
                                     <td><?= $s['prodi']; ?></td>
                                     <td><?= $s['dosen']; ?></td>
                                     <td><?= $s['kelas']; ?></td>
+                                    <td><?= $s['jumlah_mahasiswa']; ?></td>
                                     <td>
                                         <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
                                             <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
@@ -77,7 +77,7 @@
                         $(document).ready(function() {
                             $('#cetak_soal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7]
+                                'rowsGroup': [0, 1, 2, 3, 6, 7]
                             });
 
                             $(".cetak-soal").click(function() {

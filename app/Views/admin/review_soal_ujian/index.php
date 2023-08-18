@@ -35,12 +35,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
                                 <th>Program Studi</th>
                                 <th>Dosen Pembuat Soal</th>
                                 <th>Kelas</th>
-                                <th>Berkas Soal Ujian</th>
+                                <th>Berkas Soal</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -55,8 +54,7 @@
                                         $temp = $s['id_soal_ujian'];
                                     } ?>
                                     <td><?= $i; ?></td>
-                                    <td><?= $s['kode_matkul']; ?></td>
-                                    <td><?= $s['matkul']; ?></td>
+                                    <td><?= $s['kode_matkul']; ?> - <?= $s['matkul']; ?></td>
                                     <td><?= $s['prodi']; ?></td>
                                     <td><?= $s['dosen']; ?></td>
                                     <td><?= $s['kelas']; ?></td>
@@ -82,7 +80,7 @@
                         $(document).ready(function() {
                             $('#review_soal_ujian').DataTable({
                                 'scrollX': true,
-                                'rowsGroup': [0, 1, 2, 3, 4, 6, 7, 8]
+                                'rowsGroup': [0, 1, 2, 3, 5, 6, 7]
                             });
 
                             $("#filter").change(function() {

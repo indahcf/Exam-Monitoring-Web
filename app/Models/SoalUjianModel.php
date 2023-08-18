@@ -67,7 +67,7 @@ class SoalUjianModel extends Model
             ->join('tahun_akademik', 'soal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
-            ->where('dosen.id_prodi', $id_prodi)
+            ->where('matkul.id_prodi', $id_prodi)
             ->findAll();
     }
 }

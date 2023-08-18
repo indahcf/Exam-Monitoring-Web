@@ -22,12 +22,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
                                 <th>Nama Dosen</th>
                                 <th>Kelas</th>
                                 <th>Program Studi</th>
-                                <th>Jumlah Mahasiswa</th>
+                                <th>Mahasiswa</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -36,8 +35,7 @@
                             <?php foreach ($kelas as $k) : ?>
                                 <tr>
                                     <td><?= $i++; ?></td>
-                                    <td><?= $k['kode_matkul']; ?></td>
-                                    <td><?= $k['matkul']; ?></td>
+                                    <td><?= $k['kode_matkul']; ?> - <?= $k['matkul']; ?></td>
                                     <td><?= $k['dosen']; ?></td>
                                     <td><?= $k['kelas']; ?></td>
                                     <td><?= $k['prodi']; ?></td>
