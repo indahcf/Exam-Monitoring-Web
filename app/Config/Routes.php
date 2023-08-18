@@ -121,8 +121,8 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('review_soal/review/(:segment)', 'SoalUjian::review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->post('review_soal/update_review/(:segment)', 'SoalUjian::update_review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
 
-    $routes->get('cetak_soal', 'SoalUjian::view_cetak_soal_ujian', ['filter' => 'auth:Admin,Panitia']);
-    $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Panitia']);
+    $routes->get('cetak_soal', 'SoalUjian::view_cetak_soal_ujian', ['filter' => 'auth:Admin,Pencetak Soal']);
+    $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Pencetak Soal']);
 
     $routes->get('kehadiran_pengawas', 'KehadiranPengawas::index', ['filter' => 'auth:Admin,Koordinator']);
     $routes->get('kehadiran_pengawas/rekap/(:segment)/(:segment)', 'KehadiranPengawas::rekap/$1/$2', ['filter' => 'auth:Admin,Koordinator']);
@@ -134,8 +134,15 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
     $routes->get('kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
 
-    $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Panitia']);
-    $routes->post('distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1', ['filter' => 'auth:Admin,Panitia']);
+    $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
+    $routes->post('distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
+
+    $routes->get('pencetak_soal', 'PencetakSoal::index');
+    $routes->get('pencetak_soal/create', 'PencetakSoal::create');
+    $routes->post('pencetak_soal/save', 'PencetakSoal::save');
+    $routes->get('pencetak_soal/edit/(:segment)', 'PencetakSoal::edit/$1');
+    $routes->post('pencetak_soal/update/(:segment)', 'PencetakSoal::update/$1');
+    $routes->delete('pencetak_soal/(:num)', 'PencetakSoal::delete/$1');
 });
 
 // API 

@@ -12,8 +12,8 @@ class CreateUserRoleTable extends Migration
         //User Role
         $this->forge->addField([
             'id_user_role'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_user'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
-            'id_role'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'id_user'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'id_role'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'created_at'        => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'        => ['type' => 'TIMESTAMP', 'null' => true],
         ]);

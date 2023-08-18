@@ -5,31 +5,29 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\Database\Migration;
 
-class CreateDosenTable extends Migration
+class CreatePencetakSoalTable extends Migration
 {
     public function up()
     {
-        //Dosen
+        //Pencetak Soal
         $this->forge->addField([
-            'id_dosen'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'id_pencetak_soal'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'id_user'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'id_prodi'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'nidn'              => ['type' => 'varchar', 'constraint' => 10],
-            'dosen'             => ['type' => 'varchar', 'constraint' => 255],
+            'id_prodi'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'created_at'        => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
             'updated_at'        => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
 
-        $this->forge->addKey('id_dosen', true);
+        $this->forge->addKey('id_pencetak_soal', true);
         $this->forge->addForeignKey('id_user', 'users', 'id');
         $this->forge->addForeignKey('id_prodi', 'prodi', 'id_prodi');
 
-        $this->forge->createTable('dosen', true);
+        $this->forge->createTable('pencetak_soal', true);
     }
 
     public function down()
     {
-        //Dosen
-        $this->forge->dropTable('dosen', true);
+        //Pencetak Soal
+        $this->forge->dropTable('pencetak_soal', true);
     }
 }

@@ -20,13 +20,19 @@ class Role extends Seeder
                 'role' => 'Gugus Kendali Mutu'
             ],
             [
-                'role' => 'Panitia'
+                'role' => 'Pencetak Soal'
             ],
             [
                 'role' => 'Pengawas'
             ],
             [
                 'role' => 'Koordinator'
+            ],
+            [
+                'role' => 'Ketua Panitia'
+            ],
+            [
+                'role' => 'Pendistribusi Hasil Ujian'
             ]
         ];
 
