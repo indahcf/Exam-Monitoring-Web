@@ -51,10 +51,24 @@ class SoalUjian extends BaseController
                 'tahun_akademik' => $this->tahun_akademikModel->findAll(),
                 'filter' => $filter
             ];
-        } else if (count(array_intersect(user()->roles, ['Dosen', 'Gugus Kendali Mutu'])) > 0) {
+        } else if (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+
+            $filter = $this->request->getVar('filter');
+            $soal_ujian = [];
+            if ($soal_ujian_terakhir) {
+                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+                // dd($filter);
+                $id_tahun_akademik = explode("_", $filter)[0];
+                $periode_ujian = explode("_", $filter)[1];
+                $soal_ujian = $this->soal_ujianModel->filterSoalUjianDosen($id_tahun_akademik, $periode_ujian);
+            }
+
             $data = [
                 'title' => 'Data Soal Ujian',
-                'soal_ujian' => $this->soal_ujianModel->filterSoalUjianDosen()
+                'soal_ujian' => $soal_ujian
             ];
         }
         // dd($data);
@@ -502,26 +516,47 @@ class SoalUjian extends BaseController
 
     public function view_review_soal_ujian()
     {
-        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
 
-        $filter = $this->request->getVar('filter');
-        $soal_ujian = [];
-        if ($soal_ujian_terakhir) {
-            $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-            // dd($filter);
-            $id_tahun_akademik = explode("_", $filter)[0];
-            $periode_ujian = explode("_", $filter)[1];
-            $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+            $filter = $this->request->getVar('filter');
+            $soal_ujian = [];
+            if ($soal_ujian_terakhir) {
+                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+                // dd($filter);
+                $id_tahun_akademik = explode("_", $filter)[0];
+                $periode_ujian = explode("_", $filter)[1];
+                $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+            }
+
+            $data = [
+                'title' => 'Data Review Soal Ujian',
+                'soal_ujian' => $soal_ujian,
+                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                'filter' => $filter
+            ];
+        } else if (count(array_intersect(user()->roles, ['Gugus Kendali Mutu'])) > 0) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+
+            $filter = $this->request->getVar('filter');
+            $soal_ujian = [];
+            if ($soal_ujian_terakhir) {
+                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+                // dd($filter);
+                $id_tahun_akademik = explode("_", $filter)[0];
+                $periode_ujian = explode("_", $filter)[1];
+                $soal_ujian = $this->soal_ujianModel->filterSoalUjianProdiGkm($id_tahun_akademik, $periode_ujian);
+            }
+
+            $data = [
+                'title' => 'Data Review Soal Ujian',
+                'soal_ujian' => $soal_ujian
+            ];
         }
-
-        $data = [
-            'title' => 'Data Review Soal Ujian',
-            'soal_ujian' => $soal_ujian,
-            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'filter' => $filter
-        ];
         // dd($data);
         return view('admin/review_soal_ujian/index', $data);
     }
