@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Pencetak Soal</th>
+                                <th>Pencetak Soal</th>
                                 <th>Program Studi</th>
                                 <th>Aksi</th>
                             </tr>

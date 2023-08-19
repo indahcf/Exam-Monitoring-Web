@@ -13,8 +13,12 @@ class PencetakSoalModel extends Model
 
     public function getPencetakSoal()
     {
-        return $this->join('users', 'users.id=pencetak_soal.id_user')
-            ->join('prodi', 'pencetak_soal.id_prodi=prodi.id_prodi')
-            ->findAll();
+        return $this->db->table('pencetak_soal')
+            ->select('*')
+            ->join('users', 'users.id = pencetak_soal.id_user')
+            ->join('pengawas', 'pengawas.id_user = users.id')
+            ->join('prodi', 'pencetak_soal.id_prodi = prodi.id_prodi')
+            ->get()
+            ->getResultArray();
     }
 }

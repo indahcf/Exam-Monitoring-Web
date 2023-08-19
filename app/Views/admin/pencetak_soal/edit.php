@@ -6,16 +6,17 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Data Pencetak Soal</h4>
-                <form action="<?= base_url('/admin/pencetak_soal/save') ?>" method="post" class="forms-sample">
+                <h4 class="card-title">Edit Data Pencetak Soal</h4>
+                <form action="<?= base_url('/admin/pencetak_soal/update/' . $data_pencetak['id_pencetak_soal']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
+                    <!-- <input type="hidden" name="id_pencetak_soal" value="<?= $data_pencetak['id_pencetak_soal']; ?>"> -->
                     <div class="form-group">
-                        <label for="dosen">Pencetak Soal</label>
+                        <label for="pencetak_soal">Pencetak Soal</label>
                         <select class="form-control <?= (validation_show_error('pencetak_soal')) ? 'is-invalid' : ''; ?>" id="pencetak_soal" name="pencetak_soal">
                             <option value="">Pilih Pencetak Soal</option>
                             <?php foreach ($pencetak_soal as $p) : ?>
-                                <option value="<?php echo $p['id_user']; ?>" <?= old('pencetak_soal') == $p['id_user'] ? 'selected' : null ?>>
-                                    <?php echo $p['pengawas']; ?>
+                                <option value="<?= $p['id_user']; ?>" <?= (old('pencetak_soal', $data_pencetak['id_user']) == $p['id_user']) ? 'selected' : ''; ?>>
+                                    <?= $p['pengawas']; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -28,8 +29,8 @@
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>
                             <?php foreach ($prodi as $p) : ?>
-                                <option value="<?php echo $p['id_prodi']; ?>" <?= old('prodi') == $p['id_prodi'] ? 'selected' : null ?>>
-                                    <?php echo $p['prodi']; ?>
+                                <option value="<?= $p['id_prodi']; ?>" <?= (old('prodi', $data_pencetak['id_prodi']) == $p['id_prodi']) ? 'selected' : ''; ?>>
+                                    <?= $p['prodi']; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -37,7 +38,7 @@
                             <?= validation_show_error('prodi'); ?>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                    <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
             </div>
         </div>

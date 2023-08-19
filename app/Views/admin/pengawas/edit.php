@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data Pengawas</h4>
-                <form action="<?= base_url('/admin/pengawas/update/' . $pengawas['id_pengawas']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/pengawas_ujian/update/' . $pengawas['id_pengawas']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <!-- <input type="hidden" name="id_pengawas" value="<?= $pengawas['id_pengawas']; ?>"> -->
                     <div class="form-group">

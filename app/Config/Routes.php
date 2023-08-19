@@ -84,12 +84,12 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->delete('ruang_ujian/(:num)', 'RuangUjian::delete/$1');
     $routes->post('ruang_ujian/simpanExcel', 'RuangUjian::simpanExcel');
 
-    $routes->get('pengawas', 'Pengawas::index');
-    $routes->get('pengawas/create', 'Pengawas::create');
-    $routes->post('pengawas/save', 'Pengawas::save');
-    $routes->get('pengawas/edit/(:segment)', 'Pengawas::edit/$1');
-    $routes->post('pengawas/update/(:segment)', 'Pengawas::update/$1');
-    $routes->delete('pengawas/(:num)', 'Pengawas::delete/$1');
+    $routes->get('pengawas_ujian', 'Pengawas::index');
+    $routes->get('pengawas_ujian/create', 'Pengawas::create');
+    $routes->post('pengawas_ujian/save', 'Pengawas::save');
+    $routes->get('pengawas_ujian/edit/(:segment)', 'Pengawas::edit/$1');
+    $routes->post('pengawas_ujian/update/(:segment)', 'Pengawas::update/$1');
+    $routes->delete('pengawas_ujian/(:num)', 'Pengawas::delete/$1');
 
     $routes->get('tahun_akademik', 'TahunAkademik::index');
     $routes->get('tahun_akademik/create', 'TahunAkademik::create');
@@ -114,14 +114,14 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('soal_ujian/edit/(:segment)', 'SoalUjian::edit/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->post('soal_ujian/update/(:segment)', 'SoalUjian::update/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->delete('soal_ujian/(:num)', 'SoalUjian::delete/$1', ['filter' => 'auth:Admin,Dosen']);
-    $routes->post('soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->post('soal_ujian/lihat_soal/(:segment)', 'SoalUjian::lihat_soal/$1', ['filter' => 'auth:Admin,Dosen,Gugus Kendali Mutu,Pencetak Soal']);
     $routes->get('soal_ujian/hasil_review/(:segment)', 'SoalUjian::hasil_review/$1', ['filter' => 'auth:Admin,Dosen']);
 
     $routes->get('review_soal', 'SoalUjian::view_review_soal_ujian', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->get('review_soal/review/(:segment)', 'SoalUjian::review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
     $routes->post('review_soal/update_review/(:segment)', 'SoalUjian::update_review/$1', ['filter' => 'auth:Admin,Gugus Kendali Mutu']);
 
-    $routes->get('cetak_soal', 'SoalUjian::view_cetak_soal_ujian', ['filter' => 'auth:Admin,Pencetak Soal']);
+    $routes->get('print_soal', 'SoalUjian::view_cetak_soal_ujian', ['filter' => 'auth:Admin,Pencetak Soal']);
     $routes->get('soal_ujian/cetak_soal/(:segment)', 'SoalUjian::cetak_soal/$1', ['filter' => 'auth:Admin,Pencetak Soal']);
 
     $routes->get('kehadiran_pengawas', 'KehadiranPengawas::index', ['filter' => 'auth:Admin,Koordinator']);

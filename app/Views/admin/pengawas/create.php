@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tambah Data Pengawas</h4>
-                <form action="<?= base_url('/admin/pengawas/save') ?>" method="post" class="forms-sample">
+                <form action="<?= base_url('/admin/pengawas_ujian/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <label for="nip">NIP</label>

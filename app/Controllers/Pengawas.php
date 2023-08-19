@@ -96,7 +96,7 @@ class Pengawas extends BaseController
             session()->setFlashdata('error', 'Data Gagal Ditambahkan');
         }
 
-        return redirect()->to('/admin/pengawas');
+        return redirect()->to('/admin/pengawas_ujian');
     }
 
     public function delete($id_pengawas)
@@ -164,7 +164,7 @@ class Pengawas extends BaseController
             session()->setFlashdata('error', 'Data Gagal Diubah');
         }
 
-        return redirect()->to('/admin/pengawas');
+        return redirect()->to('/admin/pengawas_ujian');
     }
 
     public function json($id = null)

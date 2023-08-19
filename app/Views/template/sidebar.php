@@ -19,13 +19,13 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/prodi'); ?>">Program Studi</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/dosen'); ?>">Dosen</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/pengawas'); ?>">Pengawas</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/pengawas_ujian'); ?>">Pengawas</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/user'); ?>">User</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/pencetak_soal'); ?>">Pencetak Soal</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/matkul'); ?>">Mata Kuliah</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/kelas'); ?>">Kelas</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/ruang_ujian'); ?>">Ruang Ujian</a></li>
                         <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/tahun_akademik'); ?>">Tahun Akademik</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/pencetak_soal'); ?>">Pencetak Soal</a></li>
                     </ul>
                 </div>
             </li>
@@ -57,7 +57,7 @@
 
         <?php if (count(array_intersect(user()->roles, ['Admin', 'Pencetak Soal'])) > 0) : ?>
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('admin/cetak_soal'); ?>">
+                <a class="nav-link" href="<?= base_url('admin/print_soal'); ?>">
                     <i class="ti-import menu-icon"></i>
                     <span class="menu-title">Cetak Soal Ujian</span>
                 </a>

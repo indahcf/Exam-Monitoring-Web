@@ -4,7 +4,7 @@
 
 <h4 class="card-title">Data Pengawas</h4>
 <div class="template-demo">
-    <a href="<?= base_url(); ?>admin/pengawas/create" class="btn btn-primary btn-icon-text">
+    <a href="<?= base_url(); ?>admin/pengawas_ujian/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
@@ -31,10 +31,10 @@
                                     <td><?= $p['nip']; ?></td>
                                     <td><?= $p['pengawas']; ?></td>
                                     <td>
-                                        <a href="<?= base_url(); ?>admin/pengawas/edit/<?= $p['id_pengawas']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/pengawas_ujian/edit/<?= $p['id_pengawas']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <button data-id="<?= $p['id_pengawas']; ?>" data-model="pengawas" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                        <button data-id="<?= $p['id_pengawas']; ?>" data-model="pengawas_ujian" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
                                     </td>
