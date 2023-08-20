@@ -6,7 +6,7 @@
     <div class="col-md-12 grid-margin">
         <div class="row">
             <div class="col-12 col-xl-8 mb-0">
-                <h3 class="font-weight-bold mb-0">Selamat Datang, <?= user()->fullname; ?>!</h3>
+                <h3 class="font-weight-bold mb-0">Selamat Datang <?php foreach (user()->roles as $index => $role) : ?><?= $role; ?><?= count(user()->roles) == $index + 1 ? '' : ', '; ?><?php endforeach; ?>!</h3>
             </div>
         </div>
     </div>
