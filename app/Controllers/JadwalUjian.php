@@ -14,6 +14,7 @@ use App\Models\TahunAkademikModel;
 use App\Models\DosenModel;
 use App\Models\KehadiranPengawasModel;
 use App\Models\JadwalPengawasModel;
+use App\Models\UsersModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class JadwalUjian extends BaseController
@@ -29,6 +30,7 @@ class JadwalUjian extends BaseController
     protected $dosenModel;
     protected $kehadiran_pengawasModel;
     protected $jadwal_pengawas_model;
+    protected $usersModel;
     protected $db;
 
     public function __construct()
@@ -44,6 +46,7 @@ class JadwalUjian extends BaseController
         $this->dosenModel = new DosenModel();
         $this->kehadiran_pengawasModel = new KehadiranPengawasModel();
         $this->jadwal_pengawas_model = new JadwalPengawasModel();
+        $this->usersModel = new UsersModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -110,14 +113,7 @@ class JadwalUjian extends BaseController
     {
         // dd($this->tahun_akademikModel->where('status', true)->first()['id_tahun_akademik']);
 
-        $koordinator_ujian = [];
-        $dosen = $this->dosenModel->findAll();
-        foreach ($dosen as $i => $d) {
-            $prodi = $this->prodiModel->where('id_prodi =', $d['id_prodi'])->first();
-            if ($prodi['prodi'] != 'Non Teknik') {
-                $koordinator_ujian[$i] = $d;
-            }
-        }
+        $koordinator_ujian = $this->usersModel->join('dosen', 'dosen.id_user=users.id')->join('user_role', 'users.id=user_role.id_user')->where('user_role.id_role', 6)->get()->getResultArray();
 
         $data = [
             'title'                 => 'Tambah Jadwal Ujian',
@@ -334,14 +330,7 @@ class JadwalUjian extends BaseController
             $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
         }
 
-        $koordinator_ujian = [];
-        $dosen = $this->dosenModel->findAll();
-        foreach ($dosen as $i => $d) {
-            $prodi = $this->prodiModel->where('id_prodi =', $d['id_prodi'])->first();
-            if ($prodi['prodi'] != 'Non Teknik') {
-                $koordinator_ujian[$i] = $d;
-            }
-        }
+        $koordinator_ujian = $this->usersModel->join('dosen', 'dosen.id_user=users.id')->join('user_role', 'users.id=user_role.id_user')->where('user_role.id_role', 6)->get()->getResultArray();
 
         $data = [
             'title' => 'Edit Jadwal Ujian',
