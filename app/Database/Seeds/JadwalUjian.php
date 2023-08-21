@@ -22,7 +22,7 @@ class JadwalUjian extends Seeder
             [
                 'id_kelas'           => 2,
                 'id_tahun_akademik'  => 1,
-                'koordinator_ujian'  => 2,
+                'koordinator_ujian'  => 3,
                 'periode_ujian'      => 'UAS',
                 'tanggal'            => '2023-06-19',
                 'jam_mulai'          => '07:30',

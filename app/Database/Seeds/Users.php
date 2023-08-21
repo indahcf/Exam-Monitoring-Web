@@ -12,7 +12,7 @@ class Users extends Seeder
         // membuat data
         $users_data = [
             [
-                'email' => 'bapendik@unsoed.ac.id',
+                'email' => 'subekti@unsoed.ac.id',
                 'password_hash' => Password::hash("adminsimonji")
             ],
             [

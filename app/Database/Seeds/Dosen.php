@@ -14,7 +14,7 @@ class Dosen extends Seeder
                 'id_user'       => 2,
                 'id_prodi'      => 1,
                 'nidn'          => '0016047606',
-                'dosen'         => 'Yogiek Indra Kurniawan',
+                'dosen'         => 'Irham',
             ],
             [
                 'id_user'       => 3,
@@ -26,7 +26,7 @@ class Dosen extends Seeder
                 'id_user'       => 6,
                 'id_prodi'      => 3,
                 'nidn'          => '0019088104',
-                'dosen'         => 'Irham'
+                'dosen'         => 'Yogiek Indra Kurniawan'
             ]
 
         ];
