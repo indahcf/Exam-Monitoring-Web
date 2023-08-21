@@ -47,30 +47,54 @@ class KehadiranPeserta extends BaseController
 
     public function index()
     {
-        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+            $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 
-        $filter = $this->request->getVar('filter');
-        $kehadiran_peserta = [];
-        if ($kehadiran_peserta_terakhir) {
-            $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-            // dd($filter);
-            $id_tahun_akademik = explode("_", $filter)[0];
-            $periode_ujian = explode("_", $filter)[1];
-            $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+            $filter = $this->request->getVar('filter');
+            $kehadiran_peserta = [];
+            if ($kehadiran_peserta_terakhir) {
+                $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+                // dd($filter);
+                $id_tahun_akademik = explode("_", $filter)[0];
+                $periode_ujian = explode("_", $filter)[1];
+                $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+            }
+            // dd($kehadiran_peserta);
+
+            $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
+
+            $data = [
+                'title' => 'Data Kehadiran Peserta',
+                'kehadiran_peserta' => $kehadiran_peserta,
+                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                'filter' => $filter,
+                'jenis_kejadian' => $jenis_kejadian
+            ];
+        } else if (count(array_intersect(user()->roles, ['Pengawas'])) > 0) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+            $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+
+            $filter = $this->request->getVar('filter');
+            $kehadiran_peserta = [];
+            if ($kehadiran_peserta_terakhir) {
+                $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+                // dd($filter);
+                $id_tahun_akademik = explode("_", $filter)[0];
+                $periode_ujian = explode("_", $filter)[1];
+                $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPesertaPengawas($id_tahun_akademik, $periode_ujian);
+            }
+
+            $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
+
+            $data = [
+                'title' => 'Data Kehadiran Peserta',
+                'kehadiran_peserta' => $kehadiran_peserta,
+                'jenis_kejadian' => $jenis_kejadian
+            ];
         }
-        // dd($kehadiran_peserta);
-
-        $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
-
-        $data = [
-            'title' => 'Data Kehadiran Peserta',
-            'kehadiran_peserta' => $kehadiran_peserta,
-            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'filter' => $filter,
-            'jenis_kejadian' => $jenis_kejadian
-        ];
 
         return view('admin/kehadiran_peserta/index', $data);
     }

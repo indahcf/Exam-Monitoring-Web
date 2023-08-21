@@ -5,23 +5,25 @@
 <h4 class="card-title">Data Kehadiran Peserta</h4>
 <div class="template-demo row mb-3 mt-4">
     <div class="col-md-5 col-lg-4 col-xl-4 mb-2">
-        <form action="<?= base_url('/admin/kehadiran_peserta') ?>" method="get" id="formFilter" class="input-group">
-            <select class="form-control" id="filter" name="filter">
-                <option value="">Pilih Tahun Akademik</option>
-                <?php foreach ($tahun_akademik as $t) : ?>
-                    <?php foreach (["UTS", "UAS"] as $periode_ujian) : ?>
-                        <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('filter', $filter) == $t['id_tahun_akademik'] . "_" . $periode_ujian ? 'selected' : '' ?>>
-                            <?= $periode_ujian; ?> <?= $t['semester']; ?> <?= $t['tahun_akademik']; ?>
-                        </option>
+        <?php if (count(array_intersect(user()->roles, ['Admin'])) > 0) : ?>
+            <form action="<?= base_url('/admin/kehadiran_peserta') ?>" method="get" id="formFilter" class="input-group">
+                <select class="form-control" id="filter" name="filter">
+                    <option value="">Pilih Tahun Akademik</option>
+                    <?php foreach ($tahun_akademik as $t) : ?>
+                        <?php foreach (["UTS", "UAS"] as $periode_ujian) : ?>
+                            <option value="<?= $t['id_tahun_akademik']; ?>_<?= $periode_ujian; ?>" <?= old('filter', $filter) == $t['id_tahun_akademik'] . "_" . $periode_ujian ? 'selected' : '' ?>>
+                                <?= $periode_ujian; ?> <?= $t['semester']; ?> <?= $t['tahun_akademik']; ?>
+                            </option>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
-                <?php endforeach; ?>
-            </select>
-            <div class="input-group-append">
-                <span class="input-group-text">
-                    <i class="ti-filter btn-icon-prepend"></i>
-                </span>
-            </div>
-        </form>
+                </select>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="ti-filter btn-icon-prepend"></i>
+                    </span>
+                </div>
+            </form>
+        <?php endif; ?>
     </div>
 </div>
 <div class="card">
@@ -105,19 +107,46 @@
 
                     <script src="<?= base_url(); ?>/assets/vendors/jquery-3.5.1/jquery-3.5.1.min.js "></script>
 
+                    <?php
+                    $isAdmin = count(array_intersect(user()->roles, ['Admin'])) > 0;
+                    ?>
+
                     <script>
+                        // $(document).ready(function() {
+                        //     $('#kehadiran_peserta').DataTable({
+                        //         'scrollX': true,
+                        //         'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17],
+                        //         dom: 'lBfrtip',
+                        //         buttons: [{
+                        //             extend: 'excel',
+                        //             exportOptions: {
+                        //                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16]
+                        //             }
+                        //         }]
+                        //     });
+                        // });
+
                         $(document).ready(function() {
-                            $('#kehadiran_peserta').DataTable({
+                            var isAdmin = <?php echo json_encode($isAdmin); ?>;
+
+                            var dataTableConfig = {
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17],
                                 dom: 'lBfrtip',
-                                buttons: [{
+                                buttons: []
+                            };
+
+                            if (isAdmin) {
+                                // Jika pengguna adalah admin, tampilkan tombol "Export Excel"
+                                dataTableConfig.buttons.push({
                                     extend: 'excel',
                                     exportOptions: {
                                         columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16]
                                     }
-                                }]
-                            });
+                                });
+                            }
+
+                            $('#kehadiran_peserta').DataTable(dataTableConfig);
                         });
 
                         $("#filter").change(function() {

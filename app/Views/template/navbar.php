@@ -17,10 +17,6 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <!-- <button class="dropdown-item">
-                        <i class="ti-settings text-primary"></i>
-                        Ubah Password
-                    </button> -->
                     <a class="dropdown-item" href="<?= base_url('setting/ubah_password'); ?>">
                         <i class="ti-settings text-primary"></i>
                         Ubah Password

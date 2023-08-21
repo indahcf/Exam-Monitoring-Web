@@ -36,4 +36,32 @@ class KehadiranPesertaModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function filterKehadiranPesertaPengawas($id_tahun_akademik, $periode_ujian)
+    {
+        $id_users = user_id();
+        $id_pengawas = $this->db->table('pengawas')->join('users', 'users.id=pengawas.id_user')->where('id', $id_users)->Get()->getRow()->id_pengawas;
+        return $this->db->table('jadwal_ruang')
+            ->select('jadwal_ruang.id_jadwal_ruang as id_ruang_peserta, jadwal_ruang.jumlah_peserta, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, tahun_akademik.*, pengawas1.pengawas as nama_pengawas1, pengawas2.pengawas as nama_pengawas2, kehadiran_peserta.*, kejadian.*')
+            ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')
+            ->join('tahun_akademik', 'jadwal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
+            ->join('ruang_ujian', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')
+            ->join('kelas', 'jadwal_ujian.id_kelas=kelas.id_kelas')
+            ->join('matkul', 'kelas.id_matkul=matkul.id_matkul')
+            ->join('dosen', 'kelas.id_dosen=dosen.id_dosen')
+            ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
+            ->join('kehadiran_peserta', 'jadwal_ruang.id_jadwal_ruang=kehadiran_peserta.id_jadwal_ruang', 'left')
+            ->join('kehadiran_pengawas', 'jadwal_ruang.id_jadwal_ruang=kehadiran_pengawas.id_jadwal_ruang', 'left')
+            ->join('pengawas as pengawas1', 'pengawas1.id_pengawas=kehadiran_pengawas.pengawas_1', 'left')
+            ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
+            ->join('kejadian', 'jadwal_ruang.id_jadwal_ruang=kejadian.id_jadwal_ruang', 'left')
+            ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
+            ->where('periode_ujian', $periode_ujian)
+            ->where('kehadiran_pengawas.pengawas_1', $id_pengawas)
+            ->orWhere('kehadiran_pengawas.pengawas_2', $id_pengawas)
+            ->orderBy('tanggal', 'ASC')
+            ->orderBy('nim', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
 }
