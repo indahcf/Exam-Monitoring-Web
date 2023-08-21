@@ -11,7 +11,7 @@ class Dosen extends Seeder
         // membuat data
         $dosen_data = [
             [
-                'id_user'       => 2,
+                'id_user'       => 6,
                 'id_prodi'      => 1,
                 'nidn'          => '0016047606',
                 'dosen'         => 'Irham',
@@ -23,7 +23,7 @@ class Dosen extends Seeder
                 'dosen'         => 'Lasmedi Afuan'
             ],
             [
-                'id_user'       => 6,
+                'id_user'       => 2,
                 'id_prodi'      => 3,
                 'nidn'          => '0019088104',
                 'dosen'         => 'Yogiek Indra Kurniawan'
