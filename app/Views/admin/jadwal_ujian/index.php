@@ -32,14 +32,14 @@
                 </span>
             </div>
         </a>
-        <button type="button" class="btn btn-success btn-icon-text mr-2" data-toggle="modal" data-target="#modalImport">
+        <!-- <button type="button" class="btn btn-success btn-icon-text mr-2" data-toggle="modal" data-target="#modalImport">
             <div class="d-md-block d-flex flex-column">
                 <i class="ti-import"></i>
                 <span class="d-none d-md-inline ml-1">
                     Import
                 </span>
             </div>
-        </button>
+        </button> -->
         <?php if (!empty($jadwal_ujian)) : ?>
             <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
                 <div class="d-md-block d-flex flex-column">

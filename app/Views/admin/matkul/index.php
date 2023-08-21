@@ -8,10 +8,10 @@
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
     </a>
-    <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
+    <!-- <button type="button" class="btn btn-success btn-icon-text" data-toggle="modal" data-target="#modalImport">
         <i class="ti-import btn-icon-prepend"></i>
         Import
-    </button>
+    </button> -->
 </div>
 <div class="card">
     <div class="card-body">

@@ -129,10 +129,10 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('kehadiran_pengawas/save/(:segment)/(:segment)', 'KehadiranPengawas::save/$1/$2', ['filter' => 'auth:Admin,Koordinator']);
     $routes->post('kehadiran_pengawas/update/(:segment)', 'KehadiranPengawas::update/$1', ['filter' => 'auth:Admin,Koordinator']);
 
-    $routes->get('kehadiran_peserta', 'KehadiranPeserta::index', ['filter' => 'auth:Admin,Pengawas,Koordinator']);
+    $routes->get('kehadiran_peserta', 'KehadiranPeserta::index', ['filter' => 'auth:Admin,Pengawas,Koordinator,Ketua Panitia']);
     $routes->get('kehadiran_peserta/rekap/(:segment)/(:segment)', 'KehadiranPeserta::rekap/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
     $routes->post('kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
-    $routes->get('kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2', ['filter' => 'auth:Admin,Pengawas,Koordinator']);
+    $routes->get('kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2', ['filter' => 'auth:Admin,Pengawas,Koordinator,Ketua Panitia']);
 
     $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
     $routes->post('distribusi_hasil_ujian/update_status/(:segment)', 'DistribusiHasilUjian::update_status/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);

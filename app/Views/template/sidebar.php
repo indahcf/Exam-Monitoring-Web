@@ -73,7 +73,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (count(array_intersect(user()->roles, ['Admin', 'Pengawas', 'Koordinator'])) > 0) : ?>
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Pengawas', 'Koordinator', 'Ketua Panitia'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/kehadiran_peserta'); ?>">
                     <i class="ti-user menu-icon"></i>

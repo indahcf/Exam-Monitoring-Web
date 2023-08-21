@@ -87,16 +87,20 @@
                                     <td>
                                         <?php if ($k['nama_pengawas1']) : ?>
                                             <?php if ($k['id_kehadiran_peserta']) : ?>
-                                                <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-warning btn-rounded btn-icon">
-                                                    <i class="ti-pencil"></i>
-                                                </a>
+                                                <?php if (count(array_intersect(user()->roles, ['Admin', 'Pengawas'])) > 0) : ?>
+                                                    <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                                        <i class="ti-pencil"></i>
+                                                    </a>
+                                                <?php endif; ?>
                                                 <a href="<?= base_url(); ?>admin/kehadiran_peserta/export/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-success btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>
                                                 </a>
                                             <?php else : ?>
-                                                <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-primary btn-rounded btn-icon">
-                                                    <i class="ti-plus"></i>
-                                                </a>
+                                                <?php if (count(array_intersect(user()->roles, ['Admin', 'Pengawas'])) > 0) : ?>
+                                                    <a href="<?= base_url(); ?>admin/kehadiran_peserta/rekap/<?= $k['id_jadwal_ujian']; ?>/<?= $k['id_ruang_peserta']; ?>" class="btn btn-primary btn-rounded btn-icon">
+                                                        <i class="ti-plus"></i>
+                                                    </a>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
@@ -112,20 +116,6 @@
                     ?>
 
                     <script>
-                        // $(document).ready(function() {
-                        //     $('#kehadiran_peserta').DataTable({
-                        //         'scrollX': true,
-                        //         'rowsGroup': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17],
-                        //         dom: 'lBfrtip',
-                        //         buttons: [{
-                        //             extend: 'excel',
-                        //             exportOptions: {
-                        //                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16]
-                        //             }
-                        //         }]
-                        //     });
-                        // });
-
                         $(document).ready(function() {
                             var isAdmin = <?php echo json_encode($isAdmin); ?>;
 

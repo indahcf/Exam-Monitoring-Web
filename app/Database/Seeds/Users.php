@@ -34,6 +34,26 @@ class Users extends Seeder
             [
                 'email' => 'irham@unsoed.ac.id',
                 'password_hash' => Password::hash("adminsimonji")
+            ],
+            [
+                'email' => 'yulianto@unsoed.ac.id',
+                'password_hash' => Password::hash("adminsimonji")
+            ],
+            [
+                'email' => 'teguh@unsoed.ac.id',
+                'password_hash' => Password::hash("adminsimonji")
+            ],
+            [
+                'email' => 'maruf@unsoed.ac.id',
+                'password_hash' => Password::hash("adminsimonji")
+            ],
+            [
+                'email' => 'asjik@unsoed.ac.id',
+                'password_hash' => Password::hash("adminsimonji")
+            ],
+            [
+                'email' => 'kuswanto@unsoed.ac.id',
+                'password_hash' => Password::hash("adminsimonji")
             ]
         ];
 

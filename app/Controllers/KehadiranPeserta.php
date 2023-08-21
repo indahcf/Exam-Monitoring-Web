@@ -47,7 +47,7 @@ class KehadiranPeserta extends BaseController
 
     public function index()
     {
-        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+        if (count(array_intersect(user()->roles, ['Admin', 'Ketua Panitia'])) > 0) {
             $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
             $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 
@@ -72,7 +72,7 @@ class KehadiranPeserta extends BaseController
                 'filter' => $filter,
                 'jenis_kejadian' => $jenis_kejadian
             ];
-        } else if (count(array_intersect(user()->roles, ['Pengawas'])) > 0) {
+        } else if (count(array_intersect(user()->roles, ['Pengawas', 'Koordinator'])) > 0) {
             $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
             $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 

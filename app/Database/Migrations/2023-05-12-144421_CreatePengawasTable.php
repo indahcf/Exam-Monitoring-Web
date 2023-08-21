@@ -12,7 +12,7 @@ class CreatePengawasTable extends Migration
         //Pengawas
         $this->forge->addField([
             'id_pengawas'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment'      => true],
-            'id_user'             => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'id_user'             => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'nip'                 => ['type' => 'varchar', 'constraint' => 18],
             'pengawas'            => ['type' => 'varchar', 'constraint' => 255],
             'created_at'          => ['type' => 'TIMESTAMP', 'null' => true, 'default' => new RawSql('CURRENT_TIMESTAMP')],
