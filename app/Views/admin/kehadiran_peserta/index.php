@@ -41,7 +41,7 @@
                                 <th>Program Studi</th>
                                 <th>Dosen</th>
                                 <th>Kelas</th>
-                                <th>Ruang Ujian</th>
+                                <th>Ruang</th>
                                 <th>Peserta</th>
                                 <th>Sakit</th>
                                 <th>NIM Sakit</th>

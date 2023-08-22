@@ -67,7 +67,7 @@
                                 <th>Program Studi</th>
                                 <th>Dosen</th>
                                 <th>Kelas</th>
-                                <th>Ruang Ujian</th>
+                                <th>Ruang</th>
                                 <th>Peserta</th>
                                 <th>Pengawas</th>
                                 <th>Koordinator Ujian</th>
