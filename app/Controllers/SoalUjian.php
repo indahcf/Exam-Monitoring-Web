@@ -99,6 +99,15 @@ class SoalUjian extends BaseController
     public function save()
     {
         // dd($this->request->getPost());
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $dosen = [
+                'rules' => 'required',
+                'label' => 'Dosen',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ];
+        }
         if (!$this->validate([
             'periode_ujian' => [
                 'rules' => 'required',
@@ -128,13 +137,7 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'dosen' => [
-                'rules' => 'required',
-                'label' => 'Dosen',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
+            'dosen' => $dosen,
             'soal_ujian' => [
                 'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
                 'label' => 'Soal Ujian',
@@ -180,9 +183,14 @@ class SoalUjian extends BaseController
 
         try {
             $this->db->transException(true)->transStart();
+            if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+                $id_dosen = $this->request->getVar('dosen');
+            } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+                $id_dosen = user_id();
+            }
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
-                'id_dosen' => $this->request->getVar('dosen'),
+                'id_dosen' => $id_dosen,
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
