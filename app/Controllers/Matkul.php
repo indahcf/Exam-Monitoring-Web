@@ -180,8 +180,17 @@ class Matkul extends BaseController
         } else {
             $id_prodi = $this->request->getVar('id_prodi', null);
             if ($id_prodi !== null) {
-                // matkul berdasarkan id_prodi
-                $matkul = $this->matkulModel->where('id_prodi', $id_prodi)->findAll();
+                if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+                    // matkul berdasarkan id_prodi
+                    $matkul = $this->matkulModel->where('id_prodi', $id_prodi)->findAll();
+                } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+                    $id_users = user_id();
+                    $db = \Config\Database::connect();
+                    $id_dosen = $db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
+                    $data_matkul = $this->matkulModel->join('kelas', 'kelas.id_matkul=matkul.id_matkul')->where('id_dosen', $id_dosen)->where('id_prodi', $id_prodi)->findAll();
+                    $ids_matkul = array_column($data_matkul, 'id_matkul');
+                    $matkul = $this->matkulModel->whereIn('id_matkul', $ids_matkul)->findAll();
+                }
             } else {
                 // semua matkul 
                 $matkul = $this->matkulModel->findAll();

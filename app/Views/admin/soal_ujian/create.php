@@ -53,15 +53,17 @@
                             <?= validation_show_error('kelas'); ?>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="dosen">Dosen</label>
-                        <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
-                            <option value="">Pilih Dosen</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('dosen'); ?>
+                    <?php if (count(array_intersect(user()->roles, ['Admin'])) > 0) : ?>
+                        <div class="form-group">
+                            <label for="dosen">Dosen</label>
+                            <select class="form-control <?= (validation_show_error('dosen')) ? 'is-invalid' : ''; ?>" id="dosen" name="dosen" data-value="<?= old('dosen') ?>">
+                                <option value="">Pilih Dosen</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('dosen'); ?>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                     <div class="form-group">
                         <label for="soal_ujian">Soal Ujian</label>
                         <input type="file" class="form-control-file <?= (validation_show_error('soal_ujian')) ? 'is-invalid' : ''; ?>" id="soal_ujian" name="soal_ujian" placeholder="Soal Ujian">

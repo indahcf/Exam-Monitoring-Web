@@ -77,10 +77,21 @@ class SoalUjian extends BaseController
 
     public function create()
     {
-        $data = [
-            'title'          => 'Tambah Soal Ujian',
-            'prodi'          => $this->prodiModel->findAll()
-        ];
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $data = [
+                'title'          => 'Tambah Soal Ujian',
+                'prodi'          => $this->prodiModel->findAll()
+            ];
+        } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+            $id_users = user_id();
+            $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
+            $data_prodi = $this->prodiModel->join('matkul', 'matkul.id_prodi=prodi.id_prodi')->join('kelas', 'kelas.id_matkul=matkul.id_matkul')->where('id_dosen', $id_dosen)->findAll();
+            $ids_prodi = array_column($data_prodi, 'id_prodi');
+            $data = [
+                'title'          => 'Tambah Soal Ujian',
+                'prodi' => $this->prodiModel->whereIn('id_prodi', $ids_prodi)->findAll()
+            ];
+        }
 
         return view('admin/soal_ujian/create', $data);
     }
