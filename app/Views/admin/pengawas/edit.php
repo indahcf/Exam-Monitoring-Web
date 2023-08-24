@@ -24,6 +24,10 @@
                             <?= validation_show_error('pengawas'); ?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= old('email', $email); ?>" placeholder="Email" readonly>
+                    </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
             </div>

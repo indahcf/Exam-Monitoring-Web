@@ -21,7 +21,7 @@ class CreatePengawasTable extends Migration
 
         $this->forge->addKey('id_pengawas', true);
         $this->forge->addUniqueKey('nip');
-        $this->forge->addForeignKey('id_user', 'users', 'id');
+        $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE', 'fk_user_pengawas');
 
         $this->forge->createTable('pengawas', true);
     }

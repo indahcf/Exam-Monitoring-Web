@@ -131,9 +131,11 @@ class Pengawas extends BaseController
 
     public function edit($id_pengawas)
     {
+        $pengawas = $this->pengawasModel->join('users', 'users.id=pengawas.id_user')->where('pengawas.id_pengawas', $id_pengawas)->findAll();
         $data = [
             'title' => 'Edit Pengawas',
-            'pengawas' => $this->pengawasModel->find($id_pengawas)
+            'pengawas' => $this->pengawasModel->find($id_pengawas),
+            'email' => $pengawas[0]['email']
         ];
 
         return view('admin/pengawas/edit', $data);

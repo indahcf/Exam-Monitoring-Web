@@ -140,9 +140,11 @@ class Dosen extends BaseController
 
     public function edit($id_dosen)
     {
+        $dosen = $this->dosenModel->join('users', 'users.id=dosen.id_user')->where('dosen.id_dosen', $id_dosen)->findAll();
         $data = [
             'title' => 'Edit Dosen',
             'dosen' => $this->dosenModel->find($id_dosen),
+            'email' => $dosen[0]['email'],
             'prodi' => $this->prodiModel->findAll()
         ];
 

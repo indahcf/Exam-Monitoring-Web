@@ -25,6 +25,10 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= old('email', $email); ?>" placeholder="Email" readonly>
+                    </div>
+                    <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>

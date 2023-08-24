@@ -21,7 +21,7 @@ class CreateDosenTable extends Migration
         ]);
 
         $this->forge->addKey('id_dosen', true);
-        $this->forge->addForeignKey('id_user', 'users', 'id');
+        $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE', 'fk_user_dosen');
         $this->forge->addForeignKey('id_prodi', 'prodi', 'id_prodi');
 
         $this->forge->createTable('dosen', true);
