@@ -114,7 +114,13 @@ class Dosen extends BaseController
     public function delete($id_dosen)
     {
         try {
+            $dosen = $this->dosenModel->find($id_dosen);
+            $id_user = $dosen['id_user'];
+
             $this->dosenModel->delete($id_dosen);
+
+            $this->usersModel->delete($id_user);
+
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',

@@ -99,16 +99,7 @@ class SoalUjian extends BaseController
     public function save()
     {
         // dd($this->request->getPost());
-        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
-            $dosen = [
-                'rules' => 'required',
-                'label' => 'Dosen',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ];
-        }
-        if (!$this->validate([
+        $rules = [
             'periode_ujian' => [
                 'rules' => 'required',
                 'label' => 'Periode Ujian',
@@ -137,7 +128,6 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'dosen' => $dosen,
             'soal_ujian' => [
                 'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
                 'label' => 'Soal Ujian',
@@ -161,7 +151,19 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ]
-        ])) {
+        ];
+
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $rules['dosen'] = [
+                'rules' => 'required',
+                'label' => 'Dosen',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ];
+        }
+
+        if (!$this->validate($rules)) {
             return redirect()->back()->withInput();
         }
 
@@ -186,7 +188,8 @@ class SoalUjian extends BaseController
             if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
                 $id_dosen = $this->request->getVar('dosen');
             } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
-                $id_dosen = user_id();
+                $id_users = user_id();
+                $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
             }
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
@@ -241,23 +244,41 @@ class SoalUjian extends BaseController
 
     public function edit($id_soal_ujian)
     {
-        $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
-        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
-        $data = [
-            'title' => 'Edit Soal Ujian',
-            'soal_ujian' => $soalUjian,
-            'prodi' => $this->prodiModel->findAll(),
-            'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
-            'prodi_matkul' => $kelas[0]['id_prodi'],
-            'matkul' => $kelas[0]['id_matkul'],
-            'kelas' => array_column($kelas, 'id_kelas')
-        ];
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
+            $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+            $data = [
+                'title' => 'Edit Soal Ujian',
+                'soal_ujian' => $soalUjian,
+                'prodi' => $this->prodiModel->findAll(),
+                'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
+                'prodi_matkul' => $kelas[0]['id_prodi'],
+                'matkul' => $kelas[0]['id_matkul'],
+                'kelas' => array_column($kelas, 'id_kelas')
+            ];
+        } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+            $soalUjian = $this->soal_ujianModel->find($id_soal_ujian);
+            $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+            $id_users = user_id();
+            $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
+            $data_prodi = $this->prodiModel->join('matkul', 'matkul.id_prodi=prodi.id_prodi')->join('kelas', 'kelas.id_matkul=matkul.id_matkul')->where('id_dosen', $id_dosen)->findAll();
+            $ids_prodi = array_column($data_prodi, 'id_prodi');
+            $data = [
+                'title' => 'Edit Soal Ujian',
+                'soal_ujian' => $soalUjian,
+                'prodi' => $this->prodiModel->whereIn('id_prodi', $ids_prodi)->findAll(),
+                'tahun_akademik_aktif' => $this->tahun_akademikModel->find($soalUjian['id_tahun_akademik']),
+                'prodi_matkul' => $kelas[0]['id_prodi'],
+                'matkul' => $kelas[0]['id_matkul'],
+                'kelas' => array_column($kelas, 'id_kelas')
+            ];
+        }
         return view('admin/soal_ujian/edit', $data);
     }
 
     public function update($id_soal_ujian)
     {
-        if (!$this->validate([
+        $rules = [
             'periode_ujian' => [
                 'rules' => 'required',
                 'label' => 'Periode Ujian',
@@ -286,13 +307,6 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'dosen' => [
-                'rules' => 'required',
-                'label' => 'Dosen',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'soal_ujian' => [
                 'rules' => 'uploaded[soal_ujian]|max_size[soal_ujian,2048]|ext_in[soal_ujian,pdf]',
                 'label' => 'Soal Ujian',
@@ -316,7 +330,19 @@ class SoalUjian extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ]
-        ])) {
+        ];
+
+        if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+            $rules['dosen'] = [
+                'rules' => 'required',
+                'label' => 'Dosen',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ];
+        }
+
+        if (!$this->validate($rules)) {
             return redirect()->back()->withInput();
         }
 
@@ -357,8 +383,14 @@ class SoalUjian extends BaseController
 
         try {
             $this->db->transException(true)->transStart();
+            if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
+                $id_dosen = $this->request->getVar('dosen');
+            } elseif (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
+                $id_users = user_id();
+                $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
+            }
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
-                'id_dosen' => $this->request->getVar('dosen'),
+                'id_dosen' => $id_dosen,
                 'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),

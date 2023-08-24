@@ -102,7 +102,16 @@ class Pengawas extends BaseController
     public function delete($id_pengawas)
     {
         try {
+            // Ambil ID user terkait dari data pengawas yang akan dihapus
+            $pengawas = $this->pengawasModel->find($id_pengawas);
+            $id_user = $pengawas['id_user']; // Ganti 'id_user' dengan nama kolom yang sesuai
+
+            // Hapus data pengawas
             $this->pengawasModel->delete($id_pengawas);
+
+            // Hapus data user dengan ID yang sama
+            $this->usersModel->delete($id_user); // Ganti 'userModel' dengan model pengguna yang sesuai
+
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
