@@ -93,11 +93,11 @@
                             <?= validation_show_error('koordinator_ujian'); ?>
                         </div>
                     </div>
-                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas)) ?>'>
+                    <div id="ruangan" data-ruangan='<?= json_encode(old('ruang_ujian', $ruang_ujian)) ?>' data-peserta='<?= json_encode(old('jumlah_peserta', $jumlah_peserta)) ?>' data-pengawas1='<?= json_encode(old('pengawas1', $pengawas1)) ?>' data-pengawas2='<?= json_encode(old('pengawas2', $pengawas2)) ?>'>
                         <div class="row fg_ruangan_peserta">
                             <div class="form-group col-md-3">
                                 <label for="ruang_ujian">Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]">
+                                <select class="form-control <?= (validation_show_error('ruang_ujian.0')) ? 'is-invalid' : ''; ?>" id="ruang_ujian" name="ruang_ujian[]" required>
                                     <option value="">Pilih Ruang Ujian 1</option>
                                 </select>
                                 <div class="invalid-feedback">
@@ -110,7 +110,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="pengawas1">Pengawas 1 Ruang Ujian 1</label>
-                                <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1[]">
+                                <select class="form-control <?= (validation_show_error('pengawas1.0')) ? 'is-invalid' : ''; ?>" id="pengawas1" name="pengawas1[]" required>
                                     <option value="">Pilih Pengawas 1 Ruang Ujian 1</option>
                                 </select>
                                 <div class="invalid-feedback">
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
+                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
                 </form>
 
                 <script>
@@ -155,8 +155,8 @@
                                 console.log(old_peserta[i]);
                                 fg_ruangan_peserta.find('select[name^=ruang_ujian]').val(old_ruangan[i])
                                 fg_ruangan_peserta.find('input[name^=jumlah_peserta]').val(old_peserta[i])
-                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[id_ruangan]['Pengawas 1'])
-                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[id_ruangan]['Pengawas 2'])
+                                fg_ruangan_peserta.find('select[name^=pengawas1]').val(old_pengawas1[i])
+                                fg_ruangan_peserta.find('select[name^=pengawas2]').val(old_pengawas2[i])
                                 $('#ruangan').append(fg_ruangan_peserta)
                             }
                             handleRuangan()
@@ -310,6 +310,11 @@
 
                     $('body').on('change', 'select[name^=ruang_ujian]', function() {
                         handleRuangan()
+                        ruanganIsDuplicate()
+                    })
+
+                    $('body').on('change', 'select[name^=pengawas1],select[name^=pengawas2]', function() {
+                        pengawasIsDuplicate()
                     })
 
                     function getRuanganTersedia() {
@@ -330,7 +335,7 @@
                                     let options = `<option value="">Pilih Ruang Ujian</option>`
                                     for (const data of response) {
                                         console.log(data)
-                                        options += `<option value="${data.id_ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas} orang)</option>`
+                                        options += `<option value="${data.id_ruang_ujian}" data-kapasitas="${data.kapasitas}">${data.ruang_ujian} (kapasitas: ${data.kapasitas})</option>`
                                     }
                                     $('select[name^=ruang_ujian]').html(options)
                                 }
@@ -394,6 +399,68 @@
                         $('.fg_ruangan_peserta').remove()
                         $('#ruangan').append(fg_ruangan_peserta)
                     })
+
+                    function ruanganIsDuplicate() {
+                        let ruangans = []
+                        $('select[name^=ruang_ujian]').each(function() {
+                            let selectedValue = $(this).val()
+                            if (selectedValue != '') {
+                                ruangans.push(selectedValue)
+                            }
+                        })
+
+                        console.log('ruangan', ruangans)
+
+                        let isDuplicate = new Set(ruangans).size !== ruangans.length
+                        console.log('ruanganIsDuplicate', isDuplicate)
+
+                        if (isDuplicate) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Oopss...',
+                                text: "Ruang Ujian yang Dipilih Ada yang Sama.",
+                                showConfirmButton: true
+                            })
+                        }
+
+                        return isDuplicate
+                    }
+
+                    function pengawasIsDuplicate() {
+                        let pengawas1 = []
+                        let pengawas2 = []
+                        $('select[name^=pengawas1]').each(function() {
+                            let selectedValue = $(this).val()
+                            if (selectedValue != '') {
+                                pengawas1.push(selectedValue)
+                            }
+                        })
+
+                        $('select[name^=pengawas2]').each(function() {
+                            let selectedValue = $(this).val()
+                            if (selectedValue != '') {
+                                pengawas2.push(selectedValue)
+                            }
+                        })
+
+                        let gabunganPengawas = pengawas1.concat(pengawas2)
+                        let isDuplicate = new Set(gabunganPengawas).size !== gabunganPengawas.length
+                        console.log('gabunganPengawas', gabunganPengawas)
+                        console.log('pengawasIsDuplicate', isDuplicate)
+
+                        if (isDuplicate) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Oopss...',
+                                text: "Pengawas yang Dipilih Ada yang Sama.",
+                                showConfirmButton: true
+                            })
+                        }
+
+                        return isDuplicate
+                    }
                 </script>
             </div>
         </div>

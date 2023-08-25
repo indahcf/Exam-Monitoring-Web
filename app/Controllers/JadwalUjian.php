@@ -314,21 +314,38 @@ class JadwalUjian extends BaseController
         $id_matkul = $this->kelasModel->find($id_kelas)['id_matkul'];
         $ruang_ujian = $this->ruang_ujianModel->join('jadwal_ruang', 'jadwal_ruang.id_ruang_ujian=ruang_ujian.id_ruang_ujian')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->findAll();
         $jumlah_peserta = $this->jadwal_ruangModel->where('id_jadwal_ujian', $id_jadwal_ujian)->findAll();
-        $data_pengawas = $this->pengawasModel->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        $data_pengawas1 = $this->pengawasModel->select('jadwal_ruang.id_jadwal_ruang, jadwal_pengawas.id_pengawas')->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->where('jenis_pengawas', 'Pengawas 1')->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        $data_pengawas2 = $this->pengawasModel->select('jadwal_ruang.id_jadwal_ruang, jadwal_pengawas.id_pengawas')->join('jadwal_pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ruang=jadwal_pengawas.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->where('jenis_pengawas', 'Pengawas 2')->orderBy('id_ruang_ujian', 'ASC')->findAll();
+        $jadwal_ruang = $this->jadwal_ruangModel->select('jadwal_ruang.id_jadwal_ruang')->where('jadwal_ruang.id_jadwal_ujian =', $id_jadwal_ujian)->orderBy('id_ruang_ujian', 'ASC')->findAll();
 
-        $pengawas = array();
-
-        foreach ($data_pengawas as $row) {
-            $id_ruang_ujian = $row['id_ruang_ujian'];
-            $id_pengawas = $row['id_pengawas'];
-            $jenis_pengawas = $row['jenis_pengawas'];
-
-            if (!isset($pengawas[$id_ruang_ujian])) {
-                $pengawas[$id_ruang_ujian] = array();
+        function getIdPengawas($jadwal_ruang, $jadwal_pengawas)
+        {
+            $indexed_jadwal_ruang = [];
+            foreach ($jadwal_ruang as $ruang) {
+                $id_jadwal_ruang = $ruang["id_jadwal_ruang"];
+                $indexed_jadwal_ruang[$id_jadwal_ruang] = $ruang;
             }
 
-            $pengawas[$id_ruang_ujian][$jenis_pengawas] = $id_pengawas;
+            $gabungan_jadwal = [];
+            foreach ($jadwal_ruang as $ruang) {
+                $id_jadwal_ruang = $ruang["id_jadwal_ruang"];
+                $id_pengawas = "";
+
+                foreach ($jadwal_pengawas as $pengawas) {
+                    if ($pengawas["id_jadwal_ruang"] === $id_jadwal_ruang) {
+                        $id_pengawas = isset($pengawas["id_pengawas"]) ? $pengawas["id_pengawas"] : "";
+                        break;
+                    }
+                }
+
+                $gabungan_jadwal[] = array_merge($ruang, ["id_pengawas" => $id_pengawas]);
+            }
+            return array_column($gabungan_jadwal, 'id_pengawas');
         }
+
+        $id_pengawas1 = getIdPengawas($jadwal_ruang, $data_pengawas1);
+        $id_pengawas2 = getIdPengawas($jadwal_ruang, $data_pengawas2);
+        // dd($id_pengawas2);
 
         $koordinator_ujian = $this->usersModel->join('dosen', 'dosen.id_user=users.id')->join('user_role', 'users.id=user_role.id_user')->where('user_role.id_role', 6)->get()->getResultArray();
 
@@ -341,7 +358,8 @@ class JadwalUjian extends BaseController
             'prodi_kelas' => $this->matkulModel->find($id_matkul)['id_prodi'],
             'dosen' => $this->kelasModel->find($id_kelas)['id_dosen'],
             'jumlah_peserta' => array_column($jumlah_peserta, 'jumlah_peserta'),
-            'pengawas' => $pengawas,
+            'pengawas1' => $id_pengawas1,
+            'pengawas2' => $id_pengawas2,
             'koordinator_ujian' => $koordinator_ujian
         ];
 
@@ -432,6 +450,13 @@ class JadwalUjian extends BaseController
         //validasi agar tidak ada ruang ujian yang sama dalam 1 jadwal ujian
         if ($this->ruangan_is_duplicate($this->request->getVar('ruang_ujian'))) {
             return redirect()->back()->with('error', 'Ruang Ujian yang Dipilih Ada yang Sama.')->withInput();
+        }
+
+        //validasi agar tidak ada pengawas yang sama dalam 1 jadwal ujian
+        $pengawas1 = $this->request->getVar('pengawas1');
+        $pengawas2 = $this->request->getVar('pengawas2');
+        if ($this->pengawas_is_duplicate($pengawas1, $pengawas2)) {
+            return redirect()->back()->with('error', 'Pengawas yang Dipilih Ada yang Sama.')->withInput();
         }
 
         try {
