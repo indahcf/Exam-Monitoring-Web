@@ -26,7 +26,7 @@ class Pengawas extends BaseController
     {
         $data = [
             'title' => 'Data Pengawas',
-            'pengawas' => $this->pengawasModel->findAll()
+            'pengawas' => $this->pengawasModel->getPengawas()
         ];
 
         return view('admin/pengawas/index', $data);

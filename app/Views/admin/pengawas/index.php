@@ -20,6 +20,7 @@
                                 <th>No</th>
                                 <th>NIP</th>
                                 <th>Nama Pengawas</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -30,6 +31,7 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $p['nip']; ?></td>
                                     <td><?= $p['pengawas']; ?></td>
+                                    <td><?= $p['email']; ?></td>
                                     <td>
                                         <a href="<?= base_url(); ?>admin/pengawas_ujian/edit/<?= $p['id_pengawas']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>

@@ -24,6 +24,7 @@
                                 <th>No</th>
                                 <th>NIDN</th>
                                 <th>Nama Dosen</th>
+                                <th>Email</th>
                                 <th>Program Studi</th>
                                 <th>Aksi</th>
                             </tr>
@@ -35,6 +36,7 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $d['nidn']; ?></td>
                                     <td><?= $d['dosen']; ?></td>
+                                    <td><?= $d['email']; ?></td>
                                     <td><?= $d['prodi']; ?></td>
                                     <td>
                                         <a href="<?= base_url(); ?>admin/dosen/edit/<?= $d['id_dosen']; ?>" class="btn btn-warning btn-rounded btn-icon">
