@@ -6,7 +6,7 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Data Review Soal Ujian</h4>
+                <h4 class="card-title">Review Soal Ujian</h4>
                 <form action="<?= base_url('/admin/review_soal/update_review/' . $review_soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <div class="row mb-3">
