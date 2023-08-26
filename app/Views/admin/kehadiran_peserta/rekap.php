@@ -95,9 +95,10 @@
                         <div class="col-sm-3">NIM Sakit</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
+                            <?php var_dump(old('nim_sakit')) ?>
                             <select class="form-control select-tag" multiple="multiple" id="nim_sakit" name="nim_sakit[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_sakit'] != 'null' && $kehadiran_peserta['nim_sakit'] != NULL) : ?>
-                                    <?php foreach (json_decode($kehadiran_peserta['nim_sakit']) as $ns) : ?>
+                                    <?php foreach (old('nim_sakit', json_decode($kehadiran_peserta['nim_sakit'])) as $ns) : ?>
                                         <option value="<?= $ns; ?>" <?= in_array($ns, old('nim_sakit', json_decode($kehadiran_peserta['nim_sakit']))) ? 'selected' : '' ?>><?= $ns ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -282,9 +283,17 @@
             }
         });
 
+        var totalPeserta = <?= json_decode($jumlah_peserta) ?>
+
         $('select[name^="nim_sakit"]').on('change', function() {
             var selectedNim = $(this).val();
             var inputSakitValue = selectedNim.length;
+
+            if (inputSakitValue > totalPeserta) {
+                alert("Jumlah NIM sakit melebihi jumlah peserta!");
+                $(this).find('option:last').remove(); // Menghapus pilihan terakhir
+                inputSakitValue = totalPeserta;
+            }
 
             $('input[name="sakit"]').val(inputSakitValue);
         });
@@ -293,12 +302,24 @@
             var selectedNim = $(this).val();
             var inputIzinValue = selectedNim.length;
 
+            if (inputIzinValue > totalPeserta) {
+                alert("Jumlah NIM izin melebihi jumlah peserta!");
+                $(this).find('option:last').remove(); // Menghapus pilihan terakhir
+                inputIzinValue = totalPeserta;
+            }
+
             $('input[name="izin"]').val(inputIzinValue);
         });
 
         $('select[name^="nim_tanpa_ket"]').on('change', function() {
             var selectedNim = $(this).val();
             var inputTanpaKetValue = selectedNim.length;
+
+            if (inputTanpaKetValue > totalPeserta) {
+                alert("Jumlah NIM tanpa keterangan melebihi jumlah peserta!");
+                $(this).find('option:last').remove(); // Menghapus pilihan terakhir
+                inputTanpaKetValue = totalPeserta;
+            }
 
             $('input[name="tanpa_ket"]').val(inputTanpaKetValue);
         });
@@ -307,6 +328,12 @@
             var selectedNim = $(this).val();
             var inputTidakMemenuhiSyaratValue = selectedNim.length;
 
+            if (inputTidakMemenuhiSyaratValue > totalPeserta) {
+                alert("Jumlah NIM tidak memenuhi syarat melebihi jumlah peserta!");
+                $(this).find('option:last').remove(); // Menghapus pilihan terakhir
+                inputTidakMemenuhiSyaratValue = totalPeserta;
+            }
+
             $('input[name="tidak_memenuhi_syarat"]').val(inputTidakMemenuhiSyaratValue);
         });
 
@@ -314,22 +341,44 @@
             var selectedNim = $(this).val();
             var inputPresensiKurangValue = selectedNim.length;
 
+            if (inputPresensiKurangValue > totalPeserta) {
+                alert("Jumlah NIM presensi kurang melebihi jumlah peserta!");
+                $(this).find('option:last').remove(); // Menghapus pilihan terakhir
+                inputPresensiKurangValue = totalPeserta;
+            }
+
             $('input[name="presensi_kurang"]').val(inputPresensiKurangValue);
         });
 
         function hitungTotalHadir() {
-            var totalPeserta = <?= json_decode($jumlah_peserta) ?>
-
             var totalSakit = $('input[name="sakit"]').val() || 0;
             var totalIzin = $('input[name="izin"]').val() || 0;
             var totalTanpaKet = $('input[name="tanpa_ket"]').val() || 0;
             var totalTidakMemenuhiSyarat = $('input[name="tidak_memenuhi_syarat"]').val() || 0;
             var totalPresensiKurang = $('input[name="presensi_kurang"]').val() || 0;
 
-            var totalHadir = totalPeserta - (parseInt(totalSakit) + parseInt(totalIzin) + parseInt(totalTanpaKet) + parseInt(totalTidakMemenuhiSyarat) + parseInt(totalPresensiKurang));
+            // Total seluruh input NIM
+            var totalInputNIM = parseInt(totalSakit) + parseInt(totalIzin) + parseInt(totalTanpaKet) + parseInt(totalTidakMemenuhiSyarat) + parseInt(totalPresensiKurang);
+
+            if (totalInputNIM > totalPeserta) {
+                alert("Jumlah NIM melebihi jumlah peserta!");
+
+                // Menghapus input yang melebihi
+                while (totalInputNIM > totalPeserta) {
+                    $('select[name^="nim_sakit"] option:last').remove();
+                    $('select[name^="nim_izin"] option:last').remove();
+                    $('select[name^="nim_tanpa_ket"] option:last').remove();
+                    $('select[name^="nim_tidak_memenuhi_syarat"] option:last').remove();
+                    $('select[name^="nim_presensi_kurang"] option:last').remove();
+                    totalInputNIM = parseInt($('input[name="sakit"]').val() || 0) + parseInt($('input[name="izin"]').val() || 0) + parseInt($('input[name="tanpa_ket"]').val() || 0) + parseInt($('input[name="tidak_memenuhi_syarat"]').val() || 0) + parseInt($('input[name="presensi_kurang"]').val() || 0);
+                }
+                // totalInputNIM = totalPeserta;
+            }
+
+            var totalHadir = totalPeserta - totalInputNIM;
 
             if (totalHadir < 0) {
-                totalHadir = 0; // Set totalHadir to zero if it's negative
+                totalHadir = 0;
             }
 
             $('input[name="total_hadir"]').val(totalHadir);

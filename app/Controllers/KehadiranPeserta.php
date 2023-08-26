@@ -151,6 +151,7 @@ class KehadiranPeserta extends BaseController
 
     public function save()
     {
+        // dd(json_encode($this->request->getVar('nim_sakit')));
         // dd($this->request->getPost());
         if (!$this->validate([
             'jumlah_lju' => [
