@@ -154,7 +154,7 @@ class KehadiranPengawas extends BaseController
             'jadwal_ujian' => $jadwal_ujian,
             'ruang_ujian' => $ruang_ujian['ruang_ujian'],
             'jumlah_peserta' => $jumlah_peserta['jumlah_peserta'],
-            'pengawas' => $this->pengawasModel->findAll(),
+            'pengawas' => $this->pengawasModel->join('users', 'users.id=pengawas.id_user')->join('user_role', 'user_role.id_user=users.id')->where('user_role.id_role', 5)->get()->getResultArray(),
             'pengawas1' => $pengawas1,
             'pengawas2' => $pengawas2,
             'id_jadwal_ujian' => $id_jadwal_ujian,
