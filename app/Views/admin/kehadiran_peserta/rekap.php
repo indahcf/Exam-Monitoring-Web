@@ -95,7 +95,6 @@
                         <div class="col-sm-3">NIM Sakit</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <?php var_dump(old('nim_sakit')) ?>
                             <select class="form-control select-tag" multiple="multiple" id="nim_sakit" name="nim_sakit[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_sakit'] != 'null' && $kehadiran_peserta['nim_sakit'] != NULL) : ?>
                                     <?php foreach (old('nim_sakit', json_decode($kehadiran_peserta['nim_sakit'])) as $ns) : ?>
@@ -122,8 +121,12 @@
                         <div class="col-sm">
                             <select class="form-control select-tag" multiple="multiple" id="nim_izin" name="nim_izin[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_izin'] != 'null' && $kehadiran_peserta['nim_izin'] != NULL) : ?>
-                                    <?php foreach (json_decode($kehadiran_peserta['nim_izin']) as $ni) : ?>
+                                    <?php foreach (old('nim_izin', json_decode($kehadiran_peserta['nim_izin'])) as $ni) : ?>
                                         <option value="<?= $ni; ?>" <?= in_array($ni, old('nim_izin', json_decode($kehadiran_peserta['nim_izin']))) ? 'selected' : '' ?>><?= $ni ?></option>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <?php foreach (old('nim_izin') ?? array() as $ni) : ?>
+                                        <option value="<?= $ni; ?>" selected><?= $ni ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
@@ -142,8 +145,12 @@
                         <div class="col-sm">
                             <select class="form-control select-tag" multiple="multiple" id="nim_tanpa_ket" name="nim_tanpa_ket[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_tanpa_ket'] != 'null' && $kehadiran_peserta['nim_tanpa_ket'] != NULL) : ?>
-                                    <?php foreach (json_decode($kehadiran_peserta['nim_tanpa_ket']) as $ntk) : ?>
+                                    <?php foreach (old('nim_tanpa_ket', json_decode($kehadiran_peserta['nim_tanpa_ket'])) as $ntk) : ?>
                                         <option value="<?= $ntk; ?>" <?= in_array($ntk, old('nim_tanpa_ket', json_decode($kehadiran_peserta['nim_tanpa_ket']))) ? 'selected' : '' ?>><?= $ntk ?></option>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <?php foreach (old('nim_tanpa_ket') ?? array() as $ntk) : ?>
+                                        <option value="<?= $ntk; ?>" selected><?= $ntk; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
@@ -162,8 +169,12 @@
                         <div class="col-sm">
                             <select class="form-control select-tag" multiple="multiple" id="nim_tidak_memenuhi_syarat" name="nim_tidak_memenuhi_syarat[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_tidak_memenuhi_syarat'] != 'null' && $kehadiran_peserta['nim_tidak_memenuhi_syarat'] != NULL) : ?>
-                                    <?php foreach (json_decode($kehadiran_peserta['nim_tidak_memenuhi_syarat']) as $ntms) : ?>
+                                    <?php foreach (old('nim_tidak_memenuhi_syarat', json_decode($kehadiran_peserta['nim_tidak_memenuhi_syarat'])) as $ntms) : ?>
                                         <option value="<?= $ntms; ?>" <?= in_array($ntms, old('nim_tidak_memenuhi_syarat', json_decode($kehadiran_peserta['nim_tidak_memenuhi_syarat']))) ? 'selected' : '' ?>><?= $ntms ?></option>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <?php foreach (old('nim_tidak_memenuhi_syarat') ?? array() as $ntms) : ?>
+                                        <option value="<?= $ntms; ?>" selected><?= $ntms ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
@@ -182,8 +193,12 @@
                         <div class="col-sm">
                             <select class="form-control select-tag" multiple="multiple" id="nim_presensi_kurang" name="nim_presensi_kurang[]">
                                 <?php if ($kehadiran_peserta && $kehadiran_peserta['nim_presensi_kurang'] != 'null' && $kehadiran_peserta['nim_presensi_kurang'] != NULL) : ?>
-                                    <?php foreach (json_decode($kehadiran_peserta['nim_presensi_kurang']) as $npk) : ?>
+                                    <?php foreach (old('nim_presensi_kurang', json_decode($kehadiran_peserta['nim_presensi_kurang'])) as $npk) : ?>
                                         <option value="<?= $npk; ?>" <?= in_array($npk, old('nim_presensi_kurang', json_decode($kehadiran_peserta['nim_presensi_kurang']))) ? 'selected' : '' ?>><?= $npk ?></option>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <?php foreach (old('nim_presensi_kurang') ?? array() as $npk) : ?>
+                                        <option value="<?= $npk; ?>" selected><?= $npk ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
