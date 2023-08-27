@@ -188,7 +188,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">NIM Presensi Kurang</div>
+                        <div class="col-sm-3">NIM Presensi &lt; 70%</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
                             <select class="form-control select-tag" multiple="multiple" id="nim_presensi_kurang" name="nim_presensi_kurang[]">
@@ -205,7 +205,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-3">Presensi Kurang</div>
+                        <div class="col-sm-3">Presensi &lt; 70%</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
                             <input type="number" class="form-control" id="presensi_kurang" name="presensi_kurang" value="<?= old('presensi_kurang', $kehadiran_peserta ? $kehadiran_peserta['presensi_kurang'] : ''); ?>" placeholder="Presensi Kurang" readonly>
