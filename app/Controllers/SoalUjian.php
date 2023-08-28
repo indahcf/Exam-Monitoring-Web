@@ -7,6 +7,7 @@ use App\Models\ProdiModel;
 use App\Models\MatkulModel;
 use App\Models\SoalUjianModel;
 use App\Models\TahunAkademikModel;
+use App\Models\JadwalUjianModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class SoalUjian extends BaseController
@@ -16,6 +17,7 @@ class SoalUjian extends BaseController
     protected $kelasModel;
     protected $tahun_akademikModel;
     protected $matkulModel;
+    protected $jadwal_ujianModel;
     protected $db;
 
     public function __construct()
@@ -25,6 +27,7 @@ class SoalUjian extends BaseController
         $this->kelasModel = new KelasModel();
         $this->tahun_akademikModel = new TahunAkademikModel();
         $this->matkulModel = new MatkulModel();
+        $this->jadwal_ujianModel = new JadwalUjianModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -100,13 +103,6 @@ class SoalUjian extends BaseController
     {
         // dd($this->request->getPost());
         $rules = [
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -167,9 +163,12 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
+        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+        $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
+
         //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
         if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
-            'periode_ujian' => $this->request->getVar('periode_ujian'),
+            'periode_ujian' => $periode_ujian_aktif,
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
         ])->first()) {
             return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
@@ -191,10 +190,14 @@ class SoalUjian extends BaseController
                 $id_users = user_id();
                 $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
             }
+
+            $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
+
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'id_dosen' => $id_dosen,
-                'periode_ujian' => $this->request->getVar('periode_ujian'),
+                'periode_ujian' => $periode_ujian_aktif,
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
@@ -279,13 +282,6 @@ class SoalUjian extends BaseController
     public function update($id_soal_ujian)
     {
         $rules = [
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -391,7 +387,6 @@ class SoalUjian extends BaseController
             }
             $this->db->table('soal_ujian')->where('id_soal_ujian', $id_soal_ujian)->update([
                 'id_dosen' => $id_dosen,
-                'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')

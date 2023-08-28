@@ -18,6 +18,7 @@ class PencetakSoalModel extends Model
             ->join('users', 'users.id = pencetak_soal.id_user')
             ->join('pengawas', 'pengawas.id_user = users.id')
             ->join('prodi', 'pencetak_soal.id_prodi = prodi.id_prodi')
+            ->orderBy('pencetak_soal.created_at', 'ASC')
             ->get()
             ->getResultArray();
     }

@@ -49,6 +49,11 @@ class Pengawas extends Seeder
                 'id_user' => 11,
                 'nip' => '198200800901001112',
                 'pengawas'  => 'Kuswanto'
+            ],
+            [
+                'id_user' => 12,
+                'nip' => '198900100200300413',
+                'pengawas'  => 'Suyono'
             ]
         ];
 

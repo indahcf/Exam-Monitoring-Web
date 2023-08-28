@@ -21,6 +21,7 @@ class SoalUjianModel extends Model
             ->join('tahun_akademik', 'soal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
+            ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }
 
@@ -35,6 +36,7 @@ class SoalUjianModel extends Model
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->whereIn('status_soal', ['Diterima', 'Dicetak']) // Use whereIn for multiple status values
+            ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }
 
@@ -51,6 +53,7 @@ class SoalUjianModel extends Model
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->where('soal_ujian.id_dosen', $id_dosen)
+            ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }
 
@@ -68,6 +71,7 @@ class SoalUjianModel extends Model
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->where('matkul.id_prodi', $id_prodi)
+            ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }
 
@@ -92,6 +96,7 @@ class SoalUjianModel extends Model
             ->where('periode_ujian', $periode_ujian)
             ->whereIn('status_soal', ['Diterima', 'Dicetak']) // Use whereIn for multiple status values
             ->where('matkul.id_prodi', $id_prodi)
+            ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }
 }

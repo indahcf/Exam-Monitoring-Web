@@ -73,6 +73,18 @@ class UserRole extends Seeder
             [
                 'id_user' => 11,
                 'id_role' => 5
+            ],
+            [
+                'id_user' => 12,
+                'id_role' => 8
+            ],
+            [
+                'id_user' => 13,
+                'id_role' => 2
+            ],
+            [
+                'id_user' => 13,
+                'id_role' => 7
             ]
         ];
 

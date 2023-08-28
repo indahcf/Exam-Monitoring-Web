@@ -10,17 +10,7 @@
                 <form action="<?= base_url('/admin/soal_ujian/update/' . $soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="oldFile" value="<?= $soal_ujian['soal_ujian']; ?>">
-                    <div class="form-group">
-                        <label for="periode_ujian">Periode Ujian</label>
-                        <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">
-                            <option value="">Pilih Periode Ujian</option>
-                            <option value="UTS" <?= (old('periode_ujian', $soal_ujian['periode_ujian']) == 'UTS') ? 'selected' : '' ?>>UTS</option>
-                            <option value="UAS" <?= (old('periode_ujian', $soal_ujian['periode_ujian']) == 'UAS') ? 'selected' : '' ?>>UAS</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('periode_ujian'); ?>
-                        </div>
-                    </div>
+                    <input type="hidden" name="periode_ujian" value="<?= $soal_ujian['periode_ujian']; ?>">
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
