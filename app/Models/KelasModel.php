@@ -13,7 +13,7 @@ class KelasModel extends Model
 
     public function getKelas()
     {
-        return $this->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
+        return $this->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('dosen', 'kelas.id_dosen=dosen.id_dosen')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->orderBy('kelas.id_kelas', 'ASC')->findAll();
     }
 
     public function getKelasByProdi($id_prodi)

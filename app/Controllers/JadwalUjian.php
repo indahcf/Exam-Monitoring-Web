@@ -93,7 +93,7 @@ class JadwalUjian extends BaseController
             // dd($filter);
             $id_tahun_akademik = explode("_", $filter)[0];
             $periode_ujian = explode("_", $filter)[1];
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjianExport($id_tahun_akademik, $periode_ujian);
             $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
         }
 

@@ -13,6 +13,6 @@ class MatkulModel extends Model
 
     public function getMatkul()
     {
-        return $this->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->findAll();
+        return $this->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->orderBy('matkul.id_matkul', 'ASC')->findAll();
     }
 }
