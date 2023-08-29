@@ -79,12 +79,17 @@ class SoalUjianModel extends Model
     {
         $id_users = user_id();
 
-        $id_prodi = $this->db->table('pencetak_soal')
+        $prodi = $this->db->table('pencetak_soal')
             ->join('prodi', 'prodi.id_prodi=pencetak_soal.id_prodi')
             ->where('id_user', $id_users)
             ->Get()
-            ->getRow()
-            ->id_prodi;
+            ->getRow();
+
+        if ($prodi == NULL) {
+            return array();
+        } else {
+            $id_prodi = $prodi->id_prodi;
+        }
 
         return $this->join('soal_kelas', 'soal_ujian.id_soal_ujian=soal_kelas.id_soal_ujian')
             ->join('kelas', 'soal_kelas.id_kelas=kelas.id_kelas')
