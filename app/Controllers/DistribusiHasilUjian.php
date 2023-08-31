@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\JadwalUjianModel;
 use App\Models\JadwalRuangModel;
 use App\Models\TahunAkademikModel;
+use App\Models\KelasModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class DistribusiHasilUjian extends BaseController
@@ -12,6 +13,7 @@ class DistribusiHasilUjian extends BaseController
     protected $tahun_akademikModel;
     protected $jadwal_ujianModel;
     protected $jadwal_ruangModel;
+    protected $kelasModel;
     protected $db;
 
     public function __construct()
@@ -19,6 +21,7 @@ class DistribusiHasilUjian extends BaseController
         $this->tahun_akademikModel = new TahunAkademikModel();
         $this->jadwal_ujianModel = new JadwalUjianModel();
         $this->jadwal_ruangModel = new JadwalRuangModel();
+        $this->kelasModel = new KelasModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -48,30 +51,18 @@ class DistribusiHasilUjian extends BaseController
         return view('admin/distribusi_hasil_ujian/index', $data);
     }
 
-    public function update_status($id)
+    public function edit($id_jadwal_ruang)
     {
-        // Mendapatkan status distribusi sebelum diupdate
-        $oldStatus = $this->db->table('jadwal_ruang')
-            ->where('id_jadwal_ruang', $id)
-            ->get()
-            ->getRow('status_distribusi');
-
-        // Cek apakah status distribusi adalah "belum"
-        if ($oldStatus === 'Belum') {
-            // Jika status distribusi adalah "belum", ubah menjadi "sudah"
-            $newStatus = 'Sudah';
-        } else {
-            // Jika status distribusi adalah "sudah", ubah menjadi "belum"
-            $newStatus = 'Belum';
-        }
-
-        try {
-            $this->db->table('jadwal_ruang')
-                ->where('id_jadwal_ruang', $id)
-                ->update(['status_distribusi' => $newStatus]);
-            return $this->response->setJson(['success' => true, 'message' => 'Status Berhasil Diubah!']);
-        } catch (\Exception $e) {
-            return $this->response->setJson(['success' => false, 'message' => $e->getMessage()]);
-        }
+        $distribusi_hasil_ujian = $this->jadwal_ruangModel->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->join('ruang_ujian', 'ruang_ujian.id_ruang_ujian=jadwal_ruang.id_ruang_ujian')->find($id_jadwal_ruang);
+        // $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+        $data = [
+            'title' => 'Edit Data Distribusi Hasil Ujian',
+            'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
+            // 'prodi' => $kelas[0]['prodi'],
+            // 'kode_matkul' => $kelas[0]['kode_matkul'],
+            // 'matkul' => $kelas[0]['matkul'],
+            // 'kelas' => implode(", ", array_column($kelas, 'kelas'))
+        ];
+        return view('admin/distribusi_hasil_ujian/edit', $data);
     }
 }

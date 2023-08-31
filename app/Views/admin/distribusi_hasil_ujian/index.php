@@ -43,6 +43,8 @@
                                 <th>Kelas</th>
                                 <th>Ruang</th>
                                 <th>Status</th>
+                                <th>Penerima</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,11 +64,15 @@
                                     <td><?= $d['dosen']; ?></td>
                                     <td><?= $d['kelas']; ?></td>
                                     <td><?= $d['ruang_ujian']; ?></td>
+                                    <td><?= $d['status_distribusi']; ?></td>
+                                    <td><?= $d['penerima']; ?></td>
                                     <td>
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input status" name="status" id="status-<?= $d['id_jadwal_ruang']; ?>" data-id="<?= $d['id_jadwal_ruang']; ?>" <?= $d['status_distribusi'] == 'Sudah' ? 'checked' : ''; ?>>
-                                            <label class="custom-control-label label_status" data-id="<?= $d['id_jadwal_ruang']; ?>" for="status-<?= $d['id_jadwal_ruang']; ?>"><?= $d['status_distribusi'] == 'Sudah' ? 'Sudah' : 'Belum'; ?></label>
-                                        </div>
+                                        <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/edit/<?= $d['id_jadwal_ruang']; ?>" data-id="<?= $d['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/detail/<?= $d['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                            <i class="ti-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -80,51 +86,6 @@
                             $('#distribusi_hasil_ujian').DataTable({
                                 'scrollX': true,
                                 'rowsGroup': [0, 1, 2, 3, 4, 5, 6]
-                            });
-
-                            $('input[name=status]').on('change', function() {
-                                let id = $(this).data('id');
-                                if ($(this).prop('checked')) {
-                                    // Checkbox di-check, ubah label menjadi 'Sudah'
-                                    $(this).next().text('Sudah');
-                                } else {
-                                    // Checkbox tidak di-check, ubah label menjadi 'Belum'
-                                    $(this).next().text('Belum');
-                                }
-
-                                $.ajax({
-                                    url: "<?= base_url('admin/distribusi_hasil_ujian/update_status/'); ?>" + id,
-                                    type: "POST",
-                                    success: function(response) {
-                                        if (response.success) {
-                                            Swal.fire(
-                                                'Success!',
-                                                response.message,
-                                                'success'
-                                            ).then(function() {
-                                                // location.reload()
-                                            })
-                                        } else {
-                                            Swal.fire(
-                                                'Oops!',
-                                                response.message,
-                                                'error'
-                                            ).then(function() {
-                                                location.reload()
-                                            })
-                                        }
-
-                                    },
-                                    error: function(xhr, ajaxOptions, thrownError) {
-                                        Swal.fire(
-                                            'Oops!',
-                                            'Status Gagal Diubah!',
-                                            'error'
-                                        ).then(function() {
-                                            location.reload()
-                                        })
-                                    }
-                                });
                             });
                         });
 
