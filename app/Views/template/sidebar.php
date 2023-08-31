@@ -82,7 +82,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (count(array_intersect(user()->roles, ['Admin', 'Pendistribusi Hasil Ujian'])) > 0) : ?>
+        <?php if (count(array_intersect(user()->roles, ['Admin', 'Dosen', 'Pendistribusi Hasil Ujian'])) > 0) : ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/distribusi_hasil_ujian'); ?>">
                     <i class="ti-write menu-icon"></i>

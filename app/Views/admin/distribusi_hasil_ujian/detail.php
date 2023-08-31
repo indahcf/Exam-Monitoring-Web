@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data Distribusi Hasil Ujian</h4>
-                <form action="<?= base_url('/admin/distribusi_hasil_ujian/update/' . $distribusi_hasil_ujian['id_jadwal_ruang']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/distribusi_hasil_ujian/update_status_diterima/' . $distribusi_hasil_ujian['id_jadwal_ruang']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <div class="row mb-3">
                         <div class="col-sm-3">Hari</div>
@@ -55,6 +55,11 @@
                         <div class="col-sm"><?= $distribusi_hasil_ujian['ruang_ujian']; ?></div>
                     </div>
                     <div class="row mb-3">
+                        <div class="col-sm-3">Penerima</div>
+                        <div class="d-none d-sm-inline">:</div>
+                        <div class="col-sm"><?= $distribusi_hasil_ujian['penerima']; ?></div>
+                    </div>
+                    <div class="row mb-3">
                         <div class="col-sm-3">Status</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
@@ -66,16 +71,6 @@
                             </select>
                             <div class="invalid-feedback">
                                 <?= validation_show_error('status_distribusi'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">Penerima</div>
-                        <div class="d-none d-sm-inline">:</div>
-                        <div class="col-sm">
-                            <input type="text" class="form-control <?= (validation_show_error('penerima')) ? 'is-invalid' : ''; ?>" id="penerima" name="penerima" value="<?= old('penerima', $distribusi_hasil_ujian['penerima']); ?>" placeholder="Penerima">
-                            <div class="invalid-feedback">
-                                <?= validation_show_error('penerima'); ?>
                             </div>
                         </div>
                     </div>

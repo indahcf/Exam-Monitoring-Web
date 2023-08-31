@@ -67,12 +67,16 @@
                                     <td><?= $d['status_distribusi']; ?></td>
                                     <td><?= $d['penerima']; ?></td>
                                     <td>
-                                        <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/edit/<?= $d['id_jadwal_ruang']; ?>" data-id="<?= $d['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
-                                            <i class="ti-pencil"></i>
-                                        </a>
-                                        <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/detail/<?= $d['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                            <i class="ti-eye"></i>
-                                        </a>
+                                        <?php if (count(array_intersect(user()->roles, ['Admin', 'Pendistribusi Hasil Ujian'])) > 0) : ?>
+                                            <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/edit/<?= $d['id_jadwal_ruang']; ?>" data-id="<?= $d['id_jadwal_ruang']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                                <i class="ti-pencil"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (count(array_intersect(user()->roles, ['Admin', 'Dosen'])) > 0) : ?>
+                                            <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/detail/<?= $d['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                                <i class="ti-eye"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

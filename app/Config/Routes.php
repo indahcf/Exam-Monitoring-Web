@@ -134,8 +134,11 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('kehadiran_peserta/save/(:segment)/(:segment)', 'KehadiranPeserta::save/$1/$2', ['filter' => 'auth:Admin,Pengawas']);
     $routes->get('kehadiran_peserta/export/(:segment)/(:segment)', 'KehadiranPeserta::export/$1/$2', ['filter' => 'auth:Admin,Pengawas,Koordinator,Ketua Panitia']);
 
-    $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
-    $routes->get('distribusi_hasil_ujian/edit/(:segment)', 'DistribusiHasilUjian::edit/$1');
+    $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Dosen,Pendistribusi Hasil Ujian']);
+    $routes->get('distribusi_hasil_ujian/edit/(:segment)', 'DistribusiHasilUjian::edit/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
+    $routes->post('distribusi_hasil_ujian/update/(:segment)', 'DistribusiHasilUjian::update/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
+    $routes->get('distribusi_hasil_ujian/detail/(:segment)', 'DistribusiHasilUjian::detail/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->post('distribusi_hasil_ujian/update_status_diterima/(:segment)', 'DistribusiHasilUjian::update_status_diterima/$1', ['filter' => 'auth:Admin,Dosen']);
 
     $routes->get('pencetak_soal', 'PencetakSoal::index');
     $routes->get('pencetak_soal/create', 'PencetakSoal::create');

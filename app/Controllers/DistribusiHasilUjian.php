@@ -54,15 +54,94 @@ class DistribusiHasilUjian extends BaseController
     public function edit($id_jadwal_ruang)
     {
         $distribusi_hasil_ujian = $this->jadwal_ruangModel->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->join('ruang_ujian', 'ruang_ujian.id_ruang_ujian=jadwal_ruang.id_ruang_ujian')->find($id_jadwal_ruang);
-        // $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('soal_kelas', 'soal_kelas.id_kelas=kelas.id_kelas')->where('soal_kelas.id_soal_ujian =', $id_soal_ujian)->findAll();
+        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('dosen', 'dosen.id_dosen=kelas.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ujian=jadwal_ujian.id_jadwal_ujian')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->findAll();
+        // dd($kelas);
         $data = [
             'title' => 'Edit Data Distribusi Hasil Ujian',
             'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
-            // 'prodi' => $kelas[0]['prodi'],
-            // 'kode_matkul' => $kelas[0]['kode_matkul'],
-            // 'matkul' => $kelas[0]['matkul'],
-            // 'kelas' => implode(", ", array_column($kelas, 'kelas'))
+            'prodi' => $kelas[0]['prodi'],
+            'kode_matkul' => $kelas[0]['kode_matkul'],
+            'matkul' => $kelas[0]['matkul'],
+            'kelas' => $kelas[0]['kelas'],
+            'dosen' => $kelas[0]['dosen']
         ];
         return view('admin/distribusi_hasil_ujian/edit', $data);
+    }
+
+    public function update($id_jadwal_ruang)
+    {
+        if (!$this->validate([
+            'status_distribusi' => [
+                'rules' => 'required',
+                'label' => 'Status',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'penerima' => [
+                'rules' => 'required',
+                'label' => 'Penerima',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->db->table('jadwal_ruang')->where('id_jadwal_ruang', $id_jadwal_ruang)->update([
+                'status_distribusi' => $this->request->getVar('status_distribusi'),
+                'penerima' => $this->request->getVar('penerima')
+            ]);
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        return redirect()->to('/admin/distribusi_hasil_ujian');
+    }
+
+    public function detail($id_jadwal_ruang)
+    {
+        $distribusi_hasil_ujian = $this->jadwal_ruangModel->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->join('ruang_ujian', 'ruang_ujian.id_ruang_ujian=jadwal_ruang.id_ruang_ujian')->find($id_jadwal_ruang);
+        $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('dosen', 'dosen.id_dosen=kelas.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ujian=jadwal_ujian.id_jadwal_ujian')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->findAll();
+        // dd($kelas);
+        $data = [
+            'title' => 'Detail Data Distribusi Hasil Ujian',
+            'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
+            'prodi' => $kelas[0]['prodi'],
+            'kode_matkul' => $kelas[0]['kode_matkul'],
+            'matkul' => $kelas[0]['matkul'],
+            'kelas' => $kelas[0]['kelas'],
+            'dosen' => $kelas[0]['dosen']
+        ];
+        return view('admin/distribusi_hasil_ujian/detail', $data);
+    }
+
+    public function update_status_diterima($id_jadwal_ruang)
+    {
+        if (!$this->validate([
+            'status_distribusi' => [
+                'rules' => 'required',
+                'label' => 'Status',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            return redirect()->back()->withInput();
+        }
+
+        try {
+            $this->db->table('jadwal_ruang')->where('id_jadwal_ruang', $id_jadwal_ruang)->update([
+                'status_distribusi' => $this->request->getVar('status_distribusi')
+            ]);
+            session()->setFlashdata('success', 'Data Berhasil Diubah');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        return redirect()->to('/admin/distribusi_hasil_ujian');
     }
 }
