@@ -31,7 +31,7 @@ class KehadiranPesertaModel extends Model
             ->join('kejadian', 'jadwal_ruang.id_jadwal_ruang=kejadian.id_jadwal_ruang', 'left')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
-            ->orderBy('tanggal', 'ASC')
+            ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
             ->orderBy('nim', 'ASC')
             ->get()
             ->getResultArray();
@@ -61,7 +61,7 @@ class KehadiranPesertaModel extends Model
                 ->where('periode_ujian', $periode_ujian)
                 ->where('kehadiran_pengawas.pengawas_1', $id_pengawas)
                 ->orWhere('kehadiran_pengawas.pengawas_2', $id_pengawas)
-                ->orderBy('tanggal', 'ASC')
+                ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
                 ->orderBy('nim', 'ASC')
                 ->get()
                 ->getResultArray();
@@ -84,7 +84,7 @@ class KehadiranPesertaModel extends Model
                 ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
                 ->where('periode_ujian', $periode_ujian)
                 ->where('jadwal_ujian.koordinator_ujian', $id_koordinator)
-                ->orderBy('tanggal', 'ASC')
+                ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
                 ->orderBy('nim', 'ASC')
                 ->get()
                 ->getResultArray();
