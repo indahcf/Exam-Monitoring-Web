@@ -29,7 +29,7 @@ class KehadiranPengawasModel extends Model
             ->join('pengawas as pengawas2', 'kehadiran_pengawas.pengawas_2=pengawas2.id_pengawas', 'left')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
-            ->orderBy('tanggal', 'ASC')
+            ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
             ->get()
             ->getResultArray();
     }
@@ -53,7 +53,7 @@ class KehadiranPengawasModel extends Model
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->where('jadwal_ujian.koordinator_ujian', $id_koordinator)
-            ->orderBy('tanggal', 'ASC')
+            ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
             ->get()
             ->getResultArray();
     }
