@@ -67,10 +67,13 @@ class PencetakSoal extends BaseController
         }
 
         try {
-            $this->pencetak_soalModel->save([
-                'id_user' => $this->request->getVar('pencetak_soal'),
-                'id_prodi' => $this->request->getVar('prodi')
-            ]);
+            $prodi = $this->request->getVar('prodi');
+            foreach ($prodi as $p) {
+                $this->pencetak_soalModel->save([
+                    'id_user' => $this->request->getVar('pencetak_soal'),
+                    'id_prodi' => $p
+                ]);
+            }
 
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
@@ -80,10 +83,10 @@ class PencetakSoal extends BaseController
         return redirect()->to('/admin/pencetak_soal');
     }
 
-    public function delete($id_pencetak_soal)
+    public function delete($id_user)
     {
         try {
-            $this->pencetak_soalModel->delete($id_pencetak_soal);
+            $this->pencetak_soalModel->where('pencetak_soal.id_user', $id_user)->delete();
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
@@ -101,36 +104,40 @@ class PencetakSoal extends BaseController
         }
     }
 
-    public function edit($id_pencetak_soal)
+    public function edit($id_user)
     {
-        $pencetak_soal = $this->usersModel->join('pengawas', 'pengawas.id_user=users.id')
+        $pencetak_soal = $this->pencetak_soalModel->join('users', 'users.id=pencetak_soal.id_user')->join('pengawas', 'pengawas.id_user=users.id')
             ->join('user_role', 'users.id=user_role.id_user')
             ->where('user_role.id_role', 4)
+            ->where('user_role.id_user', $id_user)
             ->get()
-            ->getResultArray();
+            ->getRowArray();
+
+        $prodi_pencetak = $this->pencetak_soalModel->where('pencetak_soal.id_user', $id_user)->findAll();
 
         $data = [
             'title' => 'Edit Pencetak Soal',
-            'data_pencetak' => $this->pencetak_soalModel->find($id_pencetak_soal),
             'pencetak_soal' => $pencetak_soal,
-            'prodi' => $this->prodiModel->findAll()
+            'prodi' => $this->prodiModel->findAll(),
+            'prodi_pencetak' => array_column($prodi_pencetak, 'id_prodi')
         ];
-
+        // dd($data);
         return view('admin/pencetak_soal/edit', $data);
     }
 
-    public function update($id_pencetak_soal)
+    public function update($id_user)
     {
+        // dd($this->request->getPost());
         //validasi input
         if (!$this->validate([
-            'pencetak_soal' => [
-                'rules' => 'required|is_unique[pencetak_soal.id_user,id_pencetak_soal,' . $id_pencetak_soal . ']',
-                'label' => 'Pencetak Soal',
-                'errors' => [
-                    'required' => '{field} harus diisi.',
-                    'is_unique' => '{field} sudah terdaftar.'
-                ]
-            ],
+            // 'pencetak_soal' => [
+            //     'rules' => 'required|is_unique[pencetak_soal.id_user,id_pencetak_soal,' . $id_pencetak_soal . ']',
+            //     'label' => 'Pencetak Soal',
+            //     'errors' => [
+            //         'required' => '{field} harus diisi.',
+            //         'is_unique' => '{field} sudah terdaftar.'
+            //     ]
+            // ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -144,8 +151,8 @@ class PencetakSoal extends BaseController
 
         try {
             $this->pencetak_soalModel->save([
-                'id_pencetak_soal' => $id_pencetak_soal,
-                'id_user' => $this->request->getVar('pencetak_soal'),
+                'id_pencetak_soal' => $id_user,
+                // 'id_user' => $this->request->getVar('pencetak_soal'),
                 'id_prodi' => $this->request->getVar('prodi')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');

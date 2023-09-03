@@ -7,30 +7,18 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Data Pencetak Soal</h4>
-                <form action="<?= base_url('/admin/pencetak_soal/update/' . $data_pencetak['id_pencetak_soal']); ?>" method="post" class="forms-sample" id="form-edit">
+                <form action="<?= base_url('/admin/pencetak_soal/update/' . $pencetak_soal['id_user']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
-                    <!-- <input type="hidden" name="id_pencetak_soal" value="<?= $data_pencetak['id_pencetak_soal']; ?>"> -->
                     <div class="form-group">
                         <label for="pencetak_soal">Pencetak Soal</label>
-                        <select class="form-control <?= (validation_show_error('pencetak_soal')) ? 'is-invalid' : ''; ?>" id="pencetak_soal" name="pencetak_soal">
-                            <option value="">Pilih Pencetak Soal</option>
-                            <?php foreach ($pencetak_soal as $p) : ?>
-                                <option value="<?= $p['id_user']; ?>" <?= (old('pencetak_soal', $data_pencetak['id_user']) == $p['id_user']) ? 'selected' : ''; ?>>
-                                    <?= $p['pengawas']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('pencetak_soal'); ?>
-                        </div>
+                        <input type="text" class="form-control" id="pencetak_soal" name="pencetak_soal" value="<?= old('pencetak_soal', $pencetak_soal['pengawas']); ?>" placeholder="Pencetak Soal" readonly>
                     </div>
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
-                        <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
-                            <option value="">Pilih Program Studi</option>
+                        <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi[]" placeholder="Pilih Program Studi" data-allow-clear="1" multiple>
                             <?php foreach ($prodi as $p) : ?>
                                 <?php if ($p['prodi'] != 'Non Teknik') : ?>
-                                    <option value="<?= $p['id_prodi']; ?>" <?= (old('prodi', $data_pencetak['id_prodi']) == $p['id_prodi']) ? 'selected' : ''; ?>>
+                                    <option value="<?= $p['id_prodi']; ?>" <?= in_array($p['id_prodi'], old('prodi', $prodi_pencetak)) ? 'selected' : ''; ?>>
                                         <?= $p['prodi']; ?>
                                     </option>
                                 <?php endif; ?>
@@ -42,6 +30,19 @@
                     </div>
                     <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
                 </form>
+
+                <script>
+                    $(document).ready(function() {
+                        $('#prodi').each(function() {
+                            $(this).select2({
+                                theme: 'bootstrap4',
+                                width: 'style',
+                                placeholder: $(this).attr('placeholder'),
+                                allowClear: Boolean($(this).data('allow-clear')),
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

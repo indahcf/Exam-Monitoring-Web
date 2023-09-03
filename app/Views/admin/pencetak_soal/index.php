@@ -24,17 +24,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1; ?>
+                            <?php $i = 0;
+                            $temp = 0; ?>
                             <?php foreach ($pencetak_soal as $p) : ?>
                                 <tr>
-                                    <td><?= $i++; ?></td>
+                                    <?php if ($temp != $p['id_user']) {
+                                        $i++;
+                                        $temp = $p['id_user'];
+                                    } ?>
+                                    <td><?= $i; ?></td>
                                     <td><?= $p['pengawas']; ?></td>
                                     <td><?= $p['prodi']; ?></td>
                                     <td>
-                                        <a href="<?= base_url(); ?>admin/pencetak_soal/edit/<?= $p['id_pencetak_soal']; ?>" class="btn btn-warning btn-rounded btn-icon">
+                                        <a href="<?= base_url(); ?>admin/pencetak_soal/edit/<?= $p['id_user']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <button data-id="<?= $p['id_pencetak_soal']; ?>" data-model="pencetak_soal" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                        <button data-id="<?= $p['id_user']; ?>" data-model="pencetak_soal" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
                                         </button>
                                     </td>
@@ -48,7 +53,8 @@
                     <script>
                         $(document).ready(function() {
                             $('#pencetak_soal').DataTable({
-                                "scrollX": true
+                                "scrollX": true,
+                                'rowsGroup': [0, 1, 3]
                             });
                         });
                     </script>

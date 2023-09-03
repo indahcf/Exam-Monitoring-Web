@@ -57,7 +57,6 @@
                         $(document).ready(function() {
                             $('#user').DataTable({
                                 "scrollX": true,
-                                // 'rowsGroup': [0, 2],
                                 'rowsGroup': [0, 1, 3]
                             });
                         });

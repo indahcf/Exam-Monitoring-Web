@@ -16,8 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role[]" data-allow-clear="1" multiple>
-                            <option value="">Pilih Role</option>
+                        <select class="form-control <?= (validation_show_error('role')) ? 'is-invalid' : ''; ?>" id="role" name="role[]" placeholder="Pilih Role" data-allow-clear="1" multiple>
                             <?php foreach ($data_role as $dr) : ?>
                                 <option value="<?= $dr['id_role']; ?>" <?= in_array($dr['id_role'], old('role', $role)) ? 'selected' : ''; ?>>
                                     <?= $dr['role'] ?>
