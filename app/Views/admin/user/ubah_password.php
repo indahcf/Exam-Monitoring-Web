@@ -11,13 +11,6 @@
                     <?= csrf_field(); ?>
                     <!-- <input type="hidden" name="id" value="<?= $users['id']; ?>"> -->
                     <div class="form-group">
-                        <label for="password_lama">Password Lama</label>
-                        <input type="password" class="form-control <?= (validation_show_error('password_lama')) ? 'is-invalid' : ''; ?>" id="password_lama" name="password_lama" value="<?= old('password_lama'); ?>" placeholder="Password Lama">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('password_lama'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="password_baru">Password Baru</label>
                         <input type="password" class="form-control <?= (validation_show_error('password_baru')) ? 'is-invalid' : ''; ?>" id="password_baru" name="password_baru" value="<?= old('password_baru'); ?>" placeholder="Password Baru">
                         <div class="invalid-feedback">

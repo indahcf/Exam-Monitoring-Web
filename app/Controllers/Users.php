@@ -176,14 +176,6 @@ class Users extends BaseController
     function update_password($id)
     {
         if (!$this->validate([
-            'password_lama' => [
-                'rules' => 'required',
-                'label' => 'Password Lama',
-                'errors' => [
-                    'required' => '{field} tidak boleh kosong'
-                ]
-            ],
-
             'password_baru' => [
                 'rules' => 'required',
                 'label' => 'Password Baru',
@@ -191,7 +183,6 @@ class Users extends BaseController
                     'required' => '{field} tidak boleh kosong'
                 ]
             ],
-
             'konfirmasi_password_baru' => [
                 'rules' => 'required|matches[password_baru]',
                 'label' => 'Konfirmasi Password Baru',
@@ -204,19 +195,14 @@ class Users extends BaseController
             return redirect()->back()->withInput();
         }
 
-        $rowData = $this->usersModel->find($id);
-        $passwordUser = $rowData['password_hash'];
         $request = $this->request;
 
-        if (password_verify(base64_encode(hash('sha384', service('request')->getVar('password_lama'), true)), $passwordUser)) {
-            $this->usersModel->save([
-                'id' => $id,
-                'password_hash' => Password::hash($request->getVar('password_baru'))
-            ]);
-            session()->setFlashdata('success', 'Password Berhasil Diubah.');
-        } else {
-            session()->setFlashdata('error', 'Password Yang Anda masukan Salah!');
-        }
+        $this->usersModel->save([
+            'id' => $id,
+            'password_hash' => Password::hash($request->getVar('password_baru'))
+        ]);
+        session()->setFlashdata('success', 'Password Berhasil Diubah.');
+
         return redirect()->to('/admin/user');
     }
 }
