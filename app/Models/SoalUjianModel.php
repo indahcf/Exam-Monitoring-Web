@@ -83,12 +83,16 @@ class SoalUjianModel extends Model
             ->join('prodi', 'prodi.id_prodi=pencetak_soal.id_prodi')
             ->where('id_user', $id_users)
             ->Get()
-            ->getRow();
+            ->getResult();
+
+        $id_prodi = [];
 
         if ($prodi == NULL) {
             return array();
         } else {
-            $id_prodi = $prodi->id_prodi;
+            foreach ($prodi as $p) {
+                $id_prodi[] = $p->id_prodi;
+            }
         }
 
         return $this->join('soal_kelas', 'soal_ujian.id_soal_ujian=soal_kelas.id_soal_ujian')
@@ -100,7 +104,7 @@ class SoalUjianModel extends Model
             ->where('soal_ujian.id_tahun_akademik', $id_tahun_akademik)
             ->where('periode_ujian', $periode_ujian)
             ->whereIn('status_soal', ['Diterima', 'Dicetak']) // Use whereIn for multiple status values
-            ->where('matkul.id_prodi', $id_prodi)
+            ->whereIn('matkul.id_prodi', $id_prodi)
             ->orderBy('soal_ujian.created_at', 'ASC')
             ->findAll();
     }

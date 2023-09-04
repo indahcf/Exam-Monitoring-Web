@@ -150,11 +150,17 @@ class PencetakSoal extends BaseController
         }
 
         try {
-            $this->pencetak_soalModel->save([
-                'id_pencetak_soal' => $id_user,
-                // 'id_user' => $this->request->getVar('pencetak_soal'),
-                'id_prodi' => $this->request->getVar('prodi')
-            ]);
+            $this->pencetak_soalModel->where('id_user', $id_user)->delete();
+
+            $prodi = $this->request->getVar('prodi');
+            foreach ($prodi as $p) {
+                $this->pencetak_soalModel->save([
+                    'id_user' => $id_user,
+                    // 'id_user' => $this->request->getVar('pencetak_soal'),
+                    'id_prodi' => $p
+                ]);
+            }
+
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Data Gagal Diubah');
