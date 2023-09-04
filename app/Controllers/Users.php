@@ -121,11 +121,11 @@ class Users extends BaseController
     {
         $data = [
             'title' => 'Edit User',
-            'users' => $this->usersModel->find($id),
+            'users' => $this->usersModel->join('user_role', 'user_role.id_user=users.id')->where('id', $id)->get()->getRowArray(),
             'data_role' => $this->role_model->findAll(),
             'role'  => $this->user_role_model->getIdRoleByUserId($id)
         ];
-
+        // dd($data['users']);
         return view('admin/user/edit', $data);
     }
 

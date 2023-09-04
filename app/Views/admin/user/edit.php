@@ -11,6 +11,28 @@
                     <?= csrf_field(); ?>
                     <!-- <input type="hidden" name="id" value="<?= $users['id']; ?>"> -->
                     <div class="form-group">
+                        <label for="nama_user">Nama User</label>
+                        <?php
+                        $dosenModel = new \App\Models\DosenModel();
+                        $pengawasModel = new \App\Models\PengawasModel();
+                        if ($users['id_role'] == 2 || $users['id_role'] == 3 || $users['id_role'] == 6 || $users['id_role'] == 7) {
+                            $dosenData = $dosenModel->where('id_user', $users['id'])->first();
+                            if ($dosenData !== null) {
+                        ?>
+                                <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= old('nama_user', $dosenData['dosen']); ?>" placeholder="Nama User" readonly>
+                            <?php
+                            }
+                        } else {
+                            $pengawasData = $pengawasModel->where('id_user', $users['id'])->first();
+                            if ($pengawasData !== null) {
+                            ?>
+                                <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= old('nama_user', $pengawasData['pengawas']); ?>" placeholder="Nama User" readonly>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" value="<?= old('email', $users['email']); ?>" placeholder="Email" readonly>
                     </div>

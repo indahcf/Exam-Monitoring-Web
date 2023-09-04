@@ -4,10 +4,10 @@
 
 <h4 class="card-title">Data Pencetak Soal</h4>
 <div class="template-demo">
-    <a href="<?= base_url(); ?>admin/pencetak_soal/create" class="btn btn-primary btn-icon-text">
+    <!-- <a href="<?= base_url(); ?>admin/pencetak_soal/create" class="btn btn-primary btn-icon-text">
         <i class="ti-plus btn-icon-prepend"></i>
         Tambah
-    </a>
+    </a> -->
 </div>
 <div class="card">
     <div class="card-body">

@@ -106,7 +106,7 @@ class PencetakSoal extends BaseController
 
     public function edit($id_user)
     {
-        $pencetak_soal = $this->pencetak_soalModel->join('users', 'users.id=pencetak_soal.id_user')->join('pengawas', 'pengawas.id_user=users.id')
+        $pencetak_soal = $this->usersModel->join('pengawas', 'pengawas.id_user=users.id')
             ->join('user_role', 'users.id=user_role.id_user')
             ->where('user_role.id_role', 4)
             ->where('user_role.id_user', $id_user)
@@ -128,16 +128,7 @@ class PencetakSoal extends BaseController
     public function update($id_user)
     {
         // dd($this->request->getPost());
-        //validasi input
         if (!$this->validate([
-            // 'pencetak_soal' => [
-            //     'rules' => 'required|is_unique[pencetak_soal.id_user,id_pencetak_soal,' . $id_pencetak_soal . ']',
-            //     'label' => 'Pencetak Soal',
-            //     'errors' => [
-            //         'required' => '{field} harus diisi.',
-            //         'is_unique' => '{field} sudah terdaftar.'
-            //     ]
-            // ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -147,6 +138,13 @@ class PencetakSoal extends BaseController
             ],
         ])) {
             return redirect()->back()->withInput();
+        }
+
+        //validasi agar tidak ada prodi yg sama di pencetak soal
+        if ($this->pencetak_soalModel->whereIn('id_prodi', $this->request->getVar('prodi'))->where([
+            'pencetak_soal.id_user !=' => $id_user
+        ])->first()) {
+            return redirect()->back()->with('error', 'Program Studi Sudah Terdaftar.')->withInput();
         }
 
         try {

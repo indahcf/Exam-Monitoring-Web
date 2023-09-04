@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama User</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
@@ -33,6 +34,23 @@
                                         $temp = $u['id'];
                                     } ?>
                                     <td><?= $i; ?></td>
+                                    <td>
+                                        <?php
+                                        $dosenModel = new \App\Models\DosenModel();
+                                        $pengawasModel = new \App\Models\PengawasModel();
+                                        if ($u['id_role'] == 2 || $u['id_role'] == 3 || $u['id_role'] == 6 || $u['id_role'] == 7) {
+                                            $dosenData = $dosenModel->where('id_user', $u['id'])->first();
+                                            if ($dosenData !== null) {
+                                                echo $dosenData['dosen'];
+                                            }
+                                        } else {
+                                            $pengawasData = $pengawasModel->where('id_user', $u['id'])->first();
+                                            if ($pengawasData !== null) {
+                                                echo $pengawasData['pengawas'];
+                                            }
+                                        }
+                                        ?>
+                                    </td>
                                     <td><?= $u['email']; ?></td>
                                     <td><?= $u['role']; ?></td>
                                     <td>
@@ -57,7 +75,7 @@
                         $(document).ready(function() {
                             $('#user').DataTable({
                                 "scrollX": true,
-                                'rowsGroup': [0, 1, 3]
+                                'rowsGroup': [0, 1, 2, 4]
                             });
                         });
                     </script>
