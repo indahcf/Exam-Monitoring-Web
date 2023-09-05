@@ -24,7 +24,7 @@ class Kelas extends Seeder
             ],
             [
                 'id_matkul'         => 2,
-                'id_dosen'          => 2,
+                'id_dosen'          => 3,
                 'kelas'             => 'B',
                 'jumlah_mahasiswa'  => 20
             ],
