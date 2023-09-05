@@ -73,9 +73,11 @@
                                             </a>
                                         <?php endif; ?>
                                         <?php if (count(array_intersect(user()->roles, ['Admin', 'Dosen'])) > 0) : ?>
-                                            <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/detail/<?= $d['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
-                                                <i class="ti-eye"></i>
-                                            </a>
+                                            <?php if ($d['status_distribusi'] != 'Belum') : ?>
+                                                <a href="<?= base_url(); ?>admin/distribusi_hasil_ujian/detail/<?= $d['id_jadwal_ruang']; ?>" class="btn btn-success btn-rounded btn-icon">
+                                                    <i class="ti-eye"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
