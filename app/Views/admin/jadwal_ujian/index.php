@@ -41,14 +41,18 @@
             </div>
         </button> -->
         <?php if (!empty($jadwal_ujian)) : ?>
-            <a href="<?= $url_export ?>" class="btn btn-danger btn-icon-text">
-                <div class="d-md-block d-flex flex-column">
+            <div class="d-md-block d-flex flex-column dropdown">
+                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ti-export"></i>
                     <span class="d-none d-md-inline ml-1">
                         Export
                     </span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="<?= $url_export_mhs ?>">Mahasiswa</a>
+                    <a class="dropdown-item" href="<?= $url_export_panitia ?>">Panitia</a>
                 </div>
-            </a>
+            </div>
         <?php endif; ?>
     </div>
 </div>

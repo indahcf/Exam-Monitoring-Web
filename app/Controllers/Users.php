@@ -6,18 +6,21 @@ use Myth\Auth\Password;
 use App\Models\UsersModel;
 use App\Models\UserRoleModel;
 use App\Models\RoleModel;
+use App\Models\PencetakSoalModel;
 
 class Users extends BaseController
 {
     protected $usersModel;
     protected $user_role_model;
     protected $role_model;
+    protected $pencetak_soalModel;
 
     public function __construct()
     {
         $this->usersModel = new UsersModel();
         $this->user_role_model = new UserRoleModel();
         $this->role_model = new RoleModel();
+        $this->pencetak_soalModel = new PencetakSoalModel();
     }
 
     public function index()
@@ -145,6 +148,11 @@ class Users extends BaseController
         }
 
         try {
+            // Langkah 1: Buat variabel untuk menyimpan peran lama
+            $oldRoles = $this->user_role_model->where('id_user', $id)->findAll();
+            $ambilRole = array_column($oldRoles, 'id_role');
+
+            // Langkah 2: Perbarui data pengguna
             $this->user_role_model->where('id_user', $id)->delete();
 
             $roles = $this->request->getVar('role');
@@ -153,6 +161,18 @@ class Users extends BaseController
                     'id_user' => $id,
                     'id_role' => $r
                 ]);
+            }
+
+            // Langkah 3: Periksa apakah peran lama memiliki peran "pencetak soal"
+            $oldHasPencetakSoal = in_array(4, $ambilRole);
+
+            // Langkah 4: Periksa apakah peran baru memiliki peran "pencetak soal"
+            $newHasPencetakSoal = in_array(4, $roles);
+
+            // Langkah 5: Jika peran lama memiliki "pencetak soal" dan peran baru tidak, hapus data pencetak soal
+            if ($oldHasPencetakSoal && !$newHasPencetakSoal) {
+                // Hapus data pencetak soal
+                $this->pencetak_soalModel->where('id_user', $id)->delete();
             }
 
             session()->setFlashdata('success', 'Data Berhasil Diubah');

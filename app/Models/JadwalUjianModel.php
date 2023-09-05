@@ -33,7 +33,7 @@ class JadwalUjianModel extends Model
             ->getResultArray();
     }
 
-    public function filterJadwalUjianExport($id_tahun_akademik, $periode_ujian)
+    public function filterJadwalUjianExportMhs($id_tahun_akademik, $periode_ujian)
     {
         // dd($id_tahun_akademik);
         // dd($periode_ujian);

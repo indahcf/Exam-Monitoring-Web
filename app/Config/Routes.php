@@ -106,7 +106,8 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->post('jadwal_ujian/update/(:segment)', 'JadwalUjian::update/$1');
     $routes->delete('jadwal_ujian/(:num)', 'JadwalUjian::delete/$1');
     $routes->post('jadwal_ujian/simpanExcel', 'JadwalUjian::simpanExcel');
-    $routes->get('jadwal_ujian/export', 'JadwalUjian::export');
+    $routes->get('jadwal_ujian/export_mhs', 'JadwalUjian::export_mhs');
+    $routes->get('jadwal_ujian/export_panitia', 'JadwalUjian::export_panitia');
 
     $routes->get('soal_ujian', 'SoalUjian::index', ['filter' => 'auth:Admin,Dosen']);
     $routes->get('soal_ujian/create', 'SoalUjian::create', ['filter' => 'auth:Admin,Dosen'], ['filter' => 'auth:Admin,Dosen']);

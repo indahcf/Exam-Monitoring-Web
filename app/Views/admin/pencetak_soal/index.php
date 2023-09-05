@@ -39,9 +39,9 @@
                                         <a href="<?= base_url(); ?>admin/pencetak_soal/edit/<?= $p['id_user']; ?>" class="btn btn-warning btn-rounded btn-icon">
                                             <i class="ti-pencil"></i>
                                         </a>
-                                        <button data-id="<?= $p['id_user']; ?>" data-model="pencetak_soal" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
+                                        <!-- <button data-id="<?= $p['id_user']; ?>" data-model="pencetak_soal" type="submit" class="btn btn-danger btn-rounded btn-icon delete">
                                             <i class="ti-trash"></i>
-                                        </button>
+                                        </button> -->
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

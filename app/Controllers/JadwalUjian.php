@@ -57,7 +57,8 @@ class JadwalUjian extends BaseController
 
         $filter = $this->request->getVar('filter');
         $jadwal_ujian = [];
-        $url_export = 'admin/jadwal_ujian/export';
+        $url_export_mhs = 'admin/jadwal_ujian/export_mhs';
+        $url_export_panitia = 'admin/jadwal_ujian/export_panitia';
         if ($jadwal_ujian_terakhir) {
             $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
             $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
@@ -65,14 +66,16 @@ class JadwalUjian extends BaseController
             $id_tahun_akademik = explode("_", $filter)[0];
             $periode_ujian = explode("_", $filter)[1];
             $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
-            $url_export = 'admin/jadwal_ujian/export?filter=' . $filter;
+            $url_export_mhs = 'admin/jadwal_ujian/export_mhs?filter=' . $filter;
+            $url_export_panitia = 'admin/jadwal_ujian/export_panitia?filter=' . $filter;
         }
 
         $data = [
             'title' => 'Data Jadwal Ujian',
             'jadwal_ujian' => $jadwal_ujian,
             'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'url_export' => base_url($url_export),
+            'url_export_mhs' => base_url($url_export_mhs),
+            'url_export_panitia' => base_url($url_export_panitia),
             'filter' => $filter
         ];
         // dd($data);
@@ -80,7 +83,7 @@ class JadwalUjian extends BaseController
         return view('admin/jadwal_ujian/index', $data);
     }
 
-    public function export()
+    public function export_mhs()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
         $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
@@ -93,7 +96,7 @@ class JadwalUjian extends BaseController
             // dd($filter);
             $id_tahun_akademik = explode("_", $filter)[0];
             $periode_ujian = explode("_", $filter)[1];
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjianExport($id_tahun_akademik, $periode_ujian);
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjianExportMhs($id_tahun_akademik, $periode_ujian);
             $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
         }
 
@@ -103,8 +106,37 @@ class JadwalUjian extends BaseController
         ];
 
         $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('admin/jadwal_ujian/export', $data));
+        $dompdf->loadHtml(view('admin/jadwal_ujian/export_mhs', $data));
         $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream(str_replace("/", "-", $label), array("Attachment" => false));
+    }
+
+    public function export_panitia()
+    {
+        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+
+        $filter = $this->request->getVar('filter');
+        $jadwal_ujian = [];
+        if ($jadwal_ujian_terakhir) {
+            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+            // dd($filter);
+            $id_tahun_akademik = explode("_", $filter)[0];
+            $periode_ujian = explode("_", $filter)[1];
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
+            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
+        }
+
+        $data = [
+            'jadwal_ujian' => $jadwal_ujian,
+            'label' => $label
+        ];
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('admin/jadwal_ujian/export_panitia', $data));
+        $dompdf->setPaper('A3', 'landscape');
         $dompdf->render();
         $dompdf->stream(str_replace("/", "-", $label), array("Attachment" => false));
     }

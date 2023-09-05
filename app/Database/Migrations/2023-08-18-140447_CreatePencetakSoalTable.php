@@ -19,7 +19,7 @@ class CreatePencetakSoalTable extends Migration
         ]);
 
         $this->forge->addKey('id_pencetak_soal', true);
-        $this->forge->addForeignKey('id_user', 'users', 'id');
+        $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE', 'fk_user_pencetak_soal');
         $this->forge->addForeignKey('id_prodi', 'prodi', 'id_prodi');
 
         $this->forge->createTable('pencetak_soal', true);

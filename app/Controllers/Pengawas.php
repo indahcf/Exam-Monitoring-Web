@@ -107,7 +107,7 @@ class Pengawas extends BaseController
             $id_user = $pengawas['id_user']; // Ganti 'id_user' dengan nama kolom yang sesuai
 
             // Hapus data pengawas
-            $this->pengawasModel->delete($id_pengawas);
+            // $this->pengawasModel->delete($id_pengawas);
 
             // Hapus data user dengan ID yang sama
             $this->usersModel->delete($id_user); // Ganti 'userModel' dengan model pengguna yang sesuai
