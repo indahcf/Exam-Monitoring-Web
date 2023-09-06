@@ -117,7 +117,7 @@ class Dosen extends BaseController
             $dosen = $this->dosenModel->find($id_dosen);
             $id_user = $dosen['id_user'];
 
-            $this->dosenModel->delete($id_dosen);
+            // $this->dosenModel->delete($id_dosen);
 
             $this->usersModel->delete($id_user);
 
