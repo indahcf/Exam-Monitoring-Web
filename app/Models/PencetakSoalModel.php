@@ -14,7 +14,6 @@ class PencetakSoalModel extends Model
     public function getPencetakSoal()
     {
         return $this->db->table('users')
-            // ->select('*')
             ->where('user_role.id_role', 4)
             ->join('pencetak_soal', 'users.id = pencetak_soal.id_user', 'left')
             ->join('user_role', 'users.id=user_role.id_user')

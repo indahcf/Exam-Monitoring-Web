@@ -154,7 +154,6 @@ class PencetakSoal extends BaseController
             foreach ($prodi as $p) {
                 $this->pencetak_soalModel->save([
                     'id_user' => $id_user,
-                    // 'id_user' => $this->request->getVar('pencetak_soal'),
                     'id_prodi' => $p
                 ]);
             }
