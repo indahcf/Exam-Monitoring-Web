@@ -24,6 +24,11 @@ class Matkul extends Seeder
                 'id_prodi'      => 3,
                 'kode_matkul'   => 'INF191112',
                 'matkul'        => 'Matematika Dasar'
+            ],
+            [
+                'id_prodi'      => 3,
+                'kode_matkul'   => 'INF191113',
+                'matkul'        => 'Struktur Data'
             ]
         ];
 

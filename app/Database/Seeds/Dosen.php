@@ -33,6 +33,12 @@ class Dosen extends Seeder
                 'id_prodi'      => 3,
                 'nidn'          => '0019088105',
                 'dosen'         => 'Dadang Iskandar'
+            ],
+            [
+                'id_user'       => 14,
+                'id_prodi'      => 3,
+                'nidn'          => '0019088106',
+                'dosen'         => 'Ipung Permadi'
             ]
 
         ];
