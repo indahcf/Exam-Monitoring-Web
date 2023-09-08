@@ -20,6 +20,7 @@
                                 <th>No</th>
                                 <th>Tahun Akademik</th>
                                 <th>Semester</th>
+                                <th>Periode Ujian</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -31,6 +32,7 @@
                                     <td><?= $i++; ?></td>
                                     <td><?= $t['tahun_akademik']; ?></td>
                                     <td><?= $t['semester']; ?></td>
+                                    <td><?= $t['periode_ujian']; ?></td>
                                     <td>
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input status" name="status" id="status-<?= $t['id_tahun_akademik']; ?>" data-id="<?= $t['id_tahun_akademik']; ?>" <?= $t['status'] == '1' ? 'disabled' : ''; ?> <?= $t['status'] == '1' ? 'checked' : ''; ?>>

@@ -8,7 +8,7 @@ class TahunAkademikModel extends Model
 {
     protected $table            = 'tahun_akademik';
     protected $primaryKey       = 'id_tahun_akademik';
-    protected $allowedFields    = ['tahun_akademik', 'semester', 'status'];
+    protected $allowedFields    = ['tahun_akademik', 'semester', 'periode_ujian', 'status'];
     protected $useTimestamps    = true;
 
     public function getAktif()

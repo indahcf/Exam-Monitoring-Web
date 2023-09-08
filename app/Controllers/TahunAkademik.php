@@ -48,15 +48,23 @@ class TahunAkademik extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
-        //cek tahun dan semester
+        //cek tahun akademik, semester, periode ujian tidak boleh ada yg sama
         if ($this->tahun_akademikModel->where([
             'tahun_akademik' => $this->request->getVar('tahun_akademik'),
-            'semester' => $this->request->getVar('semester')
+            'semester' => $this->request->getVar('semester'),
+            'periode_ujian' => $this->request->getVar('periode_ujian')
         ])->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
         }
@@ -64,7 +72,8 @@ class TahunAkademik extends BaseController
         try {
             $this->tahun_akademikModel->save([
                 'tahun_akademik' => $this->request->getVar('tahun_akademik'),
-                'semester' => $this->request->getVar('semester')
+                'semester' => $this->request->getVar('semester'),
+                'periode_ujian' => $this->request->getVar('periode_ujian')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
@@ -122,15 +131,23 @@ class TahunAkademik extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'periode_ujian' => [
+                'rules' => 'required',
+                'label' => 'Periode Ujian',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput();
         }
 
-        //cek tahun dan semester
+        //cek tahun akademik, semester, periode ujian tidak boleh ada yg sama
         if ($this->tahun_akademikModel->where([
             'tahun_akademik' => $this->request->getVar('tahun_akademik'),
-            'semester' => $this->request->getVar('semester')
+            'semester' => $this->request->getVar('semester'),
+            'periode_ujian' => $this->request->getVar('periode_ujian')
         ])->where('id_tahun_akademik !=', $id_tahun_akademik)->first()) {
             return redirect()->back()->with('error', 'Data sudah terdaftar.')->withInput();
         }
@@ -139,8 +156,8 @@ class TahunAkademik extends BaseController
             $this->tahun_akademikModel->save([
                 'id_tahun_akademik' => $id_tahun_akademik,
                 'tahun_akademik' => $this->request->getVar('tahun_akademik'),
-                'semester' => $this->request->getVar('semester')
-                // 'status' => $this->request->getVar('status')
+                'semester' => $this->request->getVar('semester'),
+                'periode_ujian' => $this->request->getVar('periode_ujian')
             ]);
             session()->setFlashdata('success', 'Data Berhasil Diubah');
         } catch (\Exception $e) {
