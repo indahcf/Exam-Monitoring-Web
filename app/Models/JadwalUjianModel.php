@@ -8,13 +8,12 @@ class JadwalUjianModel extends Model
 {
     protected $table            = 'jadwal_ujian';
     protected $primaryKey       = 'id_jadwal_ujian';
-    protected $allowedFields    = ['id_kelas', 'id_tahun_akademik', 'koordinator_ujian', 'periode_ujian', 'tanggal', 'jam_mulai', 'jam_selesai'];
+    protected $allowedFields    = ['id_kelas', 'id_tahun_akademik', 'koordinator_ujian', 'tanggal', 'jam_mulai', 'jam_selesai'];
     protected $useTimestamps    = true;
 
-    public function filterJadwalUjian($id_tahun_akademik, $periode_ujian)
+    public function filterJadwalUjian($id_tahun_akademik)
     {
         // dd($id_tahun_akademik);
-        // dd($periode_ujian);
         return $this->db->table('jadwal_ruang')
             ->select('jadwal_ruang.*, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, dosen_koordinator.dosen as nama_koordinator, pengawas.*, jadwal_pengawas.*, tahun_akademik.*')
             ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian', 'right')
@@ -28,15 +27,13 @@ class JadwalUjianModel extends Model
             ->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')
             ->join('tahun_akademik', 'jadwal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
-            ->where('periode_ujian', $periode_ujian)
             ->get()
             ->getResultArray();
     }
 
-    public function filterJadwalUjianExportMhs($id_tahun_akademik, $periode_ujian)
+    public function filterJadwalUjianExportMhs($id_tahun_akademik)
     {
         // dd($id_tahun_akademik);
-        // dd($periode_ujian);
         return $this->db->table('jadwal_ruang')
             ->select('jadwal_ruang.*, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, tahun_akademik.*')
             ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian', 'right')
@@ -47,7 +44,6 @@ class JadwalUjianModel extends Model
             ->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
             ->join('tahun_akademik', 'jadwal_ujian.id_tahun_akademik=tahun_akademik.id_tahun_akademik')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
-            ->where('periode_ujian', $periode_ujian)
             ->get()
             ->getResultArray();
     }

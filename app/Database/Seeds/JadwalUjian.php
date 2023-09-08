@@ -14,7 +14,6 @@ class JadwalUjian extends Seeder
                 'id_kelas'           => 1,
                 'id_tahun_akademik'  => 1,
                 'koordinator_ujian'  => 1,
-                'periode_ujian'      => 'UAS',
                 'tanggal'            => '2023-05-25',
                 'jam_mulai'          => '07:30',
                 'jam_selesai'        => '10:00'
@@ -23,7 +22,6 @@ class JadwalUjian extends Seeder
                 'id_kelas'           => 2,
                 'id_tahun_akademik'  => 1,
                 'koordinator_ujian'  => 3,
-                'periode_ujian'      => 'UAS',
                 'tanggal'            => '2023-06-19',
                 'jam_mulai'          => '07:30',
                 'jam_selesai'        => '10:30'
@@ -32,7 +30,6 @@ class JadwalUjian extends Seeder
                 'id_kelas'           => 3,
                 'id_tahun_akademik'  => 1,
                 'koordinator_ujian'  => 1,
-                'periode_ujian'      => 'UAS',
                 'tanggal'            => '2023-06-20',
                 'jam_mulai'          => '07:00',
                 'jam_selesai'        => '09:00'

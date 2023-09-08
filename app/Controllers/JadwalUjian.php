@@ -53,19 +53,16 @@ class JadwalUjian extends BaseController
     public function index()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 
         $filter = $this->request->getVar('filter');
         $jadwal_ujian = [];
         $url_export_mhs = 'admin/jadwal_ujian/export_mhs';
         $url_export_panitia = 'admin/jadwal_ujian/export_panitia';
-        if ($jadwal_ujian_terakhir) {
-            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+        if ($jadwal_ujian != '') {
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
             // dd($filter);
-            $id_tahun_akademik = explode("_", $filter)[0];
-            $periode_ujian = explode("_", $filter)[1];
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
+            $id_tahun_akademik = $filter;
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik);
             $url_export_mhs = 'admin/jadwal_ujian/export_mhs?filter=' . $filter;
             $url_export_panitia = 'admin/jadwal_ujian/export_panitia?filter=' . $filter;
         }
@@ -86,18 +83,15 @@ class JadwalUjian extends BaseController
     public function export_mhs()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 
         $filter = $this->request->getVar('filter');
         $jadwal_ujian = [];
-        if ($jadwal_ujian_terakhir) {
-            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+        if ($jadwal_ujian != '') {
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
             // dd($filter);
-            $id_tahun_akademik = explode("_", $filter)[0];
-            $periode_ujian = explode("_", $filter)[1];
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjianExportMhs($id_tahun_akademik, $periode_ujian);
-            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
+            $id_tahun_akademik = $filter;
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjianExportMhs($id_tahun_akademik);
+            $label = 'Jadwal ' . $jadwal_ujian[0]['periode_ujian'] . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
         }
 
         $data = [
@@ -115,18 +109,15 @@ class JadwalUjian extends BaseController
     public function export_panitia()
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
 
         $filter = $this->request->getVar('filter');
         $jadwal_ujian = [];
-        if ($jadwal_ujian_terakhir) {
-            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
+        if ($jadwal_ujian != '') {
+            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
             // dd($filter);
-            $id_tahun_akademik = explode("_", $filter)[0];
-            $periode_ujian = explode("_", $filter)[1];
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik, $periode_ujian);
-            $label = 'Jadwal ' . $periode_ujian . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
+            $id_tahun_akademik = $filter;
+            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik);
+            $label = 'Jadwal ' . $jadwal_ujian[0]['periode_ujian'] . ' ' . $jadwal_ujian[0]['semester'] . ' Tahun Akademik ' . $jadwal_ujian[0]['tahun_akademik'];
         }
 
         $data = [
@@ -187,13 +178,6 @@ class JadwalUjian extends BaseController
     {
         // dd($this->request->getPost());
         if (!$this->validate([
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -254,10 +238,9 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik yg sama
         if ($this->jadwal_ujianModel->where([
             'id_kelas' => $this->request->getVar('kelas'),
-            'periode_ujian' => $this->request->getVar('periode_ujian'),
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
         ])->first()) {
             return redirect()->back()->with('error', 'Jadwal Ujian Sudah Dibuat.')->withInput();
@@ -278,7 +261,6 @@ class JadwalUjian extends BaseController
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('jadwal_ujian')->insert([
-                'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'id_kelas' => $this->request->getVar('kelas'),
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'tanggal' => $this->request->getVar('tanggal'),
@@ -402,13 +384,6 @@ class JadwalUjian extends BaseController
     public function update($id_jadwal_ujian)
     {
         if (!$this->validate([
-            'periode_ujian' => [
-                'rules' => 'required',
-                'label' => 'Periode Ujian',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'prodi' => [
                 'rules' => 'required',
                 'label' => 'Program Studi',
@@ -469,10 +444,9 @@ class JadwalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        //validasi agar tidak ada kelas yg sama di jadwal ujian dengan tahun akademik yg sama
         if ($this->jadwal_ujianModel->where([
             'id_kelas' => $this->request->getVar('kelas'),
-            'periode_ujian' => $this->request->getVar('periode_ujian'),
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
             'id_jadwal_ujian !=' => $id_jadwal_ujian
         ])->first()) {
@@ -494,7 +468,6 @@ class JadwalUjian extends BaseController
         try {
             $this->db->transException(true)->transStart();
             $this->db->table('jadwal_ujian')->where('id_jadwal_ujian', $id_jadwal_ujian)->update([
-                'periode_ujian' => $this->request->getVar('periode_ujian'),
                 'id_kelas' => $this->request->getVar('kelas'),
                 'tanggal' => $this->request->getVar('tanggal'),
                 'jam_mulai' => $this->request->getVar('jam_mulai'),

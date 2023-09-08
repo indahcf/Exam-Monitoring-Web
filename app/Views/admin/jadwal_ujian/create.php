@@ -10,17 +10,6 @@
                 <form action="<?= base_url('/admin/jadwal_ujian/save') ?>" method="post" class="forms-sample">
                     <?= csrf_field(); ?>
                     <div class="form-group">
-                        <label for="periode_ujian">Periode Ujian</label>
-                        <select class="form-control <?= (validation_show_error('periode_ujian')) ? 'is-invalid' : ''; ?>" id="periode_ujian" name="periode_ujian">
-                            <option value="">Pilih Periode Ujian</option>
-                            <option value="UTS" <?= old('periode_ujian') == 'UTS' ? 'selected' : '' ?>>UTS</option>
-                            <option value="UAS" <?= old('periode_ujian') == 'UAS' ? 'selected' : '' ?>>UAS</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('periode_ujian'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
                             <option value="">Pilih Program Studi</option>

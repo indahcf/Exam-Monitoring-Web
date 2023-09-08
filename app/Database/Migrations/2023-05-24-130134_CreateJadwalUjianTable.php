@@ -15,7 +15,6 @@ class CreateJadwalUjianTable extends Migration
             'id_kelas'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'id_tahun_akademik'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'koordinator_ujian'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'periode_ujian'         => ['type' => 'enum', 'constraint' => ['UTS', 'UAS']],
             'tanggal'               => ['type' => 'date'],
             'jam_mulai'             => ['type' => 'time'],
             'jam_selesai'           => ['type' => 'time'],
