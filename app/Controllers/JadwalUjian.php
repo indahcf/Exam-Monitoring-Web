@@ -52,32 +52,40 @@ class JadwalUjian extends BaseController
 
     public function index()
     {
-        $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
+        $tahun_akademik = $this->tahun_akademikModel->findAll();
+        if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-        $filter = $this->request->getVar('filter');
-        $jadwal_ujian = [];
-        $url_export_mhs = 'admin/jadwal_ujian/export_mhs';
-        $url_export_panitia = 'admin/jadwal_ujian/export_panitia';
-        if ($jadwal_ujian != '') {
-            $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
-            // dd($filter);
-            $id_tahun_akademik = $filter;
-            $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik);
-            $url_export_mhs = 'admin/jadwal_ujian/export_mhs?filter=' . $filter;
-            $url_export_panitia = 'admin/jadwal_ujian/export_panitia?filter=' . $filter;
+            $filter = $this->request->getVar('filter');
+            $jadwal_ujian = [];
+            $url_export_mhs = 'admin/jadwal_ujian/export_mhs';
+            $url_export_panitia = 'admin/jadwal_ujian/export_panitia';
+            if ($jadwal_ujian != '') {
+                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                // dd($filter);
+                $id_tahun_akademik = $filter;
+                $jadwal_ujian = $this->jadwal_ujianModel->filterJadwalUjian($id_tahun_akademik);
+                $url_export_mhs = 'admin/jadwal_ujian/export_mhs?filter=' . $filter;
+                $url_export_panitia = 'admin/jadwal_ujian/export_panitia?filter=' . $filter;
+            }
+
+            $data = [
+                'title' => 'Data Jadwal Ujian',
+                'jadwal_ujian' => $jadwal_ujian,
+                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                'url_export_mhs' => base_url($url_export_mhs),
+                'url_export_panitia' => base_url($url_export_panitia),
+                'filter' => $filter
+            ];
+            // dd($data);
+
+            return view('admin/jadwal_ujian/index', $data);
+        } else {
+            $data = [
+                'title' => 'Data Jadwal Ujian'
+            ];
+            return view('admin/pesan/index', $data);
         }
-
-        $data = [
-            'title' => 'Data Jadwal Ujian',
-            'jadwal_ujian' => $jadwal_ujian,
-            'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-            'url_export_mhs' => base_url($url_export_mhs),
-            'url_export_panitia' => base_url($url_export_panitia),
-            'filter' => $filter
-        ];
-        // dd($data);
-
-        return view('admin/jadwal_ujian/index', $data);
     }
 
     public function export_mhs()
