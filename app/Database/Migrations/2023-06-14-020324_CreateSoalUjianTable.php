@@ -16,7 +16,6 @@ class CreateSoalUjianTable extends Migration
             'id_dosen'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'soal_ujian'            => ['type' => 'varchar', 'constraint' => 1000],
             'status_soal'           => ['type' => 'enum', 'constraint' => ['Menunggu Direview', 'Revisi', 'Diterima', 'Dicetak'], 'default' => 'Menunggu Direview'],
-            'periode_ujian'         => ['type' => 'enum', 'constraint' => ['UTS', 'UAS']],
             'bentuk_soal'           => ['type' => 'enum', 'constraint' => ['Uraian', 'Pilihan Ganda', 'Uraian dan Pilihan Ganda']],
             'metode'                => ['type' => 'enum', 'constraint' => ['Luring', 'Daring']],
             'durasi_pengerjaan'     => ['type' => 'enum', 'constraint' => ['Ada', 'Tidak Ada'], 'null' => true],

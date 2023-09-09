@@ -342,9 +342,8 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik yg sama
         if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
-            'periode_ujian' => $this->request->getVar('periode_ujian'),
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
             'soal_ujian.id_soal_ujian !=' => $id_soal_ujian
         ])->first()) {

@@ -10,7 +10,6 @@
                 <form action="<?= base_url('/admin/soal_ujian/update/' . $soal_ujian['id_soal_ujian']); ?>" method="post" class="forms-sample" id="form-edit" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="oldFile" value="<?= $soal_ujian['soal_ujian']; ?>">
-                    <input type="hidden" name="periode_ujian" value="<?= $soal_ujian['periode_ujian']; ?>">
                     <div class="form-group">
                         <label for="prodi">Program Studi</label>
                         <select class="form-control <?= (validation_show_error('prodi')) ? 'is-invalid' : ''; ?>" id="prodi" name="prodi">
