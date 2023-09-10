@@ -34,48 +34,60 @@ class SoalUjian extends BaseController
     public function index()
     {
         if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $soal_ujian = [];
-            if ($soal_ujian_terakhir) {
-                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $soal_ujian = [];
+                if ($soal_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $soal_ujian = $this->soal_ujianModel->filterSoalUjian($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Data Soal Ujian',
+                    'soal_ujian' => $soal_ujian,
+                    'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                    'filter' => $filter
+                ];
+
+                return view('admin/soal_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Soal Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Data Soal Ujian',
-                'soal_ujian' => $soal_ujian,
-                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-                'filter' => $filter
-            ];
         } else if (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $soal_ujian = [];
-            if ($soal_ujian_terakhir) {
-                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $soal_ujian = $this->soal_ujianModel->filterSoalUjianDosen($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $soal_ujian = [];
+                if ($soal_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $soal_ujian = $this->soal_ujianModel->filterSoalUjianDosen($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Data Soal Ujian',
+                    'soal_ujian' => $soal_ujian
+                ];
+
+                return view('admin/soal_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Soal Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Data Soal Ujian',
-                'soal_ujian' => $soal_ujian
-            ];
         }
-        // dd($data);
-        return view('admin/soal_ujian/index', $data);
     }
 
     public function create()
@@ -163,12 +175,8 @@ class SoalUjian extends BaseController
             return redirect()->back()->withInput();
         }
 
-        $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
-        $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
-
-        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik dan semester serta periode ujian yg sama
+        //validasi agar tidak ada kelas yg sama di soal ujian dengan tahun akademik yg sama
         if ($this->soal_ujianModel->join('soal_kelas', 'soal_kelas.id_soal_ujian=soal_ujian.id_soal_ujian')->whereIn('id_kelas', $this->request->getVar('kelas'))->where([
-            'periode_ujian' => $periode_ujian_aktif,
             'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik']
         ])->first()) {
             return redirect()->back()->with('error', 'Soal Ujian Sudah Dibuat.')->withInput();
@@ -191,13 +199,9 @@ class SoalUjian extends BaseController
                 $id_dosen = $this->db->table('dosen')->join('users', 'users.id=dosen.id_user')->where('id', $id_users)->Get()->getRow()->id_dosen;
             }
 
-            $jadwal_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
-            $periode_ujian_aktif = $jadwal_ujian_terakhir[0]['periode_ujian'];
-
             $this->db->table('soal_ujian')->insert([
                 'id_tahun_akademik' => $this->tahun_akademikModel->getAktif()['id_tahun_akademik'],
                 'id_dosen' => $id_dosen,
-                'periode_ujian' => $periode_ujian_aktif,
                 'soal_ujian' => $namaSoalUjian,
                 'bentuk_soal' => $this->request->getVar('bentuk_soal'),
                 'metode' => $this->request->getVar('metode')
