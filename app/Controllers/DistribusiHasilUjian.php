@@ -28,48 +28,60 @@ class DistribusiHasilUjian extends BaseController
     public function index()
     {
         if (count(array_intersect(user()->roles, ['Admin', 'Pendistribusi Hasil Ujian'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $distribusi_hasil_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $distribusi_hasil_ujian = [];
-            if ($distribusi_hasil_ujian_terakhir) {
-                $periode_ujian_aktif = $distribusi_hasil_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $distribusi_hasil_ujian = $this->jadwal_ruangModel->filterJadwalRuang($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $distribusi_hasil_ujian = [];
+                if ($distribusi_hasil_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $distribusi_hasil_ujian = $this->jadwal_ruangModel->filterJadwalRuang($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Data Distribusi Hasil Ujian',
+                    'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
+                    'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                    'filter' => $filter
+                ];
+
+                return view('admin/distribusi_hasil_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Distribusi Hasil Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Data Distribusi Hasil Ujian',
-                'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
-                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-                'filter' => $filter
-            ];
         } else if (count(array_intersect(user()->roles, ['Dosen'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $distribusi_hasil_ujian_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $distribusi_hasil_ujian = [];
-            if ($distribusi_hasil_ujian_terakhir) {
-                $periode_ujian_aktif = $distribusi_hasil_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $distribusi_hasil_ujian = $this->jadwal_ruangModel->filterJadwalRuangDosen($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $distribusi_hasil_ujian = [];
+                if ($distribusi_hasil_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $distribusi_hasil_ujian = $this->jadwal_ruangModel->filterJadwalRuangDosen($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Data Distribusi Hasil Ujian',
+                    'distribusi_hasil_ujian' => $distribusi_hasil_ujian
+                ];
+
+                return view('admin/distribusi_hasil_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Distribusi Hasil Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Data Distribusi Hasil Ujian',
-                'distribusi_hasil_ujian' => $distribusi_hasil_ujian
-            ];
         }
-        // dd($data['distribusi_hasil_ujian']);
-        return view('admin/distribusi_hasil_ujian/index', $data);
     }
 
     public function edit($id_jadwal_ruang)
