@@ -625,48 +625,60 @@ class SoalUjian extends BaseController
     public function view_cetak_soal_ujian()
     {
         if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $soal_ujian = [];
-            if ($soal_ujian_terakhir) {
-                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $soal_ujian = $this->soal_ujianModel->filterSoalUjianWithStatus($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $soal_ujian = [];
+                if ($soal_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $soal_ujian = $this->soal_ujianModel->filterSoalUjianWithStatus($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Cetak Soal Ujian',
+                    'soal_ujian' => $soal_ujian,
+                    'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                    'filter' => $filter
+                ];
+
+                return view('admin/cetak_soal_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Cetak Soal Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Cetak Soal Ujian',
-                'soal_ujian' => $soal_ujian,
-                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-                'filter' => $filter
-            ];
         } else if (count(array_intersect(user()->roles, ['Pencetak Soal'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $soal_ujian_terakhir = $this->soal_ujianModel->orderBy('created_at', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $soal_ujian = [];
-            if ($soal_ujian_terakhir) {
-                $periode_ujian_aktif = $soal_ujian_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $soal_ujian = $this->soal_ujianModel->filterSoalUjianPencetakSoal($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $soal_ujian = [];
+                if ($soal_ujian != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $soal_ujian = $this->soal_ujianModel->filterSoalUjianPencetakSoal($id_tahun_akademik);
+                }
+
+                $data = [
+                    'title' => 'Cetak Soal Ujian',
+                    'soal_ujian' => $soal_ujian
+                ];
+
+                return view('admin/cetak_soal_ujian/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Cetak Soal Ujian'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $data = [
-                'title' => 'Cetak Soal Ujian',
-                'soal_ujian' => $soal_ujian
-            ];
         }
-        // dd($data);
-        return view('admin/cetak_soal_ujian/index', $data);
     }
 
     public function hasil_review($id_soal_ujian)
