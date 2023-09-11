@@ -40,77 +40,88 @@ class KehadiranPengawas extends BaseController
     public function index()
     {
         if (count(array_intersect(user()->roles, ['Admin'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $kehadiran_pengawas_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $kehadiran_pengawas = [];
-            if ($kehadiran_pengawas_terakhir) {
-                $periode_ujian_aktif = $kehadiran_pengawas_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $kehadiran_pengawas = $this->kehadiran_pengawasModel->filterKehadiranPengawas($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $kehadiran_pengawas = [];
+                if ($kehadiran_pengawas != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $kehadiran_pengawas = $this->kehadiran_pengawasModel->filterKehadiranPengawas($id_tahun_akademik);
+                }
+
+                $jadwal_pengawas = $this->jadwal_pengawas_model->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->findAll();
+                // Fungsi untuk mengelompokkan array berdasarkan kolom tertentu
+                function groupBy($array, $key)
+                {
+                    return array_reduce($array, function ($result, $item) use ($key) {
+                        $result[$item[$key]][] = $item;
+                        return $result;
+                    }, []);
+                }
+
+                // Mengelompokkan array berdasarkan kolom id_jadwal_ruang
+                $groupedPengawas = groupBy($jadwal_pengawas, 'id_jadwal_ruang');
+
+                $data = [
+                    'title' => 'Data Kehadiran Pengawas',
+                    'kehadiran_pengawas' => $kehadiran_pengawas,
+                    'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                    'filter' => $filter,
+                    'groupedPengawas' => $groupedPengawas
+                ];
+
+                return view('admin/kehadiran_pengawas/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Kehadiran Pengawas'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $jadwal_pengawas = $this->jadwal_pengawas_model->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->findAll();
-            // Fungsi untuk mengelompokkan array berdasarkan kolom tertentu
-            function groupBy($array, $key)
-            {
-                return array_reduce($array, function ($result, $item) use ($key) {
-                    $result[$item[$key]][] = $item;
-                    return $result;
-                }, []);
-            }
-
-            // Mengelompokkan array berdasarkan kolom id_jadwal_ruang
-            $groupedPengawas = groupBy($jadwal_pengawas, 'id_jadwal_ruang');
-
-            $data = [
-                'title' => 'Data Kehadiran Pengawas',
-                'kehadiran_pengawas' => $kehadiran_pengawas,
-                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-                'filter' => $filter,
-                'groupedPengawas' => $groupedPengawas
-            ];
         } else if (count(array_intersect(user()->roles, ['Koordinator'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $kehadiran_pengawas_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $kehadiran_pengawas = [];
-            if ($kehadiran_pengawas_terakhir) {
-                $periode_ujian_aktif = $kehadiran_pengawas_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $kehadiran_pengawas = $this->kehadiran_pengawasModel->filterKehadiranPengawasKoordinator($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $kehadiran_pengawas = [];
+                if ($kehadiran_pengawas != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $kehadiran_pengawas = $this->kehadiran_pengawasModel->filterKehadiranPengawasKoordinator($id_tahun_akademik);
+                }
+
+                $jadwal_pengawas = $this->jadwal_pengawas_model->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->findAll();
+                // Fungsi untuk mengelompokkan array berdasarkan kolom tertentu
+                function groupBy($array, $key)
+                {
+                    return array_reduce($array, function ($result, $item) use ($key) {
+                        $result[$item[$key]][] = $item;
+                        return $result;
+                    }, []);
+                }
+
+                // Mengelompokkan array berdasarkan kolom id_jadwal_ruang
+                $groupedPengawas = groupBy($jadwal_pengawas, 'id_jadwal_ruang');
+
+                $data = [
+                    'title' => 'Data Kehadiran Pengawas',
+                    'kehadiran_pengawas' => $kehadiran_pengawas,
+                    'groupedPengawas' => $groupedPengawas
+                ];
+
+                return view('admin/kehadiran_pengawas/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Kehadiran Pengawas'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $jadwal_pengawas = $this->jadwal_pengawas_model->join('pengawas', 'jadwal_pengawas.id_pengawas=pengawas.id_pengawas')->findAll();
-            // Fungsi untuk mengelompokkan array berdasarkan kolom tertentu
-            function groupBy($array, $key)
-            {
-                return array_reduce($array, function ($result, $item) use ($key) {
-                    $result[$item[$key]][] = $item;
-                    return $result;
-                }, []);
-            }
-
-            // Mengelompokkan array berdasarkan kolom id_jadwal_ruang
-            $groupedPengawas = groupBy($jadwal_pengawas, 'id_jadwal_ruang');
-
-            $data = [
-                'title' => 'Data Kehadiran Pengawas',
-                'kehadiran_pengawas' => $kehadiran_pengawas,
-                'groupedPengawas' => $groupedPengawas
-            ];
         }
-        // dd($groupedPengawas);
-
-        return view('admin/kehadiran_pengawas/index', $data);
     }
 
     public function rekap($id_jadwal_ujian, $id_jadwal_ruang)
