@@ -48,55 +48,67 @@ class KehadiranPeserta extends BaseController
     public function index()
     {
         if (count(array_intersect(user()->roles, ['Admin', 'Ketua Panitia'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $kehadiran_peserta = [];
-            if ($kehadiran_peserta_terakhir) {
-                $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $kehadiran_peserta = [];
+                if ($kehadiran_peserta != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik);
+                }
+                // dd($kehadiran_peserta);
+
+                $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
+
+                $data = [
+                    'title' => 'Data Kehadiran Peserta',
+                    'kehadiran_peserta' => $kehadiran_peserta,
+                    'tahun_akademik' => $this->tahun_akademikModel->findAll(),
+                    'filter' => $filter,
+                    'jenis_kejadian' => $jenis_kejadian
+                ];
+
+                return view('admin/kehadiran_peserta/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Kehadiran Peserta'
+                ];
+                return view('admin/pesan/index', $data);
             }
-            // dd($kehadiran_peserta);
-
-            $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
-
-            $data = [
-                'title' => 'Data Kehadiran Peserta',
-                'kehadiran_peserta' => $kehadiran_peserta,
-                'tahun_akademik' => $this->tahun_akademikModel->findAll(),
-                'filter' => $filter,
-                'jenis_kejadian' => $jenis_kejadian
-            ];
         } else if (count(array_intersect(user()->roles, ['Pengawas', 'Koordinator'])) > 0) {
-            $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-            $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
+            $tahun_akademik = $this->tahun_akademikModel->findAll();
+            if (count($tahun_akademik) > 0 && $this->tahun_akademikModel->getAktif()) {
+                $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
 
-            $filter = $this->request->getVar('filter');
-            $kehadiran_peserta = [];
-            if ($kehadiran_peserta_terakhir) {
-                $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
-                $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-                // dd($filter);
-                $id_tahun_akademik = explode("_", $filter)[0];
-                $periode_ujian = explode("_", $filter)[1];
-                $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPesertaPengawas($id_tahun_akademik, $periode_ujian);
+                $filter = $this->request->getVar('filter');
+                $kehadiran_peserta = [];
+                if ($kehadiran_peserta != '') {
+                    $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+                    // dd($filter);
+                    $id_tahun_akademik = $filter;
+                    $kehadiran_peserta = $this->kehadiran_pesertaModel->filterKehadiranPesertaPengawas($id_tahun_akademik);
+                }
+
+                $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
+
+                $data = [
+                    'title' => 'Data Kehadiran Peserta',
+                    'kehadiran_peserta' => $kehadiran_peserta,
+                    'jenis_kejadian' => $jenis_kejadian
+                ];
+
+                return view('admin/kehadiran_peserta/index', $data);
+            } else {
+                $data = [
+                    'title' => 'Data Kehadiran Peserta'
+                ];
+                return view('admin/pesan/index', $data);
             }
-
-            $jenis_kejadian = ['Menyontek', 'Ke Toilet/Tindakan Mencurigakan', 'Tidak Tercantum Di Absen', 'Lain-lain'];
-
-            $data = [
-                'title' => 'Data Kehadiran Peserta',
-                'kehadiran_peserta' => $kehadiran_peserta,
-                'jenis_kejadian' => $jenis_kejadian
-            ];
         }
-
-        return view('admin/kehadiran_peserta/index', $data);
     }
 
     public function rekap($id_jadwal_ujian, $id_jadwal_ruang)
@@ -244,14 +256,11 @@ class KehadiranPeserta extends BaseController
     public function export($id_jadwal_ujian, $id_jadwal_ruang)
     {
         $tahun_akademik_aktif = $this->tahun_akademikModel->getAktif()['id_tahun_akademik'];
-        $kehadiran_peserta_terakhir = $this->jadwal_ujianModel->orderBy('tanggal', 'DESC')->findAll();
-        $periode_ujian_aktif = $kehadiran_peserta_terakhir[0]['periode_ujian'];
-        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif . "_" . $periode_ujian_aktif;
-        $id_tahun_akademik = explode("_", $filter)[0];
-        $periode_ujian = explode("_", $filter)[1];
-        $kehadiran_peserta_label = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik, $periode_ujian);
+        $filter = $this->request->getVar('filter') ?: $tahun_akademik_aktif;
+        $id_tahun_akademik = $filter;
+        $kehadiran_peserta_label = $this->kehadiran_pesertaModel->filterKehadiranPeserta($id_tahun_akademik);
 
-        $label = $periode_ujian . ' ' . $kehadiran_peserta_label[0]['semester'] . ' Tahun Akademik ' . $kehadiran_peserta_label[0]['tahun_akademik'];
+        $label = $kehadiran_peserta_label[0]['periode_ujian'] . ' ' . $kehadiran_peserta_label[0]['semester'] . ' Tahun Akademik ' . $kehadiran_peserta_label[0]['tahun_akademik'];
 
         $jadwal_ujian = $this->jadwal_ujianModel
             ->select('jadwal_ujian.*, kelas.*, matkul.*, prodi.*, dosen.*')

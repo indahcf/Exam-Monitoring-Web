@@ -11,10 +11,9 @@ class KehadiranPesertaModel extends Model
     protected $allowedFields    = ['id_jadwal_ruang', 'total_hadir', 'sakit', 'nim_sakit', 'izin', 'nim_izin', 'tanpa_ket', 'nim_tanpa_ket', 'tidak_memenuhi_syarat', 'nim_tidak_memenuhi_syarat', 'presensi_kurang', 'nim_presensi_kurang', 'jumlah_lju'];
     protected $useTimestamps    = true;
 
-    public function filterKehadiranPeserta($id_tahun_akademik, $periode_ujian)
+    public function filterKehadiranPeserta($id_tahun_akademik)
     {
         // dd($id_tahun_akademik);
-        // dd($periode_ujian);
         return $this->db->table('jadwal_ruang')
             ->select('jadwal_ruang.id_jadwal_ruang as id_ruang_peserta, jadwal_ruang.jumlah_peserta, jadwal_ujian.*, ruang_ujian.*, kelas.*, matkul.*, dosen.*, prodi.*, tahun_akademik.*, pengawas1.pengawas as nama_pengawas1, pengawas2.pengawas as nama_pengawas2, kehadiran_peserta.*, kejadian.*')
             ->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')
@@ -30,14 +29,13 @@ class KehadiranPesertaModel extends Model
             ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
             ->join('kejadian', 'jadwal_ruang.id_jadwal_ruang=kejadian.id_jadwal_ruang', 'left')
             ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
-            ->where('periode_ujian', $periode_ujian)
             ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
             ->orderBy('nim', 'ASC')
             ->get()
             ->getResultArray();
     }
 
-    public function filterKehadiranPesertaPengawas($id_tahun_akademik, $periode_ujian)
+    public function filterKehadiranPesertaPengawas($id_tahun_akademik)
     {
         $id_users = user_id();
 
@@ -58,7 +56,6 @@ class KehadiranPesertaModel extends Model
                 ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
                 ->join('kejadian', 'jadwal_ruang.id_jadwal_ruang=kejadian.id_jadwal_ruang', 'left')
                 ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
-                ->where('periode_ujian', $periode_ujian)
                 ->where('kehadiran_pengawas.pengawas_1', $id_pengawas)
                 ->orWhere('kehadiran_pengawas.pengawas_2', $id_pengawas)
                 ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
@@ -82,7 +79,6 @@ class KehadiranPesertaModel extends Model
                 ->join('pengawas as pengawas2', 'pengawas2.id_pengawas=kehadiran_pengawas.pengawas_2', 'left')
                 ->join('kejadian', 'jadwal_ruang.id_jadwal_ruang=kejadian.id_jadwal_ruang', 'left')
                 ->where('jadwal_ujian.id_tahun_akademik', $id_tahun_akademik)
-                ->where('periode_ujian', $periode_ujian)
                 ->where('jadwal_ujian.koordinator_ujian', $id_koordinator)
                 ->orderBy('jadwal_ujian.id_jadwal_ujian', 'ASC')
                 ->orderBy('nim', 'ASC')
