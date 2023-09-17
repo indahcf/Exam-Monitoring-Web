@@ -125,5 +125,8 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
-# biar file di server online ga berubah pas di pull
+# ignore semua file yang ada di dalam folder soal_ujian
 public/assets/soal_ujian/*
+
+# jangan ignore folder soal ujian
+!public/assets/soal_ujian/
