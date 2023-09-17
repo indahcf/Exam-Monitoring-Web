@@ -125,3 +125,5 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+# biar file di server online ga berubah pas di pull
+public/assets/soal_ujian/
