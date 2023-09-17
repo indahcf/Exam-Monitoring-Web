@@ -127,3 +127,4 @@ nb-configuration.xml
 
 # biar file di server online ga berubah pas di pull
 public/assets/soal_ujian/*
+!public/assets/soal_ujian/
