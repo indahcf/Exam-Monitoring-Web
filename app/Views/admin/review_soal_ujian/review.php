@@ -195,20 +195,14 @@
                         <div class="col-sm-4">Catatan</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <textarea class="form-control <?= (validation_show_error('catatan')) ? 'is-invalid' : ''; ?>" name="catatan" id="catatan" rows="3"><?= old('catatan', $review_soal_ujian['catatan']) ?></textarea>
-                            <div class="invalid-feedback">
-                                <?= validation_show_error('catatan'); ?>
-                            </div>
+                            <textarea class="form-control" name="catatan" id="catatan" rows="3"><?= old('catatan', $review_soal_ujian['catatan']) ?></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">Saran / Rekomendasi</div>
                         <div class="d-none d-sm-inline">:</div>
                         <div class="col-sm">
-                            <textarea class="form-control <?= (validation_show_error('saran')) ? 'is-invalid' : ''; ?>" name="saran" id="saran" rows="3"><?= old('saran', $review_soal_ujian['saran']) ?></textarea>
-                            <div class="invalid-feedback">
-                                <?= validation_show_error('saran'); ?>
-                            </div>
+                            <textarea class="form-control" name="saran" id="saran" rows="3"><?= old('saran', $review_soal_ujian['saran']) ?></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">

@@ -442,70 +442,56 @@ class SoalUjian extends BaseController
         if (!$this->validate([
             'durasi_pengerjaan' => [
                 'rules' => 'required',
-                'label' => 'Durasi Pengerjaan',
+                'label' => 'Durasi Waktu Pengerjaan Seluruh Butir',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'sifat_ujian' => [
                 'rules' => 'required',
-                'label' => 'Sifat Ujian',
+                'label' => 'Informasi Sifat Ujian (Terbuka/Tertutup)',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'petunjuk' => [
                 'rules' => 'required',
-                'label' => 'Petunjuk',
+                'label' => 'Petunjuk Cara Pengerjaan Soal',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'sub_cpmk' => [
                 'rules' => 'required',
-                'label' => 'Sub CPMK',
+                'label' => 'Mengukur Sub-CPMK di RPS',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'durasi_sks' => [
                 'rules' => 'required',
-                'label' => 'Durasi SKS',
+                'label' => 'Kesesuaian Durasi Waktu Dengan Bobot SKS',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'pertanyaan' => [
                 'rules' => 'required',
-                'label' => 'Pertanyaan',
+                'label' => 'Kejelasan Pertanyaan (Standar : jelas dan tidak bermakna ganda/ambigu)',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'skor' => [
                 'rules' => 'required',
-                'label' => 'Skor',
+                'label' => 'Pembobotan Soal/Skor (Standar : Pembobotan)',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
             'gambar' => [
                 'rules' => 'required',
-                'label' => 'Gambar',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'catatan' => [
-                'rules' => 'required',
-                'label' => 'Catatan',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'saran' => [
-                'rules' => 'required',
-                'label' => 'Saran',
+                'label' => 'Gambar/Grafik/Tabel/Peta Dalam Soal Jelas (Standar : Jelas)',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
