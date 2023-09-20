@@ -125,3 +125,8 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+# ignore semua file yang ada di folder soal ujian 
+public/assets/soal_ujian/*
+
+# jangan ignore file .gitignore
+!public/assets/soal_ujian/.gitinclude
