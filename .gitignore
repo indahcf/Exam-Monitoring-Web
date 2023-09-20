@@ -125,8 +125,3 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
-# ignore semua file yang ada di dalam folder soal_ujian
-public/assets/soal_ujian/*
-
-# jangan ignore folder soal ujian
-!public/assets/soal_ujian/
