@@ -1,0 +1,5 @@
+# ignore file soal ujian yang ada di dalam folder soal ujian
+public/assets/soal_ujian/*
+
+# jangan ignore file .gitignore
+!public/assets/soal_ujian/.gitignore
