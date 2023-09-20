@@ -58,11 +58,11 @@
                                     <td><?= $s['kelas']; ?></td>
                                     <td><?= $s['jumlah_mahasiswa']; ?></td>
                                     <td>
-                                        <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
-                                            <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
-                                        </form>
+                                        <a href="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" target="_blank" class="btn btn-primary">
+                                            Lihat Soal
+                                        </a>
                                         <?php if ($s['status_soal'] == 'Diterima' or $s['status_soal'] == 'Dicetak') : ?>
-                                            <button data-id="<?= $s['id_soal_ujian']; ?>" data-nama="<?= $s['prodi']; ?>-<?= $s['matkul']; ?>-<?= $s['id_soal_ujian']; ?>" class="btn btn-info cetak-soal">Cetak Soal</button>
+                                            <button data-id="<?= $s['id_soal_ujian']; ?>" data-nama="<?= $s['prodi']; ?>-<?= $s['matkul']; ?>-<?= $s['id_soal_ujian']; ?>" class="btn btn-info cetak-soal" style="display: block; margin-top: 10px;">Cetak Soal</button>
                                         <?php endif; ?>
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>

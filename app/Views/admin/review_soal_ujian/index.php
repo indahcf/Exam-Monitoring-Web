@@ -57,9 +57,9 @@
                                     <td><?= $s['dosen']; ?></td>
                                     <td><?= $s['kelas']; ?></td>
                                     <td>
-                                        <form action="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" method="post">
-                                            <button name="lihat_soal" class="btn btn-primary mb-3">Lihat Soal</button>
-                                        </form>
+                                        <a href="<?= base_url(); ?>admin/soal_ujian/lihat_soal/<?= $s['soal_ujian']; ?>#toolbar=0" target="_blank" class="btn btn-primary">
+                                            Lihat Soal
+                                        </a>
                                     </td>
                                     <td><?= $s['status_soal']; ?></td>
                                     <td>

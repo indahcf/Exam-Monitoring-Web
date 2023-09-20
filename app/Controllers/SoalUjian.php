@@ -531,10 +531,8 @@ class SoalUjian extends BaseController
 
     public function lihat_soal($soal_ujian)
     {
-        if (isset($_POST['lihat_soal'])) {
-            $this->response->setHeader('Content-Type', 'application/pdf');
-            readfile('./assets/soal_ujian/' . $soal_ujian);
-        }
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        readfile('./assets/soal_ujian/' . $soal_ujian);
     }
 
     function cetak_soal($id_soal_ujian)
