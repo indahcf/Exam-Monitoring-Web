@@ -1,5 +1,0 @@
-# ignore semua file yang ada di folder soal ujian 
-*
-
-# jangan ignore file .gitignore
-!.gitignore
