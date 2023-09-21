@@ -122,13 +122,20 @@ class Users extends BaseController
 
     public function edit($id)
     {
+        $role_dosen = ['Dosen', 'Gugus Kendali Mutu', 'Koordinator', 'Ketua Panitia'];
+        $roles = $this->user_role_model->getRoleNameByUserId($id);
+        if (count(array_intersect($roles, $role_dosen)) > 0) {
+            $data_role = $this->role_model->whereIn('role', ['Dosen', 'Gugus Kendali Mutu', 'Koordinator', 'Ketua Panitia'])->findAll();
+        } else {
+            $data_role = $this->role_model->whereIn('role', ['Admin', 'Pencetak Soal', 'Pengawas', 'Pendistribusi Hasil Ujian'])->findAll();
+        }
         $data = [
             'title' => 'Edit User',
             'users' => $this->usersModel->join('user_role', 'user_role.id_user=users.id')->where('id', $id)->get()->getRowArray(),
-            'data_role' => $this->role_model->findAll(),
-            'role'  => $this->user_role_model->getIdRoleByUserId($id)
+            'role'  => $this->user_role_model->getIdRoleByUserId($id),
+            'data_role' => $data_role
         ];
-        // dd($data['users']);
+        // dd($data['data_role']);
         return view('admin/user/edit', $data);
     }
 
