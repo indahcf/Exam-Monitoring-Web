@@ -13,7 +13,7 @@ class DosenModel extends Model
 
     public function getDosen()
     {
-        return $this->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->join('users', 'users.id=dosen.id_user')->findAll();
+        return $this->join('prodi', 'dosen.id_prodi=prodi.id_prodi')->join('users', 'users.id=dosen.id_user')->orderBy('dosen.id_dosen', 'ASC')->findAll();
     }
 
     public function getDosenByKelas($id_kelas)
