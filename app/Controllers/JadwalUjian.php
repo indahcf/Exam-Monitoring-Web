@@ -321,6 +321,11 @@ class JadwalUjian extends BaseController
                 'success' => true,
                 'message' => 'Data Berhasil Dihapus',
             ]);
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'success' => false,
+                'message' => 'Terjadi masalah dengan database saat menghapus data',
+            ]);
         } catch (\Exception $e) {
             return $this->response->setStatusCode(500)->setJSON([
                 'success' => false,
