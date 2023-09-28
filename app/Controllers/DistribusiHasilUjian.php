@@ -90,7 +90,7 @@ class DistribusiHasilUjian extends BaseController
         $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('dosen', 'dosen.id_dosen=kelas.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ujian=jadwal_ujian.id_jadwal_ujian')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->findAll();
         // dd($kelas);
         $data = [
-            'title' => 'Edit Data Distribusi Hasil Ujian',
+            'title' => 'Rekap Data Distribusi Hasil Ujian',
             'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
             'prodi' => $kelas[0]['prodi'],
             'kode_matkul' => $kelas[0]['kode_matkul'],
@@ -135,13 +135,13 @@ class DistribusiHasilUjian extends BaseController
         return redirect()->to('/admin/distribusi_hasil_ujian');
     }
 
-    public function detail($id_jadwal_ruang)
+    public function terima($id_jadwal_ruang)
     {
         $distribusi_hasil_ujian = $this->jadwal_ruangModel->join('jadwal_ujian', 'jadwal_ujian.id_jadwal_ujian=jadwal_ruang.id_jadwal_ujian')->join('ruang_ujian', 'ruang_ujian.id_ruang_ujian=jadwal_ruang.id_ruang_ujian')->find($id_jadwal_ruang);
         $kelas = $this->kelasModel->join('matkul', 'kelas.id_matkul=matkul.id_matkul')->join('prodi', 'matkul.id_prodi=prodi.id_prodi')->join('dosen', 'dosen.id_dosen=kelas.id_dosen')->join('jadwal_ujian', 'jadwal_ujian.id_kelas=kelas.id_kelas')->join('jadwal_ruang', 'jadwal_ruang.id_jadwal_ujian=jadwal_ujian.id_jadwal_ujian')->where('jadwal_ruang.id_jadwal_ruang =', $id_jadwal_ruang)->findAll();
         // dd($kelas);
         $data = [
-            'title' => 'Detail Data Distribusi Hasil Ujian',
+            'title' => 'Terima Data Distribusi Hasil Ujian',
             'distribusi_hasil_ujian' => $distribusi_hasil_ujian,
             'prodi' => $kelas[0]['prodi'],
             'kode_matkul' => $kelas[0]['kode_matkul'],
@@ -149,7 +149,7 @@ class DistribusiHasilUjian extends BaseController
             'kelas' => $kelas[0]['kelas'],
             'dosen' => $kelas[0]['dosen']
         ];
-        return view('admin/distribusi_hasil_ujian/detail', $data);
+        return view('admin/distribusi_hasil_ujian/terima', $data);
     }
 
     public function update_status_diterima($id_jadwal_ruang)

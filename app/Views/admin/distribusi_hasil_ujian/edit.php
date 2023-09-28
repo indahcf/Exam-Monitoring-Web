@@ -6,7 +6,7 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Edit Data Distribusi Hasil Ujian</h4>
+                <h4 class="card-title">Rekap Data Distribusi Hasil Ujian</h4>
                 <form action="<?= base_url('/admin/distribusi_hasil_ujian/update/' . $distribusi_hasil_ujian['id_jadwal_ruang']); ?>" method="post" class="forms-sample" id="form-edit">
                     <?= csrf_field(); ?>
                     <div class="row mb-3">

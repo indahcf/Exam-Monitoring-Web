@@ -138,7 +138,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('distribusi_hasil_ujian', 'DistribusiHasilUjian::index', ['filter' => 'auth:Admin,Dosen,Pendistribusi Hasil Ujian']);
     $routes->get('distribusi_hasil_ujian/edit/(:segment)', 'DistribusiHasilUjian::edit/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
     $routes->post('distribusi_hasil_ujian/update/(:segment)', 'DistribusiHasilUjian::update/$1', ['filter' => 'auth:Admin,Pendistribusi Hasil Ujian']);
-    $routes->get('distribusi_hasil_ujian/detail/(:segment)', 'DistribusiHasilUjian::detail/$1', ['filter' => 'auth:Admin,Dosen']);
+    $routes->get('distribusi_hasil_ujian/terima/(:segment)', 'DistribusiHasilUjian::terima/$1', ['filter' => 'auth:Admin,Dosen']);
     $routes->post('distribusi_hasil_ujian/update_status_diterima/(:segment)', 'DistribusiHasilUjian::update_status_diterima/$1', ['filter' => 'auth:Admin,Dosen']);
 
     $routes->get('pencetak_soal', 'PencetakSoal::index');
