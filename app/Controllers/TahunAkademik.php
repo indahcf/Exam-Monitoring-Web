@@ -107,7 +107,7 @@ class TahunAkademik extends BaseController
     public function edit($id_tahun_akademik)
     {
         $data = [
-            'title' => 'Edit Program Studi',
+            'title' => 'Edit Tahun Akademik',
             'tahun_akademik' => $this->tahun_akademikModel->find($id_tahun_akademik)
         ];
 
