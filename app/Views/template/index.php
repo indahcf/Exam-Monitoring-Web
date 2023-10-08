@@ -196,7 +196,10 @@
                     confirmButtonText: 'Ya'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-edit').trigger('submit')
+                        $('.edit').prop('disabled', true);
+                        setTimeout(() => {
+                            $('#form-edit').trigger('submit')
+                        }, 2000);
                     }
                 })
             });

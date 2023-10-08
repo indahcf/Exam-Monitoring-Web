@@ -100,7 +100,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2 edit">Simpan</button>
+                        <button class="btn btn-primary mr-2 edit">Simpan</button>
                         </form>
             </div>
         </div>
