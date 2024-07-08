@@ -196,4 +196,8 @@ The Exam Information and Monitoring System can be access here: http://103.163.16
 
     ![3](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/6af65045-9dd1-42c9-bd56-53921660305c)
 
+22. Logout
+
+    ![Screenshot (992)](https://github.com/indahcf/Website-Based-Exam-Information-and-Monitoring-System/assets/104883886/432a2944-b96d-45d6-9a1c-307bb9cff10b)
+
 
