@@ -47,7 +47,7 @@ Here are the tools we used to build the application:
 
 ## Website Access
 
-The Exam Information and Monitoring System can be accessed here: [http://103.163.161.18:7979](url)
+The Exam Information and Monitoring System can be accessed here: http://103.163.161.18:7979
 
 ## User Credential for Admin
 
