@@ -79,7 +79,7 @@ Here are the tools we used to build the application:
 
    ![11](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/a36eb79c-89e9-4318-b267-6a20674dd83f)
 
-9. User RUD (Read, Update, Delete) + Change User Password + Search User Data
+9. User RUD (Read, Update, Delete) + Change User Password 
 
    ![12](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/9156ebed-0fc7-41f9-a253-c73e9b8f0e2f)
    
