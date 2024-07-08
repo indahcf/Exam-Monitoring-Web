@@ -71,7 +71,7 @@ Here are the tools we used to build the application:
 
    ![8](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/dc78cac0-443d-4599-85ae-872213186665)
 
-7. Supervisor CRUD
+6. Supervisor CRUD
 
    ![9](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/e77d9c0b-a0de-4b03-bbe3-5538d6f0fc0a)
    
@@ -79,21 +79,21 @@ Here are the tools we used to build the application:
 
    ![11](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/a36eb79c-89e9-4318-b267-6a20674dd83f)
 
-9. User RUD (Read, Update, Delete) + Change User Password
-    
+7. User RUD (Read, Update, Delete) + Change User Password
+
+   ![12](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/9156ebed-0fc7-41f9-a253-c73e9b8f0e2f)
+   
    ![13](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/1996a608-8eb1-4fdb-b12f-6ea68b35d3af)
    
    ![14](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/283216ab-4837-408f-af76-3352582bc7af)
-
-    ![12](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/9156ebed-0fc7-41f9-a253-c73e9b8f0e2f)
-
-10. Question printer RU (Read, Update)
+  
+8. Question printer RU (Read, Update)
 
     ![15](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/3bcb9218-d488-47b2-9a37-2ea3fbb59c7f)
     
     ![16](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/c50b9617-6651-4228-a033-745ee62d7d25)
 
-11. Course CRUD
+9. Course CRUD
 
     ![17](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/780bbfed-a7d5-4e71-9d84-0ff6258f29a0)
     
@@ -101,7 +101,7 @@ Here are the tools we used to build the application:
 
     ![19](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/7bf83ae9-6763-46cc-a9e1-efdf4dd9849c)
 
-12. Class CRUD
+10. Class CRUD
 
     ![20](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/176b4958-e376-4a79-a95a-07504c4e29dc)
     
@@ -109,15 +109,15 @@ Here are the tools we used to build the application:
 
     ![22](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/660a74dd-6b1f-46ac-aca3-d29e12882f82)
 
-13. Exam Room CRUD
+11. Exam Room CRUD
 
-    ![25](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/d227322a-ece2-47e1-b97b-fb730119b0b5)
-    
     ![23](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/af96198b-e692-42fc-af99-7c4e12aafd98)
 
     ![24](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/11a8872c-b85e-4a20-ae40-ebfee3548946)
+    
+    ![25](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/d227322a-ece2-47e1-b97b-fb730119b0b5)   
 
-14. Academic Year CRUD
+12. Academic Year CRUD
 
     ![26](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/143561f1-a7c9-4c76-b006-418f60f8262a)
     
@@ -125,7 +125,7 @@ Here are the tools we used to build the application:
 
     ![28](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/4129a027-896c-475f-97b0-6556412ddfe1)
 
-15. Exam Schedule CRUD + Search + Export + Filter
+13. Exam Schedule CRUD + Export + Filter
 
     ![29](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/f6461253-3389-40f0-b7ad-ea762d46d9ba)
     
@@ -133,7 +133,7 @@ Here are the tools we used to build the application:
 
     ![31](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/9e78256a-04a8-4d16-a1e1-9d8a9c742371)
 
-16. Exam Questions CRUD + Filter + See Exam Questions + View Exam Details 
+15. Exam Questions CRUD + Filter + See Exam Questions + View Exam Details 
 
     ![32](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/b0155b49-0a45-4efe-a84e-25cb0182573b)
     
@@ -141,7 +141,7 @@ Here are the tools we used to build the application:
 
     ![34](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/bbec6b26-7ca3-452f-a6da-fc52ad0253b5)
 
-17. Review Exam Questions + Filter + See Exam Questions
+16. Review Exam Questions + Filter + See Exam Questions
 
     ![35](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/0e0bc4a0-e043-4308-acc6-8c75bfdc6eff)
     
@@ -151,17 +151,17 @@ Here are the tools we used to build the application:
     
     ![38](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/575c3e1c-76e8-4c29-a0d0-b00a3e41d5ee)
 
-18. Print Exam Questions
+17. Print Exam Questions
 
     ![39](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/79aa3a88-1582-4d0a-ae99-1972af7556e4)
 
-19. Supervisor Attendance CRU (Create, Read, Update) + Filter
+18. Supervisor Attendance CRU (Create, Read, Update) + Filter
 
     ![40](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/374f7238-5698-4f1c-9d1f-c909669673a9)
     
     ![41](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/15cc4574-9795-4ff6-a62a-6970e3c446dd)
 
-20. Attendance of Participants CRU (Create, Read, Update) + View Attendance of Participants Details + Filter
+19. Attendance of Participants CRU (Create, Read, Update) + View Attendance of Participants Details + Filter
 
     ![43](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/3c230b74-b5fb-45a7-984e-3171f27e6849)
     
@@ -173,7 +173,7 @@ Here are the tools we used to build the application:
 
     ![47](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/b3553f04-e4c2-4632-937b-a03bdeff0d6c)
 
-21. Recap Exam Result Distribution + Accept Exam Result Distribution + Filter
+20. Recap Exam Result Distribution + Accept Exam Result Distribution + Filter
 
     ![48](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/e86da55e-4a8b-4a75-b13a-18a57774b826)
     
@@ -183,7 +183,7 @@ Here are the tools we used to build the application:
 
     ![51](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/4e1bdf7d-4358-43d0-8b77-cd7c72983f8c)
 
-22. Change Password
+21. Change Password
 
     ![3](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/6af65045-9dd1-42c9-bd56-53921660305c)
 
