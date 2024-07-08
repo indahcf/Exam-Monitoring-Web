@@ -30,20 +30,20 @@ Website Based Examination Information and Monitoring System is suitable for use 
 
 The technologies used in building this system are:
 
-PHP: A popular programming language for web backends.
-CodeIgniter: PHP framework that is open source and using the MVC (Model, View, Controller) method.
-MySQL: A popular relational database that uses the SQL language.
-JavaScript: A programming language used to make web pages interactive and dynamic.
+- PHP: A popular programming language for web backends.
+- CodeIgniter: PHP framework that is open source and using the MVC (Model, View, Controller) method.
+- MySQL: A popular relational database that uses the SQL language.
+- JavaScript: A programming language used to make web pages interactive and dynamic.
 
 ## Tools
 
 Here are the tools we used to build the application:
 
-Figma: Tools for designing the interface.
-Visual Studio Code: Code Editor.
-Git: Version Control Systems.
-GitHub: A shared web hosting service for software development projects that uses the Git version control system and internet hosting services.
-XAMPP: A local server building tool that helps with project development (Apache Server, MySQL Database, and PHP and Perl language interpreters).
+- Figma: Tools for designing the interface.
+- Visual Studio Code: Code Editor.
+- Git: Version Control Systems.
+- GitHub: A shared web hosting service for software development projects that uses the Git version control system and internet hosting services.
+- XAMPP: A local server building tool that helps with project development (Apache Server, MySQL Database, and PHP and Perl language interpreters).
 
 ## Website Features
 
