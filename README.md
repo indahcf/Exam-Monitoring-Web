@@ -26,5 +26,5 @@
 
 ## User Credential for Admin
 
-username : subekti@unsoed.ac.id
-password : adminsimonji
+- username : subekti@unsoed.ac.id
+- password : adminsimonji
