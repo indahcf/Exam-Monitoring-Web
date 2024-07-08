@@ -45,6 +45,15 @@ Here are the tools we used to build the application:
 - GitHub: A shared web hosting service for software development projects that uses the Git version control system and internet hosting services.
 - XAMPP: A local server building tool that helps with project development (Apache Server, MySQL Database, and PHP and Perl language interpreters).
 
+## Website Access
+
+The Exam Information and Monitoring System can be accessed here: [http://103.163.161.18:7979](url)
+
+## User Credential for Admin
+
+- Username : subekti@unsoed.ac.id
+- Password : adminsimonji
+
 ## Website Features
 
 1. Login
@@ -187,11 +196,4 @@ Here are the tools we used to build the application:
 
     ![3](https://github.com/indahcf/Sistem-Informasi-dan-Monitoring-Ujian-Berbasis-Website/assets/104883886/6af65045-9dd1-42c9-bd56-53921660305c)
 
-## Website Access
 
-The Exam Information and Monitoring System can be accessed here: [http://103.163.161.18:7979](url)
-
-## User Credential for Admin
-
-- Username : subekti@unsoed.ac.id
-- Password : adminsimonji
