@@ -51,7 +51,7 @@ The Exam Information and Monitoring System can be access here: http://103.163.16
 
 ## User Credential for Admin
 
-- Username : subekti@unsoed.ac.id
+- Email : subekti@unsoed.ac.id
 - Password : adminsimonji
 
 ## Website Features
