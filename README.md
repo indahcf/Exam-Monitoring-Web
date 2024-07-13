@@ -1,14 +1,14 @@
-# Website Based Exam Information and Monitoring System
+# Exam Monitoring Web
 
-## What is a Website Based Exam Information and Monitoring System?
+## What is a Exam Monitoring Web?
 
-Website Based Exam Monitoring and Information System is an information system that aims to simplify the exam monitoring process at the Faculty of Engineering, Universitas Jenderal Soedirman.
+Web Exam Monitoring is an information system that aims to simplify the exam monitoring process in each Faculty.
 
 ## For whom?
 
-Website Based Examination Information and Monitoring System is suitable for use by Admins, Lecturers, Quality Control Groups, Question Printers, Coordinators, Supervisors, Committee Chairperson, and Exam Result Distributors at the Faculty of Engineering, Universitas Jenderal Soedirman to facilitate the process of preparing schedules, collecting exam questions, reviewing exam questions, printing exam questions, recapitulating the attendance of participants and exam supervisors, and recapitulating the distribution of exam results.
+Exam Monitoring Web is suitable for use by various parties involved in organizing and managing exams.
 
-## Who are the users of the Website Based Exam Information and Monitoring System
+## Who are the users of the Exam Monitoring Web
 
 - Admin: Admin is a system user who has access rights to all menu in the system.
   
@@ -47,7 +47,7 @@ Here are the tools we used to build the application:
 
 ## Website Access
 
-The Exam Information and Monitoring System can be access here: http://103.163.161.18:7979
+The Exam Monitoring Web can be access here: http://103.163.161.18:7979
 
 ## User Credential for Admin
 
